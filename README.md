@@ -1,6 +1,6 @@
 ---
 title: "VSe3 TP/TAP Structure and Hf-doped Molecule Junction in CNTs"
-status: planning
+status: working
 people: [nangman98]
 created: 2026-03-16
 slack: ""
@@ -71,3 +71,4 @@ Transition metal trichalcogenide (MX3)는 1D chain 구조를 가지며, TP (trig
 - Referee response received:
 - Revision submitted:
 - Round:
+
