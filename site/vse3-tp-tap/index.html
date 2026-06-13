@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VSe₃ TP vs TAP — 101-vse3-hf2se9</title>
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/contrib/auto-render.min.js"></script>
+<script defer src="../assets/tree.js"></script>
+<script defer src="../assets/site.js"></script>
+</head><body>
+<aside id="nav" data-brand="101 · VSe₃–Hf₂Se₉"></aside>
+<main>
+<article>
+  <h1>VSe₃ TP vs TAP stability</h1>
+  <p class="page-meta">Source: meetings 2026-03-19, 2026-04-07, 2026-04-16; initial-structures report.</p>
+
+  <h2>Goal</h2>
+  <p>
+    Determine which 1D chain coordination — TP (trigonal prismatic) or TAP (trigonal
+    anti-prismatic) — is more stable for VSe₃, supporting the experimental (STEM) claim that the
+    CNT-confined VSe₃ single chain is TP. The two differ by a 60° rotation between adjacent Se₃
+    triangles along the chain axis: in TP the triangles are aligned (top view shows 3 Se), in TAP
+    adjacent triangles are rotated 60° (top view shows a 6-pointed star).
+  </p>
+
+  <h2>Method</h2>
+  <p>
+    Initial structures were built from literature parameters with <code>build_vse3.py</code>:
+    TP from d<sub>VSe</sub> = 2.45 Å, d<sub>VV</sub> = 3.09 Å (covalent-radii sum, Cordero 2008 +
+    NbSe₃ scaling, Hodeau 1978); TAP is the same with a 60° rotation (c = 6.18 Å, 8 atoms).
+    Both were relaxed in SIESTA. TP/TAP stability was then compared with two functionals,
+    vdW-DF2 (LMKLL) and PBE+D2. Within a single functional the total-energy difference is a valid
+    comparison; across functionals it is not (see
+    <a href="../hf2se9-stability/index.html">stability methodology</a>).
+  </p>
+
+  <h2>Result</h2>
+  <p><strong>TP is more stable than TAP in both functionals.</strong></p>
+  <table>
+    <thead><tr><th>Functional</th><th>ΔE (TP relative to TAP)</th><th>TP band character</th></tr></thead>
+    <tbody>
+      <tr><td>vdW-DF2</td><td>TP more stable by <strong>41 meV/atom</strong></td><td>metallic</td></tr>
+      <tr><td>PBE+D2</td><td>TP more stable by <strong>20 meV/atom</strong></td><td>metallic</td></tr>
+    </tbody>
+  </table>
+  <p>
+    The TP band structure is metallic in both methods. (Source: 2026-04-07 meeting; the 41 meV/atom
+    vdW-DF2 value is also quoted in the stability-comparison-method note.)
+  </p>
+
+  <figure>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap">
+      <span><img src="figures/vse3-tp-relaxed.png" alt="VSe3 TP relaxed" style="max-width:260px"></span>
+      <span><img src="figures/vse3-tap-relaxed.png" alt="VSe3 TAP relaxed" style="max-width:260px"></span>
+    </div>
+    <figcaption><strong>Fig. 1.</strong> vdW-DF2 relaxed VSe₃ TP (left) and TAP (right) chains.</figcaption>
+  </figure>
+
+  <figure>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap">
+      <span><img src="figures/vse3_tp_topview.png" alt="TP top view" style="max-width:230px"></span>
+      <span><img src="figures/vse3_tap_topview.png" alt="TAP top view" style="max-width:230px"></span>
+    </div>
+    <figcaption><strong>Fig. 2.</strong> Top views (initial structures): TP — aligned Se₃ triangles
+      (3 Se visible); TAP — adjacent triangles rotated 60° (6-pointed star).</figcaption>
+  </figure>
+
+  <figure>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap">
+      <span><img src="figures/vse3-tp-band.png" alt="TP band vdW-DF2" style="max-width:300px"></span>
+      <span><img src="figures/vse3-tp-band-d2.png" alt="TP band PBE+D2" style="max-width:300px"></span>
+    </div>
+    <figcaption><strong>Fig. 3.</strong> VSe₃ TP band structure: vdW-DF2 (left) and PBE+D2 (right).
+      Metallic in both.</figcaption>
+  </figure>
+
+  <h2>Discussion</h2>
+  <p>
+    The TAP relaxed structure was delivered to the experimental team (Dr. Yangjin Lee) for STEM
+    image simulation (2026-04-16). Its vdW-DF2 relaxed local parameters: c = 5.535 Å,
+    V–Se = 2.508 Å, V–V = 2.768 Å. A planned extension is a Se-vs-Te (VSe₃ vs VTe₃) TP/TAP
+    comparison; VTe₃ TP/TAP initial structures were built (cases 03/04) but those relaxations are
+    listed as 2nd priority and not reported here.
+  </p>
+</article>
+<nav class="subpages"></nav>
+</main>
+</body></html>

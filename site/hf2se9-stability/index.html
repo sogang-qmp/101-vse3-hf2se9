@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hf₂Se₉ stability — 101-vse3-hf2se9</title>
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/contrib/auto-render.min.js"></script>
+<script defer src="../assets/tree.js"></script>
+<script defer src="../assets/site.js"></script>
+</head><body>
+<aside id="nav" data-brand="101 · VSe₃–Hf₂Se₉"></aside>
+<main>
+<article>
+  <h1>Hf₂Se₉ relaxation stability: functional &amp; vdW scan</h1>
+  <p class="page-meta">Source: reports/hf2se9-stability/ (+ docs/), reports/initial-structures/failure-analysis.md, meetings 2026-03-19/04-07.</p>
+
+  <h2>Goal</h2>
+  <p>
+    Find a DFT setting under which Hf₂Se₉ molecule relaxation converges stably and reproduces the
+    experimental structure. Prior calculations repeatedly failed (cell expansion 16–53%, structure
+    collapse). Four axes are examined <em>independently</em> to isolate the cause: exchange–correlation
+    functional, basis set, DFT+U, and CNT confinement. The test system is the Hf₂Se₉ molecule
+    (11 atoms, 25 Å cubic cell, Γ-only) — the lightest case, used to scan settings quickly.
+  </p>
+
+  <h3>Pass/fail criteria (TEM reference Hf–Hf = 3.6 Å)</h3>
+  <table>
+    <thead><tr><th>Criterion</th><th>Success</th><th>Failure</th></tr></thead>
+    <tbody>
+      <tr><td>Hf–Hf distance</td><td>3.5–3.8 Å held</td><td>&lt; 3.0 Å (collapse) or &gt; 5.0 Å (decomposition)</td></tr>
+      <tr><td>Force convergence</td><td>&lt; 0.01 eV/Å</td><td>not converged (&gt; 1000 steps)</td></tr>
+      <tr><td>Structure</td><td>confacial bioctahedron held</td><td>Se₃ triangle distorted, Hf escapes</td></tr>
+      <tr><td>Experimental agreement</td><td>Hf–Hf deviation &lt; 5%</td><td>deviation &gt; 10%</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Method — Phase A: exchange-correlation + vdW scan</h2>
+  <p>Fixed: basis EnergyShift 0.01 Ry (136 meV), U = 0, no CNT. Variable: functional + vdW method.</p>
+  <table>
+    <thead><tr><th>#</th><th>Functional</th><th>vdW</th><th>Code</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td>A1</td><td>PBE</td><td>none</td><td>SIESTA</td><td>baseline — does structure hold without vdW?</td></tr>
+      <tr><td>A2</td><td>PBE + Grimme D2</td><td>fdf2grimme</td><td>SIESTA</td><td>reproduce previous setup</td></tr>
+      <tr><td>A3</td><td>vdW-DF2 (LMKLL)</td><td>built-in</td><td>SIESTA</td><td>revPBE exchange, non-local correlation</td></tr>
+      <tr><td>A4</td><td>PBE + D3(BJ)</td><td>DFT-D3</td><td>SIESTA</td><td>coordination-number-dependent C₆</td></tr>
+      <tr><td>A5</td><td>PBE + D3(BJ)</td><td>IVDW=12</td><td>VASP</td><td>plane-wave reference — isolate NAO-basis issue</td></tr>
+      <tr><td>A6</td><td>HSE06 + D3(BJ)</td><td>IVDW=12</td><td>VASP</td><td>hybrid functional — exchange accuracy</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Result</h2>
+
+  <h3>Phase A — Hf–Hf distances</h3>
+  <table>
+    <thead><tr><th>Test</th><th>Functional</th><th>Basis</th><th>Code</th><th>Hf–Hf (Å)</th><th>Δ(3.6 Å)</th><th>Converged</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td>A1</td><td>PBE</td><td>136 meV</td><td>SIESTA</td><td><strong>3.857</strong></td><td>+7%</td><td>✅ 14 steps</td><td>holds even without vdW</td></tr>
+      <tr><td>A2</td><td>PBE+D2</td><td>136 meV</td><td>SIESTA</td><td>—</td><td>—</td><td>❌</td><td>SCF not converged (3 failures, cause not identified)</td></tr>
+      <tr><td>A3</td><td>vdW-DF2</td><td>136 meV</td><td>SIESTA</td><td><strong>3.967</strong></td><td>+10%</td><td>✅ 13 steps</td><td>revPBE exchange</td></tr>
+      <tr><td>A4</td><td>PBE+D3(BJ)</td><td>136 meV</td><td>SIESTA</td><td><strong>3.857</strong></td><td>+7%</td><td>✅ 14 steps</td><td>= A1 (D3 has no effect on an isolated molecule)</td></tr>
+      <tr><td>A5</td><td>PBE+D3</td><td>PAW</td><td>VASP</td><td><strong>2.934</strong></td><td>−18.5%</td><td>✅</td><td>plane-wave reference</td></tr>
+      <tr><td>A6</td><td>HSE06+D3</td><td>PAW</td><td>VASP</td><td><strong>3.330</strong></td><td>−7.5%</td><td>✅</td><td>closest overall</td></tr>
+    </tbody>
+  </table>
+  <p>
+    Within SIESTA, PBE and PBE+D3(BJ) (3.857 Å) are closest to experiment; vdW-DF2 over-expands
+    further (3.967 Å). VASP HSE06+D3 (3.330 Å) is closest of all, but the SIESTA↔VASP discrepancy is
+    large. A2 (PBE+D2) repeatedly fails SCF convergence — cause not yet isolated.
+  </p>
+
+  <figure>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap">
+      <span><img src="figures/hf2se9-A1-pbe.png" alt="A1 PBE" style="max-width:210px"></span>
+      <span><img src="figures/hf2se9-A3-vdwdf2.png" alt="A3 vdW-DF2" style="max-width:210px"></span>
+      <span><img src="figures/hf2se9-A5-pbe-d3.png" alt="A5 VASP PBE+D3" style="max-width:210px"></span>
+      <span><img src="figures/hf2se9-A6-hse-d3.png" alt="A6 VASP HSE06+D3" style="max-width:210px"></span>
+    </div>
+    <figcaption><strong>Fig. 1.</strong> Relaxed Hf₂Se₉ molecule: A1 (SIESTA PBE), A3 (SIESTA vdW-DF2),
+      A5 (VASP PBE+D3), A6 (VASP HSE06+D3).</figcaption>
+  </figure>
+
+  <h3>Molecule vs chain (vdW-DF2)</h3>
+  <table>
+    <thead><tr><th></th><th>Molecule (05)</th><th>Chain (06)</th></tr></thead>
+    <tbody>
+      <tr><td>Initial Hf–Hf</td><td>3.62 Å</td><td>3.62 Å</td></tr>
+      <tr><td>Relaxed Hf–Hf</td><td>3.967 Å (+10%)</td><td>4.164 Å (+15.7%)</td></tr>
+      <tr><td>vdW gap (chain)</td><td>—</td><td>5.89 Å (+68%)</td></tr>
+      <tr><td>Force</td><td>0.027 eV/Å (≈ converged)</td><td>0.39 eV/Å (unstable)</td></tr>
+    </tbody>
+  </table>
+  <p>
+    Both over-expand relative to experiment (3.6 Å); the chain is worse because periodic vdW
+    interactions accumulate and revPBE's extra repulsion accelerates the expansion. A separate
+    PBE+D2 chain run reached 197 steps before OOM (Hf–Hf = 4.47 Å, max force = 0.094 eV/Å, not
+    converged).
+  </p>
+
+  <figure>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap">
+      <span><img src="figures/hf2se9-mol-relaxed.png" alt="Hf2Se9 molecule relaxed" style="max-width:240px"></span>
+      <span><img src="figures/hf2se9-chain-relaxed.png" alt="Hf2Se9 chain relaxed" style="max-width:240px"></span>
+    </div>
+    <figcaption><strong>Fig. 2.</strong> vdW-DF2 relaxed Hf₂Se₉ molecule (left) and chain (right).</figcaption>
+  </figure>
+
+  <h2>Why prior relaxations failed (archive analysis)</h2>
+  <p>Six standalone Hf₂Se₉-chain relaxation attempts in the archive:</p>
+  <table>
+    <thead><tr><th>Attempt</th><th>Condition</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td>001_rlx</td><td>neutral, D2, EnergyShift 10 meV</td><td>c-axis +16% expansion</td></tr>
+      <tr><td>002_totcharge-2</td><td>charge −2</td><td>still expanding</td></tr>
+      <tr><td>003_originstruct</td><td>1-unit (11 atoms)</td><td>c-axis −22% contraction (opposite direction)</td></tr>
+      <tr><td>005_basis50</td><td>EnergyShift 50 meV</td><td>nearly unchanged (convergence unclear)</td></tr>
+      <tr><td>006_basis50_tot-2</td><td>50 meV + charge −2</td><td>c-axis +53% → chain decomposes</td></tr>
+    </tbody>
+  </table>
+  <p>Identified root causes:</p>
+  <ol>
+    <li><strong>Grimme D2 Hf C₆ inaccuracy.</strong> C₆ sets the vdW attraction strength
+      ($E_\mathrm{disp} = -C_6/R^6$). D2 uses a fixed free-atom value; free Hf has
+      C₆ = 1089.41 eV·Å⁶, but inside Hf₂Se₉ the Hf is surrounded by 6 Se, so its real C₆ should be
+      much smaller. D2 ignores this environment dependence. D3(BJ) interpolates C₆ from the
+      coordination number, fixing it; vdW-DF2 avoids empirical parameters entirely (vdW energy from
+      the electron density).</li>
+    <li><strong>Basis-set sensitivity (BSSE).</strong> Large basis (10 meV) → 16% expansion; small
+      basis (50 meV) → nearly unchanged. The vdW-gap energy (~tens of meV) is within the BSSE error.</li>
+    <li><strong>MD.VariableCell = T.</strong> Allowing c-axis relaxation lets the flat PES collapse or
+      expand the vdW gap under tiny forces.</li>
+    <li><strong>Starting-structure dependence.</strong> The 2-unit-cell start expands; the 1-unit-cell
+      bulk-extracted start contracts — opposite directions for the same system.</li>
+    <li><strong>Heterostructure "false convergence."</strong> In the 3uc heterojunction, 1-step
+      convergence is a VSe₃ cage effect (kinetic trapping), not a true minimum. By contrast VASP MD
+      with DFT-D3 held Hf–Hf = 3.82 Å.</li>
+  </ol>
+
+  <h2>vdW-correction comparison: D2 vs D3(BJ) vs vdW-DF2</h2>
+  <p>Grimme D2 (Grimme 2006) adds dispersion on top of PBE:</p>
+  $$E_\mathrm{disp} = -s_6 \sum_{i<j} \frac{C_6^{ij}}{r_{ij}^6}\, f_\mathrm{damp}(r_{ij})$$
+  <p>
+    with element-fixed C₆ (no environment dependence) and PBE exchange (s₆ = 0.75 for PBE).
+    D3(BJ) (Grimme 2010) interpolates C₆ from the coordination number and adds a C₈ term with
+    Becke–Johnson damping. vdW-DF2 (Lee 2010) is non-empirical:
+  </p>
+  $$E_\mathrm{vdW\text{-}DF2} = E_x^{\mathrm{revPBE}} + E_c^{\mathrm{LDA}} + E_c^{\mathrm{nl}},\qquad
+    E_c^{\mathrm{nl}} = \tfrac12 \iint n(\mathbf{r})\,\Phi(\mathbf{r},\mathbf{r}')\,n(\mathbf{r}')\,d\mathbf{r}\,d\mathbf{r}'$$
+  <p>
+    where the non-local correlation $E_c^{\mathrm{nl}}$ is computed directly from the electron
+    density $n(\mathbf{r})$ with kernel $\Phi$, and uses revPBE exchange (more repulsive than PBE).
+    Symbols: $C_6^{ij}$ = pairwise dispersion coefficient, $r_{ij}$ = interatomic distance,
+    $f_\mathrm{damp}$ = short-range damping, $s_6$ = global scaling.
+  </p>
+  <table>
+    <thead><tr><th>Feature</th><th>D2</th><th>D3(BJ)</th><th>vdW-DF2</th></tr></thead>
+    <tbody>
+      <tr><td>C₆ determination</td><td>fixed (1 per element)</td><td>CN-dependent interpolation</td><td>direct from density</td></tr>
+      <tr><td>Environment adaptivity</td><td>none</td><td>via CN</td><td>fully self-consistent</td></tr>
+      <tr><td>Exchange functional</td><td>PBE</td><td>PBE</td><td>revPBE</td></tr>
+      <tr><td>damping</td><td>zero (discontinuous)</td><td>BJ (smooth)</td><td>not needed (seamless)</td></tr>
+      <tr><td>SIESTA support</td><td>built-in (grimme.fdf)</td><td>conditional (libdftd3; not in 5.2.x)</td><td>built-in (XC.functional VDW)</td></tr>
+      <tr><td>Reliability for Hf₂Se₉</td><td>low (failures observed)</td><td>high (VASP-validated)</td><td>high (theoretical)</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Comparison methodology (how "better" is judged)</h2>
+  <p>
+    <strong>Total energy cannot be compared across functionals</strong> — each approximates
+    $E_{xc}$ differently and uses a different energy reference (e.g. vdW-DF2 uses revPBE, D2 uses
+    PBE). The valid comparisons are: (1) relaxed structure parameters vs experiment (most important —
+    Hf–Hf vs TEM 3.6 Å); (2) relative energies <em>within the same functional</em> (e.g. the
+    41 meV/atom TP–TAP split in vdW-DF2); (3) binding/cohesive energy within a functional; and
+    (4) convergence and structural stability.
+  </p>
+
+  <h2>Phase C — CNT confinement (plan)</h2>
+  <p>
+    Experimentally Hf₂Se₉ is synthesized/observed inside a CNT. The Phase C question is whether the
+    CNT <em>actually</em> stabilizes the geometry toward the experimental Hf–Hf, or merely traps a
+    metastable geometry by preventing motion. The first run is planned as "CNT atoms fixed,
+    Hf₂Se₉ relaxed only", following the JACS 2021 NbTe₃/VTe₃/TiTe₃@CNT protocol
+    (10.1021/jacs.0c10175). A diameter scan over CNT chiralities (≈ 12 Å inner diameter needed; (9,9)
+    and (16,0) as starting candidates) precedes relaxation and MD. Status: structure scaffolds only;
+    a (9,9)+Hf₂Se₉ assembly was generated.
+  </p>
+  <figure>
+    <img src="figures/hf2se9-cnt99-side.png" alt="Hf2Se9 in CNT(9,9) side view" style="max-width:380px">
+    <figcaption><strong>Fig. 3.</strong> Hf₂Se₉ in a (9,9) CNT, side view (assembled structure;
+      calculation not yet run).</figcaption>
+  </figure>
+
+  <h2>Discussion / next steps</h2>
+  <ul>
+    <li>Confirm optimal XC + EnergyShift (Phase A/B), then DFT+U scan (Phase D), then CNT (Phase C).</li>
+    <li>Resolve A2 (PBE+D2) SCF failure; obtain QE A7 to separate code dependence.</li>
+    <li>Validate the chosen functional on the chain, since D3 has no effect on an isolated molecule.</li>
+  </ul>
+</article>
+<nav class="subpages"></nav>
+</main>
+</body></html>

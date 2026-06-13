@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Previous calculations review — 101-vse3-hf2se9</title>
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/contrib/auto-render.min.js"></script>
+<script defer src="../assets/tree.js"></script>
+<script defer src="../assets/site.js"></script>
+</head><body>
+<aside id="nav" data-brand="101 · VSe₃–Hf₂Se₉"></aside>
+<main>
+<article>
+  <h1>Previous calculations review (archive)</h1>
+  <p class="page-meta">Source: reports/previous-calculations/previous-calculations.md (dated 2026-03-16).</p>
+
+  <h2>Goal</h2>
+  <p>
+    Summarize the ~1-year-old VSe₃/Hf₂Se₉ calculations preserved in two archive directories
+    (<code>101_VSe3-Hf2Se9/</code>, <code>VSe3-Hf2Se9/</code>) to identify what is reusable for the
+    current project. Across VASP (MD, hybrid DFT), SIESTA (band/PDOS, transport), and Quantum
+    ESPRESSO (functional comparison), the prior work covered Hf₂Se₉ molecule/chain stability,
+    electronic structure, optical properties, and transport — but the core goal, a 1D molecule
+    junction, was left incomplete because the <strong>Hf-doped molecule structure was unstable</strong>.
+  </p>
+
+  <h2>Method (archive settings)</h2>
+  <table>
+    <thead><tr><th>Code</th><th>Use</th><th>Key settings</th></tr></thead>
+    <tbody>
+      <tr><td>VASP</td><td>MD, relaxation, hybrid functional</td><td>ENCUT 400–500 eV, EDIFF 1e-6–1e-8, DFT-D3(BJ)</td></tr>
+      <tr><td>SIESTA</td><td>band, PDOS, transport (TranSIESTA)</td><td>MeshCutoff 500 Ry, PBE+Grimme vdW</td></tr>
+      <tr><td>Quantum ESPRESSO</td><td>functional comparison</td><td>ecutwfc 100 Ry, B3LYP/PBE/LDA</td></tr>
+    </tbody>
+  </table>
+  <p>
+    Common parameters: molecule/chain in a 25 Å cubic cell (isolated); heterojunction
+    25 × 25 × 74.7 Å; k-points Γ-only (molecule), 1×1×4 (chain/transport); vdW IVDW=10 (DFT-D3(BJ),
+    VASP) / Grimme (SIESTA); MD Langevin thermostat 300 K, timestep 0.5–2.0 fs.
+  </p>
+
+  <h2>Result — what was computed</h2>
+  <ul>
+    <li><strong>Hf₂Se₉ single molecule:</strong> VASP MD (NVT 300 K, up to 500 steps) confirmed
+      molecular stability; SIESTA PBE band + PDOS near E<sub>F</sub>.</li>
+    <li><strong>Hf₂Se₉ chain:</strong> VASP MD (up to 1000 steps), SIESTA PBE+Grimme band + PDOS.</li>
+    <li><strong>VSe₃–Hf₂Se₉ heterostructure (V₂₀Se₇₂Hf₂, 94 atoms):</strong> VASP MD, SIESTA band/PDOS,
+      Hubbard-U test, CNT+Hf₂Se₉ structure, Mulliken charge analysis.</li>
+    <li><strong>Transport:</strong> TranSIESTA + TBtrans I-V curve over 7 voltage points (0.00–0.30 V)
+      for a 20-unit-cell Hf₂Se₉ molecular junction (k = 1×1×4, electronic temperature 400 K).</li>
+    <li><strong>Optical (hybrid):</strong> B3LYP (VASP) neutral and e-doped completed; HSE06 and
+      PBE/LDA optical comparisons left incomplete (empty directories).</li>
+    <li><strong>Code comparison:</strong> SIESTA (LDA/PBE) vs QE (LDA/PBE/B3LYP) for the same structure.</li>
+    <li><strong>Auxiliary <code>VSe3-Hf2Se9/</code>:</strong> single chains, molecule, heterojunction
+      (separation + angle tests), Hf-doped VSe₃ chain, NbSe₃ comparison system, and a 3-system
+      transport set (Hf₂Se₉ / Hf-doped / VSe₃).</li>
+  </ul>
+  <p>
+    Mulliken charge analysis of the heterojunction: Hf atoms gain electrons (Hf1 −0.27e, Hf2 −0.15e);
+    interface V atoms hold ~0.2e more than bulk V — significant interfacial charge transfer.
+  </p>
+
+  <h2>Discussion — incomplete / failed</h2>
+  <ul>
+    <li><strong>Hf-doped molecule structure:</strong> unstable, did not converge → to be retried with
+      CNT-confined MD.</li>
+    <li><strong>HSE06 calculations:</strong> directories created but never run.</li>
+    <li><strong>PBE/LDA optical comparison:</strong> not done.</li>
+    <li><strong>VSe₃ TP vs TAP:</strong> not done at the time → the core task of the current project.</li>
+  </ul>
+
+  <h3>Reusable for the current project</h3>
+  <table>
+    <thead><tr><th>Archive data</th><th>Reuse</th></tr></thead>
+    <tbody>
+      <tr><td>VSe₃ chain relaxation/band</td><td>TP reference point, initial-structure reference</td></tr>
+      <tr><td>Hf-doped chain</td><td>reference for molecule-junction recalculation</td></tr>
+      <tr><td>NbSe₃ comparison</td><td>protocol reference for the Se-vs-Te study</td></tr>
+      <tr><td>Transport protocol</td><td>reuse input files for future transport calculations</td></tr>
+      <tr><td>DFT+U test (U = 1,3,7 eV)</td><td>reference for U-parameter selection</td></tr>
+    </tbody>
+  </table>
+</article>
+<nav class="subpages"></nav>
+</main>
+</body></html>
