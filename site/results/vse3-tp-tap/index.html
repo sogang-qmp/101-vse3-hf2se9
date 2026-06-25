@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="order" content="10">
+<title>VSe₃ TP vs TAP — 101-vse3-hf2se9</title>
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/katex/katex.min.css">
+<script defer src="../../assets/katex/katex.min.js"></script>
+<script defer src="../../assets/katex/contrib/auto-render.min.js"></script>
+<script defer src="../../assets/tree.js"></script>
+<script defer src="../../assets/site.js"></script>
+</head><body>
+<aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
+<main>
+<article>
+  <h1>VSe₃ TP vs TAP stability</h1>
+  <p class="page-meta"><strong>2026-04-07</strong> · Source: meetings 2026-03-19, 2026-04-07, 2026-04-16; initial-structures report.</p>
+
+  <h2>Goal</h2>
+  <p>
+    Determine which 1D chain coordination — TP (trigonal prismatic) or TAP (trigonal
+    anti-prismatic) — is more stable for VSe₃, supporting the experimental (STEM) claim that the
+    CNT-confined VSe₃ single chain is TP. The two differ by a 60° rotation between adjacent Se₃
+    triangles along the chain axis: in TP the triangles are aligned (top view shows 3 Se), in TAP
+    adjacent triangles are rotated 60° (top view shows a 6-pointed star).
+  </p>
+
+  <h2>Method</h2>
+  <p>
+    Initial structures were built from literature parameters with <code>build_vse3.py</code>:
+    TP from d<sub>VSe</sub> = 2.45 Å, d<sub>VV</sub> = 3.09 Å (covalent-radii sum, Cordero 2008 +
+    NbSe₃ scaling, Hodeau 1978); TAP is the same with a 60° rotation (c = 6.18 Å, 8 atoms).
+    Both were relaxed in SIESTA. TP/TAP stability was then compared with two functionals,
+    vdW-DF2 (LMKLL) and PBE+D2. Within a single functional the total-energy difference is a valid
+    comparison; across functionals it is not (see
+    <a href="../hf2se9-stability/index.html">stability methodology</a>).
+  </p>
+
+  <h2>Result</h2>
+  <p><strong>TP is more stable than TAP by 0.163 eV per formula unit</strong> (vdW-DF2 bulk relax,
+     robust to k-mesh; ≈ 41 meV/atom). The TP band structure is metallic.</p>
+  <table>
+    <thead><tr><th>Polytype</th><th>E / formula (eV)</th><th>V–V (Å)</th><th>cell c (Å)</th></tr></thead>
+    <tbody>
+      <tr><td>TP (prismatic)</td><td>−11957.142</td><td>3.116</td><td>3.116</td></tr>
+      <tr><td>TAP (antiprismatic)</td><td>−11956.979</td><td>2.766</td><td>5.531</td></tr>
+      <tr><td><strong>ΔE (TP − TAP)</strong></td><td><strong>−0.163</strong></td><td>—</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <p>
+    TP keeps its upper/lower Se triangles aligned (3 Se overlap in top view); TAP is the
+    60°-rotated (octahedral) stacking, metallic in both functionals. (Source: 2026-06-12 meeting.)
+  </p>
+
+  <figure>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center">
+      <span><img src="figures/vse3_tp_top.png" alt="TP top" style="max-width:200px"></span>
+      <span><img src="figures/vse3_tap_top.png" alt="TAP top" style="max-width:200px"></span>
+    </div>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center">
+      <span><img src="figures/vse3_tp_side.png" alt="TP side" style="max-width:200px"></span>
+      <span><img src="figures/vse3_tap_side.png" alt="TAP side" style="max-width:200px"></span>
+    </div>
+    <figcaption><strong>Fig. 1.</strong> TP (left) vs TAP (right); top views (above, along the chain
+      axis) and side views (below). TP keeps its Se₃ triangles aligned (3 Se overlap); TAP is the
+      60°-rotated stacking.</figcaption>
+  </figure>
+  <p>Interactive — relaxed chains (drag to rotate, scroll to zoom): TP (left), TAP (right):</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin:1rem 0">
+    <div><div class="page-meta" style="margin:0 0 .15rem">TP</div>
+<div id="tpview" style="position:relative;width:100%;height:300px;border:1px solid var(--border);border-radius:6px;background:#fff"></div></div>
+    <div><div class="page-meta" style="margin:0 0 .15rem">TAP</div>
+<div id="tapview" style="position:relative;width:100%;height:300px;border:1px solid var(--border);border-radius:6px;background:#fff"></div></div>
+  </div>
+<script type="text/plain" id="tpview-xyz">
+16
+VSe3 TP relaxed chain (x4)
+Se 12.4980 14.4666 -0.0000
+Se 10.7951 11.5177 -0.0000
+Se 14.2006 11.5187 0.0000
+V 12.4975 12.5007 1.5579
+Se 12.4980 14.4666 3.1157
+Se 10.7951 11.5177 3.1157
+Se 14.2006 11.5187 3.1157
+V 12.4975 12.5007 4.6736
+Se 12.4980 14.4666 6.2315
+Se 10.7951 11.5177 6.2315
+Se 14.2006 11.5187 6.2315
+V 12.4975 12.5007 7.7893
+Se 12.4980 14.4666 9.3472
+Se 10.7951 11.5177 9.3472
+Se 14.2006 11.5187 9.3472
+V 12.4975 12.5007 10.9051
+</script>
+<script type="text/plain" id="tapview-xyz">
+16
+VSe3 TAP relaxed chain (x2)
+Se 12.4995 14.4775 0.0000
+Se 10.7854 11.5106 0.0000
+Se 14.2104 11.5145 0.0000
+V 12.4966 12.5007 1.5900
+Se 10.7872 13.4901 3.1800
+Se 12.4996 10.5222 3.1800
+Se 14.2086 13.4903 3.1800
+V 12.4966 12.5007 4.7700
+Se 12.4995 14.4775 6.3600
+Se 10.7854 11.5106 6.3600
+Se 14.2104 11.5145 6.3600
+V 12.4966 12.5007 7.9500
+Se 10.7872 13.4901 9.5400
+Se 12.4996 10.5222 9.5400
+Se 14.2086 13.4903 9.5400
+V 12.4966 12.5007 11.1300
+</script>
+<script>
+(function () {
+  var s = document.querySelector('script[data-3dmol]');
+  if (!s) { s = document.createElement('script'); s.src = '../../assets/lib/3Dmol-min.js';
+            s.setAttribute('data-3dmol','1'); document.head.appendChild(s); }
+  function draw() {
+    if (!window.$3Dmol) { return setTimeout(draw, 60); }
+    [['tpview','tpview-xyz'],['tapview','tapview-xyz']].forEach(function(p){
+      var xyz = document.getElementById(p[1]).textContent.trim();
+      var v = $3Dmol.createViewer(p[0], { backgroundColor: 'white' });
+      v.addModel(xyz, 'xyz');
+      v.setStyle({}, { stick: { radius: 0.14 }, sphere: { scale: 0.32 } });
+      v.zoomTo(); v.render(); v.resize();
+    });
+  }
+  draw();
+})();
+</script>
+
+  <figure>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;justify-content:center">
+      <span><img src="figures/vse3_chain.png" alt="VSe3 TP chain" style="max-width:150px"></span>
+      <span><img src="figures/vse3_tp_band.png" alt="VSe3 TP band" style="max-width:360px"></span>
+    </div>
+    <figcaption><strong>Fig. 2.</strong> TP single chain (V–V = 3.116 Å) and its band structure
+      (−Z–Γ–Z): several bands cross $E_F$ → metallic.</figcaption>
+  </figure>
+
+  <h2>Discussion</h2>
+  <p>
+    The TAP relaxed structure was delivered to the experimental team (Dr. Yangjin Lee) for STEM
+    image simulation (2026-04-16). Its vdW-DF2 relaxed local parameters: c = 5.535 Å,
+    V–Se = 2.508 Å, V–V = 2.768 Å. A planned extension is a Se-vs-Te (VSe₃ vs VTe₃) TP/TAP
+    comparison; VTe₃ TP/TAP initial structures were built (cases 03/04) but those relaxations are
+    listed as 2nd priority and not reported here.
+  </p>
+</article>
+<nav class="subpages"></nav>
+</main>
+</body></html>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="order" content="5">
 <title>Status — 101-vse3-hf2se9</title>
 <link rel="stylesheet" href="../assets/site.css">
 <link rel="stylesheet" href="../assets/katex/katex.min.css">
@@ -9,64 +10,110 @@
 <script defer src="../assets/tree.js"></script>
 <script defer src="../assets/site.js"></script>
 </head><body>
-<aside id="nav" data-brand="101 · VSe₃–Hf₂Se₉"></aside>
+<aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
 <main>
 <article>
-  <h1>Status</h1>
-  <p class="page-meta">Synthesized from the meeting notes (latest 2026-04-16) and report tables. No standalone STATUS.md / comchart.yaml exists in the repo.</p>
+  <h1>Status <span class="status">working</span></h1>
+  <p class="page-meta">Current snapshot first, then the dated progress timeline</p>
 
-  <h2>Work-package status (as of 2026-04-07 meeting)</h2>
+  <h2>Now (transport phase)</h2>
+  <p>
+    <strong>Phase:</strong> the structure is settled and the transport is converged; the active work is
+    the B3LYP molecular-level correction and the finite-bias I–V.
+  </p>
+  <h3>Settled — load-bearing conclusions</h3>
+  <ul>
+    <li><strong>Functional:</strong> production = vdW-DF2 (PBE+D2 anomalous, PBE-D3 side check).</li>
+    <li><strong>Geometry:</strong> 60° staggered interface most stable (−42 meV, cell-fixed); H-passivated, length-converged scattering region.</li>
+    <li><strong>Molecule is the conduction bridge:</strong> $T(E_F)$ = 0.70 / 0.35 / 0 for
+        pristine / heterojunction / disconnected (k = 100, η = 0.005 eV); transmitting
+        eigenchannel $\tau_0\approx1$.</li>
+    <li><strong>Length-independent:</strong> $T(E_F)$ = 0.43 / 0.35 / 0.29 across three scattering-region lengths — essentially flat.</li>
+    <li><strong>Molecular frontier:</strong> Hf₂Se₉ HOMO/LUMO quasi-degenerate, pinned at $E_F$
+        (gap ≈ 0.024 eV); the Hf₂Se₉ chains are metallic.</li>
+  </ul>
+  <h3>In progress</h3>
+  <ul>
+    <li><strong>B3LYP / DFT+Σ level correction</strong> — device δH from the vacuum-molecule
+        shift; recompute corrected $T(E)$. Main next deliverable.</li>
+    <li><strong>Finite-bias I–V</strong> (0.1–0.5 V) and interface charge transfer $\Delta\rho$.</li>
+  </ul>
+
+  <hr>
+
+  <h2>Progress timeline</h2>
+  <p class="page-meta">What was added / settled, by date. Structure phase → transport phase.
+     The full frozen structure-phase site is under <a href="../iterations/index.html">Iterations</a>.</p>
+
+  <h3>2026-03 – 04-07 · structure &amp; stability</h3>
+  <ul>
+    <li>VSe₃ TP vs TAP: <strong>TP consistently more stable</strong>; Hf₂Se₉ molecule/chain
+        (vdW-DF2) relaxed — over-expansion confirmed; hetero separation monotonic.</li>
+  </ul>
   <table>
     <thead><tr><th>Work package</th><th>Status</th><th>Comment</th></tr></thead>
     <tbody>
       <tr><td>VSe₃ TP/TAP comparison</td><td>Done</td><td>TP consistently more stable</td></tr>
       <tr><td>Hf₂Se₉ mol/chain (vdW-DF2)</td><td>Done</td><td>Over-expansion confirmed</td></tr>
       <tr><td>Phase A functional scan</td><td>In progress</td><td>A2-v3, A7 (QE) remaining</td></tr>
-      <tr><td>Phase B basis scan</td><td>In progress</td><td>B1 at step 67</td></tr>
       <tr><td>Hetero separation test</td><td>Done</td><td>All 3 versions monotonically decreasing</td></tr>
-      <tr><td>Chain D2</td><td>In progress</td><td>OOM, resubmission needed</td></tr>
       <tr><td>CNT stabilization study</td><td>Preparation</td><td>Diameter scan needed</td></tr>
-      <tr><td>Phase D (DFT+U)</td><td>Not started</td><td>—</td></tr>
     </tbody>
   </table>
-
-  <h2>Latest progress (2026-04-16 meeting)</h2>
-  <ul>
-    <li><strong>H termination of the VSe₃ interface Se restores a separation-energy minimum.</strong>
-      With H, the bond/gap/tilt H-orientation modes were compared (vdW-DF2 single-point, 44 atoms,
-      Se–H = 1.46 Å). The <code>gap</code> mode is most stable over the whole range; its minimum sits at
-      d = 3.5–4.0 Å (the two points differ by ~4 meV). <code>bond</code> is 1.11 eV higher and
-      <code>tilt</code> 3.72 eV higher than <code>gap</code>. See
-      <a href="../h-termination/index.html">H termination</a>.</li>
-    <li><strong>VSe₃ TAP relaxed structure delivered to the experimental team</strong> (Dr. Yangjin Lee),
-      for STEM image simulation. vdW-DF2 relaxed: c = 5.535 Å, V–Se = 2.508 Å, V–V = 2.768 Å.</li>
-    <li>Heterostructure relax → transport setup: action item open (not yet done).</li>
-  </ul>
-
-  <h2>Hf₂Se₉ molecule Phase A scan — result snapshot</h2>
-  <p>Reference experimental Hf–Hf distance (TEM): 3.6 Å. (Source: 2026-04-07 meeting, stability report.)</p>
+  <p>Phase A — Hf–Hf vs experiment (TEM 3.6 Å):</p>
   <table>
     <thead><tr><th>Test</th><th>Method</th><th>Code</th><th>Hf–Hf (Å)</th><th>Δ(3.6 Å)</th><th>Status</th></tr></thead>
     <tbody>
-      <tr><td>A1</td><td>PBE</td><td>SIESTA</td><td>3.857</td><td>+7%</td><td>✅ 14 steps</td></tr>
+      <tr><td>A1</td><td>PBE</td><td>SIESTA</td><td>3.857</td><td>+7%</td><td>✅</td></tr>
       <tr><td>A2</td><td>PBE+D2</td><td>SIESTA</td><td>—</td><td>—</td><td>❌ SCF not converged</td></tr>
-      <tr><td>A3</td><td>vdW-DF2 (LMKLL)</td><td>SIESTA</td><td>3.967</td><td>+10%</td><td>✅ 13 steps</td></tr>
-      <tr><td>A4</td><td>PBE+D3(BJ)</td><td>SIESTA</td><td>3.857</td><td>+7%</td><td>✅ 14 steps (= A1)</td></tr>
+      <tr><td>A3</td><td>vdW-DF2 (LMKLL)</td><td>SIESTA</td><td>3.967</td><td>+10%</td><td>✅</td></tr>
+      <tr><td>A4</td><td>PBE+D3(BJ)</td><td>SIESTA</td><td>3.857</td><td>+7%</td><td>✅</td></tr>
       <tr><td>A5</td><td>PBE+D3</td><td>VASP</td><td>2.934</td><td>−18.5%</td><td>✅</td></tr>
       <tr><td>A6</td><td>HSE06+D3</td><td>VASP</td><td>3.330</td><td>−7.5%</td><td>✅</td></tr>
-      <tr><td>A7</td><td>PBE</td><td>QE</td><td>—</td><td>—</td><td>📋 prepared</td></tr>
     </tbody>
   </table>
-  <p>
-    Within SIESTA, PBE and PBE+D3(BJ) give the closest value to experiment (3.857 Å); VASP HSE06+D3
-    is closest overall (3.330 Å) but the SIESTA–VASP gap is large. Detail:
-    <a href="../hf2se9-stability/index.html">Hf₂Se₉ stability</a>.
-  </p>
 
-  <h2>Open action items (2026-04-16)</h2>
+  <h3>2026-04-16 · H termination &amp; interface</h3>
   <ul>
-    <li>Adopt <code>gap</code> mode, d = 3.5 Å as the relaxation starting structure (under discussion).</li>
-    <li>Set up transport calculation once the heterostructure relax completes (open).</li>
+    <li><strong>H termination restores a separation-energy minimum.</strong> bond/gap/tilt modes
+        compared (vdW-DF2, 44 atoms, Se–H = 1.46 Å); <code>gap</code> most stable, minimum at
+        d = 3.5–4.0 Å (<code>bond</code> +1.11 eV, <code>tilt</code> +3.72 eV). See
+        <a href="../results/h-termination/index.html">H termination</a>.</li>
+    <li>VSe₃ TAP relaxed structure delivered to the experimental team (STEM simulation):
+        c = 5.535 Å, V–Se = 2.508 Å, V–V = 2.768 Å.</li>
+  </ul>
+
+  <h3>2026-06-02 · η-broadening resolved</h3>
+  <ul>
+    <li>The apparent length dependence of pristine $T(E)$ is an <strong>η-broadening artifact</strong>
+        (η 0.05 → 0.001 eV restores length independence), not physics; TBtrans contour method +
+        η fixed → <strong>production η = 0.005 eV</strong>.</li>
+  </ul>
+
+  <h3>2026-06-12 · junction confirmed, transport established</h3>
+  <ul>
+    <li>Structure confirmed: Hf₂Se₉ relaxes cleanly under <strong>vdW-DF2</strong> (D2 dropped);
+        eigenchannel crosses the molecule (connected, not tunnelling).</li>
+    <li><strong>Three-way comparison</strong> pristine / heterojunction / disconnected →
+        molecule is the sole conduction bridge.</li>
+    <li>Electrode k-grid 4 → 100 converged ($T(E_F)$ shift ~0.3%); B3LYP vacuum shift computed:
+        $\Delta_\text{HOMO}=-1.015$, $\Delta_\text{LUMO}=-0.286$ eV.</li>
+  </ul>
+
+  <h3>2026-06-19 · convergence checks done, correction designed</h3>
+  <ul>
+    <li>Convergence checks (scattering-region length, electrode k-grid, η, benchmarks) done; B3LYP molecular gap = <strong>0.752 eV</strong>.</li>
+    <li>Advisor derived the $\Delta H$ correction (DFT+Σ) on the board → implement via TBtrans δH
+        (no source patch); SCF wall-time 18 h → 9 h via mixer tuning.</li>
+    <li>Re-relaxation at ≥ 5 (ideally 9) VSe₃ unit cells per electrode assigned.</li>
+  </ul>
+  <h3>2026-06-26 · length convergence + correction inputs</h3>
+  <ul>
+    <li>Scattering region extended to 9 VSe₃ unit cells per electrode: $T(E_F)$ = 0.348 ≈ 0.354
+      (3 cells), single transmitting eigenchannel ($\tau_0 = 0.989$); interface geometry and
+      molecular PDOS length-independent. See <a href="../results/level-correction/index.html">level correction</a>.</li>
+    <li>B3LYP→vdW-DF2 orbital shifts computed ($\Delta_\text{HOMO} = -1.01$, $\Delta_\text{LUMO} = -0.29$ eV;
+      gap 0.02 → 0.75 eV) — DFT+Σ application is the next step.</li>
   </ul>
 </article>
 <nav class="subpages"></nav>

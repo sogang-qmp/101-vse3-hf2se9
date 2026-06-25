@@ -1,0 +1,183 @@
+#!/usr/bin/env python3
+"""qmp-site — local preview server for CQMP project sites.
+
+Serves a project's ``site/`` directory exactly like the portal does, so what you
+see locally matches production. In particular it replicates the portal's path
+mapping (``projects.site_file``):
+
+  * ``""`` or a trailing ``/`` → ``index.html``
+  * ``assets/katex/*`` → the shared KaTeX dist     (not in the repo)
+  * ``assets/lib/*``   → the shared component libs (3Dmol, uPlot, highlight.js)
+  * everything else    → files under ``site/`` (traversal-safe)
+
+The shared libs live in ``~/.cache/qmp-site/`` and are fetched once (needs
+internet the first time; offline after that — same set the portal self-hosts).
+
+Pure standard library, no dependencies.
+
+Usage:
+    qmp-site serve [PATH] [--port N] [--no-open]
+    qmp-site libs [--force]      # (re)download the shared libs into the cache
+
+PATH defaults to ./site if present, else . (must contain index.html).
+"""
+from __future__ import annotations
+
+import io
+import mimetypes
+import socketserver
+import sys
+import tarfile
+import urllib.parse
+import urllib.request
+import webbrowser
+from http.server import BaseHTTPRequestHandler
+from pathlib import Path
+
+CACHE = Path.home() / ".cache" / "qmp-site"
+KATEX_VER = "0.16.11"
+# Same files/URLs the portal self-hosts under static/lib (see static/lib on vesper).
+LIB_FILES = {
+    "3Dmol-min.js": "https://cdn.jsdelivr.net/npm/3dmol@2.4.0/build/3Dmol-min.js",
+    "uPlot.iife.min.js": "https://cdn.jsdelivr.net/npm/uplot@1.6.31/dist/uPlot.iife.min.js",
+    "uPlot.min.css": "https://cdn.jsdelivr.net/npm/uplot@1.6.31/dist/uPlot.min.css",
+    "highlight.min.js": "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js",
+    "highlight-github.min.css": "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css",
+}
+
+for _ext, _ct in {".woff2": "font/woff2", ".woff": "font/woff", ".ttf": "font/ttf",
+                  ".mjs": "text/javascript", ".cif": "text/plain", ".svg": "image/svg+xml"}.items():
+    mimetypes.add_type(_ct, _ext)
+
+
+def _fetch(url: str) -> bytes:
+    req = urllib.request.Request(url, headers={"User-Agent": "qmp-site"})
+    with urllib.request.urlopen(req, timeout=90) as r:
+        return r.read()
+
+
+def ensure_libs(force: bool = False) -> None:
+    lib, katex = CACHE / "lib", CACHE / "katex"
+    if not force and (lib / "3Dmol-min.js").exists() and (katex / "katex.min.css").exists():
+        return
+    print(f"qmp-site: caching shared libs → {CACHE} (first run, needs internet)")
+    lib.mkdir(parents=True, exist_ok=True)
+    for name, url in LIB_FILES.items():
+        print(f"  lib   {name}")
+        (lib / name).write_bytes(_fetch(url))
+    print(f"  katex {KATEX_VER} (dist)")
+    tgz = _fetch(f"https://registry.npmjs.org/katex/-/katex-{KATEX_VER}.tgz")
+    katex.mkdir(parents=True, exist_ok=True)
+    with tarfile.open(fileobj=io.BytesIO(tgz), mode="r:gz") as t:
+        for m in t.getmembers():
+            if not (m.isfile() and m.name.startswith("package/dist/")):
+                continue
+            dest = katex / m.name[len("package/dist/"):]
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            f = t.extractfile(m)
+            if f:
+                dest.write_bytes(f.read())
+    print("  done.")
+
+
+def _make_handler(site: Path):
+    site = site.resolve()
+    katex = (CACHE / "katex").resolve()
+    lib = (CACHE / "lib").resolve()
+
+    class Handler(BaseHTTPRequestHandler):
+        def log_message(self, fmt, *a):
+            sys.stderr.write("  " + (fmt % a) + "\n")
+
+        def _resolve(self):
+            rel = urllib.parse.unquote(urllib.parse.urlparse(self.path).path).lstrip("/")
+            if rel == "" or rel.endswith("/"):
+                rel += "index.html"
+            if rel.startswith("assets/katex/"):
+                base, target = katex, katex / rel[len("assets/katex/"):]
+            elif rel.startswith("assets/lib/"):
+                base, target = lib, lib / rel[len("assets/lib/"):]
+            else:
+                base, target = site, site / rel
+            try:
+                target = target.resolve()
+            except OSError:
+                return None
+            if target != base and base not in target.parents:   # traversal guard
+                return None
+            return target if target.is_file() else None
+
+        def do_GET(self):
+            target = self._resolve()
+            if target is None:
+                self.send_error(404)
+                return
+            data = target.read_bytes()
+            ctype = mimetypes.guess_type(str(target))[0] or "application/octet-stream"
+            self.send_response(200)
+            self.send_header("Content-Type", ctype)
+            self.send_header("Content-Length", str(len(data)))
+            self.send_header("Cache-Control", "no-store")  # always see latest edit
+            self.end_headers()
+            self.wfile.write(data)
+
+        do_HEAD = do_GET
+
+    return Handler
+
+
+def _find_site(path: str | None) -> Path:
+    base = Path(path).expanduser() if path else Path.cwd()
+    for cand in ((base / "site"), base, (Path.cwd() / "site")):
+        if (cand / "index.html").is_file():
+            return cand
+    return base / "site"
+
+
+def serve(argv: list[str]) -> None:
+    port, no_open, path = 8000, False, None
+    i = 0
+    while i < len(argv):
+        if argv[i] == "--port":
+            port = int(argv[i + 1]); i += 2
+        elif argv[i] == "--no-open":
+            no_open = True; i += 1
+        else:
+            path = argv[i]; i += 1
+    site = _find_site(path)
+    if not (site / "index.html").is_file():
+        sys.exit(f"qmp-site: no index.html under {site} (run from a repo with site/, or pass PATH)")
+    ensure_libs()
+    socketserver.ThreadingTCPServer.allow_reuse_address = True
+    httpd = socketserver.ThreadingTCPServer(("127.0.0.1", port), _make_handler(site))
+    url = f"http://127.0.0.1:{port}/"
+    print(f"qmp-site: serving {site} at {url}  (Ctrl-C to stop)")
+    if not no_open:
+        try:
+            webbrowser.open(url)
+        except Exception:
+            pass
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        print("\nqmp-site: bye")
+
+
+def main() -> None:
+    argv = sys.argv[1:]
+    cmd = argv[0] if argv else "serve"
+    if cmd == "libs":
+        ensure_libs(force="--force" in argv)
+    elif cmd in ("serve", "-h", "--help"):
+        if cmd in ("-h", "--help"):
+            print(__doc__)
+            return
+        serve(argv[1:])
+    elif cmd.startswith("-") or "/" in cmd or Path(cmd).exists():
+        serve(argv)            # `qmp-site PATH` / `qmp-site --port N` shorthand
+    else:
+        sys.exit(f"qmp-site: unknown command {cmd!r}. Try: qmp-site serve [PATH]")
+
+
+if __name__ == "__main__":
+    main()

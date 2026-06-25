@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Status — 101-vse3-hf2se9</title>
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/contrib/auto-render.min.js"></script>
+<script defer src="../assets/tree.js"></script>
+<script defer src="../assets/site.js"></script>
+</head><body>
+<aside id="nav" data-brand="101 · VSe₃–Hf₂Se₉"></aside>
+<main>
+<article>
+  <h1>Status</h1>
+  <p class="page-meta">Synthesized from the meeting notes (latest 2026-04-16) and report tables. No standalone STATUS.md / comchart.yaml exists in the repo.</p>
+
+  <h2>Work-package status (as of 2026-04-07 meeting)</h2>
+  <table>
+    <thead><tr><th>Work package</th><th>Status</th><th>Comment</th></tr></thead>
+    <tbody>
+      <tr><td>VSe₃ TP/TAP comparison</td><td>Done</td><td>TP consistently more stable</td></tr>
+      <tr><td>Hf₂Se₉ mol/chain (vdW-DF2)</td><td>Done</td><td>Over-expansion confirmed</td></tr>
+      <tr><td>Phase A functional scan</td><td>In progress</td><td>A2-v3, A7 (QE) remaining</td></tr>
+      <tr><td>Phase B basis scan</td><td>In progress</td><td>B1 at step 67</td></tr>
+      <tr><td>Hetero separation test</td><td>Done</td><td>All 3 versions monotonically decreasing</td></tr>
+      <tr><td>Chain D2</td><td>In progress</td><td>OOM, resubmission needed</td></tr>
+      <tr><td>CNT stabilization study</td><td>Preparation</td><td>Diameter scan needed</td></tr>
+      <tr><td>Phase D (DFT+U)</td><td>Not started</td><td>—</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Latest progress (2026-04-16 meeting)</h2>
+  <ul>
+    <li><strong>H termination of the VSe₃ interface Se restores a separation-energy minimum.</strong>
+      With H, the bond/gap/tilt H-orientation modes were compared (vdW-DF2 single-point, 44 atoms,
+      Se–H = 1.46 Å). The <code>gap</code> mode is most stable over the whole range; its minimum sits at
+      d = 3.5–4.0 Å (the two points differ by ~4 meV). <code>bond</code> is 1.11 eV higher and
+      <code>tilt</code> 3.72 eV higher than <code>gap</code>. See
+      <a href="../h-termination/index.html">H termination</a>.</li>
+    <li><strong>VSe₃ TAP relaxed structure delivered to the experimental team</strong> (Dr. Yangjin Lee),
+      for STEM image simulation. vdW-DF2 relaxed: c = 5.535 Å, V–Se = 2.508 Å, V–V = 2.768 Å.</li>
+    <li>Heterostructure relax → transport setup: action item open (not yet done).</li>
+  </ul>
+
+  <h2>Hf₂Se₉ molecule Phase A scan — result snapshot</h2>
+  <p>Reference experimental Hf–Hf distance (TEM): 3.6 Å. (Source: 2026-04-07 meeting, stability report.)</p>
+  <table>
+    <thead><tr><th>Test</th><th>Method</th><th>Code</th><th>Hf–Hf (Å)</th><th>Δ(3.6 Å)</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>A1</td><td>PBE</td><td>SIESTA</td><td>3.857</td><td>+7%</td><td>✅ 14 steps</td></tr>
+      <tr><td>A2</td><td>PBE+D2</td><td>SIESTA</td><td>—</td><td>—</td><td>❌ SCF not converged</td></tr>
+      <tr><td>A3</td><td>vdW-DF2 (LMKLL)</td><td>SIESTA</td><td>3.967</td><td>+10%</td><td>✅ 13 steps</td></tr>
+      <tr><td>A4</td><td>PBE+D3(BJ)</td><td>SIESTA</td><td>3.857</td><td>+7%</td><td>✅ 14 steps (= A1)</td></tr>
+      <tr><td>A5</td><td>PBE+D3</td><td>VASP</td><td>2.934</td><td>−18.5%</td><td>✅</td></tr>
+      <tr><td>A6</td><td>HSE06+D3</td><td>VASP</td><td>3.330</td><td>−7.5%</td><td>✅</td></tr>
+      <tr><td>A7</td><td>PBE</td><td>QE</td><td>—</td><td>—</td><td>📋 prepared</td></tr>
+    </tbody>
+  </table>
+  <p>
+    Within SIESTA, PBE and PBE+D3(BJ) give the closest value to experiment (3.857 Å); VASP HSE06+D3
+    is closest overall (3.330 Å) but the SIESTA–VASP gap is large. Detail:
+    <a href="../hf2se9-stability/index.html">Hf₂Se₉ stability</a>.
+  </p>
+
+  <h2>Open action items (2026-04-16)</h2>
+  <ul>
+    <li>Adopt <code>gap</code> mode, d = 3.5 Å as the relaxation starting structure (under discussion).</li>
+    <li>Set up transport calculation once the heterostructure relax completes (open).</li>
+  </ul>
+</article>
+<nav class="subpages"></nav>
+</main>
+</body></html>

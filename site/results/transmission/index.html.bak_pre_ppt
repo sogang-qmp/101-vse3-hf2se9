@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="order" content="40">
+<title>Transmission & eigenchannel — 101-vse3-hf2se9</title>
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/katex/katex.min.css">
+<script defer src="../../assets/katex/katex.min.js"></script>
+<script defer src="../../assets/katex/contrib/auto-render.min.js"></script>
+<script defer src="../../assets/tree.js"></script>
+<script defer src="../../assets/site.js"></script>
+</head><body>
+<aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
+<main>
+<article>
+  <h1>Transmission — the molecule is the conduction bridge</h1>
+  <p class="page-meta">Zero-bias T(E), three-way comparison, and the real-space channel</p>
+
+  <h2>Goal</h2>
+  <p>Show whether current flows <em>through</em> the molecule, and through which channel.</p>
+
+  <h2>Method</h2>
+  <p>TranSIESTA / TBtrans, vdW-DF2, ~220-atom device, electrode k = 100, η = 0.005 eV.
+     $T(E)$ via sisl from <code>trans.TBT.nc</code>; eigenchannel $|\psi|^2$ isosurface at $E_F$.</p>
+
+  <h2>Result</h2>
+  <p>The three-way comparison is the central evidence:</p>
+  <table>
+    <thead><tr><th>System</th><th>$T(E_F)$</th><th>Reading</th></tr></thead>
+    <tbody>
+      <tr><td>Pristine VSe₃</td><td>0.68</td><td>reference (continuous chain)</td></tr>
+      <tr><td>Heterojunction</td><td>0.35</td><td>conducts through the molecule</td></tr>
+      <tr><td>Disconnected</td><td>0</td><td>molecule removed → no conduction</td></tr>
+    </tbody>
+  </table>
+  <figure>
+    <img src="figures/te-3way.png" alt="Three-way transmission">
+    <figcaption><strong>Fig. 1.</strong> $T(E)$ — with molecule (green) / pristine (blue) /
+      disconnected (red, on the floor). Removing the molecule kills conduction.</figcaption>
+  </figure>
+  <p>
+    Removing the molecule drops $T(E_F)$ to zero, so the molecule is the <strong>sole conduction
+    bridge</strong>. The transmitting eigenchannel crosses it with $\tau_0 \approx 1$ (Fig. 2);
+    frontier resonances sit at −0.065 / +0.175 eV, straddling $E_F$. k-grid (4→100) and η are
+    converged ($T(E_F)$ shifts ~0.3%).
+  </p>
+  <figure>
+    <img src="figures/eigenchannel-EF.png" alt="Eigenchannel isosurface at E_F">
+    <figcaption><strong>Fig. 2.</strong> $|\psi|^2$ of the transmitting eigenchannel (EC₀,
+      $\tau\approx1$) at $E_F$: runs through both leads, concentrates on the molecule.</figcaption>
+  </figure>
+
+  <h2>Discussion</h2>
+  <p>
+    Conduction is resonant because the PBE/vdW-DF molecular resonance sits on $E_F$. Whether it
+    stays resonant under a corrected gap is the open question driving the
+    <a href="../../methods/index.html">B3LYP level correction</a>; the finite-bias I–V is the
+    remaining deliverable.
+  </p>
+</article>
+<nav class="subpages"></nav>
+</main>
+</body></html>

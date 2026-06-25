@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="order" content="30">
+<title>Results — 101-vse3-hf2se9</title>
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/contrib/auto-render.min.js"></script>
+<script defer src="../assets/tree.js"></script>
+<script defer src="../assets/site.js"></script>
+</head><body>
+<aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
+<main>
+<article>
+  <h1>Results</h1>
+  <p class="page-meta">What we have established, by topic</p>
+
+  <p>
+    The headline: a single Hf₂Se₉ molecule bridges two metallic VSe₃ chains and is the
+    <strong>sole conduction path</strong> — removing it kills the conductance. Conduction is
+    resonant because the molecular frontier levels sit on $E_F$, which is exactly why the level
+    alignment now needs correcting. The findings, one page each:
+  </p>
+
+  <table>
+    <thead><tr><th>Date</th><th>Topic</th><th>Key result</th></tr></thead>
+    <tbody>
+      <tr><td>2026-04-07</td><td><a href="vse3-tp-tap/index.html">VSe₃ TP vs TAP</a></td>
+          <td>TP more stable by 0.163 eV/formula; <strong>metallic</strong> 1D lead.</td></tr>
+      <tr><td>2026-04-07</td><td><a href="hf2se9-stability/index.html">Hf₂Se₉ stability</a></td>
+          <td>PBE+D2 anomalous; <strong>vdW-DF2</strong> (production) + D3 relax cleanly.</td></tr>
+      <tr><td>2026-04-07</td><td><a href="hetero-separation/index.html">Hetero separation</a></td>
+          <td>VSe₃–Hf₂Se₉ separation vs energy.</td></tr>
+      <tr><td>2026-04-16</td><td><a href="h-termination/index.html">H-termination</a></td>
+          <td>Interface H modes; separation minimum restored.</td></tr>
+      <tr><td>2026-06-12</td><td><a href="junction/index.html">Junction structure</a></td>
+          <td>60° staggered (43.3 meV); length-converged by 9 VSe₃ unit cells per electrode.</td></tr>
+      <tr><td>2026-06-12</td><td><a href="transmission/index.html">Transmission</a></td>
+          <td>$T(E_F)$ = 0.70 / 0.35 / 0 (pristine / hetero / disconnected); channel $\tau_0\approx1$.</td></tr>
+      <tr><td>2026-06-12</td><td><a href="molecule/index.html">Hf₂Se₉ molecule</a></td>
+          <td>Gap ≈ 0.024 eV (PBE) → 0.752 eV (B3LYP); HOMO/LUMO delocalised — drives the level correction.</td></tr>
+      <tr><td>2026-06-26 ·&nbsp;now</td><td><a href="level-correction/index.html">Level correction (DFT+Σ)</a></td>
+          <td>Length-converged at 9 VSe₃ unit cells per electrode ($T(E_F)$ 0.348); B3LYP shifts Δ_HOMO −1.01 / Δ_LUMO −0.29 eV computed (apply next).</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    Production functional is <strong>vdW-DF2</strong> (PBE+D2 was anomalous, PBE-D3 a side
+    cross-check); full setup on <a href="../methods/index.html">Methods</a>. The B3LYP DFT+Σ
+    level correction and the finite-bias I–V are in progress (see Methods / Plan).
+  </p>
+
+  <h2>How we got here — topic reports</h2>
+  <p>The chronological record behind the results above (full text in
+     <code>reports/&lt;NN&gt;-&lt;topic&gt;/</code> in the repo).</p>
+
+  <h3>Stage 1 — Structure &amp; stability (01–05)</h3>
+  <table>
+    <thead><tr><th>#</th><th>Topic</th><th>Finding</th></tr></thead>
+    <tbody>
+      <tr><td>01</td><td>previous-calculations</td><td>Review at project start.</td></tr>
+      <tr><td>02</td><td>hf2se9-stability</td><td>Plan to fix the correct Hf₂Se₉ set-up.</td></tr>
+      <tr><td>03</td><td>initial-structures</td><td>Relaxation-failure analysis + initial structures.</td></tr>
+      <tr><td>04</td><td>h-termination</td><td>H-termination of the heterostructure.</td></tr>
+      <tr><td>05</td><td>d2-vs-d3 dispersion</td><td>PBE+D2 anomalous; vdW-DF2 (production) + D3 (side) relax cleanly.</td></tr>
+    </tbody>
+  </table>
+  <h3>Stage 2 — Transport set-up (06–09)</h3>
+  <table>
+    <thead><tr><th>#</th><th>Topic</th><th>Finding</th></tr></thead>
+    <tbody>
+      <tr><td>06</td><td>perturbation-range</td><td>Macroscopic-averaged ΔV measurement plan.</td></tr>
+      <tr><td>07</td><td>transport-workflow</td><td>1D heterojunction transport / I–V workflow.</td></tr>
+      <tr><td>08</td><td>reference-2nd</td><td>Second reference round.</td></tr>
+      <tr><td>09</td><td>perturbation-range2</td><td>Perturbation range re-measured (v3 base).</td></tr>
+    </tbody>
+  </table>
+  <h3>Stage 3 — Transmission physics &amp; convergence (10–15)</h3>
+  <table>
+    <thead><tr><th>#</th><th>Topic</th><th>Finding</th></tr></thead>
+    <tbody>
+      <tr><td>10</td><td>transmission-gap-physics</td><td>Naming + physics of the gap / isolated peak.</td></tr>
+      <tr><td>11</td><td>transport-electrode-lattice-standard</td><td>Bulk-lead lattice choice (literature).</td></tr>
+      <tr><td>12</td><td>scattering-length-method</td><td>Scattering-length method.</td></tr>
+      <tr><td>13</td><td>transmission-eta-length</td><td>Length dependence = η-broadening artifact.</td></tr>
+      <tr><td>14</td><td>tbtrans-contour-eta</td><td>TBtrans contour (Simpson) + η, from the manual.</td></tr>
+      <tr><td>15</td><td>charge-transfer-method</td><td>Charge-transfer (Δρ) extraction method.</td></tr>
+    </tbody>
+  </table>
+</article>
+<nav class="subpages"></nav>
+</main>
+</body></html>

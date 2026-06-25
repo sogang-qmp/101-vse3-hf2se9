@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="order" content="70">
+<title>Hf₂Se₉ molecule — 101-vse3-hf2se9</title>
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/katex/katex.min.css">
+<script defer src="../../assets/katex/katex.min.js"></script>
+<script defer src="../../assets/katex/contrib/auto-render.min.js"></script>
+<script defer src="../../assets/tree.js"></script>
+<script defer src="../../assets/site.js"></script>
+</head><body>
+<aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
+<main>
+<article>
+  <h1>Hf₂Se₉ molecule — frontier levels at E_F</h1>
+  <p class="page-meta"><strong>2026-06-12</strong> · The bridging unit and why its level alignment matters</p>
+
+  <h2>Goal</h2>
+  <p>Characterise the Hf₂Se₉ molecule that bridges the two VSe₃ chains: its gap, the spatial
+     character of the frontier orbitals, and how far DFT misplaces them.</p>
+
+  <h2>Method</h2>
+  <p>SIESTA, vdW-DF2 relaxation + single point; HOMO/LUMO wavefunctions plotted. A separate
+     vacuum single point compares PBE vs the B3LYP hybrid, vacuum-level aligned.</p>
+
+  <h2>Result</h2>
+  <ul>
+    <li><strong>Tiny gap:</strong> the molecular HOMO–LUMO gap is only ≈ <strong>0.024 eV</strong>,
+        so the frontier levels sit essentially on $E_F$ (Fig. 2).</li>
+    <li><strong>Delocalised frontier orbitals:</strong> both HOMO and LUMO spread over the whole
+        Hf₂Se₉ unit (Fig. 4) — they can carry current end to end.</li>
+    <li><strong>Hybrid opens the gap:</strong> B3LYP widens it to <strong>0.752 eV</strong>
+        (vacuum-aligned shifts $\Delta_\text{HOMO}=-1.015$, $\Delta_\text{LUMO}=-0.286$ eV).</li>
+  </ul>
+  <figure>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;justify-content:center">
+      <span><img src="figures/hf2se9_mol.png" alt="Hf2Se9 side view" style="max-width:300px"></span>
+      <span><img src="figures/hf2se9_mol_top.png" alt="Hf2Se9 top view" style="max-width:200px"></span>
+    </div>
+    <figcaption><strong>Fig. 1.</strong> Hf₂Se₉ molecule (2 Hf + 9 Se): side view (left) and top
+      view along the Hf–Hf axis (right).</figcaption>
+  </figure>
+  <p>Interactive — the same relaxed Hf₂Se₉ (drag to rotate, scroll to zoom):</p>
+<div id="hf2se9view" style="position:relative;width:100%;height:320px;border:1px solid var(--border);border-radius:6px;background:#fff"></div>
+<script type="text/plain" id="hf2se9view-xyz">
+11
+Hf2Se9 relaxed (vdW-DF2)
+Hf 12.5000 12.5000 10.6900
+Hf 12.5000 12.5000 14.3100
+Se 12.5000 14.4081 12.5000
+Se 10.8475 11.5460 12.5000
+Se 14.1525 11.5460 12.5000
+Se 10.6403 13.5737 9.1716
+Se 12.5000 10.3526 9.1716
+Se 14.3597 13.5737 9.1716
+Se 10.6403 13.5737 15.8284
+Se 12.5000 10.3526 15.8284
+Se 14.3597 13.5737 15.8284
+</script>
+<script>
+(function () {
+  var s = document.querySelector('script[data-3dmol]');
+  if (!s) { s = document.createElement('script'); s.src = '../../assets/lib/3Dmol-min.js';
+            s.setAttribute('data-3dmol','1'); document.head.appendChild(s); }
+  function draw() {
+    if (!window.$3Dmol) { return setTimeout(draw, 60); }
+    var xyz = document.getElementById('hf2se9view-xyz').textContent.trim();
+    var v = $3Dmol.createViewer('hf2se9view', { backgroundColor: 'white' });
+    v.addModel(xyz, 'xyz');
+    v.setStyle({}, { stick: { radius: 0.14 }, sphere: { scale: 0.32 } });
+    v.zoomTo(); v.render(); v.resize();
+  }
+  draw();
+})();
+</script>
+  <figure>
+    <img src="figures/levels.png" alt="Hf2Se9 molecular levels" style="max-width:300px">
+    <figcaption><strong>Fig. 2.</strong> Molecular levels near $E_F$ (vdW-DF2): a near-degenerate
+      HOMO/LUMO pair straddling zero — the small-gap origin of the resonance at $E_F$.</figcaption>
+  </figure>
+  <table>
+    <thead><tr><th>State</th><th>$E-E_F$ (eV)</th></tr></thead>
+    <tbody>
+      <tr><td>LUMO+2</td><td>+0.0075</td></tr>
+      <tr><td>LUMO+1</td><td>+0.0040</td></tr>
+      <tr><td>LUMO</td><td>+0.0033</td></tr>
+      <tr><td>HOMO</td><td>−0.0201</td></tr>
+      <tr><td>HOMO−1</td><td>−0.0202</td></tr>
+      <tr><td>HOMO−2</td><td>−0.1883</td></tr>
+    </tbody>
+  </table>
+  <p>Gap = $E_\text{LUMO}-E_\text{HOMO}$ = <strong>0.024 eV</strong> (vdW-DF2). (Source: 2026-06-12 meeting.)</p>
+
+  <h2>Vacuum-level alignment (B3LYP correction input)</h2>
+  <p>To place the molecular levels on an absolute scale, the orbital energies are referenced to the
+     vacuum level $V_\text{vac}$ taken from the planar-averaged Hartree potential in the vacuum
+     region (Fig. 3). Aligned this way, the hybrid B3LYP opens the gap from
+     <strong>0.023 → 0.752 eV</strong> and lowers the HOMO by ~1 eV relative to the LUMO — the input
+     to the DFT+Σ <a href="../level-correction/index.html">level correction</a>.</p>
+  <figure>
+    <img src="figures/b3lyp_hartree.png" alt="planar-averaged Hartree potential, vacuum-aligned" style="max-width:460px">
+    <figcaption><strong>Fig. 3.</strong> Planar-averaged Hartree potential of the vacuum molecule;
+      the plateau sets $V_\text{vac}$ used to align the levels.</figcaption>
+  </figure>
+  <table>
+    <thead><tr><th>Method</th><th>$V_\text{vac}$ (eV)</th><th>HOMO − $V_\text{vac}$ (eV)</th><th>LUMO − $V_\text{vac}$ (eV)</th><th>gap (eV)</th></tr></thead>
+    <tbody>
+      <tr><td>vdW-DF2 (SIESTA)</td><td>0.020</td><td>−5.577</td><td>−5.554</td><td>0.023</td></tr>
+      <tr><td>B3LYP (VASP)</td><td>0.153</td><td>−6.592</td><td>−5.840</td><td><strong>0.752</strong></td></tr>
+    </tbody>
+  </table>
+  <figure>
+    <img src="figures/homo.png" alt="Hf2Se9 HOMO" style="max-width:300px">
+    <img src="figures/lumo.png" alt="Hf2Se9 LUMO" style="max-width:300px">
+    <figcaption><strong>Fig. 4.</strong> HOMO (left) and LUMO (right) — both delocalised over
+      the molecule (Hf olive, Se green; isosurface sign in cyan/yellow).</figcaption>
+  </figure>
+
+  <h2>Discussion</h2>
+  <p>
+    Because PBE/vdW-DF underestimates the gap, the molecular resonance lands on $E_F$ and the
+    junction transmits "too well." Correcting the level alignment (B3LYP via a DFT+Σ shift) is what
+    decides whether the headline picture is resonant or non-resonant — the computed shifts and the
+    scattering-region length convergence are on the <a href="../level-correction/index.html">level correction</a> page.
+  </p>
+</article>
+<nav class="subpages"></nav>
+</main>
+</body></html>

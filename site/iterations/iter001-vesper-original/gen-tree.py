@@ -78,16 +78,6 @@ def title_of(index_html: Path, fallback: str) -> str:
     return raw or fallback
 
 
-def order_of(index_html: Path) -> int:
-    """Sidebar order from an optional <meta name="order" content="N"> in the page <head>.
-    Lower sorts first; pages without it default to 100, then fall back to natural-name order.
-    Lets pages keep clean named slugs (plan/, methods/, …) while controlling sidebar order."""
-    text = index_html.read_text(encoding="utf-8", errors="ignore")
-    m = re.search(r'<meta[^>]*\bname=["\']order["\'][^>]*\bcontent=["\']\s*(-?\d+)', text, re.I) or \
-        re.search(r'<meta[^>]*\bcontent=["\']\s*(-?\d+)["\'][^>]*\bname=["\']order["\']', text, re.I)
-    return int(m.group(1)) if m else 100
-
-
 def _natkey(p: Path):
     # Natural order so 2-method/ sorts before 10-summary/ (not lexicographic 10<2).
     return [int(t) if t.isdigit() else t.lower() for t in re.split(r"(\d+)", p.name)]
@@ -100,10 +90,10 @@ def node(folder: Path, counters: dict) -> dict:
     if write_files_js(folder):
         counters["files_js"] += 1
     children = []
-    subs = [p for p in folder.iterdir()
-            if p.is_dir() and p.name not in RESERVED and (p / "index.html").exists()]
-    for sub in sorted(subs, key=lambda p: (order_of(p / "index.html"), _natkey(p))):
-        children.append(node(sub, counters))
+    subs = (p for p in folder.iterdir() if p.is_dir() and p.name not in RESERVED)
+    for sub in sorted(subs, key=_natkey):
+        if (sub / "index.html").exists():
+            children.append(node(sub, counters))
     return {"title": title_of(folder / "index.html", folder.name), "path": path, "children": children}
 
 

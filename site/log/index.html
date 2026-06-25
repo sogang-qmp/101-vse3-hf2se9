@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="order" content="30">
+<title>Log — 101-vse3-hf2se9</title>
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/contrib/auto-render.min.js"></script>
+<script defer src="../assets/tree.js"></script>
+<script defer src="../assets/site.js"></script>
+</head><body>
+<aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
+<main>
+<article>
+  <h1>Log</h1>
+  <p class="page-meta">Dated meeting notes</p>
+
+  <p>
+    Notes live in <code>meetings/&lt;YYYY-MM-DD&gt;/</code> in the repository, with figures
+    alongside; the recent ones also have a single-file HTML meeting replay.
+  </p>
+
+  <table>
+    <thead><tr><th>Date</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td>2026-03-16</td><td>Project kickoff.</td></tr>
+      <tr><td>2026-03-19</td><td>Meeting notes.</td></tr>
+      <tr><td>2026-03-23</td><td>Meeting notes.</td></tr>
+      <tr><td>2026-04-07</td><td>Meeting notes.</td></tr>
+      <tr><td>2026-04-16</td><td>H-termination 3-mode scan; gap mode most stable.</td></tr>
+      <tr><td>2026-05-13</td><td>Meeting notes.</td></tr>
+      <tr><td>2026-05-29</td><td>Heterojunction transport discussion (replay HTML). Decided: pristine-VSe₃ check, interfacial structure first, PDOS split Hf-Se / V-Se.</td></tr>
+      <tr><td>2026-06-12</td><td><strong>Presented</strong> — VSe₃ TP &gt; TAP by 0.163 eV/formula (metallic); Hf₂Se₉ gap 0.024 eV; H-passivation 3 configs, min d ≈ 3.5 Å (top most stable); rotation minimum at 60°/180° (60° staggered +43.3 meV); pristine T(E) length-dependence = η artifact (ballistic at η = 0.001 eV); heterojunction T(E_F) ≈ 1.6 → 0.35, eigenchannel runs through the molecule. <strong>Decided</strong> — one week of convergence checks (scattering-region length, device k-grid and η, benchmarks, disconnected 3-way comparison) → then B3LYP molecular-orbital correction (DFT+Σ), charge transfer, I–V.</td></tr>
+      <tr><td>2026-06-19</td><td>Convergence checks done; B3LYP gap 0.752 eV (vacuum-aligned). Advisor derived the ΔH correction on the board; implement via TBtrans δH and document it. Re-relaxation at 9 VSe₃ unit cells per electrode assigned.</td></tr>
+      <tr><td>2026-06-26</td><td>Scattering region extended to 9 VSe₃ unit cells per electrode — $T(E_F)$ 0.348 ≈ 0.354 (3 cells), eigenchannel $\tau_0$ 0.989 → length-converged. B3LYP DFT+Σ shifts computed (Δ_HOMO −1.01 / Δ_LUMO −0.29 eV; gap 0.02→0.75); apply via TBtrans δH next. See <a href="../results/level-correction/index.html">level correction</a>.</td></tr>
+    </tbody>
+  </table>
+</article>
+<nav class="subpages"></nav>
+</main>
+</body></html>

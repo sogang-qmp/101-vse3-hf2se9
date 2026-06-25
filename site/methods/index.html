@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="order" content="20">
+<title>Methods — 101-vse3-hf2se9</title>
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/contrib/auto-render.min.js"></script>
+<script defer src="../assets/tree.js"></script>
+<script defer src="../assets/site.js"></script>
+</head><body>
+<aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
+<main>
+<article>
+  <h1>Methods</h1>
+  <p class="page-meta">Computational setup for the current iteration</p>
+
+  <h2>DFT (SIESTA)</h2>
+  <ul>
+    <li><strong>Functional: vdW-DF2</strong> (<code>XC.authors LMKLL</code>) — production for
+        chain and junction relaxation, bands, PDOS. PBE+D2 was anomalously unstable for the
+        Hf₂Se₉ relaxation, so it was dropped; <strong>PBE-D3</strong> relaxes cleanly and is
+        run on the side as a cross-check (see <a href="../results/index.html">Results</a>).</li>
+    <li><strong>Basis / grid:</strong> MeshCutoff 500 Ry; SCF.DM.Tolerance 1.0×10⁻⁷;
+        density mixer weight 0.2, history 15.</li>
+  </ul>
+
+  <h2>Transport (TranSIESTA / TBtrans)</h2>
+  <ul>
+    <li>~220-atom device (scattering atoms 13–208): VSe₃ buffer + Hf₂Se₉ + VSe₃ buffer between
+        bulk VSe₃ electrodes.</li>
+    <li>Zero-bias NEGF; electrode <strong>k = 100</strong> along transport; broadening
+        <strong>η = 0.005 eV</strong>. Transmission $T(E)$ via sisl from <code>trans.TBT.nc</code>;
+        eigenchannels (Re/Im/|ψ|² cubes + z-profile).</li>
+  </ul>
+
+  <h2>Molecular-level correction (DFT+Σ)</h2>
+  <p>
+    The GGA/vdW-DF level underestimates the molecular gap, mis-placing the resonance at $E_F$.
+    Orbital shifts from the vacuum molecule,
+    $\Delta_i=\varepsilon_i^{\text{B3LYP}}-\varepsilon_i^{\text{PBE}}$
+    (PBE in SIESTA vs B3LYP in VASP, vacuum-level aligned), are applied to the device
+    Hamiltonian as a projector on the Hf/Se block,
+  </p>
+  <p style="text-align:center">
+    $\displaystyle (\Delta H)_{\mu\nu}=\sum_i \Delta_i\,(C^i_\mu)^{*}C^i_\nu,
+     \qquad (\mu,\nu)\in\text{Hf}_2\text{Se}_9,$
+  </p>
+  <p>
+    implemented through TBtrans's built-in δH (a <code>deltaH.dH.nc</code> file) with a
+    ±1–2 eV energy window — no TranSIESTA source patch.
+  </p>
+</article>
+<nav class="subpages"></nav>
+</main>
+</body></html>

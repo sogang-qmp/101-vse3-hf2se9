@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="order" content="30">
+<title>Heterostructure separation test — 101-vse3-hf2se9</title>
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/katex/katex.min.css">
+<script defer src="../../assets/katex/katex.min.js"></script>
+<script defer src="../../assets/katex/contrib/auto-render.min.js"></script>
+<script defer src="../../assets/tree.js"></script>
+<script defer src="../../assets/site.js"></script>
+</head><body>
+<aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
+<main>
+<article>
+  <h1>VSe₃–Hf₂Se₉ heterostructure separation test</h1>
+  <p class="page-meta"><strong>2026-04-07</strong> · Source: reports/initial-structures/failure-analysis.md §6, hetero-energy-vs-sep.csv, meeting 2026-04-07.</p>
+
+  <h2>Goal</h2>
+  <p>
+    In the VSe₃ (3 unit cells)–Hf₂Se₉–VSe₃ (3 unit cells) heterojunction, compute the single-point energy as a function
+    of the VSe₃–Hf₂Se₉ interface separation <em>d</em> (2.5–4.0 Å), to find the equilibrium
+    interface distance and check whether DFT reproduces the experimentally observed ~3.5 Å minimum.
+  </p>
+
+  <h2>Method</h2>
+  <p>
+    Three versions were computed. Because their structures differ, total energy cannot be compared
+    directly between versions; only the energy trend <em>within</em> each version is compared, with
+    d = 4.0 Å as the per-version reference.
+  </p>
+  <table>
+    <thead><tr><th>Version</th><th>Functional</th><th>Structure origin</th><th>Interface arrangement</th></tr></thead>
+    <tbody>
+      <tr><td>07-hetero</td><td>vdW-DF2</td><td>vdW-DF2 relaxed</td><td>V-Se₃-V (asymmetric)</td></tr>
+      <tr><td>08-hetero-v2</td><td>vdW-DF2</td><td>same as 07, flipped so Se faces Se</td><td>Se₃-V-Se₃ (symmetric)</td></tr>
+      <tr><td>09-hetero-d2</td><td>PBE+D2</td><td>PBE+D2 relaxed</td><td>Se₃-V-Se₃ (symmetric)</td></tr>
+    </tbody>
+  </table>
+  <ul>
+    <li><strong>07 vs 08:</strong> same functional, same structure — interface arrangement only
+      (V-facing vs Se-facing). Total energy <em>is</em> directly comparable.</li>
+    <li><strong>07/08 vs 09:</strong> functional and relaxed structure both differ — total energy
+      not directly comparable.</li>
+  </ul>
+
+  <h2>Result</h2>
+  <p><strong>All three decrease monotonically over 2.5–4.0 Å — no minimum within the scanned range.</strong></p>
+  <table>
+    <thead><tr><th>d (Å)</th><th>07 vdW-DF2 V-Se₃-V (eV)</th><th>08 vdW-DF2 Se₃-V-Se₃ (eV)</th><th>09 PBE+D2 Se₃-V-Se₃ (eV)</th></tr></thead>
+    <tbody>
+      <tr><td>2.5</td><td>−3.73</td><td>−6.21</td><td>−8.31</td></tr>
+      <tr><td>3.0</td><td>−2.00</td><td>−4.10</td><td>−4.89</td></tr>
+      <tr><td>3.5</td><td>−0.84</td><td>−1.61</td><td>−1.84</td></tr>
+      <tr><td>4.0</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+    </tbody>
+  </table>
+  <p class="page-meta">Energies relative to d = 4.0 Å within each version (data: <code>data/hetero-energy-vs-sep.csv</code>, with absolute E<sub>KS</sub>).</p>
+
+  <figure>
+    <img src="figures/hetero-energy-vs-sep.png" alt="Energy vs separation, three versions" style="max-width:560px">
+    <figcaption><strong>Fig. 1.</strong> Relative energy vs interface separation for the three versions
+      (each referenced to its own d = 4.0 Å).</figcaption>
+  </figure>
+
+  <figure>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap">
+      <span><img src="figures/hetero-df2-asym-d3.5.png" alt="07 vdW-DF2 asymmetric" style="max-width:210px"></span>
+      <span><img src="figures/hetero-df2-sym-d3.5.png" alt="08 vdW-DF2 symmetric" style="max-width:210px"></span>
+      <span><img src="figures/hetero-d2-sym-d3.5.png" alt="09 PBE+D2 symmetric" style="max-width:210px"></span>
+    </div>
+    <figcaption><strong>Fig. 2.</strong> Side views at d = 3.5 Å: 07 (vdW-DF2, V-Se₃-V asymmetric),
+      08 (vdW-DF2, Se₃-V-Se₃ symmetric), 09 (PBE+D2, Se₃-V-Se₃ symmetric).</figcaption>
+  </figure>
+
+  <h2>Discussion</h2>
+  <ul>
+    <li>All three keep decreasing at d = 2.5 Å — no minimum is found within 2.5–4.0 Å.</li>
+    <li><strong>07 vs 08 (same functional, interface only):</strong> the Se–Se symmetric arrangement (08)
+      has a steeper slope than V-facing (07), and its total energy at d = 4.0 Å is 0.60 eV lower —
+      i.e. the Se–Se interface binds more strongly.</li>
+    <li>09 (PBE+D2) cannot be compared directly to 07/08 because both functional and relaxed
+      structure differ.</li>
+  </ul>
+  <p>
+    This monotonic behavior motivated the dangling-bond hypothesis and the H-termination test (see
+    <a href="../h-termination/index.html">H termination</a>), where passivating the VSe₃ interface
+    Se restores a minimum near d ≈ 3.5 Å.
+  </p>
+</article>
+<nav class="subpages"></nav>
+</main>
+</body></html>

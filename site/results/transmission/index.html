@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="order" content="60">
+<title>Transmission & eigenchannel — 101-vse3-hf2se9</title>
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/katex/katex.min.css">
+<script defer src="../../assets/katex/katex.min.js"></script>
+<script defer src="../../assets/katex/contrib/auto-render.min.js"></script>
+<script defer src="../../assets/tree.js"></script>
+<script defer src="../../assets/site.js"></script>
+</head><body>
+<aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
+<main>
+<article>
+  <h1>Transmission — the molecule is the conduction bridge</h1>
+  <p class="page-meta"><strong>2026-06-12 – 06-19</strong> · Zero-bias transport: pristine convergence · three-way · eigenchannel · I–V (TranSIESTA/TBtrans, vdW-DF2, k=100, η=0.005 eV)</p>
+
+  <h2>Goal</h2>
+  <p>Show whether current flows <em>through</em> the molecule, through which channel, and what the zero-bias I–V looks like.</p>
+
+  <h2>Method</h2>
+  <p>TranSIESTA / TBtrans, vdW-DF2, ~220-atom device, electrode $k=100$, $\eta=0.005$ eV.
+     $T(E)$ extracted with sisl from <code>trans.TBT.nc</code>; eigenchannels from spectral-function
+     decomposition at $E_F$, HOMO, and LUMO.</p>
+
+  <h3>Device structure</h3>
+  <p>The full ~220-atom scattering region — two VSe₃ leads with the Hf₂Se₉ molecule at the centre
+     (drag to rotate, scroll to zoom):</p>
+  <div id="devview" style="position:relative;width:100%;height:300px;border:1px solid var(--border);border-radius:6px;background:#fff"></div>
+  <script type="text/plain" id="devview-xyz">
+219
+Hf2Se9-VSe3 device (Se-capped)
+Se 12.4980 14.4700 0.0000
+Se 10.7950 11.5200 0.0000
+Se 14.1980 11.5210 0.0000
+V 12.4980 12.5000 1.5578
+Se 12.4980 14.4700 3.1157
+Se 10.7950 11.5200 3.1157
+Se 14.1980 11.5210 3.1157
+V 12.4980 12.5000 4.6735
+Se 12.4980 14.4700 6.2314
+Se 10.7950 11.5200 6.2314
+Se 14.1980 11.5210 6.2314
+V 12.4980 12.5000 7.7893
+Se 12.4980 14.4700 9.3471
+Se 10.7950 11.5200 9.3471
+Se 14.1980 11.5210 9.3471
+V 12.4980 12.5000 10.9049
+Se 12.4980 14.4700 12.4628
+Se 10.7950 11.5200 12.4628
+Se 14.1980 11.5210 12.4628
+V 12.4980 12.5000 14.0206
+Se 12.4980 14.4700 15.5785
+Se 10.7950 11.5200 15.5785
+Se 14.1980 11.5210 15.5785
+V 12.4980 12.5000 17.1364
+Se 12.4980 14.4700 18.6942
+Se 10.7950 11.5200 18.6942
+Se 14.1980 11.5210 18.6942
+V 12.4980 12.5000 20.2521
+Se 12.4980 14.4700 21.8099
+Se 10.7950 11.5200 21.8099
+Se 14.1980 11.5210 21.8099
+V 12.4980 12.5000 23.3678
+Se 12.4980 14.4700 24.9256
+Se 10.7950 11.5200 24.9256
+Se 14.1980 11.5210 24.9256
+V 12.4980 12.5000 26.4835
+Se 12.4980 14.4700 28.0413
+Se 10.7950 11.5200 28.0413
+Se 14.1980 11.5210 28.0413
+V 12.4980 12.5000 29.5992
+Se 12.4980 14.4700 31.1570
+Se 10.7950 11.5200 31.1570
+Se 14.1980 11.5210 31.1570
+V 12.4980 12.5000 32.7148
+Se 12.4980 14.4700 34.2727
+Se 10.7950 11.5200 34.2727
+Se 14.1980 11.5210 34.2727
+V 12.4980 12.5000 35.8306
+Se 12.4980 14.4700 37.3884
+Se 10.7950 11.5200 37.3884
+Se 14.1980 11.5210 37.3884
+V 12.4980 12.5000 38.9462
+Se 12.4980 14.4700 40.5041
+Se 10.7950 11.5200 40.5041
+Se 14.1980 11.5210 40.5041
+V 12.4980 12.5000 42.0620
+Se 12.4980 14.4700 43.6198
+Se 10.7950 11.5200 43.6198
+Se 14.1980 11.5210 43.6198
+V 12.4980 12.5000 45.1776
+Se 12.4980 14.4700 46.7355
+Se 10.7950 11.5200 46.7355
+Se 14.1980 11.5210 46.7355
+V 12.4980 12.5000 48.2933
+Se 12.4980 14.4700 49.8512
+Se 10.7950 11.5200 49.8512
+Se 14.1980 11.5210 49.8512
+V 12.4980 12.5000 51.4091
+Se 12.4980 14.4700 52.9669
+Se 10.7950 11.5200 52.9669
+Se 14.1980 11.5210 52.9669
+V 12.4980 12.5000 54.5247
+Se 12.4980 14.4700 56.0826
+Se 10.7950 11.5200 56.0826
+Se 14.1980 11.5210 56.0826
+V 12.4980 12.5000 57.6405
+Se 12.4980 14.4700 59.1983
+Se 10.7950 11.5200 59.1983
+Se 14.1980 11.5210 59.1983
+V 12.4980 12.5000 60.7561
+Se 12.4980 14.4700 62.3140
+Se 10.7950 11.5200 62.3140
+Se 14.1980 11.5210 62.3140
+V 12.4980 12.5000 63.8719
+Se 12.4980 14.4700 65.4297
+Se 10.7950 11.5200 65.4297
+Se 14.1980 11.5210 65.4297
+V 12.4980 12.5000 66.9875
+Se 14.2083 11.5197 68.5445
+Se 10.7886 11.5197 68.5449
+Se 12.4996 14.4788 68.5451
+V 12.4987 12.5051 70.1308
+Se 10.7904 11.5219 71.6203
+Se 12.4995 14.4748 71.6205
+Se 14.2064 11.5216 71.6205
+V 12.4984 12.5031 73.3027
+Se 10.8183 11.5297 74.7611
+Se 12.4981 14.4425 74.7618
+Se 14.1755 11.5275 74.7634
+V 12.4971 12.4997 76.5561
+Se 10.6959 11.4600 77.9114
+Se 12.4981 14.5793 77.9123
+Se 14.2960 11.4598 77.9150
+H 11.2003 11.7497 79.3118
+H 12.5039 13.9967 79.3121
+H 13.7946 11.7572 79.3151
+Se 10.7346 13.5362 81.5470
+Se 14.2757 13.5219 81.5471
+Se 12.5006 10.4725 81.5473
+Hf 12.4993 12.5154 83.1157
+Se 14.4048 11.4319 84.7950
+Se 12.5026 14.7004 84.7958
+Se 10.6256 11.3858 84.7958
+Hf 12.4994 12.5141 86.4746
+Se 10.7356 13.5380 88.0428
+Se 12.5030 10.4735 88.0459
+Se 14.2731 13.5223 88.0464
+H 13.7929 11.7570 90.2768
+H 12.5043 13.9977 90.2794
+H 11.1999 11.7495 90.2801
+Se 14.2947 11.4609 91.6770
+Se 12.4971 14.5803 91.6793
+Se 10.6952 11.4605 91.6805
+V 12.4960 12.5009 93.0359
+Se 14.1753 11.5289 94.8286
+Se 12.4971 14.4437 94.8300
+Se 10.8169 11.5310 94.8308
+V 12.4973 12.5040 96.2889
+Se 14.2053 11.5220 97.9706
+Se 12.4980 14.4750 97.9713
+Se 10.7893 11.5233 97.9716
+V 12.4982 12.5055 99.4614
+Se 12.4980 14.4700 101.0478
+Se 10.7950 11.5200 101.0478
+Se 14.1980 11.5210 101.0478
+V 12.4980 12.5000 102.6056
+Se 12.4980 14.4700 104.1635
+Se 10.7950 11.5200 104.1635
+Se 14.1980 11.5210 104.1635
+V 12.4980 12.5000 105.7213
+Se 12.4980 14.4700 107.2792
+Se 10.7950 11.5200 107.2792
+Se 14.1980 11.5210 107.2792
+V 12.4980 12.5000 108.8370
+Se 12.4980 14.4700 110.3949
+Se 10.7950 11.5200 110.3949
+Se 14.1980 11.5210 110.3949
+V 12.4980 12.5000 111.9527
+Se 12.4980 14.4700 113.5106
+Se 10.7950 11.5200 113.5106
+Se 14.1980 11.5210 113.5106
+V 12.4980 12.5000 115.0684
+Se 12.4980 14.4700 116.6263
+Se 10.7950 11.5200 116.6263
+Se 14.1980 11.5210 116.6263
+V 12.4980 12.5000 118.1841
+Se 12.4980 14.4700 119.7420
+Se 10.7950 11.5200 119.7420
+Se 14.1980 11.5210 119.7420
+V 12.4980 12.5000 121.2998
+Se 12.4980 14.4700 122.8577
+Se 10.7950 11.5200 122.8577
+Se 14.1980 11.5210 122.8577
+V 12.4980 12.5000 124.4155
+Se 12.4980 14.4700 125.9734
+Se 10.7950 11.5200 125.9734
+Se 14.1980 11.5210 125.9734
+V 12.4980 12.5000 127.5312
+Se 12.4980 14.4700 129.0891
+Se 10.7950 11.5200 129.0891
+Se 14.1980 11.5210 129.0891
+V 12.4980 12.5000 130.6469
+Se 12.4980 14.4700 132.2048
+Se 10.7950 11.5200 132.2048
+Se 14.1980 11.5210 132.2048
+V 12.4980 12.5000 133.7626
+Se 12.4980 14.4700 135.3205
+Se 10.7950 11.5200 135.3205
+Se 14.1980 11.5210 135.3205
+V 12.4980 12.5000 136.8783
+Se 12.4980 14.4700 138.4362
+Se 10.7950 11.5200 138.4362
+Se 14.1980 11.5210 138.4362
+V 12.4980 12.5000 139.9940
+Se 12.4980 14.4700 141.5519
+Se 10.7950 11.5200 141.5519
+Se 14.1980 11.5210 141.5519
+V 12.4980 12.5000 143.1097
+Se 12.4980 14.4700 144.6676
+Se 10.7950 11.5200 144.6676
+Se 14.1980 11.5210 144.6676
+V 12.4980 12.5000 146.2254
+Se 12.4980 14.4700 147.7833
+Se 10.7950 11.5200 147.7833
+Se 14.1980 11.5210 147.7833
+V 12.4980 12.5000 149.3411
+Se 12.4980 14.4700 150.8990
+Se 10.7950 11.5200 150.8990
+Se 14.1980 11.5210 150.8990
+V 12.4980 12.5000 152.4568
+Se 12.4980 14.4700 154.0147
+Se 10.7950 11.5200 154.0147
+Se 14.1980 11.5210 154.0147
+V 12.4980 12.5000 155.5725
+Se 12.4980 14.4700 157.1304
+Se 10.7950 11.5200 157.1304
+Se 14.1980 11.5210 157.1304
+V 12.4980 12.5000 158.6882
+Se 12.4980 14.4700 160.2461
+Se 10.7950 11.5200 160.2461
+Se 14.1980 11.5210 160.2461
+V 12.4980 12.5000 161.8039
+Se 12.4980 14.4700 163.3618
+Se 10.7950 11.5200 163.3618
+Se 14.1980 11.5210 163.3618
+V 12.4980 12.5000 164.9196
+Se 12.4980 14.4700 166.4775
+Se 10.7950 11.5200 166.4775
+Se 14.1980 11.5210 166.4775
+</script>
+  <script>
+  (function () {
+    var s = document.querySelector('script[data-3dmol]');
+    if (!s) { s = document.createElement('script'); s.src = '../../assets/lib/3Dmol-min.js';
+              s.setAttribute('data-3dmol','1'); document.head.appendChild(s); }
+    function draw() {
+      if (!window.$3Dmol) { return setTimeout(draw, 60); }
+      var xyz = document.getElementById('devview-xyz').textContent.trim();
+      var v = $3Dmol.createViewer('devview', { backgroundColor: 'white' });
+      v.addModel(xyz, 'xyz');
+      v.setStyle({}, { stick: { radius: 0.12 }, sphere: { scale: 0.28 } });
+      v.zoomTo(); v.render(); v.resize();
+    }
+    draw();
+  })();
+  </script>
+
+  <h2>Result</h2>
+
+  <h3>A. Pristine VSe₃ — length dependence is an η artifact</h3>
+  <p>For a continuous chain, $T(E)$ must be independent of electrode $k$-grid and scattering-region
+     length. At $\eta=0.05$ eV the broadening makes $T(E)$ length-dependent (N28 vs N38); at
+     $\eta=0.001$ eV it returns to length-independent — the dependence is a broadening artifact,
+     not physics.</p>
+  <figure>
+    <img src="figures/pristine-eta-length.png" alt="Pristine VSe3 T(E) at two eta values">
+    <figcaption><strong>Fig. 1.</strong> Pristine VSe₃ $T(E)$: $\eta=0.05$ eV (left, length-dependent)
+      vs $\eta=0.001$ eV (right, length-independent).</figcaption>
+  </figure>
+
+  <h3>B. Three-way comparison — the molecule is the sole bridge</h3>
+  <table>
+    <thead><tr><th>System</th><th>$T(E_F)$</th><th>Reading</th></tr></thead>
+    <tbody>
+      <tr><td>Pristine VSe₃</td><td>0.704</td><td>reference (continuous chain)</td></tr>
+      <tr><td>Heterojunction</td><td>0.354</td><td>conducts through the molecule</td></tr>
+      <tr><td>Disconnected</td><td>0.000</td><td>molecule removed → no conduction</td></tr>
+    </tbody>
+  </table>
+  <figure>
+    <img src="figures/te-3way.png" alt="Three-way transmission">
+    <figcaption><strong>Fig. 2.</strong> $T(E)$ — pristine VSe₃ / Hf₂Se₉ hetero / disconnected
+      ($T\approx0$, off scale). Removing the molecule (~14 Å gap) kills conduction.</figcaption>
+  </figure>
+  <p>The transmitting states are molecular: the Hf₂Se₉ PDOS resonates near $E_F$
+     ($-0.065$ / $0$ / $+0.175$ eV) and the $T(E)$ peaks line up with it.</p>
+  <figure>
+    <img src="figures/te-dos-hetero.png" alt="Heterojunction T(E) and DOS">
+    <figcaption><strong>Fig. 3.</strong> Heterojunction $T(E)$ (black) with total DOS (gray) and
+      molecular Hf₂Se₉ PDOS (red). Molecular resonances near $E_F$ carry the transmission.</figcaption>
+  </figure>
+
+  <h3>C. Eigenchannel — the channel runs through the molecule</h3>
+  <p>Real-space $|\psi|^2$ isosurface of the transmitting eigenchannel (from the
+     <code>EC_0_psi2_*.cube</code> files; V grey, Se green). At $E_F$ the channel (EC₀,
+     $\tau=0.999$) runs along the whole device and clearly threads <em>through</em> the Hf₂Se₉
+     at the centre — direct real-space evidence of molecule-mediated conduction.</p>
+  <figure>
+    <img src="figures/eigenchannel-EF.png" alt="Eigenchannel |psi|^2 isosurface at E_F" style="max-width:100%">
+    <figcaption><strong>Fig. 4.</strong> $E_F$ eigenchannel EC₀ ($\tau=0.999$) $|\psi|^2$ isosurface —
+      threads through the molecule (centre lobe) and into both VSe₃ leads.</figcaption>
+  </figure>
+  <figure>
+    <img src="figures/eigenchannel-homo.png" alt="eigenchannel isosurface at -0.065 eV" style="max-width:100%">
+    <figcaption><strong>Fig. 5a.</strong> Channel at $-0.065$ eV (HOMO-like), zoomed to the molecule region.</figcaption>
+  </figure>
+  <figure>
+    <img src="figures/eigenchannel-lumo.png" alt="eigenchannel isosurface at +0.175 eV" style="max-width:100%">
+    <figcaption><strong>Fig. 5b.</strong> Channel at $+0.175$ eV, zoomed to the molecule region.</figcaption>
+  </figure>
+  <p class="page-meta">Note (advisor, 2026-06-19): the $+0.175$ eV level is <strong>LUMO+2</strong>,
+     not the LUMO — the true HOMO/LUMO are quasi-degenerate and pinned at $E_F$ (±0.004 eV), which
+     is why conduction is concentrated there. Each cube is ~45 MB
+     (<code>N25_k100/0bias/eigenchannel/</code>) — shown here as the rendered isosurface, not embedded raw.</p>
+
+  <h3>D. I–V from the zero-bias approximation</h3>
+  <p>Integrating the zero-bias $T(E)$ over the bias window (Landauer), without recomputing $T(E)$ at
+     finite bias, gives the I–V. It is asymmetric (≈ $+5$ / $-2.5$ μA at $\pm0.5$ V).</p>
+  <figure>
+    <img src="figures/iv-biaswindow.png" alt="Bias-window integration over T(E)">
+    <figcaption><strong>Fig. 6a.</strong> Bias windows ($|V|=0.1$–$0.5$ V) over $T(E)$ — the
+      integration ranges that give each current.</figcaption>
+  </figure>
+  <figure>
+    <img src="figures/iv-zerobias.png" alt="Zero-bias-approximation I-V">
+    <figcaption><strong>Fig. 6b.</strong> Zero-bias-approximation I–V.</figcaption>
+  </figure>
+
+  <h2>Discussion</h2>
+  <p>Conduction is resonant because the PBE/vdW-DF molecular resonance sits on $E_F$. Whether it
+     stays resonant under a corrected gap is the open question driving the
+     <a href="../../methods/index.html">B3LYP level correction</a>; the finite-bias I–V is the
+     remaining deliverable.</p>
+</article>
+<nav class="subpages"></nav>
+</main>
+</body></html>

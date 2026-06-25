@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="order" content="40">
+<title>H termination — 101-vse3-hf2se9</title>
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/katex/katex.min.css">
+<script defer src="../../assets/katex/katex.min.js"></script>
+<script defer src="../../assets/katex/contrib/auto-render.min.js"></script>
+<script defer src="../../assets/tree.js"></script>
+<script defer src="../../assets/site.js"></script>
+</head><body>
+<aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
+<main>
+<article>
+  <h1>H termination of the VSe₃ interface: separation minimum restored</h1>
+  <p class="page-meta"><strong>2026-04-16</strong> · Source: reports/h-termination/ (progress-update.md, h-termination.md, README.md), meeting 2026-04-16.</p>
+
+  <h2>Goal</h2>
+  <p>
+    Test the hypothesis (proposed at the 2026-04-07 meeting) that the missing equilibrium in the
+    bare VSe₃–Hf₂Se₉ separation curve is caused by <strong>dangling bonds on the cut VSe₃ interface
+    Se</strong>. In the TP chain each Se bonds to two V (V–Se = 2.508 Å); cutting the chain removes
+    one V, leaving an unsaturated bond that binds unphysically strongly to Hf₂Se₉. Hf₂Se₉ is
+    closed-shell, so the problem is localized to the VSe₃ side. Verification: attach H to the VSe₃
+    interface Se and compare the separation-energy curve with the bare case.
+  </p>
+
+  <h2>Method</h2>
+  <ul>
+    <li>H attached to the 3 interface Se on each side (6 H total), VSe₃ side only.</li>
+    <li>H placed toward the missing-V direction (Se–H bond aligned with the original V–Se direction).</li>
+    <li>d(Se–H) = 1.46 Å (H₂Se experimental r₀, NIST CCCBDB).</li>
+    <li>Single-point scan d = 2.0, 2.5, 3.0, 3.5, 4.0, 4.5 Å.</li>
+    <li>vdW-DF2 (LMKLL), MeshCutoff 500 Ry, k = 1×1×4, 44 atoms (6 V + 2 Hf + 30 Se + 6 H).</li>
+  </ul>
+  <p>Here <em>d</em> is the z-distance between the VSe₃ terminal Se and the Hf₂Se₉ terminal Se.</p>
+
+  <h2>Result</h2>
+  <p><strong>With H, a clear separation-energy minimum appears at d = 3.5 Å — matching the experimental ~3.5 Å.</strong> The bare structure keeps decreasing monotonically.</p>
+  <table>
+    <thead><tr><th>d (Å)</th><th>E<sub>sep</sub>, with H (eV)</th><th>E<sub>sep</sub>, without H (eV)</th></tr></thead>
+    <tbody>
+      <tr><td>2.0</td><td>+26.90</td><td>—</td></tr>
+      <tr><td>2.5</td><td>+4.92</td><td>−6.21</td></tr>
+      <tr><td>3.0</td><td>+0.15</td><td>−4.10</td></tr>
+      <tr><td><strong>3.5</strong></td><td><strong>−0.68 (min)</strong></td><td>−1.61</td></tr>
+      <tr><td>4.0</td><td>−0.48</td><td>0.00</td></tr>
+      <tr><td>4.5</td><td>0.00 (ref)</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <p class="page-meta">"Without H" = 08-hetero-v2 (vdW-DF2 symmetric), referenced to d = 4.0 Å. "With H" referenced to d = 4.5 Å. Absolute Kohn–Sham energies are in <code>scripts/plot_sep_energy.py</code>.</p>
+
+  <figure>
+    <img src="figures/sep_energy_h_term.png" alt="Separation energy: with H vs without H" style="max-width:480px">
+    <figcaption><strong>Fig. 1.</strong> Separation energy vs interface separation: H-terminated
+      (with H) develops a minimum at d = 3.5 Å (circled); the bare structure (without H) does not.
+      Green band = experimental separation. (Plot: <code>scripts/plot_sep_energy.py</code>.)</figcaption>
+  </figure>
+
+  <h2>H-orientation comparison (2026-04-16)</h2>
+  <p>
+    Three initial H directions were compared under the same conditions (vdW-DF2 single-point,
+    44 atoms, Se–H = 1.46 Å): <code>bond</code> (H toward the missing V center), <code>gap</code>
+    (H ⊥ Se₃ plane, i.e. pure ±z), and <code>tilt</code> (H tilted 45° radially outward).
+  </p>
+  <ul>
+    <li><code>gap</code> is the most stable over the whole range; its minimum sits at d = 3.5–4.0 Å
+      (the two points differ by ~4 meV).</li>
+    <li><code>bond</code> is 1.11 eV higher and <code>tilt</code> 3.72 eV higher than <code>gap</code>.</li>
+    <li>Recommended relaxation starting structure: <code>gap</code> mode, d = 3.5 Å.</li>
+  </ul>
+  <figure>
+    <img src="figures/h-orientation-schematic.png" alt="H orientation schematic" style="max-width:480px">
+    <figcaption><strong>Fig. 2.</strong> Schematic of the three H-orientation modes (bond / gap / tilt).</figcaption>
+  </figure>
+  <figure>
+    <img src="figures/h-term-three-mode.png" alt="Three-mode separation scan" style="max-width:480px">
+    <figcaption><strong>Fig. 3.</strong> Separation-energy scan for the three H-orientation modes.</figcaption>
+  </figure>
+
+  <h3>Junction configurations (2026-06-12)</h3>
+  <p>The H-passivated VSe₃–Hf₂Se₉–VSe₃ junction in the three modes; all three minimise at
+     d ≈ 3.5 Å, with <code>top</code> the most stable.</p>
+  <figure>
+    <img src="figures/junction_bond.png" alt="bond config" style="max-width:560px">
+    <figcaption><strong>Fig. 4a.</strong> <code>bond</code> (top) configuration.</figcaption>
+  </figure>
+  <figure>
+    <img src="figures/junction_gap.png" alt="gap config" style="max-width:560px">
+    <figcaption><strong>Fig. 4b.</strong> <code>gap</code> (hollow) configuration.</figcaption>
+  </figure>
+  <figure>
+    <img src="figures/junction_tilt.png" alt="tilt config" style="max-width:560px">
+    <figcaption><strong>Fig. 4c.</strong> <code>tilt</code> configuration.</figcaption>
+  </figure>
+  <figure>
+    <img src="figures/ppt_s5_1.png" alt="dE vs Se-Se separation" style="max-width:420px">
+    <figcaption><strong>Fig. 5.</strong> ΔE vs Se–Se separation d for the three modes
+      (top / hollow / tilted); minimum at d ≈ 3.5 Å.</figcaption>
+  </figure>
+
+  <h2>Discussion</h2>
+  <ul>
+    <li>H passivation removes the interface's unphysical strong binding: d &lt; 3.0 Å rises steeply
+      (Pauli repulsion / repulsive wall), d ≈ 3.5 Å balances vdW attraction and repulsion
+      (equilibrium), d &gt; 4.0 Å converges.</li>
+    <li>This indicates the VSe₃ Se dangling bond was the main cause of the earlier separation
+      failure.</li>
+    <li>The H-direction choice is supported by MoS₂-edge literature (Bollinger 2003, Kronberg 2017,
+      Lauritsen 2018): the chalcogen–H bond points along the dangling-bond direction, not toward the
+      metal center; the ~1 eV mode spread is consistent with those studies.</li>
+  </ul>
+
+  <h2>Next steps (as stated)</h2>
+  <ol>
+    <li>Finalize H direction (bond/gap/tilt comparison).</li>
+    <li>Full relaxation at transport size (20 unit cells).</li>
+    <li>Hf₂Se₉ PDOS → band gap.</li>
+    <li>TranSIESTA transport (electrode + device + I-V).</li>
+  </ol>
+</article>
+<nav class="subpages"></nav>
+</main>
+</body></html>
