@@ -254,14 +254,32 @@ V 12.4971 12.5029 68.3316
     is not used in the correction.</p>
 
   <h2>Discussion / next</h2>
+  <p><strong>What is actually implemented already:</strong> TBtrans already has the runtime hook for
+    an additive Hamiltonian/self-energy correction, and sisl already has the file writer for that
+    hook. The official TBtrans manual states that the electronic structure can be changed as
+    $H \leftarrow H + \delta H + \delta\Sigma$, and defines <code>TBT.dH</code> as the fdf flag for
+    the NetCDF4 file containing the $\delta H$ data. In sisl, <code>sisl.io.tbtrans.delta</code>
+    implements the matching <code>.dH.nc</code> writer/reader: <code>write_delta</code> stores
+    level-1 static terms when no <code>E</code> or <code>k</code> is supplied, and also supports
+    k-dependent, E-dependent, and E+k-dependent delta files.</p>
+  <p><strong>What is not automatic:</strong> there is no project-specific DFT+Σ button that knows our
+    molecular orbitals or B3LYP shifts. We still have to construct the actual molecular projector
+    correction, $\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$, write that matrix with
+    sisl as a level-1 <code>deltaH.dH.nc</code>, then tell TBtrans to use it with
+    <code>TBT.dH deltaH.dH.nc</code>. The source-patch part is unnecessary because the file-based
+    δH insertion path already exists; the physics/mapping step is still our implementation task.</p>
+  <p class="page-meta">Evidence tags:
+    <a class="status" href="https://docs.siesta-project.org/projects/siesta/en/5.2/reference/tbtrans.html#changing-the-electronic-structure-via-delta-elements">Official TBtrans δ-elements</a>
+    <a class="status" href="https://docs.siesta-project.org/projects/siesta/en/5.2/reference/tbtrans.html#fdfparam:tbt.dh">Official TBT.dH flag</a>
+    <a class="status" href="https://sisl.readthedocs.io/en/latest/_modules/sisl/io/tbtrans/delta.html#deltancSileTBtrans.write_delta">sisl write_delta source</a>
+    <a class="status" href="../../methods/dft-sigma/index.html">DFT+Σ implementation note</a>
+  </p>
   <ul>
     <li><strong>No SIESTA source patch needed</strong> — the shift applies through TBtrans's built-in
-      δH term (<code>TBT.dH</code>); the workflow and pitfalls are documented in the repo.</li>
+      δH term (<code>TBT.dH</code>) once we provide the correctly constructed
+      <code>deltaH.dH.nc</code> file.</li>
     <li><strong>Next deliverable:</strong> apply $\Delta H$ and recompute the corrected $T(E)$ — the
       implementation and plots are not done yet.</li>
-    <li><strong>Open caveat:</strong> the absolute $\Delta_i$ carry a common offset (~−0.65 eV) between
-      the two codes (vdW-DF2 in SIESTA vs B3LYP in VASP); a rigorous $\Delta_i$ needs both functionals
-      from the same code (B3LYP and the device functional in VASP).</li>
   </ul>
 </article>
 <nav class="subpages"></nav>

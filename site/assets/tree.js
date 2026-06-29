@@ -16,7 +16,13 @@ window.SITE_TREE = {
     {
       "title": "Methods",
       "path": "methods/index.html",
-      "children": []
+      "children": [
+        {
+          "title": "DFT+Σ via TBtrans δH — implementation",
+          "path": "methods/dft-sigma/index.html",
+          "children": []
+        }
+      ]
     },
     {
       "title": "Log",

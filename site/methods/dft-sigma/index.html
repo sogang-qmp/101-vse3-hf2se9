@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="order" content="30">
+<title>DFT+Σ implementation — TBtrans δH — 101-vse3-hf2se9</title>
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/katex/katex.min.css">
+<script defer src="../../assets/katex/katex.min.js"></script>
+<script defer src="../../assets/katex/contrib/auto-render.min.js"></script>
+<script defer src="../../assets/tree.js"></script>
+<script defer src="../../assets/site.js"></script>
+</head><body>
+<aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
+<main>
+<article>
+  <h1>DFT+Σ via TBtrans δH — implementation</h1>
+  <p class="page-meta"><strong>2026-06-19 · method</strong> · How the molecular-level correction
+    enters the transport calculation, and why no SIESTA source patch is needed</p>
+
+  <h2>Summary</h2>
+  <p>The B3LYP→vdW-DF2 level correction is a <strong>DFT+Σ</strong> scissor shift. It does
+     <strong>not</strong> require editing SIESTA/TBtrans source — TBtrans has a built-in
+     <strong>δH (delta-H) mechanism</strong> that adds a correction matrix to the input
+     Hamiltonian at read time. We build $\Delta H$ with sisl, write it to a <code>.dH.nc</code>
+     file, and point TBtrans at it with <code>TBT.dH</code>.</p>
+  <table>
+    <thead><tr><th>Question</th><th>Answer</th></tr></thead>
+    <tbody>
+      <tr><td>Dedicated "DFT+Σ" command in SIESTA?</td><td>No — implemented via the general δH mechanism (below).</td></tr>
+      <tr><td>Patch the source?</td><td><strong>No.</strong> The δH file path <em>is</em> the supported hook.</td></tr>
+      <tr><td>How?</td><td>sisl builds $\Delta H$ → <code>deltaH.dH.nc</code> → TBtrans applies $H'(k)=H(k)+\delta H$.</td></tr>
+      <tr><td>Standard name?</td><td>DFT+Σ (DFT+Sigma) — molecular-junction level alignment.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Why the correction is needed</h2>
+  <p>Semi-local functionals (PBE/vdW-DF2) carry a self-interaction error: occupied levels sit too
+     high, virtual too low, so the HOMO–LUMO gap is underestimated (our molecule: vdW-DF2 0.02 eV
+     vs B3LYP 0.75 eV). In off-resonant tunnelling the linear conductance follows a single-level
+     Lorentzian</p>
+  <p style="text-align:center">$\displaystyle T(E)=\frac{\Gamma_L\,\Gamma_R}{(E-\varepsilon_0)^2+[(\Gamma_L+\Gamma_R)/2]^2},$</p>
+  <p>so the level offset $|\varepsilon_0-E_F|$ governs $T(E_F)$. A gap squeezed onto $E_F$ inflates
+     conductance. DFT+Σ shifts each molecular level by
+     $\Delta_i=\varepsilon_i^{\text{B3LYP}}-\varepsilon_i^{\text{vdW-DF2}}$ to restore the offset —
+     the quasiparticle self-energy $\Sigma$ approximated as a per-orbital constant (scissor).
+     Because $\Delta_i$ is energy-independent, the static self-energy equals a Hamiltonian
+     correction:</p>
+  <p style="text-align:center">$\displaystyle G(E)=\big[(E+i\eta)S-(H+\Delta H)-\Sigma_L-\Sigma_R\big]^{-1},
+     \qquad \Delta\Sigma(E)=\Delta H=\text{const.}$</p>
+  <p>Hence TBtrans <strong>level-1 δH</strong> (no $E$/$k$ dependence) is exactly the right tool;
+     for $T(E)$ the δH and δΣ paths are identical (they differ only in bond/orbital currents).</p>
+
+  <h2>Workflow</h2>
+  <pre><code>STEP 1 (VASP)    vacuum molecule: PBE, B3LYP  →  per-orbital Δᵢ = ε_i(B3LYP) − ε_i(PBE)
+STEP 2 (SIESTA)  vacuum molecule: same PAO basis  →  single-molecule MO coefficients
+STEP 3 (sisl)    read device .TSHS  →  build ΔH (Hf₂Se₉ block)  →  write deltaH.dH.nc
+STEP 4 (TBtrans) fdf: TBT.dH deltaH.dH.nc  →  recompute T(E)
+STEP 5           compare T(E) / conductance before vs after</code></pre>
+
+  <h3>The ΔH matrix (non-orthogonal basis)</h3>
+  <p>PAOs are non-orthogonal ($S\neq I$), so the textbook $\sum_i\Delta_i|\phi_i\rangle\langle\phi_i|$
+     (valid only for $S=I$) must carry the overlap on <strong>both sides</strong>:</p>
+  <p style="text-align:center">$\displaystyle \boxed{\;\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^{\dagger}\,S\;}$</p>
+  <p>With $C^\dagger S C = I$, adding this to $Hc_j=\varepsilon_j Sc_j$ moves level $j$ by exactly
+     $\Delta_j$. The robust route diagonalises the device molecular block directly (MPSH —
+     Molecular Projected self-consistent Hamiltonian) so $C$ is already device-overlap normalised
+     and no rescale is needed:</p>
+  <pre><code>import sisl, numpy as np
+from scipy.linalg import eigh
+
+H  = sisl.get_sile('device.TSHS').read_hamiltonian()
+Hk = H.Hk(format='array').real          # device H
+Sk = H.Sk(format='array').real          # device overlap S  ← must be used
+mol = np.load('mol_orbital_idx.npy')    # molecule (Hf2Se9) PAO indices
+
+HM, SM = Hk[np.ix_(mol,mol)], Sk[np.ix_(mol,mol)]
+eps, C = eigh(HM, SM)                    # Cᵀ S_M C = I  (MPSH)
+sel    = np.abs(eps) <= 2.0              # E_F = 0 window (±2 eV)
+C      = C[:, sel]
+delta  = np.load('delta_i.npy')[sel]    # eV, sign: occ↓ / virt↑ (check against data)
+
+dH_block = SM @ C @ np.diag(delta) @ C.conj().T @ SM   # S C diag(Δ) Cᵀ S
+dH = H.copy(); dH.empty(); dH.set_nsc([1,1,1])         # molecule closed in unit cell
+for a, mu in enumerate(mol):
+    for b, nu in enumerate(mol):
+        dH[mu, nu] = dH_block[a, b]
+sisl.get_sile('deltaH.dH.nc', 'w').write_delta(dH)     # no k=/E= → level-1</code></pre>
+
+  <h3>TBtrans input</h3>
+  <pre><code>TBT.dH deltaH.dH.nc</code></pre>
+  <p>Verify TBtrans stdout logs that it read the δH file. For $T(E)$ comparison, <code>TBT.dH</code>
+     and <code>TBT.dSE</code> give the same result.</p>
+
+  <h2>Pitfalls</h2>
+  <ul>
+    <li><strong>Supercell (non-square submatrix).</strong> A <code>.TSHS</code> packs supercell
+      couplings into one matrix, so slicing the molecule block can give a non-square array. Close
+      the molecule inside the unit cell with <code>H.set_nsc([1,1,1])</code> — the manual states
+      Bloch "phases are only added on super-cell elements, not unit-cell elements", so a unit-cell
+      block needs no phase correction. Never diagonalise the 27 supercell blocks separately.</li>
+    <li><strong>Non-orthogonal ΔH ($S$ on both sides).</strong> Adding a bare onsite term
+      (<code>H[i,i] += …</code>) does <em>not</em> move the generalized eigenvalue
+      ($H\psi=\varepsilon S\psi$) as intended (sisl #129). Use
+      $\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$; the orthogonal limit $S=I$ recovers
+      the textbook form.</li>
+    <li><strong>Post-check (gate before recomputing T).</strong> After applying ΔH, confirm the
+      molecular PDOS / MPSH peaks actually moved by $\Delta_i$. A mismatch means a missing $S$,
+      bad normalization, or an index-mapping error.</li>
+  </ul>
+
+  <h2>Manual / source basis (verbatim)</h2>
+  <p>These are documented features, not guesses — read directly from the manuals/source on
+     2026-06-19:</p>
+  <table>
+    <thead><tr><th>Item</th><th>Verbatim</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td><code>write_delta</code> level</td><td>no <code>k</code>/<code>E</code> arg ⇒ "level-1: no E or k dependence"</td><td>sisl delta source</td></tr>
+      <tr><td>correction</td><td>"$H'(k)=H(k)+\delta H(E,k)+\delta\Sigma(E,k)$"</td><td>sisl</td></tr>
+      <tr><td><code>TBT.dH</code></td><td>"terms defined in this file are <strong>added to the Hamiltonian</strong> when calculating the orbital currents"</td><td>TBtrans 5.2 Guide</td></tr>
+      <tr><td><code>TBT.dSE</code></td><td>"δΣ does <strong>not</strong> enter the calculation of the bond-currents, whereas δH does"</td><td>TBtrans 5.2 Guide</td></tr>
+      <tr><td>supercell phase</td><td>"phases are only added on <strong>super cell</strong> elements, not unit cell elements"</td><td>TBtrans 5.2 Guide</td></tr>
+    </tbody>
+  </table>
+
+  <h2>References</h2>
+  <ul>
+    <li>sisl <code>write_delta</code> / δH levels — <a href="https://sisl.readthedocs.io/en/latest/_modules/sisl/io/tbtrans/delta.html">sisl.io.tbtrans.delta</a></li>
+    <li><code>TBT.dH</code> / <code>TBT.dSE</code>, supercell phase — <a href="https://docs.siesta-project.org/projects/siesta/en/5.2/reference/tbtrans.html">SIESTA 5.2 TBtrans reference</a></li>
+    <li>Non-orthogonal / supercell pitfalls — <a href="https://github.com/zerothi/sisl/issues/129">sisl issue #129</a></li>
+    <li>DFT+Σ methodology — Neaton–Hybertsen–Louie, PRL <strong>97</strong>, 216405 (2006); Quek et al., Nano Lett. <strong>7</strong>, 3477 (2007); Strange et al., PRB <strong>83</strong>, 115108.</li>
+  </ul>
+</article>
+<nav class="subpages"></nav>
+</main>
+</body></html>
