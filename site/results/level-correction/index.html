@@ -259,10 +259,11 @@ V 12.4971 12.5029 68.3316
     is not used in the correction.</p>
 
   <h2>C. Corrected transmission — DFT+Σ applied</h2>
-  <p>We built $\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$ from the isolated-molecule MO
-     coefficients $C$ projected onto the device molecular block (Hf₂Se₉, atoms 107–117), wrote it as
-     a level-1 <code>deltaH.dH.nc</code>, and recomputed $T(E)$ with <code>TBT.dH</code> (N25_9uc,
-     0 bias, η = 0.005 eV).</p>
+  <p>We built the correction from the isolated-molecule MO coefficients $C$, projected onto the
+     device molecular block (Hf₂Se₉, atoms 107–117):</p>
+  $$\Delta H \;=\; S\,C\,\mathrm{diag}(\Delta_i)\,C^{\dagger}S,$$
+  <p>written as a level-1 <code>deltaH.dH.nc</code> and applied through <code>TBT.dH</code>
+     (N25_9uc, 0 bias, η = 0.005 eV).</p>
   <table>
     <thead><tr><th>at $E_F$</th><th>vdW-DF2</th><th>DFT+Σ</th></tr></thead>
     <tbody>
@@ -336,9 +337,11 @@ V 12.4971 12.5029 68.3316
     η = 1e-6 (eigenchannel) differs from the transport η = 0.005 that gives $T(E_F)$ (sharp $E_F$ resonance).</p>
 
   <h3>Corrected Landauer I–V (zero-bias $T(E)$)</h3>
-  <p>Landauer integral of the corrected $T(E)$ (same method as the uncorrected I–V:
-     $\mu_L = 0$, $\mu_R = -V$, 300 K; bias-independent $T(E)$ assumed — the true finite-bias
-     chain is queued). The correction suppresses the low-bias current (at $\pm0.1$ V:
+  <p>Landauer integral of the corrected $T(E)$ (same method as the uncorrected I–V;
+     bias-independent $T(E)$ assumed — the true finite-bias chain is queued):</p>
+  $$I(V) \;=\; \frac{2e}{h}\int T(E)\,\big[f(E-\mu_L)-f(E-\mu_R)\big]\,dE,
+  \qquad \mu_L = 0,\;\; \mu_R = -eV,\;\; T = 300\ \mathrm{K}.$$
+  <p> The correction suppresses the low-bias current (at $\pm0.1$ V:
      $+1.82/-1.59\to+0.83/-0.32$ μA) and strengthens the asymmetry: at $\pm0.5$ V
      $+5.04/-2.70\to+4.30/-1.04$ μA, rectification ratio $|I_+/I_-|$ 1.9 → 4.1.</p>
   <figure>

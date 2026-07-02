@@ -4,6 +4,11 @@ window.SITE_TREE = {
   "path": "index.html",
   "children": [
     {
+      "title": "Motivation — a single-molecule junction grown inside a nanotube",
+      "path": "motivation/index.html",
+      "children": []
+    },
+    {
       "title": "Status",
       "path": "status/index.html",
       "children": []

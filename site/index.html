@@ -51,10 +51,9 @@
   <h2>Method</h2>
   <ul>
     <li><strong>DFT (SIESTA / VASP):</strong> chain and junction relaxation, band
-        structure, PDOS. Production functional is <strong>vdW-DF2</strong>. PBE+D2 was
-        anomalously unstable for the Hf₂Se₉ relaxation (report 05); both vdW-DF2 and
-        PBE-D3 relax cleanly, so a <strong>PBE-D3 run is carried on the side</strong> as a
-        cross-check — see <a href="results/index.html">Results</a>.</li>
+        structure, PDOS. Production functional is <strong>vdW-DF2</strong> — PBE+D2 was
+        anomalously unstable for the Hf₂Se₉ relaxation and was dropped
+        (<a href="results/hf2se9-stability/index.html">02. Hf₂Se₉ stability</a>).</li>
     <li><strong>Transport (TranSIESTA / TBtrans):</strong> ~220-atom zero-bias NEGF,
         electrode k = 100, broadening η = 0.005 eV. Transmission T(E), PDOS, and
         eigenchannels (Re/Im/|ψ|² cubes + z-profile).</li>
@@ -80,6 +79,8 @@
 
   <h2>How this site is organized</h2>
   <ul>
+    <li><a href="motivation/index.html">Motivation</a> — the experiment behind this calculation
+        (the starting point).</li>
     <li><a href="plan/index.html">Plan</a> — figure plan and the near-term computation queue.</li>
     <li><a href="methods/index.html">Methods</a> — DFT (vdW-DF2) + NEGF setup and the DFT+Σ correction.</li>
     <li><a href="results/index.html">Results</a> — the current junction results plus the

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="order" content="4">
+<title>Motivation — 101-vse3-hf2se9</title>
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/contrib/auto-render.min.js"></script>
+<script defer src="../assets/tree.js"></script>
+<script defer src="../assets/site.js"></script>
+<script defer src="../assets/search-index.js"></script>
+<script defer src="../assets/search.js"></script>
+</head><body>
+<aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
+<main>
+<article>
+  <h1>Motivation — a single-molecule junction grown inside a nanotube</h1>
+  <p class="page-meta">Collaboration experiment (manuscript in preparation) — this page records the
+     experimental findings that motivate the calculation, <strong>not our results</strong>. Formal
+     citation goes to <a href="../references/index.html">References</a> on publication.</p>
+
+  <h2>1. Background — the missing selenium member</h2>
+  <p>Transition-metal trichalcogenides (TMTCs, MX₃) are quasi-1D crystals of weakly coupled atomic
+     chains. In the <em>single-chain</em> limit the tellurium members (VTe₃, NbTe₃) are known to take
+     <strong>trigonal antiprismatic (TAP)</strong> coordination — but the selenium counterpart
+     VSe₃ had never been isolated as a single chain.</p>
+
+  <h2>2. The experiment</h2>
+  <ul>
+    <li><strong>Single-chain VSe₃ realized inside carbon nanotubes.</strong> Nanotube-confined
+        growth stabilizes the otherwise inaccessible isolated chain.</li>
+    <li><strong>STEM identifies it as trigonal prismatic (TP)</strong> — like NbSe₃, unlike the TAP
+        tellurides. This completes the missing Se member of the group-V TMTC single-chain family and
+        establishes a <strong>chalcogen-dependent coordination trend</strong> under 1D confinement
+        (DFT on local coordination units confirms the TP preference —
+        <a href="../results/vse3-tp-tap/index.html">01. VSe₃ TP vs TAP</a>).</li>
+    <li><strong>Beyond the pristine chain:</strong> the confined channel also shows atomic-scale
+        <strong>Hf incorporation</strong> (Z-contrast ADF-STEM) and the formation of Se-rich
+        molecular species — in particular a <strong>Hf₂Se₉ single molecule sitting between two VSe₃
+        single chains</strong>: a naturally formed <em>1D heterojunction at the single-chain limit</em>
+        (manuscript Fig. 5, experimental + simulated STEM + atomic model).</li>
+  </ul>
+
+  <h2>3. Our question</h2>
+  <p>That Figure-5 motif — <strong>metal chain / single molecule / metal chain</strong> — is a
+     molecular junction the experiment can grow but not measure electrically. This project computes
+     its conductance from first principles: <em>does current flow through the Hf₂Se₉ molecule, through
+     which orbital, and where do its levels really sit?</em></p>
+  <figure>
+    <img src="../figures/junction-structure.png" alt="DFT model of the Hf₂Se₉–VSe₃ junction">
+    <figcaption><strong>Fig. 1.</strong> Our DFT model of the observed motif — a Hf₂Se₉ molecule
+      bridging two H-passivated VSe₃ chains (central region of the relaxed transport device,
+      vdW-DF2). Experimental STEM images stay unpublished until the manuscript is out.</figcaption>
+  </figure>
+
+  <h2>4. From the experiment to the results</h2>
+  <table>
+    <thead><tr><th>Question raised by the experiment</th><th>Where it is answered</th></tr></thead>
+    <tbody>
+      <tr><td>Is TP really the stable coordination of the VSe₃ single chain?</td>
+          <td><a href="../results/vse3-tp-tap/index.html">01. VSe₃ TP vs TAP</a> — TP more stable
+              by 0.163 eV/formula, metallic.</td></tr>
+      <tr><td>Is the Hf₂Se₉ bridge structurally consistent with TEM (Hf–Hf ≈ 3.6 Å)?</td>
+          <td><a href="../results/hf2se9-stability/index.html">02. Hf₂Se₉ stability</a> —
+              functional scan against the TEM bond length.</td></tr>
+      <tr><td>Does current actually flow <em>through</em> the molecule?</td>
+          <td><a href="../results/transmission/index.html">06. Transmission</a> — three-way
+              $T(E_F)$ 0.70 / 0.35 / 0; the molecule is the sole bridge.</td></tr>
+      <tr><td>Where do the molecular levels really sit (the DFT gap is far too small)?</td>
+          <td><a href="../results/level-correction/index.html">08. Level correction (DFT+Σ)</a> —
+              gap 0.02 → 0.75 eV, $T(E_F)$ 0.355 → 0.051.</td></tr>
+    </tbody>
+  </table>
+</article>
+<nav class="subpages"></nav>
+</main>
+</body></html>
