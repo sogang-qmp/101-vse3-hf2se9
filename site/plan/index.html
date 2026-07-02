@@ -9,6 +9,8 @@
 <script defer src="../assets/katex/contrib/auto-render.min.js"></script>
 <script defer src="../assets/tree.js"></script>
 <script defer src="../assets/site.js"></script>
+<script defer src="../assets/search-index.js"></script>
+<script defer src="../assets/search.js"></script>
 </head><body>
 <aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
 <main>
@@ -17,19 +19,21 @@
   <p class="page-meta">Current goal · DFT+Σ workflow status · validation gates · figures · queue</p>
 
   <h2>Current goal</h2>
-  <p>Take the length-converged 60° VSe₃–Hf₂Se₉ heterojunction and apply the <strong>B3LYP DFT+Σ
-     molecular-level correction</strong> to produce the corrected $T(E)$ and I–V. The per-orbital
-     shifts $\Delta_i$ are already computed; what remains is building and applying ΔH and recomputing
-     transport. Method detail: <a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a>.</p>
+  <p>The <strong>B3LYP DFT+Σ molecular-level correction is applied</strong> on the length-converged
+     9-cell device ($T(E_F)\,0.355\to0.051$ — <a href="../results/level-correction/index.html">
+     Results: level correction</a>, Section C). Immediate task: the <strong>corrected Landauer I–V (zero-bias $T(E)$)</strong> (Landauer integral of the corrected $T(E)$) with the bias-window figure. Queued
+     calculations: the true finite-bias chain (TranSIESTA 0 → ±0.5 V with <code>TBT.dH</code>) and
+     the interface charge transfer $\Delta\rho$. Method detail:
+     <a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a>.</p>
 
   <h2>DFT+Σ workflow — status</h2>
   <table>
     <thead><tr><th>Step</th><th>Task</th><th>Status</th></tr></thead>
     <tbody>
-      <tr><td>1</td><td>vacuum molecule (VASP PBE/B3LYP) → per-orbital $\Delta_i=\varepsilon_i(\text{B3LYP})-\varepsilon_i(\text{vdW-DF2})$</td><td><strong>done</strong> (tidy-up pending)</td></tr>
-      <tr><td>2</td><td>SIESTA single-molecule (same PAO basis) → MO coefficients $C$</td><td>next</td></tr>
-      <tr><td>3</td><td>build $\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$ on the Hf/Se molecular block, apply to the device (TBtrans δH; direct source patch = alternative)</td><td>not started</td></tr>
-      <tr><td>4</td><td>normalization rescale + checks, $E_F\pm1$–2 eV window cutoff → corrected $T(E)$, compare before/after</td><td>not started</td></tr>
+      <tr><td>1</td><td>vacuum molecule (VASP PBE/B3LYP) → per-orbital $\Delta_i=\varepsilon_i(\text{B3LYP})-\varepsilon_i(\text{vdW-DF2})$</td><td><strong>done</strong></td></tr>
+      <tr><td>2</td><td>SIESTA single-molecule (same PAO basis) → MO coefficients $C$</td><td><strong>done</strong> ($CSC^\dagger$ orthonormality 1e−5)</td></tr>
+      <tr><td>3</td><td>build $\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$ on the Hf/Se molecular block, apply to the device (TBtrans δH)</td><td><strong>done</strong> (isolated-molecule projector, Kabsch + Hungarian atom matching)</td></tr>
+      <tr><td>4</td><td>corrected $T(E)$, before/after comparison</td><td><strong>done</strong> — N25_9uc $0.355\to0.051$; cross-check N25_k100 $0.354\to0.046$</td></tr>
       <tr><td>—</td><td>document the modified files / formula / application flow (advisor's emphasis)</td><td><strong>done</strong> → <a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a></td></tr>
     </tbody>
   </table>
@@ -60,14 +64,12 @@
   <table>
     <thead><tr><th>Priority</th><th>Task</th><th>Status</th></tr></thead>
     <tbody>
-      <tr><td>P1</td><td>STEP 2–4 above — extract $C$, build &amp; apply δH, corrected $T(E)$ + I–V</td><td>in progress</td></tr>
-      <tr><td>P1</td><td>document modified files / formula / workflow (advisor's emphasis)</td><td><strong>done</strong> → <a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a></td></tr>
-      <tr><td>P2</td><td>9-UC relaxation → transport recomputed (electrodes extended)</td><td><strong>done</strong> → <a href="../results/level-correction/index.html">level correction</a></td></tr>
-      <tr><td>P2</td><td>eigenchannel mid-energy ($E_F$ + ~0.1 eV) added</td><td><strong>done</strong> (Fig. 3, level correction)</td></tr>
-      <tr><td>P2</td><td>eigenchannel "LUMO" label — re-check justification / fix wording</td><td>to review</td></tr>
-      <tr><td>P2</td><td>charge transfer $\Delta\rho$ at the interface</td><td>not started</td></tr>
+      <tr><td>P1</td><td>corrected Landauer I–V (zero-bias $T(E)$) + bias-window $T(E)$ figure (attach to level correction)</td><td><strong>in progress</strong></td></tr>
+      <tr><td>P1</td><td>re-check the uncorrected 9-cell HOMO/LUMO eigenchannel energies (−0.065 / +0.003 eV) → isosurface PNGs for the transmission page</td><td>in progress</td></tr>
+      <tr><td>P2</td><td>true finite-bias I–V — TranSIESTA bias chain 0 → ±0.5 V with the corrected $\Delta H$ (<code>TBT.dH</code>)</td><td><strong>planned</strong> (separate bias-chain calculation)</td></tr>
+      <tr><td>P2</td><td>charge transfer $\Delta\rho$ at the interface</td><td><strong>planned</strong> (next calculation)</td></tr>
       <tr><td>P2</td><td>course-material figures for the Hf₂Se₉–VSe₃ junction (on request)</td><td>standby</td></tr>
-      <tr><td>P3</td><td>three-way comparison — lower the y-axis floor to show the disconnected curve</td><td>to check</td></tr>
+      <tr><td>—</td><td>STEP 2–4 (δH build + corrected $T(E)$); LUMO label wording; 9-UC transport; mid-energy eigenchannels; 3-way disconnected display</td><td><strong>done</strong> (2026-07-01 – 07-02)</td></tr>
     </tbody>
   </table>
 </article>

@@ -9,11 +9,13 @@
 <script defer src="../../assets/katex/contrib/auto-render.min.js"></script>
 <script defer src="../../assets/tree.js"></script>
 <script defer src="../../assets/site.js"></script>
+<script defer src="../../assets/search-index.js"></script>
+<script defer src="../../assets/search.js"></script>
 </head><body>
 <aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
 <main>
 <article>
-  <h1>Transmission — the molecule is the conduction bridge</h1>
+  <h1>06. Transmission — the molecule is the conduction bridge</h1>
   <p class="page-meta"><strong>2026-06-12 – 06-19</strong> · Zero-bias transport: pristine convergence · three-way · eigenchannel · I–V (TranSIESTA/TBtrans, vdW-DF2, k=100, η=0.005 eV)</p>
 
   <h2>Goal</h2>
@@ -308,10 +310,12 @@ Se 14.1980 11.5210 166.4775
   </figure>
 
   <h3>C. Eigenchannel — the channel runs through the molecule</h3>
-  <p>Real-space $|\psi|^2$ isosurface of the transmitting eigenchannel (from the
+  <p>Real-space $|\psi|^2$ isosurface of the transmission eigenchannel (from the
      <code>EC_0_psi2_*.cube</code> files; V grey, Se green). At $E_F$ the channel (EC₀,
      $\tau=0.999$) runs along the whole device and clearly threads <em>through</em> the Hf₂Se₉
-     at the centre — direct real-space evidence of molecule-mediated conduction.</p>
+     at the centre — direct real-space evidence of molecule-mediated conduction.
+     (Renders below: 3-cell device N25_k100; the length-converged 9-cell device gives the same
+     channel structure, $E_F$ $\tau_0 = 0.989$.)</p>
   <figure>
     <img src="figures/eigenchannel-EF.png" alt="Eigenchannel |psi|^2 isosurface at E_F" style="max-width:100%">
     <figcaption><strong>Fig. 4.</strong> $E_F$ eigenchannel EC₀ ($\tau=0.999$) $|\psi|^2$ isosurface —
@@ -343,7 +347,7 @@ Se 14.1980 11.5210 166.4775
   </figure>
   <figure>
     <img src="figures/iv-zerobias.png" alt="Zero-bias-approximation I-V">
-    <figcaption><strong>Fig. 6b.</strong> Zero-bias-approximation I–V.</figcaption>
+    <figcaption><strong>Fig. 6b.</strong> Landauer I–V (zero-bias $T(E)$).</figcaption>
   </figure>
 
   <h2>Discussion</h2>

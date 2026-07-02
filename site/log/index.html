@@ -9,6 +9,8 @@
 <script defer src="../assets/katex/contrib/auto-render.min.js"></script>
 <script defer src="../assets/tree.js"></script>
 <script defer src="../assets/site.js"></script>
+<script defer src="../assets/search-index.js"></script>
+<script defer src="../assets/search.js"></script>
 </head><body>
 <aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
 <main>
@@ -16,8 +18,15 @@
   <h1>Log</h1>
   <p class="page-meta">작업 일지 + 미팅 노트 (날짜순, 최신 위)</p>
 
-  <h2>2026-07-01 — Same-code Δ cross-check; ΔH from isolated-molecule orbitals</h2>
-  <p><strong>Result.</strong> A VASP PBE single point on the vacuum molecule (same code and geometry as
+  <h2>2026-07-02 — Since the 06-19 meeting: 9-cell convergence → DFT+Σ applied → 3-way + corrected I–V</h2>
+  <p><strong>Convergence.</strong> The 60° heterojunction was relaxed and its transport recomputed with
+     the scattering region extended from 3 to 9 VSe₃ unit cells per electrode. $T(E_F)$ = 0.348 ≈ 0.354
+     (3 cells), transmission eigenchannel $\tau_0$ = 0.989 → length-converged; geometry, molecular PDOS,
+     and transmission all stable by 7–9 cells.</p>
+  <p><strong>Correction inputs.</strong> B3LYP molecular-orbital shifts computed from the vacuum molecule
+     ($\Delta_\text{HOMO}$ = −1.01, $\Delta_\text{LUMO}$ = −0.29 eV; gap 0.02 → 0.75 eV, strongly
+     asymmetric). Apply via TBtrans δH next.</p>
+  <p><strong>Δ cross-check.</strong> A VASP PBE single point on the vacuum molecule (same code and geometry as
      the B3LYP reference) isolates the pure exchange–correlation shift: $\Delta_\text{HOMO}$ = −0.58,
      $\Delta_\text{LUMO}$ = +0.17 eV, gap 0.001 → 0.751 eV. This is ≈0.42 eV smaller (near-rigid) than the
      vdW-DF2-referenced shift ($\Delta_\text{HOMO}$ = −1.01 eV); the offset mixes exchange–correlation and
@@ -30,21 +39,29 @@
      VSe₃ chain, so the bare block carries no clean molecular levels near $E_F$ (valence manifold ~6 eV too
      deep, an 8 eV gap, empty $E_F$±2 eV window) — its $E_F$ weight is chain hybridization.
      $\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$ reproduces the earlier build to 10 meV.</p>
-  <p><strong>Next.</strong> Recompute $T(E)$ with <code>TBT.dH</code> (corrected vs uncorrected); for the
-     9-cell run, build the projector from a device-geometry molecular single point (isolated↔device
-     orientation registration).</p>
+  <p><strong>Result.</strong> The disconnected device (molecule removed, H-terminated, ~14 Å gap) converged
+     and gives $T(E_F) = 0.000$, completing the three-way comparison: pristine VSe₃ / hetero 0.348 /
+     disconnected 0 — the molecule is the sole conduction bridge.</p>
+  <p><strong>Result.</strong> DFT+Σ applied to the length-converged 9-cell device: $T(E_F)\,0.355\to0.051$,
+     molecular PDOS$(E_F)\,20\to1.2$/eV. Corrected transmission eigenchannel rendered at the shifted
+     frontier: strongest at the HOMO resonance ($-0.095$ eV, $\tau_0=0.373$), reduced at $E_F$ (0.124) —
+     before the correction the $E_F$ channel was near-ballistic ($\tau_0=0.989$).</p>
+  <p><strong>Gap check.</strong> The correction <em>opens</em> the molecular gap (isolated 0.023 → 0.751 eV);
+     the device frontier spacing (0.180 eV) is smaller than the isolated gap because the molecule
+     hybridizes with the metallic leads ($E_F$ pinning) — consistent with the DFT+Σ literature.</p>
+  <p><strong>Posted.</strong> New on <em>Results: level correction</em> — corrected $T(E)$ vs vdW-DF2
+     on the 9-cell device (Section C, $0.355\to0.051$); $T(E)$ + molecular-PDOS before/after with a
+     $|E-E_F|\le0.5$ eV zoom (Fig. 7–8: the orange PDOS pile-up at $E_F$ visibly splits to HOMO
+     $-0.095$ / LUMO $+0.085$ eV); corrected-eigenchannel isosurfaces at HOMO/$E_F$/LUMO (Fig. 9)
+     with the uncorrected-vs-corrected channel table ($\tau_0$: $E_F$ 0.989 → 0.124, HOMO 0.373).
+     On <em>Results: transmission</em> — the completed three-way $T(E)$ overlay (Fig. 2, single panel;
+     pristine curve η = 0.001, table values unified η = 0.005).</p>
+  <p><strong>Result.</strong> Corrected Landauer I–V (zero-bias $T(E)$) (Landauer integral of the corrected
+     $T(E)$, Fig. 10–11): the correction suppresses the low-bias current and strengthens the
+     rectification — $\pm0.5$ V $+5.04/-2.70\to+4.30/-1.04$ μA, $|I_+/I_-|$ 1.9 → 4.1.</p>
+  <p><strong>Next.</strong> True finite-bias chain (0 → ±0.5 V, corrected $\Delta H$); charge-transfer $\Delta\rho$.</p>
   <p class="page-meta">→ <a href="../results/level-correction/index.html">Results: level correction</a> ·
-     <a href="../methods/dft-sigma/index.html">Methods: DFT+Σ implementation</a></p>
-
-  <h2>2026-06-26 — 9-cell length convergence + B3LYP DFT+Σ shifts</h2>
-  <p><strong>Convergence.</strong> The 60° heterojunction was relaxed and its transport recomputed with
-     the scattering region extended from 3 to 9 VSe₃ unit cells per electrode. $T(E_F)$ = 0.348 ≈ 0.354
-     (3 cells), transmitting eigenchannel $\tau_0$ = 0.989 → length-converged; geometry, molecular PDOS,
-     and transmission all stable by 7–9 cells.</p>
-  <p><strong>Correction inputs.</strong> B3LYP molecular-orbital shifts computed from the vacuum molecule
-     ($\Delta_\text{HOMO}$ = −1.01, $\Delta_\text{LUMO}$ = −0.29 eV; gap 0.02 → 0.75 eV, strongly
-     asymmetric). Apply via TBtrans δH next.</p>
-  <p class="page-meta">→ <a href="../results/level-correction/index.html">Results: level correction</a> ·
+     <a href="../results/transmission/index.html">Results: transmission</a> ·
      <a href="../methods/dft-sigma/index.html">Methods: DFT+Σ implementation</a></p>
 
   <h2>2026-06-19 — Convergence checks done; ΔH correction derived</h2>

@@ -34,42 +34,42 @@ window.SITE_TREE = {
       "path": "results/index.html",
       "children": [
         {
-          "title": "VSe₃ TP vs TAP stability",
+          "title": "01. VSe₃ TP vs TAP stability",
           "path": "results/vse3-tp-tap/index.html",
           "children": []
         },
         {
-          "title": "Hf₂Se₉ relaxation stability: functional & vdW scan",
+          "title": "02. Hf₂Se₉ relaxation stability: functional & vdW scan",
           "path": "results/hf2se9-stability/index.html",
           "children": []
         },
         {
-          "title": "VSe₃–Hf₂Se₉ heterostructure separation test",
+          "title": "03. VSe₃–Hf₂Se₉ heterostructure separation test",
           "path": "results/hetero-separation/index.html",
           "children": []
         },
         {
-          "title": "H termination of the VSe₃ interface: separation minimum restored",
+          "title": "04. H termination of the VSe₃ interface: separation minimum restored",
           "path": "results/h-termination/index.html",
           "children": []
         },
         {
-          "title": "Junction structure — 60° staggered, length-converged",
+          "title": "05. Junction structure — 60° staggered, length-converged",
           "path": "results/junction/index.html",
           "children": []
         },
         {
-          "title": "Transmission — the molecule is the conduction bridge",
+          "title": "06. Transmission — the molecule is the conduction bridge",
           "path": "results/transmission/index.html",
           "children": []
         },
         {
-          "title": "Hf₂Se₉ molecule — frontier levels at E_F",
+          "title": "07. Hf₂Se₉ molecule — frontier levels at E_F",
           "path": "results/molecule/index.html",
           "children": []
         },
         {
-          "title": "Molecular-level correction (DFT+Σ) and length convergence",
+          "title": "08. Molecular-level correction (DFT+Σ) and length convergence",
           "path": "results/level-correction/index.html",
           "children": []
         }
@@ -116,6 +116,11 @@ window.SITE_TREE = {
           ]
         }
       ]
+    },
+    {
+      "title": "References",
+      "path": "references/index.html",
+      "children": []
     }
   ]
 };

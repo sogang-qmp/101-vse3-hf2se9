@@ -9,6 +9,8 @@
 <script defer src="../assets/katex/contrib/auto-render.min.js"></script>
 <script defer src="../assets/tree.js"></script>
 <script defer src="../assets/site.js"></script>
+<script defer src="../assets/search-index.js"></script>
+<script defer src="../assets/search.js"></script>
 </head><body>
 <aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
 <main>
@@ -18,25 +20,30 @@
 
   <h2>Now (transport phase)</h2>
   <p>
-    <strong>Phase:</strong> the structure is settled and the transport is converged; the active work is
-    the B3LYP molecular-level correction and the finite-bias I–V.
+    <strong>Phase:</strong> the structure is settled, the transport is converged, and the
+    <strong>DFT+Σ molecular-level correction is applied</strong> ($T(E_F)\,0.355\to0.051$ on the
+    9-cell device). Active work: the corrected Landauer I–V (zero-bias $T(E)$); queued: the true
+    finite-bias chain and the interface charge transfer $\Delta\rho$.
   </p>
-  <h3>Settled — load-bearing conclusions</h3>
+  <h3>Settled conclusions</h3>
   <ul>
     <li><strong>Functional:</strong> production = vdW-DF2 (PBE+D2 anomalous, PBE-D3 side check).</li>
     <li><strong>Geometry:</strong> 60° staggered interface most stable (−42 meV, cell-fixed); H-passivated, length-converged scattering region.</li>
     <li><strong>Molecule is the conduction bridge:</strong> $T(E_F)$ = 0.70 / 0.35 / 0 for
-        pristine / heterojunction / disconnected (k = 100, η = 0.005 eV); transmitting
+        pristine / heterojunction / disconnected (k = 100, η = 0.005 eV); transmission
         eigenchannel $\tau_0\approx1$.</li>
     <li><strong>Length-independent:</strong> $T(E_F)$ = 0.43 / 0.35 / 0.29 across three scattering-region lengths — essentially flat.</li>
     <li><strong>Molecular frontier:</strong> Hf₂Se₉ HOMO/LUMO quasi-degenerate, pinned at $E_F$
-        (gap ≈ 0.024 eV); the Hf₂Se₉ chains are metallic.</li>
+        (gap ≈ 0.024 eV, vdW-DF2); the Hf₂Se₉ chains are metallic.</li>
+    <li><strong>DFT+Σ correction applied (2026-07-01/02):</strong> $T(E_F)\,0.355\to0.051$,
+        molecular PDOS$(E_F)\,20\to1.2$/eV; the transmission eigenchannel moves to the HOMO resonance
+        ($-0.095$ eV, $\tau_0=0.373$).</li>
   </ul>
   <h3>In progress</h3>
   <ul>
-    <li><strong>B3LYP / DFT+Σ level correction</strong> — device δH from the vacuum-molecule
-        shift; recompute corrected $T(E)$. Main next deliverable.</li>
-    <li><strong>Finite-bias I–V</strong> (0.1–0.5 V) and interface charge transfer $\Delta\rho$.</li>
+    <li><strong>Corrected Landauer I–V (zero-bias $T(E)$)</strong> + bias-window $T(E)$ figure.</li>
+    <li><strong>Planned:</strong> true finite-bias chain (0 → ±0.5 V, corrected $\Delta H$) and
+        interface charge transfer $\Delta\rho$.</li>
   </ul>
 
   <hr>
@@ -55,9 +62,9 @@
     <tbody>
       <tr><td>VSe₃ TP/TAP comparison</td><td>Done</td><td>TP consistently more stable</td></tr>
       <tr><td>Hf₂Se₉ mol/chain (vdW-DF2)</td><td>Done</td><td>Over-expansion confirmed</td></tr>
-      <tr><td>Phase A functional scan</td><td>In progress</td><td>A2-v3, A7 (QE) remaining</td></tr>
+      <tr><td>Phase A functional scan</td><td>Closed</td><td>Production functional settled to vdW-DF2</td></tr>
       <tr><td>Hetero separation test</td><td>Done</td><td>All 3 versions monotonically decreasing</td></tr>
-      <tr><td>CNT stabilization study</td><td>Preparation</td><td>Diameter scan needed</td></tr>
+      <tr><td>CNT stabilization study</td><td>Shelved</td><td>2026-04-07 meeting decision</td></tr>
     </tbody>
   </table>
   <p>Phase A — Hf–Hf vs experiment (TEM 3.6 Å):</p>
@@ -110,7 +117,7 @@
   <h3>2026-06-26 · length convergence + correction inputs</h3>
   <ul>
     <li>Scattering region extended to 9 VSe₃ unit cells per electrode: $T(E_F)$ = 0.348 ≈ 0.354
-      (3 cells), single transmitting eigenchannel ($\tau_0 = 0.989$); interface geometry and
+      (3 cells), single transmission eigenchannel ($\tau_0 = 0.989$); interface geometry and
       molecular PDOS length-independent. See <a href="../results/level-correction/index.html">level correction</a>.</li>
     <li>B3LYP→vdW-DF2 orbital shifts computed ($\Delta_\text{HOMO} = -1.01$, $\Delta_\text{LUMO} = -0.29$ eV;
       gap 0.02 → 0.75 eV) — DFT+Σ application is the next step.</li>

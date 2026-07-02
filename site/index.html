@@ -8,6 +8,8 @@
 <script defer src="assets/katex/contrib/auto-render.min.js"></script>
 <script defer src="assets/tree.js"></script>
 <script defer src="assets/site.js"></script>
+<script defer src="assets/search-index.js"></script>
+<script defer src="assets/search.js"></script>
 </head><body>
 <aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
 <main>
@@ -57,7 +59,7 @@
         electrode k = 100, broadening η = 0.005 eV. Transmission T(E), PDOS, and
         eigenchannels (Re/Im/|ψ|² cubes + z-profile).</li>
     <li><strong>Molecular-level correction (DFT+Σ):</strong> orbital shifts
-        $\Delta_i=\varepsilon_i^{\text{B3LYP}}-\varepsilon_i^{\text{PBE}}$ from the vacuum
+        $\Delta_i=\varepsilon_i^{\text{B3LYP}}-\varepsilon_i^{\text{vdW-DF2}}$ from the vacuum
         molecule, applied to the device Hamiltonian as a projector
         $\Delta H_{\mu\nu}=\sum_i \Delta_i\,(C^i_\mu)^{*}C^i_\nu$ on the Hf/Se block —
         implemented through TBtrans's built-in δH, no source patch.</li>
@@ -67,12 +69,13 @@
   <p>
     Structure is settled (vdW-DF2 relaxation; 60° staggered registry favoured by 43.3 meV).
     Transport is converged: scattering-region length is converged, k-grid and η
-    converged, and the three-way comparison <strong>pristine 0.68 / heterojunction 0.35 /
+    converged, and the three-way comparison <strong>pristine 0.70 / heterojunction 0.35 /
     disconnected 0</strong> for $T(E_F)$ proves the molecule is the sole conduction
-    bridge (eigenchannel $\tau_0 = 0.999$). The live task is the <strong>B3LYP molecular
-    orbital correction</strong> — vacuum shifts are in hand ($\Delta_\text{HOMO}=-1.015$,
-    $\Delta_\text{LUMO}=-0.286$ eV); applying them to the device and producing the
-    corrected T(E) and I–V is the goal.
+    bridge (eigenchannel $\tau_0 = 0.999$). The <strong>DFT+Σ molecular-level correction is
+    applied</strong> ($\Delta_\text{HOMO}=-1.015$, $\Delta_\text{LUMO}=-0.286$ eV; gap
+    0.02 → 0.75 eV): on the 9-cell device $T(E_F)$ drops $0.355\to0.051$ and the channel
+    moves to the HOMO resonance. The live task is the <strong>finite-bias I–V with the
+    corrected Hamiltonian</strong> and charge-transfer $\Delta\rho$.
   </p>
 
   <h2>How this site is organized</h2>
