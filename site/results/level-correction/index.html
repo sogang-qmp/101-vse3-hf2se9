@@ -301,16 +301,35 @@ V 12.4971 12.5029 68.3316
      the transmitting channel EC₀ (corrected $H+\Delta H$, N25_9uc; V grey, Se green,
      orange = channel).</p>
   <table>
-    <thead><tr><th>energy</th><th>$E-E_F$ (eV)</th><th>$T$ (η = 1e-6)</th><th>$\tau_0$</th></tr></thead>
+    <thead><tr><th></th><th>energy</th><th>$E-E_F$ (eV)</th><th>$T$ (η = 1e-6)</th><th>$\tau_0$</th></tr></thead>
     <tbody>
-      <tr><td><strong>HOMO</strong></td><td>−0.095</td><td><strong>0.373</strong></td><td>0.373</td></tr>
+      <tr><td rowspan="3"><strong>vdW-DF2</strong><br>(uncorrected)</td>
+          <td>HOMO</td><td>−0.065</td><td>0.367</td><td>0.336</td></tr>
+      <tr><td>$E_F$</td><td>0</td><td><strong>0.991</strong></td><td>0.989</td></tr>
+      <tr><td>LUMO</td><td>+0.003</td><td>0.999</td><td>0.998</td></tr>
+      <tr><td rowspan="3"><strong>DFT+Σ</strong><br>(corrected)</td>
+          <td><strong>HOMO</strong></td><td>−0.095</td><td><strong>0.373</strong></td><td>0.373</td></tr>
       <tr><td>$E_F$</td><td>0</td><td>0.124</td><td>0.124</td></tr>
       <tr><td>LUMO</td><td>+0.085</td><td>0.074</td><td>0.074</td></tr>
     </tbody>
   </table>
-  <div class="page-meta" style="border:1px dashed var(--border);border-radius:6px;padding:.9rem;background:#fafafa">
-    Rendered eigenchannel $|\psi|^2$ isosurfaces (HOMO / $E_F$ / LUMO) to be added as PNGs.
-  </div>
+  <p>Before the correction the frontier is pinned at $E_F$ (LUMO at $+0.003$ eV) and the channel at
+     $E_F$ is near-ballistic ($\tau_0 = 0.989$; its isosurface is the first row of Fig. 3). After the
+     correction the frontier splits off $E_F$ and the $E_F$ channel weight drops to $\tau_0 = 0.124$ —
+     conduction moves to the HOMO resonance.</p>
+  <figure>
+    <div style="display:flex;flex-direction:column;gap:.8rem">
+      <div><div class="page-meta" style="margin:0 0 .15rem">HOMO resonance, $-0.095$ eV — $\tau_0 = 0.373$ (strongest)</div>
+        <img src="figures/n25_9uc_ec_corr_homo.png" alt="corrected eigenchannel at HOMO" style="max-width:100%"></div>
+      <div><div class="page-meta" style="margin:0 0 .15rem">$E_F$ — $\tau_0 = 0.124$</div>
+        <img src="figures/n25_9uc_ec_corr_ef.png" alt="corrected eigenchannel at E_F" style="max-width:100%"></div>
+      <div><div class="page-meta" style="margin:0 0 .15rem">LUMO resonance, $+0.085$ eV — $\tau_0 = 0.074$</div>
+        <img src="figures/n25_9uc_ec_corr_lumo.png" alt="corrected eigenchannel at LUMO" style="max-width:100%"></div>
+    </div>
+    <figcaption><strong>Fig. 7.</strong> Corrected ($H+\Delta H$) transmitting eigenchannel $|\psi|^2$
+      at the shifted frontier resonances and $E_F$ (N25_9uc). The channel is strongest at the HOMO
+      resonance; at $E_F$ (now in the opened frontier gap) the weight through the molecule is reduced.</figcaption>
+  </figure>
   <p class="page-meta">Cubes: <code>N25_9uc/0bias/dft_sigma/eigenchannel/{HOMO,EF,LUMO}/EC_0_{Re,Im,psi2}_*.cube</code>.
     η = 1e-6 (eigenchannel) differs from the transport η = 0.005 that gives $T(E_F)$ (sharp $E_F$ resonance).</p>
 
