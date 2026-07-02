@@ -23,6 +23,19 @@
      <strong>δH (delta-H) mechanism</strong> that adds a correction matrix to the input
      Hamiltonian at read time. We build $\Delta H$ with sisl, write it to a <code>.dH.nc</code>
      file, and point TBtrans at it with <code>TBT.dH</code>.</p>
+
+  <h2>Symbols &amp; terms</h2>
+  <table>
+    <thead><tr><th>Symbol / term</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><strong>PAO</strong> $\chi_\mu$</td><td>Pseudo-atomic orbital — SIESTA's numerical atomic-orbital basis (each atom's s/p/d functions). <em>Non-orthogonal</em>: $\langle\chi_\mu|\chi_\nu\rangle=S_{\mu\nu}\neq\delta_{\mu\nu}$. $H$, $S$, $\Delta H$ are all matrices in this basis.</td></tr>
+      <tr><td><strong>MO</strong> $\phi_i$</td><td>Molecular orbital — an eigenstate of the isolated Hf₂Se₉ molecule, $H_{\rm mol}c_i=\varepsilon_i S_{\rm mol}c_i$. Indexed relative to HOMO (HOMO, HOMO−1, LUMO, …).</td></tr>
+      <tr><td><strong>$C$</strong> (MO coeff.)</td><td>Expansion of each MO over PAOs, $|\phi_i\rangle=\sum_\mu C^i_\mu|\chi_\mu\rangle$ ($C^i_\mu$ = weight of PAO $\mu$ in MO $i$). Extracted from the molecule's WFSX.</td></tr>
+      <tr><td><strong>$S$</strong> (overlap)</td><td>PAO overlap $S_{\mu\nu}=\langle\chi_\mu|\chi_\nu\rangle$. Enters $\Delta H$ on both sides because the basis is non-orthogonal.</td></tr>
+      <tr><td><strong>projector</strong></td><td>Operator $|\phi_i\rangle\langle\phi_i|$ that acts only on MO $i$. Adding $\Delta_i$ times it shifts only that level. In PAO form: $\Delta H=S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$.</td></tr>
+      <tr><td><strong>$\Delta_i$</strong> (scissor)</td><td>Per-orbital energy shift $\varepsilon_i^{\rm B3LYP}-\varepsilon_i^{\rm vdW\text{-}DF2}$ (vacuum-aligned) — the static self-energy $\Sigma$ approximated as an energy-independent, orbital-diagonal shift.</td></tr>
+    </tbody>
+  </table>
   <table>
     <thead><tr><th>Question</th><th>Answer</th></tr></thead>
     <tbody>
@@ -50,6 +63,32 @@
   <p>Hence TBtrans <strong>level-1 δH</strong> (no $E$/$k$ dependence) is exactly the right tool;
      for $T(E)$ the δH and δΣ paths are identical (they differ only in bond/orbital currents).</p>
 
+  <h2>Correction value — literature standard vs ours</h2>
+  <p>The shift magnitude $\Delta_i$ can be defined two ways. The <strong>literature standard</strong>
+     (Quek–Neaton; Fallaque 2022) shifts the occupied and virtual manifolds as blocks, using the
+     ionization potential / electron affinity from ΔSCF
+     ($\mathrm{IP}=E(+e)-E(0)$, $\mathrm{EA}=E(0)-E(-e)$): occupied levels shift by
+     $-\varepsilon_H-\mathrm{IP}$ and virtual by $-\varepsilon_L-\mathrm{EA}$, plus a metal
+     image-charge term. <strong>Our variant</strong> uses the per-orbital B3LYP−vdW-DF2 Kohn–Sham
+     eigenvalue difference (vacuum-level aligned) and omits the image-charge term to first order.</p>
+  <table>
+    <thead><tr><th></th><th>Literature standard</th><th>Ours</th></tr></thead>
+    <tbody>
+      <tr><td>magnitude</td><td>$-\varepsilon_H-\mathrm{IP}$ / $-\varepsilon_L-\mathrm{EA}$ (IP/EA = ΔSCF)</td><td>$\varepsilon_i(\text{B3LYP})-\varepsilon_i(\text{vdW-DF2})$ (KS difference)</td></tr>
+      <tr><td>granularity</td><td>occupied / virtual block</td><td>per-orbital $\Delta_i$</td></tr>
+      <tr><td>image-charge</td><td>included</td><td>omitted (first-order upper bound)</td></tr>
+    </tbody>
+  </table>
+  <p>Using vdW-DF2 as the baseline keeps the correction consistent with the device functional. The
+     caveat: B3LYP (VASP) and vdW-DF2 (SIESTA) are different codes, so a residual common offset
+     remains. A <strong>same-code cross-check</strong> (VASP PBE single point on the vacuum molecule
+     — same code and geometry as the B3LYP reference) isolates the pure exchange–correlation shift:
+     $\Delta_\text{HOMO}$ = −0.58, $\Delta_\text{LUMO}$ = +0.17 eV (gap 0.001 → 0.751), which is
+     ≈0.42 eV smaller (near-rigid) than the vdW-DF2-referenced $\Delta_\text{HOMO}$ = −1.01 eV. The
+     offset mixes exchange–correlation and code differences and cannot be cleanly separated, so we
+     keep the baseline at the device functional (vdW-DF2) and apply $\Delta_i$ as a <strong>relative
+     scissor</strong> — the rigid code offset then cancels.</p>
+
   <h2>Workflow</h2>
   <pre><code>STEP 1 (VASP)    vacuum molecule: PBE, B3LYP  →  per-orbital Δᵢ = ε_i(B3LYP) − ε_i(PBE)
 STEP 2 (SIESTA)  vacuum molecule: same PAO basis  →  single-molecule MO coefficients
@@ -57,34 +96,91 @@ STEP 3 (sisl)    read device .TSHS  →  build ΔH (Hf₂Se₉ block)  →  writ
 STEP 4 (TBtrans) fdf: TBT.dH deltaH.dH.nc  →  recompute T(E)
 STEP 5           compare T(E) / conductance before vs after</code></pre>
 
-  <h3>The ΔH matrix (non-orthogonal basis)</h3>
-  <p>PAOs are non-orthogonal ($S\neq I$), so the textbook $\sum_i\Delta_i|\phi_i\rangle\langle\phi_i|$
-     (valid only for $S=I$) must carry the overlap on <strong>both sides</strong>:</p>
+  <h3>Reference inputs — where each quantity comes from</h3>
+  <table>
+    <thead><tr><th>Quantity</th><th>What</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>$\Delta_i$</td><td>per-orbital level shift</td><td><code>05-hf2se9-mol/mo_delta_orbital.csv</code></td></tr>
+      <tr><td>$\varepsilon_i$(B3LYP)</td><td>vacuum-molecule B3LYP levels</td><td><code>05-hf2se9-mol/B3LYP/EIGENVAL</code> (VASP)</td></tr>
+      <tr><td>$\varepsilon_i$(vdW-DF2)</td><td>vacuum-molecule vdW-DF2 levels</td><td><code>05-hf2se9-mol/DF2/relax2/siesta.EIG</code> (SIESTA)</td></tr>
+      <tr><td>$C$</td><td>vacuum-molecule MO coefficients</td><td><code>05-hf2se9-mol/DF2/mo_coeff/extracted/</code> (from WFSX)</td></tr>
+      <tr><td>$S$</td><td>device molecular-block overlap</td><td><code>11-hetero60-transport/N25_k100/0bias/trans.TSHS</code></td></tr>
+    </tbody>
+  </table>
+  <p>$\Delta_i$ are vacuum-level aligned before differencing; the energy window keeps only orbitals
+     within $E_F\pm2$ eV (orbitals further out do not contribute to transport).</p>
+
+  <h3>When &amp; how it enters the calculation</h3>
+  <p><strong>Timing — post-SCF, non-self-consistent.</strong> The correction is applied <em>after</em>
+     the device vdW-DF2 SCF has converged; the SCF is not re-run. Structure and bonding stay at their
+     vdW-DF2 values — only the molecular level positions move. The flow:</p>
+  <ol>
+    <li>device DFT (TranSIESTA) → $H$, $S$ (<code>trans.TSHS</code>)</li>
+    <li>add ΔH to the molecular block: $H\to H+\Delta H$</li>
+    <li>TBtrans Green's function with the corrected Hamiltonian:
+      $G(E)=[(E+i\eta)S-(H+\Delta H)-\Sigma_L-\Sigma_R]^{-1}$</li>
+    <li>corrected transmission $T(E)=\mathrm{Tr}[\Gamma_L\,G\,\Gamma_R\,G^\dagger]$</li>
+  </ol>
+
+  <h3>The ΔH matrix — step-by-step derivation (non-orthogonal basis)</h3>
+  <p><strong>① Correction operator.</strong> Shift each molecular orbital $\phi_i$ by $\Delta_i$ — a
+     scissor projector. Only the level <em>position</em> moves; the internal hopping (wavefunction
+     shape) and the electrode coupling $\Gamma$ stay at their vdW-DF2 values:</p>
+  <p style="text-align:center">$\displaystyle \Delta\hat H = \sum_i \Delta_i\,|\phi_i\rangle\langle\phi_i|$</p>
+  <p><strong>② Expand the MO over atomic orbitals (PAO):</strong>
+     $|\phi_i\rangle=\sum_\mu C^i_\mu|\chi_\mu\rangle$, where the $C^i_\mu$ are the molecular-orbital
+     coefficients (STEP 2) and $\chi_\mu$ the atomic orbitals.</p>
+  <p><strong>③ Take matrix elements in the PAO basis:</strong></p>
+  <p style="text-align:center">$\displaystyle (\Delta H)_{\mu\nu}=\langle\chi_\mu|\Delta\hat H|\chi_\nu\rangle
+     =\sum_i\Delta_i\,\langle\chi_\mu|\phi_i\rangle\,\langle\phi_i|\chi_\nu\rangle.$</p>
+  <p><strong>④ Where the overlap $S$ enters</strong> — the step that is easy to drop. The PAOs are
+     non-orthogonal, $\langle\chi_\mu|\chi_\lambda\rangle=S_{\mu\lambda}\neq\delta_{\mu\lambda}$, so</p>
+  <p style="text-align:center">$\displaystyle \langle\chi_\mu|\phi_i\rangle=\sum_\lambda C^i_\lambda\,S_{\mu\lambda}=(S\,C^i)_\mu.$</p>
+  <p>Substituting into ③ gives the working form:</p>
   <p style="text-align:center">$\displaystyle \boxed{\;\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^{\dagger}\,S\;}$</p>
-  <p>With $C^\dagger S C = I$, adding this to $Hc_j=\varepsilon_j Sc_j$ moves level $j$ by exactly
-     $\Delta_j$. The robust route diagonalises the device molecular block directly (MPSH —
-     Molecular Projected self-consistent Hamiltonian) so $C$ is already device-overlap normalised
-     and no rescale is needed:</p>
+  <p>In an orthogonal basis ($S=I$) this reduces to the textbook $\sum_i\Delta_i c_i c_i^\dagger$ —
+     the $S$ on both sides is precisely the non-orthogonal correction.</p>
+  <p><strong>⑤ Verify the levels move by exactly $\Delta_j$.</strong> With the generalized
+     eigenproblem $Hc_j=\varepsilon_j Sc_j$ and $S$-orthonormality $C^\dagger SC=I$ (hence
+     $C^\dagger Sc_j=e_j$, the $j$-th unit vector):</p>
+  <p style="text-align:center">$\displaystyle (H+\Delta H)c_j=\varepsilon_j Sc_j + S\,C\,\mathrm{diag}(\Delta)\,e_j=(\varepsilon_j+\Delta_j)\,Sc_j.$</p>
+  <p>The eigenvector $c_j$ is unchanged and the eigenvalue moves
+     $\varepsilon_j\to\varepsilon_j+\Delta_j$ — exactly the intended shift. Adding to a single onsite
+     element $H_{\mu\mu}$ alone does <em>not</em> achieve this in a non-orthogonal basis (verified in
+     sisl #129), which is why $S$ must sit on both sides.</p>
+  <p><strong>This system needs the isolated-molecule MO — not MPSH.</strong> The usual robust route
+     diagonalises the <em>in-device</em> molecular block (MPSH), which auto-normalises $C$. But here
+     Hf₂Se₉ is <strong>covalently fused</strong> into the VSe₃ chain, so the bare molecular block has
+     <em>no clean molecular levels</em> near $E_F$: the valence manifold sits ~6 eV too deep, there is
+     an ~8 eV gap, and the $E_F\pm2$ eV window is empty — the block's weight at $E_F$ is chain
+     hybridization, not a molecular orbital. So we build the projector from the <strong>isolated
+     (vacuum) molecule</strong> MO coefficients (the same molecule/geometry used for $\Delta_i$) and
+     register them into the device basis, rescaling to $C^\dagger S_\text{dev} C = I$:</p>
   <pre><code>import sisl, numpy as np
-from scipy.linalg import eigh
 
-H  = sisl.get_sile('device.TSHS').read_hamiltonian()
-Hk = H.Hk(format='array').real          # device H
-Sk = H.Sk(format='array').real          # device overlap S  ← must be used
-mol = np.load('mol_orbital_idx.npy')    # molecule (Hf2Se9) PAO indices
+H   = sisl.get_sile('device.TSHS').read_hamiltonian()
+S   = H.Sk(format='array').real               # device overlap
+mol = np.load('mol_orbital_idx.npy')          # Hf2Se9 PAO indices in the device
+SM  = S[np.ix_(mol, mol)]
 
-HM, SM = Hk[np.ix_(mol,mol)], Sk[np.ix_(mol,mol)]
-eps, C = eigh(HM, SM)                    # Cᵀ S_M C = I  (MPSH)
-sel    = np.abs(eps) <= 2.0              # E_F = 0 window (±2 eV)
-C      = C[:, sel]
-delta  = np.load('delta_i.npy')[sel]    # eV, sign: occ↓ / virt↑ (check against data)
+# MO coefficients from the ISOLATED vacuum-molecule SIESTA run (STEP 2) — NOT an
+# MPSH diagonalization of the in-device block (no clean molecular levels there)
+C     = np.load('mo_coeff_isolated.npy')      # (n_mol_orb, n_MO), same geometry as Δ_i
+delta = np.load('delta_i.npy')                # eV, per orbital, |ε − E_F| ≲ 2 eV window
 
-dH_block = SM @ C @ np.diag(delta) @ C.conj().T @ SM   # S C diag(Δ) Cᵀ S
-dH = H.copy(); dH.empty(); dH.set_nsc([1,1,1])         # molecule closed in unit cell
+# register into the device basis: rescale so Cᵀ S_dev C = I
+norm = np.einsum('mi,mn,ni->i', C.conj(), SM, C).real
+C    = C / np.sqrt(norm)
+
+dH_block = SM @ C @ np.diag(delta) @ C.conj().T @ SM    # S C diag(Δ) Cᵀ S
+dH = H.copy(); dH.empty(); dH.set_nsc([1,1,1])          # molecule closed in unit cell
 for a, mu in enumerate(mol):
     for b, nu in enumerate(mol):
         dH[mu, nu] = dH_block[a, b]
-sisl.get_sile('deltaH.dH.nc', 'w').write_delta(dH)     # no k=/E= → level-1</code></pre>
+sisl.get_sile('deltaH.dH.nc', 'w').write_delta(dH)      # no k=/E= → level-1</code></pre>
+  <p>The isolated-molecule build reproduces the earlier attempt to ~10 meV. (For the 9-cell run the
+     projector should come from a molecular single point at the <em>device</em> geometry, with
+     isolated↔device orientation registration.)</p>
 
   <h3>TBtrans input</h3>
   <pre><code>TBT.dH deltaH.dH.nc</code></pre>
@@ -122,12 +218,85 @@ sisl.get_sile('deltaH.dH.nc', 'w').write_delta(dH)     # no k=/E= → level-1</c
     </tbody>
   </table>
 
+  <h3>How δH actually enters — per (E,k), verified from source</h3>
+  <p>The table above is the <em>what</em>; this is the <em>how</em>, read from the sisl delta source and
+     the TBtrans reference (2026-07-01) so the level-1 choice is not taken on faith.</p>
+  <ul>
+    <li><strong>The file carries a "level" tag.</strong> sisl <code>write_delta</code> tags the matrix by
+      which arguments are present (<code>_get_lvl_k_E</code>): <em>level-1 = no E or k dependence</em>,
+      level-2 = k, level-3 = E, level-4 = both. We call <code>write_delta(dH)</code> with <strong>no
+      <code>k=</code>/<code>E=</code></strong> → <strong>level-1, one constant matrix</strong>. That is
+      exactly the static-self-energy scissor $\Delta\Sigma(E)=\Delta H=\text{const}$ — choosing level-1
+      <em>is</em> the scissor approximation.</li>
+    <li><strong>It enters inside the Green's-function inverse, at every (E,k).</strong> sisl's class
+      docstring gives $H'(k)=H(k)+\delta H(E,k)+\delta\Sigma(E,k)$; TBtrans forms
+      <span style="display:block;text-align:center">$G(E,k)=\big[(E+i\eta)S(k)-H(k)-\delta H-\Sigma_L(E,k)-\Sigma_R(E,k)\big]^{-1}$</span>
+      at each energy / k-point. Because our term is level-1, the <em>same</em> $\delta H$ is added at
+      every (E,k) (a level-4 term would take precedence where its grid matches).</li>
+    <li><strong>δH vs δΣ:</strong> identical in $G$, $T(E)$, and DOS; they differ only in bond/orbital
+      currents (δΣ excluded). We use δH so orbital currents stay physical.</li>
+    <li><strong>Why <code>set_nsc([1,1,1])</code>:</strong> TBtrans "add[s] the phases on <em>all</em>
+      elements of δ" but only on super-cell elements. Closing the molecule block inside the unit cell
+      leaves no super-cell element, so no Bloch phase $e^{ik\cdot R}$ is wrongly applied to $\delta H$
+      (otherwise one must pre-multiply δ by the negative phase).</li>
+  </ul>
+  <p class="page-meta">Verified 2026-07-01:
+    <a href="https://sisl.readthedocs.io/en/latest/_modules/sisl/io/tbtrans/delta.html">sisl delta source</a> ·
+    <a href="https://docs.siesta-project.org/projects/siesta/en/5.2/reference/tbtrans.html">SIESTA 5.2 TBtrans reference</a>.</p>
+
+  <h2>Where the method comes from — literature precedent</h2>
+  <p>Two papers are the direct precedent for STEP 3 (adding Σ to the molecular Hamiltonian via the
+     MPSH block); both correct DFT-overestimated molecular-junction conductance to experimental
+     levels:</p>
+  <ul>
+    <li><strong>Montes &amp; Vázquez, <em>Appl. Sci.</em> 11, 802 (2021)</strong> — the original
+      SIESTA/TRANSIESTA implementation: the self-energy correction is added explicitly to the system
+      Hamiltonian as an orbital-dependent operator. Benzenediamine/Au; DFT overestimates conductance
+      5–13×, DFT+Σ brings it to 1.0–1.8× of experiment.</li>
+    <li><strong>Fallaque et al., <em>JPCM</em> 34, 435901 (2022)</strong> — an efficient TRANSIESTA
+      re-implementation with an improved (infinite-reflection) image charge, benchmarked on acene/Au
+      with excellent agreement. Its procedure — extract $H_\text{mol}$, $S_\text{mol}$ from
+      <code>.TSHS</code> (sisl + NumPy + ASE) → MPSH diagonalise
+      $H_\text{mol}\psi=\varepsilon S_\text{mol}\psi$ → add Σ → replace — is the <strong>same
+      scheme</strong> as ours, with one difference: for our covalently-fused molecule the in-device
+      MPSH block has no clean molecular levels near $E_F$, so we build the projector from the
+      isolated molecule instead (see the derivation above).</li>
+  </ul>
+  <p>How ours differs (stated honestly): both precedents are <strong>organic molecule + Au</strong>;
+     no direct precedent for an <strong>inorganic 1D chain (VSe₃) electrode</strong> was found. Our
+     shift is the B3LYP−vdW-DF2 KS difference rather than the standard ΔSCF IP/EA, and we omit the
+     image-charge term that both papers include.</p>
+
   <h2>References</h2>
   <ul>
-    <li>sisl <code>write_delta</code> / δH levels — <a href="https://sisl.readthedocs.io/en/latest/_modules/sisl/io/tbtrans/delta.html">sisl.io.tbtrans.delta</a></li>
-    <li><code>TBT.dH</code> / <code>TBT.dSE</code>, supercell phase — <a href="https://docs.siesta-project.org/projects/siesta/en/5.2/reference/tbtrans.html">SIESTA 5.2 TBtrans reference</a></li>
-    <li>Non-orthogonal / supercell pitfalls — <a href="https://github.com/zerothi/sisl/issues/129">sisl issue #129</a></li>
-    <li>DFT+Σ methodology — Neaton–Hybertsen–Louie, PRL <strong>97</strong>, 216405 (2006); Quek et al., Nano Lett. <strong>7</strong>, 3477 (2007); Strange et al., PRB <strong>83</strong>, 115108.</li>
+    <li><strong>Fallaque et al.</strong>, <em>J. Phys. Condens. Matter</em> <strong>34</strong>, 435901
+      (2022) — TRANSIESTA DFT+Σ + image charge, acene/Au (full text verified).
+      <a href="https://doi.org/10.1088/1361-648X/ac89c4">DOI 10.1088/1361-648X/ac89c4</a></li>
+    <li><strong>Montes &amp; Vázquez</strong>, <em>Appl. Sci.</em> <strong>11</strong>, 802 (2021) —
+      original SIESTA/TRANSIESTA orbital-dependent operator (full text not accessed; via Fallaque
+      citation). <a href="https://doi.org/10.3390/app11020802">DOI 10.3390/app11020802</a></li>
+    <li><strong>Neaton, Hybertsen &amp; Louie</strong>, <em>Phys. Rev. Lett.</em>
+      <strong>97</strong>, 216405 (2006) — <em>origin of the correction.</em> GW shows the
+      metal-surface image charge renormalizes (narrows) the molecular HOMO–LUMO gap relative to gas
+      phase — an interface polarization effect DFT misses. This is the physical basis for adding a
+      self-energy $\Sigma$ to the molecular levels.
+      <a href="https://doi.org/10.1103/PhysRevLett.97.216405">DOI 10.1103/PhysRevLett.97.216405</a></li>
+    <li><strong>Quek, Venkataraman, Choi, Louie, Hybertsen &amp; Neaton</strong>,
+      <em>Nano Lett.</em> <strong>7</strong>, 3477 (2007) — <em>the DFT+Σ transport recipe.</em>
+      Applies the gas-phase gap correction plus an image-charge scissor to benzenediamine/Au,
+      aligning the molecular levels so the computed conductance matches experiment (bare DFT
+      overestimates it). The direct template for our per-orbital scissor.
+      <a href="https://doi.org/10.1021/nl072058i">DOI 10.1021/nl072058i</a></li>
+    <li><strong>Strange, Rostgaard, Häkkinen &amp; Thygesen</strong>, <em>Phys. Rev. B</em>
+      <strong>83</strong>, 115108 (2011) — <em>validation against full GW.</em> Self-consistent GW
+      transport (no scissor approximation) for thiol-/amine-linked benzene/Au: the GW self-energy
+      corrects the DFT conductance overestimate and justifies approximating $\Sigma$ as a static,
+      orbital-diagonal shift — exactly our level-1 δH.
+      <a href="https://doi.org/10.1103/PhysRevB.83.115108">DOI 10.1103/PhysRevB.83.115108</a></li>
+    <li>δH mechanism —
+      <a href="https://docs.siesta-project.org/projects/siesta/en/5.2/reference/tbtrans.html">SIESTA 5.2 TBtrans reference</a> ·
+      <a href="https://sisl.readthedocs.io/en/latest/_modules/sisl/io/tbtrans/delta.html">sisl write_delta</a> ·
+      <a href="https://github.com/zerothi/sisl/issues/129">sisl #129</a></li>
   </ul>
 </article>
 <nav class="subpages"></nav>

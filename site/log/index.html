@@ -14,28 +14,80 @@
 <main>
 <article>
   <h1>Log</h1>
-  <p class="page-meta">Dated meeting notes</p>
+  <p class="page-meta">작업 일지 + 미팅 노트 (날짜순, 최신 위)</p>
 
-  <p>
-    Notes live in <code>meetings/&lt;YYYY-MM-DD&gt;/</code> in the repository, with figures
-    alongside; the recent ones also have a single-file HTML meeting replay.
-  </p>
+  <h2>2026-07-01 — Same-code Δ cross-check; ΔH from isolated-molecule orbitals</h2>
+  <p><strong>Result.</strong> A VASP PBE single point on the vacuum molecule (same code and geometry as
+     the B3LYP reference) isolates the pure exchange–correlation shift: $\Delta_\text{HOMO}$ = −0.58,
+     $\Delta_\text{LUMO}$ = +0.17 eV, gap 0.001 → 0.751 eV. This is ≈0.42 eV smaller (near-rigid) than the
+     vdW-DF2-referenced shift ($\Delta_\text{HOMO}$ = −1.01 eV); the offset mixes exchange–correlation and
+     code (SIESTA vs VASP) differences and cannot be cleanly separated.</p>
+  <p><strong>Decided.</strong> Keep the baseline at the functional the device transport actually uses:
+     $\Delta_i = \varepsilon_i^\text{B3LYP} - \varepsilon_i^\text{vdW-DF2}$ (vacuum-aligned), applied as a
+     relative scissor so the rigid code offset cancels.</p>
+  <p><strong>Method.</strong> The $\Delta H$ projector uses the <em>isolated-molecule</em> MO coefficients,
+     not an MPSH diagonalization of the in-device molecular block: Hf₂Se₉ is covalently fused into the
+     VSe₃ chain, so the bare block carries no clean molecular levels near $E_F$ (valence manifold ~6 eV too
+     deep, an 8 eV gap, empty $E_F$±2 eV window) — its $E_F$ weight is chain hybridization.
+     $\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$ reproduces the earlier build to 10 meV.</p>
+  <p><strong>Next.</strong> Recompute $T(E)$ with <code>TBT.dH</code> (corrected vs uncorrected); for the
+     9-cell run, build the projector from a device-geometry molecular single point (isolated↔device
+     orientation registration).</p>
+  <p class="page-meta">→ <a href="../results/level-correction/index.html">Results: level correction</a> ·
+     <a href="../methods/dft-sigma/index.html">Methods: DFT+Σ implementation</a></p>
 
-  <table>
-    <thead><tr><th>Date</th><th>Note</th></tr></thead>
-    <tbody>
-      <tr><td>2026-03-16</td><td>Project kickoff.</td></tr>
-      <tr><td>2026-03-19</td><td>Meeting notes.</td></tr>
-      <tr><td>2026-03-23</td><td>Meeting notes.</td></tr>
-      <tr><td>2026-04-07</td><td>Meeting notes.</td></tr>
-      <tr><td>2026-04-16</td><td>H-termination 3-mode scan; gap mode most stable.</td></tr>
-      <tr><td>2026-05-13</td><td>Meeting notes.</td></tr>
-      <tr><td>2026-05-29</td><td>Heterojunction transport discussion (replay HTML). Decided: pristine-VSe₃ check, interfacial structure first, PDOS split Hf-Se / V-Se.</td></tr>
-      <tr><td>2026-06-12</td><td><strong>Presented</strong> — VSe₃ TP &gt; TAP by 0.163 eV/formula (metallic); Hf₂Se₉ gap 0.024 eV; H-passivation 3 configs, min d ≈ 3.5 Å (top most stable); rotation minimum at 60°/180° (60° staggered +43.3 meV); pristine T(E) length-dependence = η artifact (ballistic at η = 0.001 eV); heterojunction T(E_F) ≈ 1.6 → 0.35, eigenchannel runs through the molecule. <strong>Decided</strong> — one week of convergence checks (scattering-region length, device k-grid and η, benchmarks, disconnected 3-way comparison) → then B3LYP molecular-orbital correction (DFT+Σ), charge transfer, I–V.</td></tr>
-      <tr><td>2026-06-19</td><td>Convergence checks done; B3LYP gap 0.752 eV (vacuum-aligned). Advisor derived the ΔH correction on the board; implement via TBtrans δH and document it. Re-relaxation at 9 VSe₃ unit cells per electrode assigned.</td></tr>
-      <tr><td>2026-06-26</td><td>Scattering region extended to 9 VSe₃ unit cells per electrode — $T(E_F)$ 0.348 ≈ 0.354 (3 cells), eigenchannel $\tau_0$ 0.989 → length-converged. B3LYP DFT+Σ shifts computed (Δ_HOMO −1.01 / Δ_LUMO −0.29 eV; gap 0.02→0.75); apply via TBtrans δH next. See <a href="../results/level-correction/index.html">level correction</a>.</td></tr>
-    </tbody>
-  </table>
+  <h2>2026-06-26 — 9-cell length convergence + B3LYP DFT+Σ shifts</h2>
+  <p><strong>Convergence.</strong> The 60° heterojunction was relaxed and its transport recomputed with
+     the scattering region extended from 3 to 9 VSe₃ unit cells per electrode. $T(E_F)$ = 0.348 ≈ 0.354
+     (3 cells), transmitting eigenchannel $\tau_0$ = 0.989 → length-converged; geometry, molecular PDOS,
+     and transmission all stable by 7–9 cells.</p>
+  <p><strong>Correction inputs.</strong> B3LYP molecular-orbital shifts computed from the vacuum molecule
+     ($\Delta_\text{HOMO}$ = −1.01, $\Delta_\text{LUMO}$ = −0.29 eV; gap 0.02 → 0.75 eV, strongly
+     asymmetric). Apply via TBtrans δH next.</p>
+  <p class="page-meta">→ <a href="../results/level-correction/index.html">Results: level correction</a> ·
+     <a href="../methods/dft-sigma/index.html">Methods: DFT+Σ implementation</a></p>
+
+  <h2>2026-06-19 — Convergence checks done; ΔH correction derived</h2>
+  <p><strong>Result.</strong> Convergence checks complete; B3LYP molecular gap 0.752 eV (vacuum-aligned),
+     vs vdW-DF2 0.024 eV.</p>
+  <p><strong>Decided.</strong> The ΔH level correction was derived on the board; implement it via the
+     TBtrans δH mechanism (no source patch) and document the workflow. Re-relaxation at 9 VSe₃ unit cells
+     per electrode assigned.</p>
+
+  <h2>2026-06-12 — Group meeting: structure, gap, passivation, rotation, transport</h2>
+  <p><strong>Presented.</strong> VSe₃ TP &gt; TAP by 0.163 eV/formula (metallic); Hf₂Se₉ gap 0.024 eV;
+     H-passivation 3 configs, min $d$ ≈ 3.5 Å (top most stable); rotation minimum at 60°/180° (60°
+     staggered, +43.3 meV); pristine $T(E)$ length-dependence = η broadening artifact (ballistic at
+     η = 0.001 eV); heterojunction $T(E_F)$ ≈ 1.6 → 0.35, eigenchannel runs through the molecule.</p>
+  <p><strong>Decided.</strong> One week of convergence checks (scattering-region length, device k-grid
+     and η, benchmarks, disconnected 3-way comparison) → then B3LYP molecular-orbital correction
+     (DFT+Σ), charge transfer, I–V.</p>
+
+  <h2>2026-05-29 — Heterojunction transport discussion</h2>
+  <p><strong>Decided.</strong> Pristine-VSe₃ transport check; settle the interfacial structure first;
+     split the molecular PDOS into Hf–Se / V–Se contributions. (Meeting has a single-file HTML replay.)</p>
+
+  <h2>2026-05-13 — Meeting</h2>
+  <p>Group meeting; see the dated note in the repository.</p>
+
+  <h2>2026-04-16 — H-termination 3-mode scan</h2>
+  <p><strong>Result.</strong> Three H-orientation modes scanned at the VSe₃ interface; the gap mode is the
+     most stable, restoring the separation minimum.</p>
+
+  <h2>2026-04-07 — Meeting</h2>
+  <p>Group meeting; see the dated note in the repository.</p>
+
+  <h2>2026-03-23 — Meeting</h2>
+  <p>Group meeting; see the dated note in the repository.</p>
+
+  <h2>2026-03-19 — Meeting</h2>
+  <p>Group meeting; see the dated note in the repository.</p>
+
+  <h2>2026-03-16 — Project kickoff</h2>
+  <p>Project kickoff — VSe₃/Hf₂Se₉ 1D heterojunction transport.</p>
+
+  <p class="page-meta">Full meeting notes + figures live in <code>meetings/&lt;YYYY-MM-DD&gt;/</code> in
+    the repository; the recent ones also have a single-file HTML meeting replay.</p>
 </article>
 <nav class="subpages"></nav>
 </main>

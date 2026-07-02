@@ -216,7 +216,10 @@ V 12.4971 12.5029 68.3316
      each molecular orbital is shifted by $\Delta_i = \varepsilon_i^{\text{B3LYP}} -
      \varepsilon_i^{\text{vdW-DF2}}$ and added to the device Hamiltonian as</p>
   <p style="text-align:center">$\displaystyle \Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^{\dagger}\,S,$</p>
-  <p>with $S$ the overlap and $C$ the molecular-orbital coefficients. From the vacuum molecule
+  <p>with $S$ the overlap and $C$ the <strong>isolated-molecule</strong> MO coefficients — the
+     in-device molecular block has no clean molecular levels here (Hf₂Se₉ is covalently fused into the
+     chain), so an MPSH projector cannot be used; construction detail in
+     <a href="../../methods/dft-sigma/index.html">Methods: DFT+Σ</a>. From the vacuum molecule
      (vdW-DF2 in SIESTA vs B3LYP in VASP, vacuum-level aligned) the gap opens
      <strong>0.02 → 0.75 eV</strong> with a strongly <strong>asymmetric</strong> shift — occupied
      levels drop ≈ 1 eV ($\Delta_\text{HOMO} = -1.01$ eV) but virtual levels only ≈ 0.1–0.3 eV
@@ -253,6 +256,64 @@ V 12.4971 12.5029 68.3316
     VASP PAW), so the two codes' orbitals stop matching there. It is outside the transport window and
     is not used in the correction.</p>
 
+  <h2>C. Corrected transmission — DFT+Σ applied</h2>
+  <p>We built $\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$ from the isolated-molecule MO
+     coefficients $C$ projected onto the device molecular block (Hf₂Se₉, atoms 107–117), wrote it as
+     a level-1 <code>deltaH.dH.nc</code>, and recomputed $T(E)$ with <code>TBT.dH</code> (N25_k100,
+     0 bias, η = 0.005 eV).</p>
+  <table>
+    <thead><tr><th>at $E_F$</th><th>vdW-DF2</th><th>DFT+Σ</th></tr></thead>
+    <tbody>
+      <tr><td>Transmission $T(E_F)$</td><td>0.354</td><td><strong>0.046</strong> (~7.7× ↓)</td></tr>
+      <tr><td>Molecular PDOS (1/eV)</td><td>23.1</td><td><strong>1.1</strong> (~20× ↓)</td></tr>
+      <tr><td>Molecular gap</td><td>0.02 eV</td><td>0.75 eV</td></tr>
+    </tbody>
+  </table>
+  <figure>
+    <img src="figures/dftsigma_te.png" alt="T(E) before/after DFT+Sigma" style="max-width:460px">
+    <figcaption><strong>Fig. 4.</strong> $T(E)$ (log) — vdW-DF2 vs DFT+Σ. Opening the molecular gap
+      pushes the frontier resonance off $E_F$, so $T(E_F)$ drops $0.354\to0.046$.</figcaption>
+  </figure>
+  <p>This is the expected DFT+Σ effect (Montes &amp; Vázquez 2021; Fallaque 2022): semi-local DFT
+     overestimates molecular-junction conductance, and the hybrid-level correction brings it down.
+     A single eigenchannel still carries the current ($\tau_0\approx0.11$). The SR-converged device
+     (N25_9uc) uses the same molecule and same $\Delta_i$, so the correction transfers directly.</p>
+
+  <figure>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center">
+      <div style="flex:1 1 300px;max-width:430px"><img src="figures/te_mol_uncorr.png" alt="T(E) + molecular PDOS, vdW-DF2" style="max-width:100%"></div>
+      <div style="flex:1 1 300px;max-width:430px"><img src="figures/te_mol_corr.png" alt="T(E) + molecular PDOS, DFT+Sigma" style="max-width:100%"></div>
+    </div>
+    <figcaption><strong>Fig. 5.</strong> $T(E)$ (black, log, left) + Hf₂Se₉ molecular PDOS (orange, right) for N25_9uc — vdW-DF2 (left panel) vs DFT+Σ (right panel). Uncorrected: molecular PDOS piles up on $E_F$. Corrected: it is pushed off $E_F$ → PDOS$(E_F)\ 20.1\to1.2$ /eV, $T(E_F)\ 0.355\to0.051$.</figcaption>
+  </figure>
+  <figure>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center">
+      <div style="flex:1 1 300px;max-width:430px"><img src="figures/te_mol_uncorr_zoom.png" alt="molecular PDOS zoom, vdW-DF2" style="max-width:100%"></div>
+      <div style="flex:1 1 300px;max-width:430px"><img src="figures/te_mol_corr_zoom.png" alt="molecular PDOS zoom, DFT+Sigma" style="max-width:100%"></div>
+    </div>
+    <figcaption><strong>Fig. 6.</strong> Same, zoomed to $|E-E_F|\le0.5$ eV. The correction splits the molecular frontier off $E_F$ (HOMO $-0.095$ / LUMO $+0.085$ eV), leaving $E_F$ in a gap — the orange peaks visibly move away from the dotted $E_F$ line.</figcaption>
+  </figure>
+
+  <h3>Corrected eigenchannel — the frontier channel after DFT+Σ</h3>
+  <p>With the correction applied the frontier levels split off $E_F$ (isolated-molecule HOMO
+     $-0.095$, LUMO $+0.085$ eV), so the transmitting eigenchannel is now strongest at the
+     <strong>HOMO resonance</strong> instead of pinned at $E_F$. Real-space $|\psi|^2$ isosurface of
+     the transmitting channel EC₀ (corrected $H+\Delta H$, N25_9uc; V grey, Se green,
+     orange = channel).</p>
+  <table>
+    <thead><tr><th>energy</th><th>$E-E_F$ (eV)</th><th>$T$ (η = 1e-6)</th><th>$\tau_0$</th></tr></thead>
+    <tbody>
+      <tr><td><strong>HOMO</strong></td><td>−0.095</td><td><strong>0.373</strong></td><td>0.373</td></tr>
+      <tr><td>$E_F$</td><td>0</td><td>0.124</td><td>0.124</td></tr>
+      <tr><td>LUMO</td><td>+0.085</td><td>0.074</td><td>0.074</td></tr>
+    </tbody>
+  </table>
+  <div class="page-meta" style="border:1px dashed var(--border);border-radius:6px;padding:.9rem;background:#fafafa">
+    Rendered eigenchannel $|\psi|^2$ isosurfaces (HOMO / $E_F$ / LUMO) to be added as PNGs.
+  </div>
+  <p class="page-meta">Cubes: <code>N25_9uc/0bias/dft_sigma/eigenchannel/{HOMO,EF,LUMO}/EC_0_{Re,Im,psi2}_*.cube</code>.
+    η = 1e-6 (eigenchannel) differs from the transport η = 0.005 that gives $T(E_F)$ (sharp $E_F$ resonance).</p>
+
   <h2>Discussion / next</h2>
   <p><strong>What is actually implemented already:</strong> TBtrans already has the runtime hook for
     an additive Hamiltonian/self-energy correction, and sisl already has the file writer for that
@@ -278,8 +339,11 @@ V 12.4971 12.5029 68.3316
     <li><strong>No SIESTA source patch needed</strong> — the shift applies through TBtrans's built-in
       δH term (<code>TBT.dH</code>) once we provide the correctly constructed
       <code>deltaH.dH.nc</code> file.</li>
-    <li><strong>Next deliverable:</strong> apply $\Delta H$ and recompute the corrected $T(E)$ — the
-      implementation and plots are not done yet.</li>
+    <li><strong>Done:</strong> $\Delta H$ built and corrected $T(E)$ computed (Section C) —
+      $T(E_F)\,0.354\to0.046$ (N25_k100). <strong>Verified on the SR-converged N25_9uc device</strong>:
+      $T(E_F)\,0.355\to0.051$, molecular PDOS$(E_F)\,20\to1.2$/eV — the same correction transfers directly.</li>
+    <li><strong>Next:</strong> finite-bias I–V with the corrected Hamiltonian; render the corrected
+      $E_F$ eigenchannel $|\psi|^2$.</li>
   </ul>
 </article>
 <nav class="subpages"></nav>

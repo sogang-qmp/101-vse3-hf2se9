@@ -10,5 +10,8 @@
 | `n25_9uc_iv.png` | 9-unit-cell zero-bias-approximation I–V |
 | `b3lyp_levels_all.png` | vdW-DF2→B3LYP level alignment (solid occupied, dashed virtual) |
 | `b3lyp_delta.png` | per-orbital Δ = B3LYP − vdW-DF2 |
+| `dftsigma_te.png` | **corrected $T(E)$ (Section C)** — vdW-DF2 vs DFT+Σ (log). $T(E_F)\,0.354\to0.046$ (N25_k100). Source: `11-hetero60-transport/N25_k100/0bias/dft_sigma/figures/te_dH_compare.png` |
+| `te_mol_uncorr.png` / `te_mol_corr.png` | **Section C Fig.5** — $T(E)$ (black, log) + Hf₂Se₉ molecular PDOS (orange) twin, N25_9uc. vdW-DF2: PDOS piles on $E_F$; DFT+Σ: pushed off → PDOS($E_F$) 20.1→1.2/eV, $T(E_F)$ 0.355→0.051. Source `N25_9uc/0bias/dft_sigma/figures/` |
+| `te_mol_uncorr_zoom.png` / `te_mol_corr_zoom.png` | **Section C Fig.6** — same, zoomed $|E-E_F|\le0.5$ eV; frontier splits off $E_F$ (HOMO −0.095 / LUMO +0.085) |
 
 T(E_F)=0.348 (9 cells) vs 0.354 (3 cells); gap 0.02→0.75 eV; Δ_HOMO −1.01 / Δ_LUMO −0.29 eV (full set in mo_delta_orbital.csv). vdW-DF2(SIESTA)↔B3LYP(VASP) common offset ~−0.65 eV.

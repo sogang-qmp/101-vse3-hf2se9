@@ -286,7 +286,7 @@ Se 14.1980 11.5210 166.4775
     <thead><tr><th>System</th><th>$T(E_F)$</th><th>Reading</th></tr></thead>
     <tbody>
       <tr><td>Pristine VSe₃</td><td>0.704</td><td>reference (continuous chain)</td></tr>
-      <tr><td>Heterojunction</td><td>0.354</td><td>conducts through the molecule</td></tr>
+      <tr><td>Heterojunction</td><td>0.348</td><td>conducts through the molecule</td></tr>
       <tr><td>Disconnected</td><td>0.000</td><td>molecule removed → no conduction</td></tr>
     </tbody>
   </table>
@@ -295,8 +295,11 @@ Se 14.1980 11.5210 166.4775
     <figcaption><strong>Fig. 2.</strong> $T(E)$ — pristine VSe₃ / Hf₂Se₉ hetero / disconnected
       ($T\approx0$, off scale). Removing the molecule (~14 Å gap) kills conduction.</figcaption>
   </figure>
-  <p>The transmitting states are molecular: the Hf₂Se₉ PDOS resonates near $E_F$
-     ($-0.065$ / $0$ / $+0.175$ eV) and the $T(E)$ peaks line up with it.</p>
+  <p>The transmitting states are molecular: the Hf₂Se₉ frontier (HOMO/LUMO, near-degenerate and
+     pinned at $E_F$ — isolated-molecule HOMO $=-0.020$, LUMO $=+0.003$ eV, gap $0.023$ eV) sits
+     right at $E_F$, so the molecular PDOS peaks there ($-0.065$ / $0$ eV) and the $T(E)$ peaks line
+     up. The $+0.175$ eV peak is a <em>higher</em> unoccupied molecular resonance at $+0.15$ eV
+     (isolated MO87/88), well above the $E_F$-pinned frontier manifold (MO82–86) — not the LUMO.</p>
   <figure>
     <img src="figures/te-dos-hetero.png" alt="Heterojunction T(E) and DOS">
     <figcaption><strong>Fig. 3.</strong> Heterojunction $T(E)$ (black) with total DOS (gray) and
@@ -319,11 +322,14 @@ Se 14.1980 11.5210 166.4775
   </figure>
   <figure>
     <img src="figures/eigenchannel-lumo.png" alt="eigenchannel isosurface at +0.175 eV" style="max-width:100%">
-    <figcaption><strong>Fig. 5b.</strong> Channel at $+0.175$ eV, zoomed to the molecule region.</figcaption>
+    <figcaption><strong>Fig. 5b.</strong> Channel at $+0.175$ eV (a higher molecular resonance,
+      MO87/88 well above the $E_F$-pinned frontier — not the LUMO), zoomed to the molecule region.</figcaption>
   </figure>
-  <p class="page-meta">Note (advisor, 2026-06-19): the $+0.175$ eV level is <strong>LUMO+2</strong>,
-     not the LUMO — the true HOMO/LUMO are quasi-degenerate and pinned at $E_F$ (±0.004 eV), which
-     is why conduction is concentrated there. Each cube is ~45 MB
+  <p class="page-meta">Note: the $+0.175$ eV level is a higher unoccupied molecular resonance (isolated
+     MO87/88 at $+0.154$/$+0.156$ eV), well above the $E_F$-pinned frontier manifold,
+     <strong>not the LUMO</strong> — the true HOMO/LUMO (MO83/84) are
+     near-degenerate and pinned at $E_F$ (HOMO $-0.020$, LUMO $+0.003$ eV), which is why conduction
+     is concentrated there. Each cube is ~45 MB
      (<code>N25_k100/0bias/eigenchannel/</code>) — shown here as the rendered isosurface, not embedded raw.</p>
 
   <h3>D. I–V from the zero-bias approximation</h3>
