@@ -180,6 +180,11 @@ for a, mu in enumerate(mol):
     for b, nu in enumerate(mol):
         dH[mu, nu] = dH_block[a, b]
 sisl.get_sile('deltaH.dH.nc', 'w').write_delta(dH)      # no k=/E= → level-1</code></pre>
+  <p><strong>Both constructions are sanctioned by the original implementation.</strong>
+     Montes &amp; Vázquez (<em>Appl. Sci.</em> 11, 802 (2021), Eq. (1)) build Σ either from
+     <em>a separate calculation of the relaxed isolated molecule</em> or from the junction-cropped
+     molecular subspace (MPSH) — the isolated-molecule projector is a standard route, not a
+     workaround (full text verified 2026-07-02).</p>
   <p>The isolated-molecule build reproduces the earlier attempt to ~10 meV. (For the 9-cell run the
      projector should come from a molecular single point at the <em>device</em> geometry, with
      isolated↔device orientation registration.)</p>

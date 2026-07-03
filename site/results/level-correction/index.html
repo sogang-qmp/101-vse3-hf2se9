@@ -279,6 +279,12 @@ V 12.4971 12.5029 68.3316
   </figure>
   <p>This is the expected DFT+Σ effect (Montes &amp; Vázquez 2021; Fallaque 2022): semi-local DFT
      overestimates molecular-junction conductance, and the hybrid-level correction brings it down.
+     <strong>Why $T(E_F)$ drops:</strong> it is a resonance-<em>position</em> effect, not a coupling
+     change. Uncorrected, the $E_F$-pinned frontier makes transport at $E_F$ <em>on-resonance</em>
+     ($\tau_0 = 0.989$); the correction moves the resonance to $-0.095$ eV, so $E_F$ transmission
+     becomes off-resonant tunnelling through the Lorentzian tail,
+     $T(E_F)\sim(\Gamma/2)^2/(\varepsilon-E_F)^2$ — Montes &amp; Vázquez show the transmission is
+     well approximated by a HOMO-only Lorentzian, whose centre the correction shifts.
      A single eigenchannel still carries the current ($\tau_0\approx0.12$). The same $\Delta H$ applied
      to the 3-cell device (N25_k100) gives $0.354\to0.046$ — the correction transfers across scattering-region lengths.</p>
 
