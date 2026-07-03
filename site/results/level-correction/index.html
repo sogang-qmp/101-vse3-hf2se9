@@ -302,6 +302,17 @@ V 12.4971 12.5029 68.3316
     </div>
     <figcaption><strong>Fig. 8.</strong> Same, zoomed to $|E-E_F|\le0.5$ eV. The correction splits the molecular frontier off $E_F$ (HOMO $-0.095$ / LUMO $+0.085$ eV), leaving $E_F$ in a gap — the orange peaks visibly move away from the dotted $E_F$ line.</figcaption>
   </figure>
+  <figure>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center">
+      <div style="flex:1 1 300px;max-width:430px"><img src="figures/te_tot_uncorr_zoom.png" alt="T(E) + total device DOS, vdW-DF2" style="max-width:100%"></div>
+      <div style="flex:1 1 300px;max-width:430px"><img src="figures/te_tot_corr_zoom.png" alt="T(E) + total device DOS, DFT+Sigma" style="max-width:100%"></div>
+    </div>
+    <figcaption><strong>Fig. 9.</strong> Same, with the <em>total</em> device DOS (grey) instead of the
+      molecular PDOS. The metallic-lead continuum at $E_F$ survives the correction
+      (DOS$(E_F)$ 85.9 → 66.5 /eV — the drop is the molecular states leaving $E_F$), and the
+      lead-dominated features stay in place — the correction acts on the molecule only, so the
+      $T(E_F)$ drop is molecular, not a lead artifact.</figcaption>
+  </figure>
 
   <h3>Corrected eigenchannel — the frontier channel after DFT+Σ</h3>
   <p>With the correction applied the frontier levels split off $E_F$ (isolated-molecule HOMO
@@ -335,7 +346,7 @@ V 12.4971 12.5029 68.3316
       <div><div class="page-meta" style="margin:0 0 .15rem">LUMO resonance, $+0.085$ eV — $\tau_0 = 0.074$</div>
         <img src="figures/n25_9uc_ec_corr_lumo.png" alt="corrected eigenchannel at LUMO" style="max-width:100%"></div>
     </div>
-    <figcaption><strong>Fig. 9.</strong> Corrected ($H+\Delta H$) transmission eigenchannel $|\psi|^2$
+    <figcaption><strong>Fig. 10.</strong> Corrected ($H+\Delta H$) transmission eigenchannel $|\psi|^2$
       at the shifted frontier resonances and $E_F$ (N25_9uc). The channel is strongest at the HOMO
       resonance; at $E_F$ (now in the opened frontier gap) the weight through the molecule is reduced.</figcaption>
   </figure>
@@ -352,14 +363,14 @@ V 12.4971 12.5029 68.3316
      $+5.04/-2.70\to+4.30/-1.04$ μA, rectification ratio $|I_+/I_-|$ 1.9 → 4.1.</p>
   <figure>
     <img src="figures/n25_9uc_iv_corr.png" alt="Landauer I-V (zero-bias T(E)), vdW-DF2 vs DFT+Sigma" style="max-width:420px">
-    <figcaption><strong>Fig. 10.</strong> Landauer I–V (zero-bias $T(E)$) — vdW-DF2 vs DFT+Σ (N25_9uc).
+    <figcaption><strong>Fig. 11.</strong> Landauer I–V (zero-bias $T(E)$) — vdW-DF2 vs DFT+Σ (N25_9uc).
       The corrected curve is flatter at low bias ($E_F$ now sits in the opened frontier gap) and
       more strongly rectifying.</figcaption>
   </figure>
   <figure>
     <img src="figures/n25_9uc_iv_window_corr.png" alt="bias windows over corrected T(E)" style="max-width:420px">
-    <figcaption><strong>Fig. 11.</strong> Bias windows ($|V| = 0.1$–$0.5$ V) over the corrected $T(E)$
-      — the integration ranges behind Fig. 10 ($\mu_L = 0$ dotted, $\mu_R = -V$ dashed).</figcaption>
+    <figcaption><strong>Fig. 12.</strong> Bias windows ($|V| = 0.1$–$0.5$ V) over the corrected $T(E)$
+      — the integration ranges behind Fig. 11 ($\mu_L = 0$ dotted, $\mu_R = -V$ dashed).</figcaption>
   </figure>
 
   <h2>Discussion / next</h2>
@@ -390,7 +401,7 @@ V 12.4971 12.5029 68.3316
     <li><strong>Done:</strong> $\Delta H$ built and corrected $T(E)$ computed on the length-converged
       N25_9uc device (Section C) — $T(E_F)\,0.355\to0.051$, molecular PDOS$(E_F)\,20\to1.2$/eV.
       Cross-checked on the 3-cell N25_k100: $0.354\to0.046$ — the correction transfers directly.
-      Corrected eigenchannel rendered (Fig. 9).</li>
+      Corrected eigenchannel rendered (Fig. 10).</li>
     <li><strong>Next:</strong> finite-bias I–V with the corrected Hamiltonian; charge-transfer $\Delta\rho$.</li>
   </ul>
 </article>
