@@ -65,48 +65,61 @@
   <p>Hence TBtrans <strong>level-1 δH</strong> (no $E$/$k$ dependence) is exactly the right tool;
      for $T(E)$ the δH and δΣ paths are identical (they differ only in bond/orbital currents).</p>
 
-  <h2>Correction value — literature standard vs ours</h2>
-  <p>The shift magnitude $\Delta_i$ can be defined two ways. The <strong>literature standard</strong>
-     (Quek–Neaton; Fallaque 2022) shifts the occupied and virtual manifolds as blocks, using the
-     ionization potential / electron affinity from ΔSCF
-     ($\mathrm{IP}=E(+e)-E(0)$, $\mathrm{EA}=E(0)-E(-e)$): occupied levels shift by
-     $-\varepsilon_H-\mathrm{IP}$ and virtual by $-\varepsilon_L-\mathrm{EA}$, plus a metal
-     image-charge term. <strong>Our variant</strong> uses the per-orbital B3LYP−vdW-DF2 Kohn–Sham
-     eigenvalue difference (vacuum-level aligned) and omits the image-charge term to first order.</p>
+  <div style="border-left:4px solid #c0392b;padding:0.4em 1em;margin:1em 0;background:rgba(192,57,43,0.06)">
+    <strong>2026-07-08 correction (v2).</strong> The first attempt (v1) computed
+    $\Delta_i=\varepsilon_i(\text{B3LYP, VASP})-\varepsilon_i(\text{vdW-DF2, SIESTA})$ by subtracting
+    <em>two different codes directly</em>. Vacuum alignment does <strong>not</strong> remove the
+    residual cross-code offset (~0.69 eV on the HOMO) — it is larger than the true virtual shift
+    (~0.2 eV) and flipped the sign of every virtual $\Delta$ (LUMO–LUMO+4 all $<0$), so the gap did
+    not open and the molecule was over-charged. The claim that a "relative scissor" cancels the code
+    offset was wrong. v2 removes the offset by subtracting <strong>within each code, using a common PBE reference</strong> (below).
+  </div>
+
+  <h2>Correction value — same-code subtraction via a common PBE (v2)</h2>
+  <p>We want $\Delta_i=\varepsilon_i^{\text{B3LYP}}-\varepsilon_i^{\text{vdW-DF2}}$ on the
+     <strong>device (SIESTA) footing</strong>, but B3LYP is only available in VASP. Subtracting the
+     two codes directly injects a code offset (v1's failure). Instead, insert a common PBE reference
+     and subtract only <strong>within each code</strong>:</p>
+  <p style="text-align:center">$\displaystyle \Delta_i^{v2}=\underbrace{\big[\varepsilon_i^{\text{B3LYP}}-\varepsilon_i^{\text{PBE}}\big]_{\text{VASP}}}_{\text{same code}}+\underbrace{\big[\varepsilon_i^{\text{PBE}}-\varepsilon_i^{\text{vdW-DF2}}\big]_{\text{SIESTA}}}_{\text{same code}}$</p>
+  <p>Each bracket is a same-code subtraction, so the code-dependent basis/pseudopotential offset
+     cancels inside each term; the intermediate PBE drops out, leaving $B3LYP-vdW\text{-}DF2$ free of
+     the cross-code artifact. This required one extra <strong>SIESTA-PBE single point</strong> on the
+     vacuum molecule (identical to the vdW-DF2 run except XC) to measure the second bracket
+     (+0.23 eV, uniform across frontier).</p>
   <table>
-    <thead><tr><th></th><th>Literature standard</th><th>Ours</th></tr></thead>
+    <thead><tr><th></th><th>v1 (cross-code, wrong)</th><th>v2 (same-code)</th></tr></thead>
     <tbody>
-      <tr><td>magnitude</td><td>$-\varepsilon_H-\mathrm{IP}$ / $-\varepsilon_L-\mathrm{EA}$ (IP/EA = ΔSCF)</td><td>$\varepsilon_i(\text{B3LYP})-\varepsilon_i(\text{vdW-DF2})$ (KS difference)</td></tr>
-      <tr><td>granularity</td><td>occupied / virtual block</td><td>per-orbital $\Delta_i$</td></tr>
-      <tr><td>image-charge</td><td>included</td><td>omitted (first-order upper bound)</td></tr>
+      <tr><td>$\Delta_\text{HOMO}$</td><td>−1.01 eV (↓)</td><td>−0.35 eV (↓)</td></tr>
+      <tr><td>$\Delta_\text{LUMO}$</td><td>−0.29 eV (↓ — sign wrong)</td><td><strong>+0.40 eV (↑)</strong></td></tr>
+      <tr><td>virtual manifold sign</td><td>all $<0$ (fail)</td><td>all $>0$ (occ↓ / virt↑ ✓)</td></tr>
+      <tr><td>gap increment $\Delta_L-\Delta_H$</td><td>(negative)</td><td><strong>+0.75 eV</strong></td></tr>
     </tbody>
   </table>
-  <p>Using vdW-DF2 as the baseline keeps the correction consistent with the device functional. The
-     caveat: B3LYP (VASP) and vdW-DF2 (SIESTA) are different codes, so a residual common offset
-     remains. A <strong>same-code cross-check</strong> (VASP PBE single point on the vacuum molecule
-     — same code and geometry as the B3LYP reference) isolates the pure exchange–correlation shift:
-     $\Delta_\text{HOMO}$ = −0.58, $\Delta_\text{LUMO}$ = +0.17 eV (gap 0.001 → 0.751), which is
-     ≈0.42 eV smaller (near-rigid) than the vdW-DF2-referenced $\Delta_\text{HOMO}$ = −1.01 eV. The
-     offset mixes exchange–correlation and code differences and cannot be cleanly separated, so we
-     keep the baseline at the device functional (vdW-DF2) and apply $\Delta_i$ as a <strong>relative
-     scissor</strong> — the rigid code offset then cancels.</p>
+  <p><strong>Assumption (stated honestly):</strong> the hybrid correction $[B3LYP-PBE]$ is
+     code-independent ($_\text{VASP}\approx_\text{SIESTA}$). This is an approximation, but a physical
+     one — the hybrid–semilocal difference is set by the exact-exchange fraction (a physical quantity),
+     not a code artifact. The image-charge term is still omitted (see <em>Physics validity</em> below).</p>
 
-  <h2>Workflow</h2>
-  <pre><code>STEP 1 (VASP)    vacuum molecule: PBE, B3LYP  →  per-orbital Δᵢ = ε_i(B3LYP) − ε_i(PBE)
+  <h2>Workflow (v2)</h2>
+  <pre><code>STEP 1a (VASP)   vacuum molecule: PBE, B3LYP   →  [B3LYP − PBE]_VASP   (hybrid shift)
+STEP 1b (SIESTA) vacuum molecule: PBE, vdW-DF2  →  [PBE − vdW-DF2]_SIESTA (code offset removal)
+                 Δᵢ = STEP 1a + STEP 1b  (same-code differences; cross-code offset cancels)
 STEP 2 (SIESTA)  vacuum molecule: same PAO basis  →  single-molecule MO coefficients
-STEP 3 (sisl)    read device .TSHS  →  build ΔH (Hf₂Se₉ block)  →  write deltaH.dH.nc
-STEP 4 (TBtrans) fdf: TBT.dH deltaH.dH.nc  →  recompute T(E)
-STEP 5           compare T(E) / conductance before vs after</code></pre>
+STEP 3 (sisl)    read device .TSHS  →  build ΔH (Hf₂Se₉ block)  →  write deltaH_v2.dH.nc
+STEP 4 (TBtrans) fdf: TBT.dH deltaH_v2.dH.nc  →  recompute T(E)
+STEP 5           compare T(E) / molecular PDOS before vs after + charge-conservation gate</code></pre>
 
   <h3>Reference inputs — where each quantity comes from</h3>
   <table>
     <thead><tr><th>Quantity</th><th>What</th><th>Source</th></tr></thead>
     <tbody>
-      <tr><td>$\Delta_i$</td><td>per-orbital level shift</td><td><code>05-hf2se9-mol/mo_delta_orbital.csv</code></td></tr>
+      <tr><td>$\Delta_i^{v2}$</td><td>per-orbital level shift (same-code)</td><td><code>05-hf2se9-mol/tables/mo_delta_orbital_v2.csv</code></td></tr>
       <tr><td>$\varepsilon_i$(B3LYP)</td><td>vacuum-molecule B3LYP levels</td><td><code>05-hf2se9-mol/B3LYP/EIGENVAL</code> (VASP)</td></tr>
-      <tr><td>$\varepsilon_i$(vdW-DF2)</td><td>vacuum-molecule vdW-DF2 levels</td><td><code>05-hf2se9-mol/DF2/relax2/siesta.EIG</code> (SIESTA)</td></tr>
+      <tr><td>$\varepsilon_i$(PBE, VASP)</td><td>hybrid-shift reference</td><td><code>05-hf2se9-mol/tables/mo_delta_orbital_vasp.csv</code></td></tr>
+      <tr><td>$\varepsilon_i$(PBE, SIESTA)</td><td>code-offset reference (new, 2026-07-08)</td><td><code>05-hf2se9-mol/PBE_SIESTA/siesta.EIG</code></td></tr>
+      <tr><td>$\varepsilon_i$(vdW-DF2)</td><td>vacuum-molecule vdW-DF2 levels</td><td><code>05-hf2se9-mol/DF2/mo_coeff/siesta.EIG</code> (SIESTA)</td></tr>
       <tr><td>$C$</td><td>vacuum-molecule MO coefficients</td><td><code>05-hf2se9-mol/DF2/mo_coeff/extracted/</code> (from WFSX)</td></tr>
-      <tr><td>$S$</td><td>device molecular-block overlap</td><td><code>11-hetero60-transport/N25_k100/0bias/trans.TSHS</code></td></tr>
+      <tr><td>$S$</td><td>device molecular-block overlap</td><td><code>11-hetero60-transport/N25_9uc/0bias/trans.TSHS</code></td></tr>
     </tbody>
   </table>
   <p>$\Delta_i$ are vacuum-level aligned before differencing; the energy window keeps only orbitals
@@ -193,6 +206,48 @@ sisl.get_sile('deltaH.dH.nc', 'w').write_delta(dH)      # no k=/E= → level-1</
   <pre><code>TBT.dH deltaH.dH.nc</code></pre>
   <p>Verify TBtrans stdout logs that it read the δH file. For $T(E)$ comparison, <code>TBT.dH</code>
      and <code>TBT.dSE</code> give the same result.</p>
+
+  <h2>Physics validity — is this real, or just a pretty result? (honest read)</h2>
+  <p>The corrected picture looks right (gap opens, $T(E_F)$ drops), but "looks like what we wanted"
+     is not proof of physics. Separating what is solid from what is an artifact of approximations:</p>
+  <table>
+    <thead><tr><th>Aspect</th><th>Verdict</th></tr></thead>
+    <tbody>
+      <tr><td>formalism / implementation</td><td>✅ standard (Darancet/Quek); $\mathrm{diag}(\Delta)$ injected accurately (87–111% recovery); sign rule satisfied</td></tr>
+      <tr><td>direction (qualitative)</td><td>✅ physical — occupied ↓, virtual ↑; molecular levels move off $E_F$ → $T$ suppressed</td></tr>
+      <tr><td><strong>quantitative (gap 0.75, $T(E_F)$ 0.003)</strong></td><td>⚠️ <strong>product of several approximations — cite as upper bound / qualitative only</strong></td></tr>
+    </tbody>
+  </table>
+  <p>Four reasons the numbers must not be taken at face value:</p>
+  <ol>
+    <li><strong>gap 0.75 eV is a re-play of the input, not a prediction.</strong> The value we inject
+      <em>is</em> the isolated-molecule B3LYP gap (0.75); a scissor transplants it into the device.
+      The transport calculation did not "discover" 0.75.</li>
+    <li><strong>image-charge omitted → gap is an upper bound; the real device gap is smaller</strong>
+      (most important). A molecule on a metal has its gap narrowed by the electrode's image charge:
+      <ul>
+        <li>Neaton PRL <strong>97</strong>, 216405 (2006): benzene gas-phase gap <strong>10.5 eV →
+          7.2 eV on graphite</strong> ("reducing the gap between affinity and ionization levels").</li>
+        <li>Fallaque JPCM <strong>34</strong>, 435901 (2022): "shifting the HOMO according to the
+          image-charge correction, <strong>which reduces the gap</strong>."</li>
+      </ul>
+      We omitted this term, so we injected the gas-phase gap 0.75 directly → <strong>over-estimates
+      the true device frontier splitting</strong>. VSe₃ is metallic, so screening is certainly
+      present; the real frontier spacing is smaller than 0.75 and the true $T(E_F)$ suppression is
+      weaker than our 0.003.</li>
+    <li><strong>B3LYP used as the reference value</strong> — rigorously it should be GW or experimental
+      IP/EA (Quek/Fallaque use ΔSCF IP/EA). B3LYP KS eigenvalue differences are a proxy.</li>
+    <li><strong>non-self-consistent → charge not conserved.</strong> ΔH is added without SCF feedback,
+      so the molecular occupied charge is off by −0.6 e (the level shift should re-adjust occupation;
+      it does not here).</li>
+  </ol>
+  <p><strong>Bottom line:</strong> v2 fixes v1's cross-code sign bug (occ↓/virt↑ now physical) and
+     gives the qualitatively correct picture (molecule off $E_F$ → $T$ suppressed). But the numbers
+     (gap 0.75 eV, $T(E_F)$ 0.003) are (i) a replay of the input B3LYP gap, (ii) an <strong>upper
+     bound</strong> because the metal image-charge screening is omitted, and (iii) subject to
+     B3LYP-as-truth and non-SCF approximations — so they are cited as <strong>upper-bound /
+     qualitative indicators only</strong>. A quantitative alignment needs image-charge-inclusive
+     DFT+Σ or self-consistent GW.</p>
 
   <h2>Pitfalls</h2>
   <ul>

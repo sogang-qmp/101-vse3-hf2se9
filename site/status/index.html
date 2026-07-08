@@ -22,8 +22,8 @@
   <p>
     <strong>Phase:</strong> the structure is settled, the transport is converged, and the
     <strong>DFT+Σ molecular-level correction is applied</strong> ($T(E_F)\,0.355\to0.051$ on the
-    9-cell device). Queued: the true finite-bias chain (corrected $\Delta H$) and the interface
-    charge transfer $\Delta\rho$.
+    9-cell device). Remaining: the interface charge transfer $\Delta\rho$ (no finite-bias chain
+    needed — δH is a TBtrans post-processing correction, so the zero-bias $T(E)$ suffices).
   </p>
   <h3>Settled conclusions</h3>
   <ul>
@@ -38,14 +38,15 @@
     <li><strong>DFT+Σ correction applied (2026-07-01/02):</strong> $T(E_F)\,0.355\to0.051$,
         molecular PDOS$(E_F)\,20\to1.2$/eV; the transmission eigenchannel moves to the HOMO resonance
         ($-0.095$ eV, $\tau_0=0.373$).</li>
-    <li><strong>Corrected Landauer I–V (2026-07-02):</strong> the correction suppresses the
-        low-bias current and strengthens the rectification — ±0.5 V $+5.04/-2.70\to+4.30/-1.04$ μA,
-        $|I_+/I_-|$ 1.9 → 4.1.</li>
+    <li><strong>Corrected Landauer I–V (symmetric window):</strong> the correction suppresses the
+        low-bias current — ±0.5 V $|I|$ 5.94 → 4.12 μA. With a symmetric window ($\mu_{L,R}=\pm eV/2$)
+        the curve is odd, $I(-V)=-I(V)$; the symmetric junction shows no rectification at this
+        zero-bias level (earlier asymmetric-window figure corrected 2026-07-05).</li>
   </ul>
   <h3>In progress</h3>
   <ul>
-    <li><strong>Planned:</strong> true finite-bias chain (0 → ±0.5 V, corrected $\Delta H$) and
-        interface charge transfer $\Delta\rho$.</li>
+    <li><strong>Next:</strong> interface charge transfer $\Delta\rho$. A finite-bias chain is not
+        needed — δH is applied at the TBtrans post-processing step, so the zero-bias $T(E)$ suffices.</li>
   </ul>
 
   <hr>
@@ -128,7 +129,8 @@
   <h3>2026-07-01 – 07-02 · correction applied; three-way + corrected I–V complete</h3>
   <ul>
     <li>DFT+Σ applied on the 9-cell device ($T(E_F)$ 0.355 → 0.051); disconnected device done →
-        three-way comparison complete; corrected Landauer I–V posted (rectification 1.9 → 4.1).</li>
+        three-way comparison complete; corrected Landauer I–V posted (symmetric window — no
+        rectification; earlier asymmetric-window value corrected 2026-07-05).</li>
   </ul>
 </article>
 <nav class="subpages"></nav>

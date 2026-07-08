@@ -21,9 +21,10 @@
   <h2>Current goal</h2>
   <p>The <strong>B3LYP DFT+Σ molecular-level correction is applied</strong> on the length-converged
      9-cell device ($T(E_F)\,0.355\to0.051$ — <a href="../results/level-correction/index.html">
-     Results: level correction</a>, Section C). Immediate task: the <strong>corrected Landauer I–V (zero-bias $T(E)$)</strong> (Landauer integral of the corrected $T(E)$) with the bias-window figure. Queued
-     calculations: the true finite-bias chain (TranSIESTA 0 → ±0.5 V with <code>TBT.dH</code>) and
-     the interface charge transfer $\Delta\rho$. Method detail:
+     Results: level correction</a>, Section C), and the <strong>corrected Landauer I–V</strong> is
+     computed with a symmetric bias window. Remaining calculation: the interface charge transfer
+     $\Delta\rho$. (A finite-bias chain is <em>not</em> needed — δH is applied at the TBtrans
+     post-processing step, so the zero-bias $T(E)$ is sufficient.) Method detail:
      <a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a>.</p>
 
   <h2>DFT+Σ workflow — status</h2>
@@ -66,7 +67,7 @@
     <tbody>
       <tr><td>P1</td><td>corrected Landauer I–V (zero-bias $T(E)$) + bias-window figure</td><td><strong>done</strong> → <a href="../results/level-correction/index.html">level correction</a> Fig. 10–11</td></tr>
       <tr><td>P1</td><td>uncorrected 9-cell HOMO/LUMO eigenchannel re-check (−0.065 / +0.003 eV)</td><td><strong>verified</strong>; isosurface PNGs being rendered</td></tr>
-      <tr><td>P2</td><td>true finite-bias I–V — TranSIESTA bias chain 0 → ±0.5 V with the corrected $\Delta H$ (<code>TBT.dH</code>)</td><td><strong>planned</strong> (separate bias-chain calculation)</td></tr>
+      <tr><td>—</td><td>true finite-bias I–V — TranSIESTA bias chain 0 → ±0.5 V with the corrected $\Delta H$ (<code>TBT.dH</code>)</td><td><strong>not needed</strong> — δH is a TBtrans post-processing correction, so the zero-bias $T(E)$ is sufficient (2026-07-05)</td></tr>
       <tr><td>P2</td><td>charge transfer $\Delta\rho$ at the interface — $\Delta\rho = \rho_\text{junction} - \rho_\text{leads} - \rho_\text{molecule}$ (same cell/grid, no fragment re-relaxation). Step 0: Mulliken ΔQ of the 11 molecular atoms from the existing device output (sign = transfer direction, no new calculation); then two short fragment SCFs (<code>SaveRho</code>) → planar-averaged $\Delta\rho(z)$ + cumulative $Q(z)$ + accumulation/depletion isosurface</td><td><strong>planned</strong> (next calculation)</td></tr>
       <tr><td>P2</td><td>course-material figures for the Hf₂Se₉–VSe₃ junction (on request)</td><td>standby</td></tr>
       <tr><td>—</td><td>STEP 2–4 (δH build + corrected $T(E)$); LUMO label wording; 9-UC transport; mid-energy eigenchannels; 3-way disconnected display</td><td><strong>done</strong> (2026-07-01 – 07-02)</td></tr>

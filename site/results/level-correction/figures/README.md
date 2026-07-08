@@ -8,14 +8,29 @@
 | `sr_bond_vs_uc.png` | interface structural metrics (Hf–Se, H–Se, Se···VSe₃ gap, RMSD) vs scattering-region length | 10-hetero-h-term-v3-relax/figures |
 | `sr_pdos_compare.png` | molecular PDOS overlaid for 3/5/7/9 unit cells (length-independent) | 10-hetero-h-term-v3-relax/figures |
 | `n25_9uc_iv.png` | 9-unit-cell zero-bias-approximation I–V |
-| `b3lyp_levels_all.png` | vdW-DF2→B3LYP level alignment (solid occupied, dashed virtual) |
+| `b3lyp_levels_all.png` | vdW-DF2 (SIESTA) → B3LYP (VASP) level alignment (solid occupied, dashed virtual); 1:1 boxed style, dotted connectors. Source `05-hf2se9-mol/figures/all_levels_vac_df2.png`, code `05-hf2se9-mol/_scripts/plot_all_levels_vac.py` (data `tables/mo_delta_orbital.csv`, PBE_minus_Vvac col = DF2 siesta.EIG) |
 | `b3lyp_delta.png` | per-orbital Δ = B3LYP − vdW-DF2 |
 | `dftsigma_te.png` | **corrected $T(E)$ (Section C Fig.6)** — vdW-DF2 vs DFT+Σ (log). $T(E_F)\,0.355\to0.051$ (N25_9uc production; 2026-07-02 k100→9uc 교체). Source: `11-hetero60-transport/N25_9uc/0bias/dft_sigma/figures/te_dH_compare.png` |
 | `te_mol_uncorr.png` / `te_mol_corr.png` | **Section C Fig.7** — $T(E)$ (black, log) + Hf₂Se₉ molecular PDOS (orange) twin, N25_9uc. vdW-DF2: PDOS piles on $E_F$; DFT+Σ: pushed off → PDOS($E_F$) 20.1→1.2/eV, $T(E_F)$ 0.355→0.051. Source `N25_9uc/0bias/dft_sigma/figures/` |
 | `te_mol_uncorr_zoom.png` / `te_mol_corr_zoom.png` | **Section C Fig.8** — same, zoomed $|E-E_F|\le0.5$ eV; frontier splits off $E_F$ (HOMO −0.095 / LUMO +0.085) |
 | `te_tot_uncorr_zoom.png` / `te_tot_corr_zoom.png` | **Section C Fig.9** — T(E) + total device DOS twin (±0.5 eV). DOS(E_F) 85.9→66.5 /eV; lead continuum intact = molecule-only correction check. Source `N25_9uc/0bias/dft_sigma/figures/` |
 | `n25_9uc_ec_corr_homo.png` / `_ef.png` / `_lumo.png` | **Section C Fig.10** — corrected ($H+\Delta H$) eigenchannel \|ψ\|² at HOMO −0.095 eV (τ₀=0.373) / E_F (0.124) / LUMO +0.085 eV (0.074), N25_9uc. Axis-legend band-cropped (common height 413 px) from `N25_9uc/0bias/dft_sigma/eigenchannel/figure/EC_0_psi2_{HOMO,EF,LUMO}.png` |
-| `n25_9uc_iv_corr.png` | **Section C Fig.11** — zero-bias-approximation I–V, vdW-DF2 vs DFT+Σ (μ_L=0/μ_R=−V, 300 K). ±0.5 V: +5.04/−2.70 → +4.30/−1.04 μA, rectification 1.9→4.1. Source `N25_9uc/0bias/dft_sigma/figures/iv_zerobias_dftsigma.png`, code `N25_9uc/scripts/iv_zerobias_approx_dftsigma.py` |
-| `n25_9uc_iv_window_corr.png` | **Section C Fig.12** — bias windows (\|V\|=0.1–0.5 V) over the corrected T(E). Source `.../iv_bias_window_dftsigma.png` |
+| `n25_9uc_iv_corr.png` | **Section C Fig.11** — zero-bias-approximation I–V, vdW-DF2 vs DFT+Σ, **symmetric window** (μ_L=+V/2, μ_R=−V/2, 300 K). ±0.5 V: \|I\| 5.94→4.12 μA; odd, I(−V)=−I(V) (no rectification). Source `N25_9uc/0bias/dft_sigma/figures/iv_zerobias_symmetric.png`, code `N25_9uc/scripts/iv_zerobias_symmetric.py` (2026-07-05, replaces asymmetric-window `iv_zerobias_dftsigma.py`) |
+| `n25_9uc_iv_window_corr.png` | **Section C Fig.12** — **symmetric** bias windows (\|V\|=0.1–0.5 V, μ_{L,R}=±V/2) over the corrected T(E). Source `.../iv_window_symmetric_corr.png` |
 
 T(E_F)=0.348 (9 cells) vs 0.354 (3 cells); gap 0.02→0.75 eV; Δ_HOMO −1.01 / Δ_LUMO −0.29 eV (full set in mo_delta_orbital.csv). vdW-DF2(SIESTA)↔B3LYP(VASP) common offset ~−0.65 eV.
+
+## v2 (2026-07-08, DFT+Σ 코드-offset 제거)
+| 파일 | 의미 |
+|---|---|
+| `v2_levels_v2_vac.png` | vdW-DF2 → DFT+Σ(v2) 준위도, gap 0.77 개방 + telescoping 수식 |
+| `v2_delta_v2_bars.png` | MO별 Δ, v1(회색 부호오류) vs v2(occ↓/virt↑) |
+| `v2_delta_v2_decomp.png` | Δ_v2 = [B3LYP−PBE]_VASP + [PBE−vdW-DF2]_SIESTA 분해 |
+| `v2_te_3way_v2.png` | T(E) uncorrected/v1/v2 |
+| `v2_pdos_mol_3way_v2.png` | 분자 PDOS 3-way |
+소스: `11-hetero60-transport/N25_9uc/0bias/dft_sigma_v2/figures/` (동일 파일 v2_ prefix 복사). 스크립트 `_scripts/{plot_delta_v2,plot_levels_v2_vac,plot_v2_results}.py`.
+| `v2_te_mol_uncorr/corr.png` (+`_zoom`) | T(E)(log,좌) + 분자 PDOS(우) twin, 무보정/v2. 분자 공명 위치=T 피크 위치. zoom [−0.5,0.5]. |
+| `v2_alignment_projection.png` | vdW-DF2↔B3LYP 준위 정렬. vdW-DF2 frontier(E_F) 자리에 B3LYP LUMO+3/+4(간격 0.185)가 옴 = v1 device '0.18'의 정체(오정렬, gap 아님). B3LYP HOMO는 −6.59로 한참 아래. |
+| `v1_pdos_compare_zoom.png` | (v1, 폐기) 분자 PDOS vdW-DF2 vs v1 DFT+Σ — 보정 peak이 E_F ±0.2 안, "0.18 gap"=오정렬 LUMO+3/+4 |
+| `v1_te_dH_compare.png` | (v1, 폐기) T(E) log, vdW-DF2 vs v1 DFT+Σ, T(E_F) 0.355→0.051 |
+| `v2_te_beforeafter.png` | T(E) 보정 전(vdW-DF2)/후(DFT+Σ v2)만 — 레전드 우상단, y 1e-6, x −2~2. E_F에서 ~110× 감소 |

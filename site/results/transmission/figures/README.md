@@ -11,8 +11,8 @@ Source = 2026-06-12 group-meeting PPT (slides 9 / 11 / 17 / 12 / 18 / 19) + `03-
 | `eigenchannel-EF.png` | EC₀ (τ≈1) \|ψ\|² at E_F; bottom axis indicator cropped | PPT `05_..._eigenchannel/EF/EC_0_psi2_EF.png` (slide 12) |
 | `eigenchannel-homo.png` | HOMO (−0.065 eV) eigenchannel; cropped | PPT `05_..._eigenchannel/homo.png` (slide 18) |
 | `eigenchannel-lumo.png` | +0.175 eV eigenchannel (higher molecular resonance MO87/88, **not** the LUMO — true LUMO is at $E_F$); cropped | PPT `05_..._eigenchannel/LUMO.png` (slide 18) |
-| `iv-zerobias.png` | Zero-bias-approximation I–V (Landauer); asymmetric, ≈ +5 / −2.5 μA at ±0.5 V | PPT slide 19 (`20260612` pptx, embedded image57) |
-| `iv-biaswindow.png` | Bias windows (\|V\|=0.1–0.5 V) over T(E) — the integration ranges that give each current | PPT slide 19 (`20260612` pptx, embedded image58) |
+| `iv-zerobias.png` | Zero-bias-approximation I–V (Landauer, **symmetric window** μ_{L,R}=±V/2); odd, ≈ ±5.9 μA at ±0.5 V. Regenerated 2026-07-05 (`N25_9uc/scripts/iv_zerobias_symmetric.py`) | PPT slide 19 (`20260612` pptx, embedded image57) |
+| `iv-biaswindow.png` | **Symmetric** bias windows (\|V\|=0.1–0.5 V, μ_{L,R}=±V/2) over T(E) — the integration ranges that give each current | PPT slide 19 (`20260612` pptx, embedded image58) |
 
 Crop: eigenchannel originals are 6000–7600 px wide with a bottom axis indicator; cropped to the top structure band (`scratchpad/prep_transmission_figs.py`).
 

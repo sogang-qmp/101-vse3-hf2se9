@@ -338,12 +338,14 @@ Se 14.1980 11.5210 166.4775
      (<code>N25_k100/0bias/eigenchannel/</code>) — shown here as the rendered isosurface, not embedded raw.</p>
 
   <h3>D. I–V from the zero-bias approximation</h3>
-  <p>Integrating the zero-bias $T(E)$ over the bias window (Landauer), without recomputing $T(E)$ at
-     finite bias, gives the I–V. It is asymmetric (≈ $+5$ / $-2.5$ μA at $\pm0.5$ V).</p>
+  <p>Integrating the zero-bias $T(E)$ over a <strong>symmetric</strong> bias window
+     ($\mu_{L,R}=\pm eV/2$, Landauer), without recomputing $T(E)$ at finite bias, gives the I–V
+     ($\approx\pm5.9$ μA at $\pm0.5$ V). With a symmetric window it is odd, $I(-V)=-I(V)$
+     (symmetric junction → no rectification at this level).</p>
   <figure>
     <img src="figures/iv-biaswindow.png" alt="Bias-window integration over T(E)">
-    <figcaption><strong>Fig. 6a.</strong> Bias windows ($|V|=0.1$–$0.5$ V) over $T(E)$ — the
-      integration ranges that give each current.</figcaption>
+    <figcaption><strong>Fig. 6a.</strong> Bias windows ($|V|=0.1$–$0.5$ V) over $T(E)$, symmetric
+      about $E_F$ ($\mu_{L,R}=\pm eV/2$) — the integration ranges that give each current.</figcaption>
   </figure>
   <figure>
     <img src="figures/iv-zerobias.png" alt="Zero-bias-approximation I-V">
@@ -353,8 +355,7 @@ Se 14.1980 11.5210 166.4775
   <h2>Discussion</h2>
   <p>Conduction is resonant because the PBE/vdW-DF molecular resonance sits on $E_F$. Whether it
      stays resonant under a corrected gap is the open question driving the
-     <a href="../../methods/index.html">B3LYP level correction</a>; the finite-bias I–V is the
-     remaining deliverable.</p>
+     <a href="../../methods/index.html">B3LYP level correction</a> (see Results: level correction).</p>
 </article>
 <nav class="subpages"></nav>
 </main>
