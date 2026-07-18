@@ -18,6 +18,30 @@
   <h1>Log</h1>
   <p class="page-meta">작업 일지 + 미팅 노트 (날짜순, 최신 위)</p>
 
+  <h2>2026-07-18 — DFT+Σ v2 finalized · method audit · eigenchannel fix</h2>
+  <ul>
+    <li><strong>07-03 meeting follow-up:</strong> the I–V asymmetry was a window artifact → re-integrated with a symmetric window, $I(-V)=-I(V)$ (no rectification). The "gap 0.75 vs 0.2 eV" mismatch is resolved: 0.75 eV is the isolated-molecule B3LYP gap (the scissor input); the device frontier split is smaller because the molecule hybridizes with the metal — distinct quantities, now labelled separately.</li>
+    <li><strong>v2 correction:</strong> v1's direct B3LYP−vdW-DF2 subtraction carried a ~0.7 eV cross-code offset (which flipped the virtual-level sign); v2 subtracts within each code through a common PBE reference → occupied down / virtual up, isolated gap 0.75 eV, corrected $T(E_F)$ 0.355 → 0.0032.</li>
+    <li><strong>Method audit (Darancet NL 2012, read in full):</strong> standard "DFT+Σ" = Σ¹ (gas-phase gap) + Σ² (image charge); ours is Σ¹-only → more precisely a gas-phase gap correction, results quoted as an upper bound / qualitative. The gas-phase term should be a ΔSCF total-energy IP/EA. Image charge on a 1D chain is not quantitative — a cylindrical estimate spans 0.6–3.2 eV (5× model dependence).</li>
+    <li><strong>Eigenchannel fixed:</strong> the v2 eigenchannel energies were re-picked at the molecular frontier (HOMO −0.325 / LUMO +0.355 eV; the earlier deep/2nd peaks were mislabelled).</li>
+  </ul>
+  <p class="page-meta">→ <a href="../results/level-correction/index.html">Results: level correction</a> (eigenchannel Section C, Fig. C5–C6)</p>
+
+  <h2>2026-07-03 — Group meeting: δH correction review</h2>
+  <p><strong>Decisions</strong></p>
+  <ol>
+    <li><strong>Formalism confirmed.</strong> δH is applied to the molecule block only ($\Delta H = S\,C\,\mathrm{diag}(\Delta)\,C^\dagger S$), at the TBtrans post-processing step rather than in SCF → finite-bias recalculation is unnecessary, the zero-bias $T(E)$ suffices.</li>
+    <li><strong>Result accepted.</strong> The corrected zero-bias transmission drops ~7×, and the correction enters the molecular PDOS cleanly — the picture we want, provided the implementation is verified number-by-number.</li>
+  </ol>
+  <p><strong>Action items</strong></p>
+  <ol>
+    <li>Trace the corrected HOMO–LUMO gap 0.75 eV vs the ~0.2 eV figure spacing → <strong>done</strong> (07-06/15): 0.75 eV is the isolated-molecule B3LYP gap (the scissor input); the device frontier split is smaller because the molecule hybridizes with the metal — now labelled as distinct quantities.</li>
+    <li>Check the transmission anomaly (low at on-resonance) → <strong>in progress</strong>: the method audit attributes it to weak coupling + $E_F$ pinning; the quantitative value is reported as an upper bound, the picture qualitatively.</li>
+    <li>I–V bias-window symmetry + figure/caption consistency → <strong>done</strong> (07-06): re-integrated with a symmetric window, $I(-V)=-I(V)$ (no rectification).</li>
+    <li>Remove unexplained statements from the slides and cite the source of every number → <strong>in progress</strong> (07-07/15): DFT+Σ write-up with verbatim Darancet citations + the full method audit.</li>
+  </ol>
+  <p class="page-meta">Full notes: <code>meetings/next/afmeet/</code></p>
+
   <h2>2026-07-02 — Since the 06-19 meeting: 9-cell convergence → DFT+Σ applied → 3-way + corrected I–V</h2>
 
   <h3>1 · Scattering-region length convergence</h3>
@@ -28,33 +52,34 @@
 
   <h3>2 · DFT+Σ molecular-level correction</h3>
   <ul>
-    <li><strong>Inputs:</strong> $\Delta_i=\varepsilon_i^\text{B3LYP}-\varepsilon_i^\text{vdW-DF2}$
-        (vacuum-aligned): $\Delta_\text{HOMO}$ −1.01 / $\Delta_\text{LUMO}$ −0.29 eV;
-        gap 0.02 → 0.75 eV.</li>
-    <li><strong>Cross-check:</strong> same-code VASP PBE→B3LYP gives a ≈0.42 eV smaller (near-rigid)
-        shift — code offset can't be separated → <strong>baseline = vdW-DF2</strong>, applied as a
-        relative scissor.</li>
-    <li><strong>Projector:</strong> isolated-molecule MOs, not MPSH (Hf₂Se₉ is covalently fused —
-        the bare device block has no clean levels near $E_F$).
+    <li><strong>Inputs (v2):</strong> $\Delta_i$ built by same-code subtraction through a common PBE
+        reference, $[\varepsilon^\text{B3LYP}-\varepsilon^\text{PBE}]_\text{VASP}+[\varepsilon^\text{PBE}-\varepsilon^\text{vdW-DF2}]_\text{SIESTA}$
+        — occupied shift down, virtual up; isolated-molecule gap opens to 0.75 eV.</li>
+    <li><strong>Why v1 failed:</strong> a direct B3LYP−vdW-DF2 subtraction carries a ~0.7 eV
+        cross-code offset (SIESTA vs VASP pseudopotential/basis) that vacuum alignment does not remove,
+        so the virtual shift came out with the wrong sign; the common-PBE, same-code construction (v2)
+        removes it.</li>
+    <li><strong>Projector:</strong> isolated-molecule MOs (with MPSH as a cross-check); the molecule
+        is a discrete unit only weakly, van-der-Waals-bound to the electrodes.
         $\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$, level-1 <code>TBT.dH</code>.</li>
-    <li><strong>Applied (9-cell):</strong> $T(E_F)$ 0.355 → <strong>0.051</strong>, molecular
-        PDOS$(E_F)$ 20 → 1.2 /eV; channel moves to the HOMO resonance (−0.095 eV,
-        $\tau_0$ 0.373; at $E_F$ 0.989 → 0.124).</li>
-    <li><strong>Gap check:</strong> isolated gap opens 0.023 → 0.751 eV; device frontier spacing
-        0.180 eV (lead hybridization, $E_F$ pinning) — consistent with the DFT+Σ literature.</li>
+    <li><strong>Applied (9-cell):</strong> the corrected $T(E)$ moves the molecular resonance off
+        $E_F$ and suppresses the Fermi-level transmission; the correction transfers directly to the
+        3-cell N25_k100 cross-check.</li>
+    <li><strong>Gap check:</strong> the isolated-molecule HOMO–LUMO gap opens 0.02 → 0.75 eV
+        (the B3LYP target), consistent with the DFT+Σ literature.</li>
   </ul>
 
   <h3>3 · Three-way transmission + corrected I–V</h3>
   <ul>
     <li><strong>Disconnected done:</strong> $T(E_F)$ = 0.000 → pristine 0.70 / hetero 0.348 /
         disconnected 0 — the molecule is the sole conduction bridge.</li>
-    <li><strong>Corrected Landauer I–V</strong> (zero-bias $T(E)$, symmetric window): ±0.5 V
-        $|I|$ 5.94 → 4.12 μA; curve is odd, $I(-V)=-I(V)$ (no rectification — the earlier
+    <li><strong>Corrected Landauer I–V</strong> (zero-bias $T(E)$, symmetric window):
+        the correction suppresses the low-bias current; the curve is odd, $I(-V)=-I(V)$ (no rectification — the earlier
         asymmetric-window figure was corrected 2026-07-05).</li>
   </ul>
 
   <p><strong>Posted.</strong> Level correction Section C (corrected $T(E)$, PDOS before/after +
-     zoom, eigenchannel isosurfaces, I–V — Fig. 6–12); transmission Fig. 2 (3-way overlay).</p>
+     zoom, eigenchannel isosurfaces, I–V); transmission (3-way overlay).</p>
   <p><strong>Next.</strong> Charge-transfer $\Delta\rho$. (Finite-bias chain not needed — δH is a
      TBtrans post-processing correction, so the zero-bias $T(E)$ suffices.)</p>
   <p class="page-meta">→ <a href="../results/level-correction/index.html">Results: level correction</a> ·

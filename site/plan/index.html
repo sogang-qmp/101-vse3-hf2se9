@@ -20,7 +20,7 @@
 
   <h2>Current goal</h2>
   <p>The <strong>B3LYP DFT+Σ molecular-level correction is applied</strong> on the length-converged
-     9-cell device ($T(E_F)\,0.355\to0.051$ — <a href="../results/level-correction/index.html">
+     9-cell device (isolated-molecule gap opens to 0.75 eV, $T(E_F)$ suppressed — <a href="../results/level-correction/index.html">
      Results: level correction</a>, Section C), and the <strong>corrected Landauer I–V</strong> is
      computed with a symmetric bias window. Remaining calculation: the interface charge transfer
      $\Delta\rho$. (A finite-bias chain is <em>not</em> needed — δH is applied at the TBtrans
@@ -31,10 +31,10 @@
   <table>
     <thead><tr><th>Step</th><th>Task</th><th>Status</th></tr></thead>
     <tbody>
-      <tr><td>1</td><td>vacuum molecule (VASP PBE/B3LYP) → per-orbital $\Delta_i=\varepsilon_i(\text{B3LYP})-\varepsilon_i(\text{vdW-DF2})$</td><td><strong>done</strong></td></tr>
+      <tr><td>1</td><td>vacuum molecule (VASP PBE/B3LYP; SIESTA PBE/vdW-DF2) → per-orbital $\Delta_i$ by same-code subtraction through a common PBE</td><td><strong>done</strong></td></tr>
       <tr><td>2</td><td>SIESTA single-molecule (same PAO basis) → MO coefficients $C$</td><td><strong>done</strong> ($CSC^\dagger$ orthonormality 1e−5)</td></tr>
       <tr><td>3</td><td>build $\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$ on the Hf/Se molecular block, apply to the device (TBtrans δH)</td><td><strong>done</strong> (isolated-molecule projector, Kabsch + Hungarian atom matching)</td></tr>
-      <tr><td>4</td><td>corrected $T(E)$, before/after comparison</td><td><strong>done</strong> — N25_9uc $0.355\to0.051$; cross-check N25_k100 $0.354\to0.046$</td></tr>
+      <tr><td>4</td><td>corrected $T(E)$, before/after comparison</td><td><strong>done</strong> — resonance off $E_F$, $T(E_F)$ suppressed; transfers to the N25_k100 cross-check</td></tr>
       <tr><td>—</td><td>document the modified files / formula / application flow (advisor's emphasis)</td><td><strong>done</strong> → <a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a></td></tr>
     </tbody>
   </table>
@@ -65,7 +65,7 @@
   <table>
     <thead><tr><th>Priority</th><th>Task</th><th>Status</th></tr></thead>
     <tbody>
-      <tr><td>P1</td><td>corrected Landauer I–V (zero-bias $T(E)$) + bias-window figure</td><td><strong>done</strong> → <a href="../results/level-correction/index.html">level correction</a> Fig. 10–11</td></tr>
+      <tr><td>P1</td><td>corrected Landauer I–V (zero-bias $T(E)$) + bias-window figure</td><td><strong>done</strong> → <a href="../results/level-correction/index.html">level correction</a> Section C</td></tr>
       <tr><td>P1</td><td>uncorrected 9-cell HOMO/LUMO eigenchannel re-check (−0.065 / +0.003 eV)</td><td><strong>verified</strong>; isosurface PNGs being rendered</td></tr>
       <tr><td>—</td><td>true finite-bias I–V — TranSIESTA bias chain 0 → ±0.5 V with the corrected $\Delta H$ (<code>TBT.dH</code>)</td><td><strong>not needed</strong> — δH is a TBtrans post-processing correction, so the zero-bias $T(E)$ is sufficient (2026-07-05)</td></tr>
       <tr><td>P2</td><td>charge transfer $\Delta\rho$ at the interface — $\Delta\rho = \rho_\text{junction} - \rho_\text{leads} - \rho_\text{molecule}$ (same cell/grid, no fragment re-relaxation). Step 0: Mulliken ΔQ of the 11 molecular atoms from the existing device output (sign = transfer direction, no new calculation); then two short fragment SCFs (<code>SaveRho</code>) → planar-averaged $\Delta\rho(z)$ + cumulative $Q(z)$ + accumulation/depletion isosurface</td><td><strong>planned</strong> (next calculation)</td></tr>

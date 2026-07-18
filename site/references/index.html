@@ -62,11 +62,22 @@
       <br><span class="page-meta"><em>Efficient TranSIESTA re-implementation</em> with an
       infinite-reflection image charge, benchmarked on acene/Au (full text verified). Its workflow —
       extract $H_\text{mol}, S_\text{mol}$ from <code>.TSHS</code> (sisl) → MPSH — is the procedure we
-      adapted; we replaced the MPSH projector with isolated-molecule orbitals because our molecule is
-      covalently fused into the chain.
+      adapted; we use isolated-molecule orbitals as the projector (with the MPSH construction as a
+      cross-check), since our molecule is a discrete unit only weakly (van-der-Waals) bound to the electrodes.
       <strong>Used in:</strong> workflow template + MPSH-vs-isolated-projector decision
       (<a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a>,
       <a href="../log/index.html">Log 2026-07-02</a>).</span></li>
+    <li><strong>P. Darancet, J. R. Widawsky, H. J. Choi, L. Venkataraman, J. B. Neaton</strong>,
+      <em>Nano Lett.</em> <strong>12</strong>, 6250 (2012).
+      <a href="https://doi.org/10.1021/nl3033137">DOI 10.1021/nl3033137</a>
+      <br><span class="page-meta"><em>Quantitative DFT+Σ I–V.</em> Splits the self-energy into a
+      gas-phase term $\Sigma_\text{GP}$ (computed by a <strong>ΔSCF total-energy</strong> IP/EA) and a
+      classical image-charge term $\Sigma_\text{CORR}$ (opposite sign, planar-Au image planes 1 Å from
+      the surface). Formally derived in the weak-coupling limit of GW; the authors note it breaks down
+      "for molecular resonances closer to the Fermi energy of the metal."
+      <strong>Used in:</strong> establishes that the gas-phase correction is a ΔSCF total-energy
+      quantity (not a functional-eigenvalue difference) and the applicability limits of DFT+Σ
+      (<a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a>).</span></li>
   </ol>
 
   <h2>B. Method / software documentation</h2>

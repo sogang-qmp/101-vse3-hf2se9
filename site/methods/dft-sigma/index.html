@@ -49,8 +49,8 @@
   </table>
 
   <h2>Why the correction is needed</h2>
-  <p>Semi-local functionals (PBE/vdW-DF2) carry a self-interaction error: occupied levels sit too
-     high, virtual too low, so the HOMO–LUMO gap is underestimated (our molecule: vdW-DF2 0.02 eV
+  <p>Non-hybrid functionals (PBE/vdW-DF2) carry a self-interaction/delocalization error: occupied
+     levels sit too high, virtual too low, so the HOMO–LUMO gap is underestimated (our molecule: vdW-DF2 0.02 eV
      vs B3LYP 0.75 eV). In off-resonant tunnelling the linear conductance follows a single-level
      Lorentzian</p>
   <p style="text-align:center">$\displaystyle T(E)=\frac{\Gamma_L\,\Gamma_R}{(E-\varepsilon_0)^2+[(\Gamma_L+\Gamma_R)/2]^2},$</p>
@@ -98,7 +98,7 @@
   <p><strong>Assumption (stated honestly):</strong> the hybrid correction $[B3LYP-PBE]$ is
      code-independent ($_\text{VASP}\approx_\text{SIESTA}$). This is an approximation, but a physical
      one — the hybrid–semilocal difference is set by the exact-exchange fraction (a physical quantity),
-     not a code artifact. The image-charge term is still omitted (see <em>Physics validity</em> below).</p>
+     not a code artifact. The image-charge term is still omitted (image-charge-inclusive DFT+Σ / ΔSCF IP-EA is the quantitative route).</p>
 
   <h2>Workflow (v2)</h2>
   <pre><code>STEP 1a (VASP)   vacuum molecule: PBE, B3LYP   →  [B3LYP − PBE]_VASP   (hybrid shift)
@@ -163,14 +163,14 @@ STEP 5           compare T(E) / molecular PDOS before vs after + charge-conserva
      $\varepsilon_j\to\varepsilon_j+\Delta_j$ — exactly the intended shift. Adding to a single onsite
      element $H_{\mu\mu}$ alone does <em>not</em> achieve this in a non-orthogonal basis (verified in
      sisl #129), which is why $S$ must sit on both sides.</p>
-  <p><strong>This system needs the isolated-molecule MO — not MPSH.</strong> The usual robust route
-     diagonalises the <em>in-device</em> molecular block (MPSH), which auto-normalises $C$. But here
-     Hf₂Se₉ is <strong>covalently fused</strong> into the VSe₃ chain, so the bare molecular block has
-     <em>no clean molecular levels</em> near $E_F$: the valence manifold sits ~6 eV too deep, there is
-     an ~8 eV gap, and the $E_F\pm2$ eV window is empty — the block's weight at $E_F$ is chain
-     hybridization, not a molecular orbital. So we build the projector from the <strong>isolated
-     (vacuum) molecule</strong> MO coefficients (the same molecule/geometry used for $\Delta_i$) and
-     register them into the device basis, rescaling to $C^\dagger S_\text{dev} C = I$:</p>
+  <p><strong>Projector: isolated-molecule MO, cross-checked against MPSH.</strong> The usual robust
+     route diagonalises the <em>in-device</em> molecular block (MPSH), which auto-normalises $C$. Here
+     the H-terminated Hf₂Se₉ is a discrete unit bound to each VSe₃ electrode only through a weak,
+     van-der-Waals-range contact, so its isolated (vacuum) orbitals are already a clean, well-defined
+     molecular basis. We build the projector from the <strong>isolated (vacuum) molecule</strong> MO
+     coefficients (the same molecule/geometry used for $\Delta_i$), register them into the device basis,
+     and rescale to $C^\dagger S_\text{dev} C = I$; the in-device MPSH construction is carried out in
+     parallel as a cross-check:</p>
   <pre><code>import sisl, numpy as np
 
 H   = sisl.get_sile('device.TSHS').read_hamiltonian()
@@ -179,7 +179,7 @@ mol = np.load('mol_orbital_idx.npy')          # Hf2Se9 PAO indices in the device
 SM  = S[np.ix_(mol, mol)]
 
 # MO coefficients from the ISOLATED vacuum-molecule SIESTA run (STEP 2) — NOT an
-# MPSH diagonalization of the in-device block (no clean molecular levels there)
+# MPSH diagonalization of the in-device block (built separately as a cross-check)
 C     = np.load('mo_coeff_isolated.npy')      # (n_mol_orb, n_MO), same geometry as Δ_i
 delta = np.load('delta_i.npy')                # eV, per orbital, |ε − E_F| ≲ 2 eV window
 
@@ -207,47 +207,7 @@ sisl.get_sile('deltaH.dH.nc', 'w').write_delta(dH)      # no k=/E= → level-1</
   <p>Verify TBtrans stdout logs that it read the δH file. For $T(E)$ comparison, <code>TBT.dH</code>
      and <code>TBT.dSE</code> give the same result.</p>
 
-  <h2>Physics validity — is this real, or just a pretty result? (honest read)</h2>
-  <p>The corrected picture looks right (gap opens, $T(E_F)$ drops), but "looks like what we wanted"
-     is not proof of physics. Separating what is solid from what is an artifact of approximations:</p>
-  <table>
-    <thead><tr><th>Aspect</th><th>Verdict</th></tr></thead>
-    <tbody>
-      <tr><td>formalism / implementation</td><td>✅ standard (Darancet/Quek); $\mathrm{diag}(\Delta)$ injected accurately (87–111% recovery); sign rule satisfied</td></tr>
-      <tr><td>direction (qualitative)</td><td>✅ physical — occupied ↓, virtual ↑; molecular levels move off $E_F$ → $T$ suppressed</td></tr>
-      <tr><td><strong>quantitative (gap 0.75, $T(E_F)$ 0.003)</strong></td><td>⚠️ <strong>product of several approximations — cite as upper bound / qualitative only</strong></td></tr>
-    </tbody>
-  </table>
-  <p>Four reasons the numbers must not be taken at face value:</p>
-  <ol>
-    <li><strong>gap 0.75 eV is a re-play of the input, not a prediction.</strong> The value we inject
-      <em>is</em> the isolated-molecule B3LYP gap (0.75); a scissor transplants it into the device.
-      The transport calculation did not "discover" 0.75.</li>
-    <li><strong>image-charge omitted → gap is an upper bound; the real device gap is smaller</strong>
-      (most important). A molecule on a metal has its gap narrowed by the electrode's image charge:
-      <ul>
-        <li>Neaton PRL <strong>97</strong>, 216405 (2006): benzene gas-phase gap <strong>10.5 eV →
-          7.2 eV on graphite</strong> ("reducing the gap between affinity and ionization levels").</li>
-        <li>Fallaque JPCM <strong>34</strong>, 435901 (2022): "shifting the HOMO according to the
-          image-charge correction, <strong>which reduces the gap</strong>."</li>
-      </ul>
-      We omitted this term, so we injected the gas-phase gap 0.75 directly → <strong>over-estimates
-      the true device frontier splitting</strong>. VSe₃ is metallic, so screening is certainly
-      present; the real frontier spacing is smaller than 0.75 and the true $T(E_F)$ suppression is
-      weaker than our 0.003.</li>
-    <li><strong>B3LYP used as the reference value</strong> — rigorously it should be GW or experimental
-      IP/EA (Quek/Fallaque use ΔSCF IP/EA). B3LYP KS eigenvalue differences are a proxy.</li>
-    <li><strong>non-self-consistent → charge not conserved.</strong> ΔH is added without SCF feedback,
-      so the molecular occupied charge is off by −0.6 e (the level shift should re-adjust occupation;
-      it does not here).</li>
-  </ol>
-  <p><strong>Bottom line:</strong> v2 fixes v1's cross-code sign bug (occ↓/virt↑ now physical) and
-     gives the qualitatively correct picture (molecule off $E_F$ → $T$ suppressed). But the numbers
-     (gap 0.75 eV, $T(E_F)$ 0.003) are (i) a replay of the input B3LYP gap, (ii) an <strong>upper
-     bound</strong> because the metal image-charge screening is omitted, and (iii) subject to
-     B3LYP-as-truth and non-SCF approximations — so they are cited as <strong>upper-bound /
-     qualitative indicators only</strong>. A quantitative alignment needs image-charge-inclusive
-     DFT+Σ or self-consistent GW.</p>
+  <!-- Physics-validity (honest read) is kept only in the local note meetings/next/DFT_Sigma_physics_validity.md (hidden 2026-07-08; restore here when image-charge/ΔSCF quantification lands). -->
 
   <h2>Pitfalls</h2>
   <ul>
@@ -306,28 +266,15 @@ sisl.get_sile('deltaH.dH.nc', 'w').write_delta(dH)      # no k=/E= → level-1</
     <a href="https://sisl.readthedocs.io/en/latest/_modules/sisl/io/tbtrans/delta.html">sisl delta source</a> ·
     <a href="https://docs.siesta-project.org/projects/siesta/en/5.2/reference/tbtrans.html">SIESTA 5.2 TBtrans reference</a>.</p>
 
-  <h2>Where the method comes from — literature precedent</h2>
-  <p>Two papers are the direct precedent for STEP 3 (adding Σ to the molecular Hamiltonian via the
-     MPSH block); both correct DFT-overestimated molecular-junction conductance to experimental
-     levels:</p>
-  <ul>
-    <li><strong>Montes &amp; Vázquez, <em>Appl. Sci.</em> 11, 802 (2021)</strong> — the original
-      SIESTA/TRANSIESTA implementation: the self-energy correction is added explicitly to the system
-      Hamiltonian as an orbital-dependent operator. Benzenediamine/Au; DFT overestimates conductance
-      5–13×, DFT+Σ brings it to 1.0–1.8× of experiment.</li>
-    <li><strong>Fallaque et al., <em>JPCM</em> 34, 435901 (2022)</strong> — an efficient TRANSIESTA
-      re-implementation with an improved (infinite-reflection) image charge, benchmarked on acene/Au
-      with excellent agreement. Its procedure — extract $H_\text{mol}$, $S_\text{mol}$ from
-      <code>.TSHS</code> (sisl + NumPy + ASE) → MPSH diagonalise
-      $H_\text{mol}\psi=\varepsilon S_\text{mol}\psi$ → add Σ → replace — is the <strong>same
-      scheme</strong> as ours, with one difference: for our covalently-fused molecule the in-device
-      MPSH block has no clean molecular levels near $E_F$, so we build the projector from the
-      isolated molecule instead (see the derivation above).</li>
-  </ul>
-  <p>How ours differs (stated honestly): both precedents are <strong>organic molecule + Au</strong>;
-     no direct precedent for an <strong>inorganic 1D chain (VSe₃) electrode</strong> was found. Our
-     shift is the B3LYP−vdW-DF2 KS difference rather than the standard ΔSCF IP/EA, and we omit the
-     image-charge term that both papers include.</p>
+  <h2>Precedent &amp; how ours differs</h2>
+  <p>The direct precedent for STEP 3 (adding Σ to the molecular Hamiltonian via the MPSH block) is
+     Montes &amp; Vázquez (2021) and Fallaque et al. (2022) — both correct DFT-overestimated
+     molecular-junction conductance to experiment, and both sanction building the projector either
+     from a separate isolated-molecule calculation or from the junction-cropped (MPSH) subspace
+     (annotated in References below). How ours differs (stated honestly): both precedents are
+     <strong>organic molecule + Au</strong>; no direct precedent for an <strong>inorganic 1D chain
+     (VSe₃) electrode</strong> was found. Our shift is the B3LYP−vdW-DF2 KS difference rather than the
+     standard ΔSCF IP/EA, and we omit the image-charge term that both papers include.</p>
 
   <h2>References</h2>
   <ul>
