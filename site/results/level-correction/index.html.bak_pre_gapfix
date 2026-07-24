@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="order" content="80">
+<title>Level correction (DFT+Σ) & length convergence — 101-vse3-hf2se9</title>
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/katex/katex.min.css">
+<script defer src="../../assets/katex/katex.min.js"></script>
+<script defer src="../../assets/katex/contrib/auto-render.min.js"></script>
+<script defer src="../../assets/tree.js"></script>
+<script defer src="../../assets/site.js"></script>
+<script defer src="../../assets/search-index.js"></script>
+<script defer src="../../assets/search.js"></script>
+</head><body>
+<aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
+<main>
+<article>
+  <h1>08. Molecular-level correction (DFT+Σ) and length convergence</h1>
+  <p class="page-meta"><strong>2026-06-26 · current frontier</strong> · A longer scattering region
+    confirms the result; B3LYP orbital shifts computed as the input to the DFT+Σ level correction</p>
+
+  <h2>Goal</h2>
+  <p>Two things before the level-corrected transport: (1) confirm the conductance is converged once
+     the <strong>scattering region</strong> (the central device between the two semi-infinite VSe₃
+     electrodes) is made longer, and (2) compute the B3LYP→vdW-DF2 molecular-orbital energy shifts
+     $\Delta_i$ that feed the DFT+Σ correction.</p>
+
+  <h2>A. Scattering-region length convergence</h2>
+  <p>The 60° heterojunction was relaxed and its transport recomputed with the scattering region
+     extended from <strong>3 to 9 VSe₃ unit cells per electrode</strong> (cell-fixed relaxation,
+     vdW-DF2; transport at electrode k-point grid 100, η = 0.005 eV). Geometry, molecular PDOS, and
+     transmission all converge.</p>
+
+  <h3>Relaxation — interface geometry converges by 7 unit cells</h3>
+  <p>The interface bond lengths and the molecule–chain gap stop changing by 7 cells: the
+     molecule–chain (Se···VSe₃) gap moves 50 → 8 → 1 mÅ and is stable at 9.</p>
+  <p>Interactive — the relaxed 9-unit-cell junction (semi-infinite VSe₃ electrode → H-terminated
+     Hf₂Se₉ bridge → VSe₃; 92 atoms, $L_z$ = 69.9 Å; drag to rotate, scroll to zoom). Relaxed
+     coordinates (vdW-DF2, cell-fixed) from
+     <code>10-hetero-h-term-v3-relax/01_relax/rot_060_tight_9uc</code>.</p>
+<div id="sr9view" style="position:relative;width:100%;height:380px;border:1px solid var(--border);border-radius:6px;background:#fff"></div>
+<script type="text/plain" id="sr9view-xyz">
+92
+60deg heterojunction, 9 VSe3 unit cells per electrode (relaxed, vdW-DF2)
+Se 12.4980 14.4673 0.0001
+Se 10.7954 11.5209 0.0000
+Se 14.1989 11.5209 -0.0000
+V 12.4972 12.5028 1.5589
+Se 12.4982 14.4670 3.1173
+Se 10.7957 11.5211 3.1176
+Se 14.1983 11.5211 3.1176
+V 12.4966 12.5035 4.6807
+Se 10.7925 11.5241 6.2324
+Se 14.1980 11.5217 6.2326
+Se 12.4974 14.4688 6.2317
+V 12.4957 12.5046 7.8060
+Se 14.1981 11.5214 9.3446
+Se 12.4980 14.4702 9.3448
+Se 10.7922 11.5239 9.3451
+V 12.4965 12.5050 10.9383
+Se 12.4990 14.4723 12.4482
+Se 14.2006 11.5224 12.4484
+Se 10.7926 11.5239 12.4492
+V 12.4974 12.5064 14.0754
+Se 14.2022 11.5232 15.5544
+Se 12.4989 14.4746 15.5543
+Se 10.7922 11.5245 15.5552
+V 12.4982 12.5074 17.2191
+Se 14.2042 11.5237 18.6595
+Se 10.7927 11.5245 18.6605
+Se 12.4994 14.4754 18.6612
+V 12.4994 12.5068 20.3712
+Se 10.7949 11.5238 21.7874
+Se 14.2043 11.5240 21.7873
+Se 12.5000 14.4724 21.7894
+V 12.4996 12.5036 23.5226
+Se 10.8201 11.5304 24.9525
+Se 12.4989 14.4418 24.9554
+Se 14.1767 11.5285 24.9543
+V 12.4978 12.5002 26.7663
+Se 10.6919 11.4599 28.1017
+Se 12.4991 14.5838 28.1046
+Se 14.3002 11.4584 28.1050
+H 11.1943 11.7422 29.5040
+H 12.5069 14.0066 29.5063
+H 13.8046 11.7548 29.5072
+Se 12.4922 10.4936 31.6767
+Se 14.2662 13.5174 31.6835
+Se 10.7483 13.5397 31.6932
+Hf 12.5030 12.5159 33.2756
+Se 12.5019 14.7099 34.9407
+Se 10.6317 11.3771 34.9455
+Se 14.4175 11.4547 34.9471
+Hf 12.5014 12.5231 36.6135
+Se 10.7460 13.5400 38.1992
+Se 14.2639 13.5242 38.2059
+Se 12.4934 10.4968 38.2079
+H 13.8041 11.7551 40.3825
+H 12.5078 14.0070 40.3839
+H 11.1939 11.7431 40.3859
+Se 14.2999 11.4589 41.7848
+Se 12.4984 14.5841 41.7855
+Se 10.6915 11.4597 41.7879
+V 12.4971 12.5004 43.1235
+Se 14.1757 11.5282 44.9353
+Se 12.4981 14.4416 44.9347
+Se 10.8189 11.5308 44.9371
+V 12.4987 12.5032 46.3671
+Se 12.4998 14.4721 48.1005
+Se 14.2027 11.5226 48.1025
+Se 10.7937 11.5238 48.1024
+V 12.4987 12.5065 49.5185
+Se 12.4998 14.4753 51.2287
+Se 10.7921 11.5249 51.2297
+Se 14.2037 11.5235 51.2303
+V 12.4980 12.5075 52.6706
+Se 10.7921 11.5248 54.3354
+Se 12.4990 14.4747 54.3361
+Se 14.2019 11.5231 54.3359
+V 12.4974 12.5065 55.8147
+Se 10.7927 11.5243 57.4419
+Se 14.2004 11.5226 57.4426
+Se 12.4989 14.4725 57.4428
+V 12.4967 12.5054 58.9523
+Se 10.7926 11.5242 60.5462
+Se 12.4982 14.4704 60.5467
+Se 14.1988 11.5222 60.5468
+V 12.4963 12.5043 62.0847
+Se 12.4979 14.4683 63.6597
+Se 10.7946 11.5212 63.6588
+Se 14.1983 11.5211 63.6586
+V 12.4969 12.5030 65.2100
+Se 12.4980 14.4669 66.7737
+Se 10.7957 11.5211 66.7733
+Se 14.1985 11.5211 66.7733
+V 12.4971 12.5029 68.3316
+</script>
+<script>
+(function () {
+  var s = document.querySelector('script[data-3dmol]');
+  if (!s) { s = document.createElement('script'); s.src = '../../assets/lib/3Dmol-min.js';
+            s.setAttribute('data-3dmol','1'); document.head.appendChild(s); }
+  function draw() {
+    if (!window.$3Dmol) { return setTimeout(draw, 60); }
+    var xyz = document.getElementById('sr9view-xyz').textContent.trim();
+    var v = $3Dmol.createViewer('sr9view', { backgroundColor: 'white' });
+    v.addModel(xyz, 'xyz');
+    v.setStyle({}, { stick: { radius: 0.14 }, sphere: { scale: 0.32 } });
+    v.zoomTo(); v.render(); v.resize();
+  }
+  draw();
+})();
+</script>
+  <table>
+    <thead><tr><th>VSe₃ unit cells / electrode</th><th>Hf–Se (Å)</th><th>H–Se (Å)</th><th>Se···VSe₃ gap (Å)</th></tr></thead>
+    <tbody>
+      <tr><td>3</td><td>2.620</td><td>1.516</td><td>3.633</td></tr>
+      <tr><td>5</td><td>2.619</td><td>1.515</td><td>3.583</td></tr>
+      <tr><td>7</td><td>2.621</td><td>1.516</td><td>3.575</td></tr>
+      <tr><td>9</td><td>2.621</td><td>1.516</td><td>3.576</td></tr>
+    </tbody>
+  </table>
+  <figure>
+    <img src="figures/sr_bond_vs_uc.png" alt="structural metrics vs scattering-region length" style="max-width:460px">
+    <figcaption><strong>Fig. 1.</strong> Interface structural metrics vs scattering-region length —
+      flat from 7 to 9 unit cells. (Relaxed structures in <code>10-hetero-h-term-v3-relax/01_relax</code>.)</figcaption>
+  </figure>
+
+  <h3>Molecular PDOS is length-independent</h3>
+  <p>The molecular Hf₂Se₉ PDOS is nearly identical across 3 / 5 / 7 / 9 unit cells — the peak
+     positions do not move, confirming length-independent molecular levels.</p>
+  <figure>
+    <img src="figures/sr_pdos_compare.png" alt="molecular PDOS across 3/5/7/9 unit cells" style="max-width:460px">
+    <figcaption><strong>Fig. 2.</strong> Molecular PDOS overlaid for 3 / 5 / 7 / 9 unit cells per
+      electrode — peak positions unchanged.</figcaption>
+  </figure>
+
+  <h3>Transmission is converged</h3>
+  <p>The Fermi-level transmission is unchanged — $T(E_F) = \mathbf{0.348}$ for 9 cells vs 0.354 for
+     3 — with a single dominant eigenchannel; the Landauer I–V (zero-bias $T(E)$) shows no negative
+     differential conductance (resonant tunnelling).</p>
+  <table>
+    <thead><tr><th>VSe₃ unit cells / electrode</th><th>$T(E_F)$ (η = 0.005 eV)</th><th>transmission eigenchannel</th></tr></thead>
+    <tbody>
+      <tr><td>3</td><td>0.354</td><td>—</td></tr>
+      <tr><td>9</td><td><strong>0.348</strong></td><td>$\tau_0 = 0.989$ (single channel)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Eigenchannel vs energy — resonant tunnelling</h3>
+  <p>Real-space $|\psi|^2$ isosurface of the transmission eigenchannel at four energies. At $E_F$ the
+     channel is <strong>delocalised across the molecule</strong> (on-resonance); moving away in energy
+     it becomes <strong>localised / decays at the molecule</strong> (off-resonance) — the signature of
+     resonant tunnelling through the molecular level.</p>
+  <figure>
+    <div style="display:flex;flex-direction:column;gap:.8rem">
+      <div><div class="page-meta" style="margin:0 0 .15rem">$E_F$ — delocalised (on-resonance)</div>
+        <img src="figures/n25_9uc_ec_EF.png" alt="eigenchannel at E_F" style="max-width:100%"></div>
+      <div><div class="page-meta" style="margin:0 0 .15rem">+0.10 eV</div>
+        <img src="figures/n25_9uc_ec_0.10.png" alt="eigenchannel at 0.10 eV" style="max-width:100%"></div>
+      <div><div class="page-meta" style="margin:0 0 .15rem">+0.19 eV</div>
+        <img src="figures/n25_9uc_ec_0.19.png" alt="eigenchannel at 0.19 eV" style="max-width:100%"></div>
+      <div><div class="page-meta" style="margin:0 0 .15rem">+0.30 eV — localised (off-resonance)</div>
+        <img src="figures/n25_9uc_ec_0.30.png" alt="eigenchannel at 0.30 eV" style="max-width:100%"></div>
+    </div>
+    <figcaption><strong>Fig. 3.</strong> Transmitting eigenchannel $|\psi|^2$ at $E_F$ → +0.30 eV:
+      delocalised through the molecule on-resonance, localised off-resonance.</figcaption>
+  </figure>
+  <figure>
+    <img src="figures/n25_9uc_iv.png" alt="Landauer I-V (zero-bias T(E))" style="max-width:420px">
+    <figcaption><strong>Fig. 4.</strong> Landauer I–V (zero-bias $T(E)$) (9-unit-cell device) — resonant
+      tunnelling, no negative differential conductance.</figcaption>
+  </figure>
+
+  <h2>B. B3LYP molecular-level correction (DFT+Σ) — inputs</h2>
+  <p>The semi-local functional (vdW-DF2) underestimates the molecular gap, so the transmission
+     resonance is mis-placed at $E_F$. The correction is a <strong>DFT+Σ level alignment</strong>:
+     each molecular orbital is shifted by $\Delta_i = \varepsilon_i^{\text{B3LYP}} -
+     \varepsilon_i^{\text{vdW-DF2}}$ and added to the device Hamiltonian as</p>
+  <p style="text-align:center">$\displaystyle \Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^{\dagger}\,S,$</p>
+  <p>with $S$ the overlap and $C$ the <strong>isolated-molecule</strong> MO coefficients — the
+     in-device molecular block has no clean molecular levels here (Hf₂Se₉ is covalently fused into the
+     chain), so an MPSH projector cannot be used; construction detail in
+     <a href="../../methods/dft-sigma/index.html">Methods: DFT+Σ</a>. From the vacuum molecule
+     (vdW-DF2 in SIESTA vs B3LYP in VASP, vacuum-level aligned) the gap opens
+     <strong>0.02 → 0.75 eV</strong> with a strongly <strong>asymmetric</strong> shift — occupied
+     levels drop ≈ 1 eV ($\Delta_\text{HOMO} = -1.01$ eV) but virtual levels only ≈ 0.1–0.3 eV
+     ($\Delta_\text{LUMO} = -0.29$ eV). The device transport uses the same vdW-DF2, so the correction
+     functional is consistent.</p>
+  <figure>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center">
+      <span><img src="figures/b3lyp_levels_all.png" alt="level alignment" style="max-width:300px"></span>
+      <span><img src="figures/b3lyp_delta.png" alt="per-orbital shift" style="max-width:360px"></span>
+    </div>
+    <figcaption><strong>Fig. 5.</strong> (a) Level alignment — solid = occupied, dashed = virtual;
+      (b) per-orbital shift $\Delta_i$. Occupied levels drop ~1 eV, virtual only ~0.1–0.3 eV.</figcaption>
+  </figure>
+  <p>Full set of levels (vacuum-aligned, $E - V_\text{vac}$, eV; <code>mo_delta_orbital.csv</code>):</p>
+  <table>
+    <thead><tr><th>Orbital</th><th>vdW-DF2 (SIESTA)</th><th>B3LYP (VASP)</th><th>Δ = B3LYP − vdW-DF2</th></tr></thead>
+    <tbody>
+      <tr><td>LUMO+4</td><td>−5.40</td><td>−5.49</td><td>−0.09</td></tr>
+      <tr><td>LUMO+3</td><td>−5.40</td><td>−5.68</td><td>−0.27</td></tr>
+      <tr><td>LUMO+2</td><td>−5.55</td><td>−5.71</td><td>−0.16</td></tr>
+      <tr><td>LUMO+1</td><td>−5.55</td><td>−5.73</td><td>−0.18</td></tr>
+      <tr><td><strong>LUMO</strong></td><td>−5.55</td><td>−5.84</td><td><strong>−0.29</strong></td></tr>
+      <tr><td><strong>HOMO</strong></td><td>−5.58</td><td>−6.59</td><td><strong>−1.01</strong></td></tr>
+      <tr><td>HOMO−1</td><td>−5.58</td><td>−6.73</td><td>−1.15</td></tr>
+      <tr><td>HOMO−2</td><td>−5.75</td><td>−6.77</td><td>−1.02</td></tr>
+      <tr><td>HOMO−3</td><td>−5.96</td><td>−6.80</td><td>−0.84</td></tr>
+      <tr><td>HOMO−4</td><td>−6.57</td><td>−7.24</td><td>−0.67</td></tr>
+      <tr><td>HOMO−5</td><td>−6.58</td><td>−7.81</td><td>−1.23</td></tr>
+      <tr><td>HOMO−6</td><td>−6.75</td><td>−7.85</td><td>−1.10</td></tr>
+    </tbody>
+  </table>
+  <p class="page-meta">LUMO+5 is excluded — its B3LYP energy (−2.27 eV) sits ~3.5 eV above the other
+    virtual levels: high virtual orbitals are basis-dependent (SIESTA numerical atomic orbitals vs
+    VASP PAW), so the two codes' orbitals stop matching there. It is outside the transport window and
+    is not used in the correction.</p>
+
+  <h2>C. Corrected transmission — DFT+Σ applied</h2>
+  <p>We built the correction from the isolated-molecule MO coefficients $C$, projected onto the
+     device molecular block (Hf₂Se₉, atoms 107–117):</p>
+  $$\Delta H \;=\; S\,C\,\mathrm{diag}(\Delta_i)\,C^{\dagger}S,$$
+  <p>written as a level-1 <code>deltaH.dH.nc</code> and applied through <code>TBT.dH</code>
+     (N25_9uc, 0 bias, η = 0.005 eV).</p>
+  <table>
+    <thead><tr><th>at $E_F$</th><th>vdW-DF2</th><th>DFT+Σ</th></tr></thead>
+    <tbody>
+      <tr><td>Transmission $T(E_F)$</td><td>0.355</td><td><strong>0.051</strong> (~7× ↓)</td></tr>
+      <tr><td>Molecular PDOS (1/eV)</td><td>20.1</td><td><strong>1.2</strong> (~17× ↓)</td></tr>
+      <tr><td>Isolated-molecule gap</td><td>0.02 eV</td><td>0.75 eV</td></tr>
+      <tr><td>Device transport frontier split</td><td>~0 (pinned at $E_F$)</td><td>0.18 eV (HOMO −0.095 / LUMO +0.085)</td></tr>
+    </tbody>
+  </table>
+  <p class="page-meta">The <strong>0.75 eV</strong> is the <em>isolated-molecule</em> B3LYP gap
+    (<code>mo_delta_orbital.csv</code>: HOMO −6.59, LUMO −5.84). In the device the molecule is
+    hybridised with the metallic VSe₃ leads, so the transport frontier resonances sit much closer
+    — HOMO $-0.095$ / LUMO $+0.085$ eV, a <strong>0.18 eV</strong> split (what the PDOS panels below
+    show). The 0.75 eV gap is not visible in the device PDOS.</p>
+  <h3>Device molecular frontier — before / after (Hf₂Se₉ PDOS peaks)</h3>
+  <table>
+    <thead><tr><th></th><th>occupied frontier (HOMO)</th><th>virtual frontier (LUMO)</th><th>peak-to-peak</th><th>PDOS$(E_F)$</th></tr></thead>
+    <tbody>
+      <tr><td>vdW-DF2 (PBE)</td><td>$-0.015$ eV (on $E_F$)</td><td>$+0.175$ eV</td><td>0.19 eV</td><td>20.1 /eV</td></tr>
+      <tr><td>DFT+Σ</td><td>$-0.095$ eV</td><td>$+0.085$ eV</td><td>0.18 eV</td><td><strong>1.2</strong> /eV</td></tr>
+    </tbody>
+  </table>
+  <p class="page-meta">Frontier read directly off the Hf₂Se₉ PDOS peaks flanking $E_F$ (Fig. 8). The peak-to-peak
+    split barely moves (0.19 → 0.18 eV) — the isolated 0.75 eV gap is broadened and pinned by the metallic
+    VSe₃ leads — but the <em>alignment</em> flips: vdW-DF2 sits a molecular resonance <em>on</em> $E_F$
+    ($-0.015$ eV), DFT+Σ puts $E_F$ <em>inside</em> the frontier gap, so PDOS$(E_F)$ drops 17× (20.1 → 1.2 /eV)
+    and $T(E_F)$ 7×. The device <em>total</em> DOS has no true gap: the lead keeps $\sim$65 /eV at $E_F$
+    (Fig. 9), and the total-DOS drop 85.9 → 66.5 /eV is entirely the molecular states leaving $E_F$
+    (wire floor unchanged). Peaks from <code>pdos_dH_compare.csv</code>.</p>
+
+  <figure>
+    <img src="figures/dftsigma_te.png" alt="T(E) before/after DFT+Sigma" style="max-width:460px">
+    <figcaption><strong>Fig. 6.</strong> $T(E)$ (log) — vdW-DF2 vs DFT+Σ (N25_9uc). Opening the
+      molecular gap pushes the frontier resonance off $E_F$, so $T(E_F)$ drops $0.355\to0.051$.</figcaption>
+  </figure>
+  <p>This is the expected DFT+Σ effect (Montes &amp; Vázquez 2021; Fallaque 2022): semi-local DFT
+     overestimates molecular-junction conductance, and the hybrid-level correction brings it down.
+     <strong>Why $T(E_F)$ drops:</strong> it is a resonance-<em>position</em> effect, not a coupling
+     change. Uncorrected, the $E_F$-pinned frontier makes transport at $E_F$ <em>on-resonance</em>
+     ($\tau_0 = 0.989$); the correction moves the resonance to $-0.095$ eV, so $E_F$ transmission
+     becomes off-resonant tunnelling through the Lorentzian tail,
+     $T(E_F)\sim(\Gamma/2)^2/(\varepsilon-E_F)^2$ — Montes &amp; Vázquez show the transmission is
+     well approximated by a HOMO-only Lorentzian, whose centre the correction shifts.
+     A single eigenchannel still carries the current ($\tau_0\approx0.12$). The same $\Delta H$ applied
+     to the 3-cell device (N25_k100) gives $0.354\to0.046$ — the correction transfers across scattering-region lengths.</p>
+
+  <figure>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center">
+      <div style="flex:1 1 300px;max-width:430px"><img src="figures/te_mol_uncorr.png" alt="T(E) + molecular PDOS, vdW-DF2" style="max-width:100%"></div>
+      <div style="flex:1 1 300px;max-width:430px"><img src="figures/te_mol_corr.png" alt="T(E) + molecular PDOS, DFT+Sigma" style="max-width:100%"></div>
+    </div>
+    <figcaption><strong>Fig. 7.</strong> $T(E)$ (black, log, left) + Hf₂Se₉ molecular PDOS (orange, right) for N25_9uc — vdW-DF2 (left panel) vs DFT+Σ (right panel). Uncorrected: molecular PDOS piles up on $E_F$. Corrected: it is pushed off $E_F$ → PDOS$(E_F)\ 20.1\to1.2$ /eV, $T(E_F)\ 0.355\to0.051$.</figcaption>
+  </figure>
+  <figure>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center">
+      <div style="flex:1 1 300px;max-width:430px"><img src="figures/te_mol_uncorr_zoom.png" alt="molecular PDOS zoom, vdW-DF2" style="max-width:100%"></div>
+      <div style="flex:1 1 300px;max-width:430px"><img src="figures/te_mol_corr_zoom.png" alt="molecular PDOS zoom, DFT+Sigma" style="max-width:100%"></div>
+    </div>
+    <figcaption><strong>Fig. 8.</strong> Same, zoomed to $|E-E_F|\le0.5$ eV. The correction splits the molecular frontier off $E_F$ (HOMO $-0.095$ / LUMO $+0.085$ eV), leaving $E_F$ in a gap — the orange peaks visibly move away from the dotted $E_F$ line.</figcaption>
+  </figure>
+  <figure>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center">
+      <div style="flex:1 1 300px;max-width:430px"><img src="figures/te_tot_uncorr_zoom.png" alt="T(E) + total device DOS, vdW-DF2" style="max-width:100%"></div>
+      <div style="flex:1 1 300px;max-width:430px"><img src="figures/te_tot_corr_zoom.png" alt="T(E) + total device DOS, DFT+Sigma" style="max-width:100%"></div>
+    </div>
+    <figcaption><strong>Fig. 9.</strong> Same, with the <em>total</em> device DOS (grey) instead of the
+      molecular PDOS. The metallic-lead continuum at $E_F$ survives the correction
+      (DOS$(E_F)$ 85.9 → 66.5 /eV — the drop is the molecular states leaving $E_F$), and the
+      lead-dominated features stay in place — the correction acts on the molecule only, so the
+      $T(E_F)$ drop is molecular, not a lead artifact.</figcaption>
+  </figure>
+
+  <h3>Corrected eigenchannel — the frontier channel after DFT+Σ</h3>
+  <p>With the correction applied the frontier levels split off $E_F$ (device-frontier HOMO
+     $-0.095$, LUMO $+0.085$ eV), so the transmission eigenchannel is now strongest at the
+     <strong>HOMO resonance</strong> instead of pinned at $E_F$. Real-space $|\psi|^2$ isosurface of
+     the transmission eigenchannel EC₀ (corrected $H+\Delta H$, N25_9uc; V grey, Se green,
+     orange = channel).</p>
+  <table>
+    <thead><tr><th></th><th>energy</th><th>$E-E_F$ (eV)</th><th>$T$ (η = 1e-6)</th><th>$\tau_0$</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="3"><strong>vdW-DF2</strong><br>(uncorrected)</td>
+          <td>HOMO</td><td>−0.065</td><td>0.367</td><td>0.336</td></tr>
+      <tr><td>$E_F$</td><td>0</td><td><strong>0.991</strong></td><td>0.989</td></tr>
+      <tr><td>LUMO</td><td>+0.003</td><td>0.999</td><td>0.998</td></tr>
+      <tr><td rowspan="3"><strong>DFT+Σ</strong><br>(corrected)</td>
+          <td><strong>HOMO</strong></td><td>−0.095</td><td><strong>0.373</strong></td><td>0.373</td></tr>
+      <tr><td>$E_F$</td><td>0</td><td>0.124</td><td>0.124</td></tr>
+      <tr><td>LUMO</td><td>+0.085</td><td>0.074</td><td>0.074</td></tr>
+    </tbody>
+  </table>
+  <p>Before the correction the frontier is pinned at $E_F$ (LUMO at $+0.003$ eV) and the channel at
+     $E_F$ is near-ballistic ($\tau_0 = 0.989$; its isosurface is the first row of Fig. 3). After the
+     correction the frontier splits off $E_F$ and the $E_F$ channel weight drops to $\tau_0 = 0.124$ —
+     conduction moves to the HOMO resonance.</p>
+  <figure>
+    <div style="display:flex;flex-direction:column;gap:.8rem">
+      <div><div class="page-meta" style="margin:0 0 .15rem">HOMO resonance, $-0.095$ eV — $\tau_0 = 0.373$ (strongest)</div>
+        <img src="figures/n25_9uc_ec_corr_homo.png" alt="corrected eigenchannel at HOMO" style="max-width:100%"></div>
+      <div><div class="page-meta" style="margin:0 0 .15rem">$E_F$ — $\tau_0 = 0.124$</div>
+        <img src="figures/n25_9uc_ec_corr_ef.png" alt="corrected eigenchannel at E_F" style="max-width:100%"></div>
+      <div><div class="page-meta" style="margin:0 0 .15rem">LUMO resonance, $+0.085$ eV — $\tau_0 = 0.074$</div>
+        <img src="figures/n25_9uc_ec_corr_lumo.png" alt="corrected eigenchannel at LUMO" style="max-width:100%"></div>
+    </div>
+    <figcaption><strong>Fig. 10.</strong> Corrected ($H+\Delta H$) transmission eigenchannel $|\psi|^2$
+      at the shifted frontier resonances and $E_F$ (N25_9uc). The channel is strongest at the HOMO
+      resonance; at $E_F$ (now in the opened frontier gap) the weight through the molecule is reduced.</figcaption>
+  </figure>
+  <p class="page-meta">Cubes: <code>N25_9uc/0bias/dft_sigma/eigenchannel/{HOMO,EF,LUMO}/EC_0_{Re,Im,psi2}_*.cube</code>.
+    η = 1e-6 (eigenchannel) differs from the transport η = 0.005 that gives $T(E_F)$ (sharp $E_F$ resonance).</p>
+
+  <h3>Corrected Landauer I–V (zero-bias $T(E)$)</h3>
+  <p>Landauer integral of the corrected $T(E)$ with a <strong>symmetric</strong> bias window
+     (bias-independent $T(E)$ assumed):</p>
+  $$I(V) \;=\; \frac{2e}{h}\int T(E)\,\big[f(E-\mu_L)-f(E-\mu_R)\big]\,dE,
+  \qquad \mu_L = +\tfrac{eV}{2},\;\; \mu_R = -\tfrac{eV}{2},\;\; T = 300\ \mathrm{K}.$$
+  <p>The correction suppresses the low-bias current (at $\pm0.1$ V: $1.93\to0.49$ μA;
+     at $\pm0.5$ V: $5.94\to4.12$ μA). With a symmetric window and a bias-independent $T(E)$ the
+     curve is odd, $I(-V) = -I(V)$ — a symmetric junction (VSe₃ on both sides) shows
+     <strong>no rectification</strong> at this level; genuine rectification would require the true
+     bias dependence $T(E,V)$ of a finite-bias calculation.</p>
+  <figure>
+    <img src="figures/n25_9uc_iv_corr.png" alt="Landauer I-V (zero-bias T(E)), vdW-DF2 vs DFT+Sigma" style="max-width:420px">
+    <figcaption><strong>Fig. 11.</strong> Landauer I–V (zero-bias $T(E)$, symmetric window) — vdW-DF2 vs
+      DFT+Σ (N25_9uc). The corrected curve is flatter at low bias ($E_F$ now sits in the opened
+      frontier gap); both curves are odd, $I(-V)=-I(V)$ (symmetric window → no rectification).</figcaption>
+  </figure>
+  <figure>
+    <img src="figures/n25_9uc_iv_window_corr.png" alt="bias windows over corrected T(E)" style="max-width:420px">
+    <figcaption><strong>Fig. 12.</strong> Bias windows ($|V| = 0.1$–$0.5$ V) over the corrected $T(E)$
+      — the integration ranges behind Fig. 11, symmetric about $E_F$ ($\mu_{L,R} = \pm eV/2$, dashed).</figcaption>
+  </figure>
+
+  <h2>Discussion / next</h2>
+  <p><strong>What is actually implemented already:</strong> TBtrans already has the runtime hook for
+    an additive Hamiltonian/self-energy correction, and sisl already has the file writer for that
+    hook. The official TBtrans manual states that the electronic structure can be changed as
+    $H \leftarrow H + \delta H + \delta\Sigma$, and defines <code>TBT.dH</code> as the fdf flag for
+    the NetCDF4 file containing the $\delta H$ data. In sisl, <code>sisl.io.tbtrans.delta</code>
+    implements the matching <code>.dH.nc</code> writer/reader: <code>write_delta</code> stores
+    level-1 static terms when no <code>E</code> or <code>k</code> is supplied, and also supports
+    k-dependent, E-dependent, and E+k-dependent delta files.</p>
+  <p><strong>What is not automatic:</strong> there is no project-specific DFT+Σ button that knows our
+    molecular orbitals or B3LYP shifts. We still have to construct the actual molecular projector
+    correction, $\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$, write that matrix with
+    sisl as a level-1 <code>deltaH.dH.nc</code>, then tell TBtrans to use it with
+    <code>TBT.dH deltaH.dH.nc</code>. The source-patch part is unnecessary because the file-based
+    δH insertion path already exists; the physics/mapping step is still our implementation task.</p>
+  <p class="page-meta">Evidence tags:
+    <a class="status" href="https://docs.siesta-project.org/projects/siesta/en/5.2/reference/tbtrans.html#changing-the-electronic-structure-via-delta-elements">Official TBtrans δ-elements</a>
+    <a class="status" href="https://docs.siesta-project.org/projects/siesta/en/5.2/reference/tbtrans.html#fdfparam:tbt.dh">Official TBT.dH flag</a>
+    <a class="status" href="https://sisl.readthedocs.io/en/latest/_modules/sisl/io/tbtrans/delta.html#deltancSileTBtrans.write_delta">sisl write_delta source</a>
+    <a class="status" href="../../methods/dft-sigma/index.html">DFT+Σ implementation note</a>
+  </p>
+  <ul>
+    <li><strong>No SIESTA source patch needed</strong> — the shift applies through TBtrans's built-in
+      δH term (<code>TBT.dH</code>) once we provide the correctly constructed
+      <code>deltaH.dH.nc</code> file.</li>
+    <li><strong>Done:</strong> $\Delta H$ built and corrected $T(E)$ computed on the length-converged
+      N25_9uc device (Section C) — $T(E_F)\,0.355\to0.051$, molecular PDOS$(E_F)\,20\to1.2$/eV.
+      Cross-checked on the 3-cell N25_k100: $0.354\to0.046$ — the correction transfers directly.
+      Corrected eigenchannel rendered (Fig. 10).</li>
+    <li><strong>Next:</strong> charge-transfer $\Delta\rho$ analysis. A finite-bias chain is
+      <em>not</em> needed — the δH correction is applied at the TBtrans post-processing step, so the
+      zero-bias $T(E)$ already carries the correction.</li>
+  </ul>
+</article>
+<nav class="subpages"></nav>
+</main>
+</body></html>
