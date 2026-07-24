@@ -77,6 +77,16 @@ window.SITE_TREE = {
           "title": "08. Molecular-level correction (DFT+Σ) and length convergence",
           "path": "results/level-correction/index.html",
           "children": []
+        },
+        {
+          "title": "09. Hf₂Se₉ molecular stacking: distance and H-termination",
+          "path": "results/mol-stacking/index.html",
+          "children": []
+        },
+        {
+          "title": "10. CNT encapsulation — binding energy",
+          "path": "results/cnt-binding/index.html",
+          "children": []
         }
       ]
     },

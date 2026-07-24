@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="order" content="90">
+<title>Hf₂Se₉ molecular stacking — 101-vse3-hf2se9</title>
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/katex/katex.min.css">
+<script defer src="../../assets/katex/katex.min.js"></script>
+<script defer src="../../assets/katex/contrib/auto-render.min.js"></script>
+<script defer src="../../assets/tree.js"></script>
+<script defer src="../../assets/site.js"></script>
+<script defer src="../../assets/search-index.js"></script>
+<script defer src="../../assets/search.js"></script>
+</head><body>
+<aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
+<main>
+<article>
+  <h1>09. Hf₂Se₉ molecular stacking: distance and H-termination</h1>
+  <p class="page-meta"><strong>2026-07-24</strong> · Source: 04-hf2se9-2mol/, 04-hf2se9-3mol/ (01-distance-scan, 02-h-term single-point stdouts; 03-relax in progress). TEM: Dr. Yangjin Lee (KIST).</p>
+
+  <h2>Goal</h2>
+  <p>
+    Fix the stable stacking separation of Hf₂Se₉ units — a <strong>dimer</strong> (2 molecules) and
+    a <strong>trimer</strong> (3 molecules) — and the H-termination of the open faces. Single-point
+    (SP) energy vs the terminal Se–Se gap <em>d</em>.
+  </p>
+
+  <h2>Experimental basis (TEM)</h2>
+  <figure>
+    <img src="figures/tem_chain_overlay.png" alt="TEM chain with structure overlay" style="width:100%;max-width:900px;display:block;margin:0 auto .8rem">
+    <img src="figures/tem_distances.png" alt="TEM with measured distances" style="width:100%;max-width:900px;display:block;margin:0 auto">
+    <figcaption><strong>Fig. 1.</strong> TEM of the Hf₂Se₉ chain with structure overlay (Dr. Yangjin
+      Lee, KIST). Measured <strong>molecule–molecule distance ≈ 0.36 nm (3.6 Å)</strong>
+      (intra-molecule width ~0.72 nm) — the units are vdW-separated, not merged, which is the
+      separation the H-terminated gap-mode scan below reproduces.</figcaption>
+  </figure>
+
+  <h2>Method</h2>
+  <ul>
+    <li>vdW-DF2 (van der Waals density functional, LMKLL), MeshCutoff 500 Ry, Γ-point, vacuum box; SP total energies at fixed geometry.</li>
+    <li>Terminal Se–Se gap scanned: <strong>d = 2.5, 3.0, 3.5, 3.6, 4.0, 4.5 Å</strong> (dimer); the trimer omits 3.6.</li>
+    <li><strong>Stage 1</strong> bare (unterminated) stack. <strong>Stage 2</strong> H-terminated: three H caps placed as a triangle at the gap-centre plane, distinguished by triangle radius — <strong>bond 0.82 Å / gap 1.97 Å</strong> (matches the Se ring) <strong>/ tilt 3.0 Å</strong>. <strong>Stage 3</strong> relax the lowest configuration.</li>
+  </ul>
+
+  <h2>Result</h2>
+  <p>
+    <strong>H-terminated, the gap-mode stack at d = 3.5 Å is the energy minimum for both dimer and
+    trimer</strong> — consistent with the ~3.6 Å TEM spacing (the minimum is shallow: dimer d = 3.6 Å
+    is only +0.13 eV). The bare scan instead falls to the shortest gap (d = 2.5 Å).
+  </p>
+
+  <figure>
+    <iframe src="matviz-viewer_molstack.html" style="width:100%;max-width:680px;height:460px;border:1px solid rgba(0,0,0,.25);border-radius:6px;background:#fff" title="matviz structure viewer" loading="lazy"></iframe>
+    <figcaption><strong>Fig. 2.</strong> H-terminated gap-mode stack at d = 3.5 Å — switch between
+      dimer (25 atoms) and trimer (39 atoms). Current relaxation geometry (Stage 3). Blue = Hf,
+      tan = Se, white = H.</figcaption>
+  </figure>
+
+  <h3>Stage 1 — bare distance scan (ΔE, meV)</h3>
+  <table>
+    <thead><tr><th>d (Å)</th><th>2.5</th><th>3.0</th><th>3.5</th><th>3.6</th><th>4.0</th><th>4.5</th></tr></thead>
+    <tbody>
+      <tr><td>Dimer</td><td><strong>0</strong></td><td>1365</td><td>2419</td><td>2580</td><td>3097</td><td>3527</td></tr>
+      <tr><td>Trimer</td><td><strong>0</strong></td><td>2216</td><td>4591</td><td>—</td><td>5939</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <figure>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap">
+      <span><img src="figures/E_vs_distance_2mol.png" alt="dimer bare distance scan" style="max-width:330px"></span>
+      <span><img src="figures/E_vs_distance_3mol.png" alt="trimer bare distance scan" style="max-width:330px"></span>
+    </div>
+    <figcaption><strong>Fig. 3.</strong> Bare stacking energy vs Se–Se gap — dimer (left), trimer (right).</figcaption>
+  </figure>
+
+  <h3>Stage 2 — H-terminated mode scan (ΔE, meV; vs global min)</h3>
+  <p>ΔE relative to the global minimum of each system (dimer −65856.850 eV; trimer −98810.933 eV).</p>
+  <table>
+    <thead><tr><th rowspan="2">d (Å)</th><th colspan="3">Dimer</th><th colspan="3">Trimer</th></tr>
+      <tr><th>bond</th><th>gap</th><th>tilt</th><th>bond</th><th>gap</th><th>tilt</th></tr></thead>
+    <tbody>
+      <tr><td>2.5</td><td>4111</td><td>13287</td><td>3825</td><td>8077</td><td>26370</td><td>7298</td></tr>
+      <tr><td>3.0</td><td>2750</td><td>1703</td><td>1844</td><td>5382</td><td>3416</td><td>3659</td></tr>
+      <tr><td>3.5</td><td>3191</td><td><strong>0</strong></td><td>2842</td><td>6313</td><td><strong>0</strong></td><td>5692</td></tr>
+      <tr><td>3.6</td><td>3342</td><td>135</td><td>3164</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>4.0</td><td>3670</td><td>1330</td><td>4544</td><td>7334</td><td>2694</td><td>9119</td></tr>
+      <tr><td>4.5</td><td>4124</td><td>3389</td><td>6189</td><td>8237</td><td>6862</td><td>12431</td></tr>
+    </tbody>
+  </table>
+  <figure>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap">
+      <span><img src="figures/hterm_modes_2mol.png" alt="dimer H-term modes" style="max-width:330px"></span>
+      <span><img src="figures/hterm_modes_3mol.png" alt="trimer H-term modes" style="max-width:330px"></span>
+    </div>
+    <figcaption><strong>Fig. 4.</strong> H-terminated energy vs Se–Se gap, three cap modes — dimer (left), trimer (right). Gap mode bottoms out at d = 3.5 Å.</figcaption>
+  </figure>
+
+  <h3>Stage 3 — relaxation (in progress)</h3>
+  <p>
+    The gap-mode d = 3.5 Å configuration (dimer 25 atoms, 25×25×35 Å; trimer 39 atoms, 25×25×45 Å)
+    is being relaxed with vdW-DF2 (Broyden, MaxForceTol 0.01 eV/Å, cell fixed); not yet converged.
+  </p>
+
+  <h2>Next steps</h2>
+  <ul>
+    <li>Finish the gap-mode relaxation; report converged Hf–Hf, Se–Se gap, residual force.</li>
+    <li>Feed the converged stack into the connected multi-molecule heterostructure (conductance decay).</li>
+  </ul>
+</article>
+<nav class="subpages"></nav>
+</main>
+</body></html>

@@ -67,8 +67,8 @@
     </tbody>
   </table>
   <p>
-    Within SIESTA, PBE and PBE+D3(BJ) (3.857 Å) are closest to experiment; vdW-DF2 over-expands
-    further (3.967 Å). VASP HSE06+D3 (3.330 Å) is closest of all, but the SIESTA↔VASP discrepancy is
+    Within SIESTA, PBE (3.857 Å) is closest to experiment; vdW-DF2 over-expands
+    further (3.967 Å). The VASP hybrid reference (3.330 Å) is closest of all, but the SIESTA↔VASP discrepancy is
     large. A2 (PBE+D2) repeatedly fails SCF convergence — cause not yet isolated.
   </p>
 
@@ -125,8 +125,7 @@
     <li><strong>Grimme D2 Hf C₆ inaccuracy.</strong> C₆ sets the vdW attraction strength
       ($E_\mathrm{disp} = -C_6/R^6$). D2 uses a fixed free-atom value; free Hf has
       C₆ = 1089.41 eV·Å⁶, but inside Hf₂Se₉ the Hf is surrounded by 6 Se, so its real C₆ should be
-      much smaller. D2 ignores this environment dependence. D3(BJ) interpolates C₆ from the
-      coordination number, fixing it; vdW-DF2 avoids empirical parameters entirely (vdW energy from
+      much smaller. D2 ignores this environment dependence; vdW-DF2 avoids empirical parameters entirely (vdW energy from
       the electron density).</li>
     <li><strong>Basis-set sensitivity (BSSE).</strong> Large basis (10 meV) → 16% expansion; small
       basis (50 meV) → nearly unchanged. The vdW-gap energy (~tens of meV) is within the BSSE error.</li>
@@ -135,17 +134,15 @@
     <li><strong>Starting-structure dependence.</strong> The 2-unit-cell start expands; the 1-unit-cell
       bulk-extracted start contracts — opposite directions for the same system.</li>
     <li><strong>Heterostructure "false convergence."</strong> In the heterojunction with 3 VSe₃ unit cells per lead, 1-step
-      convergence is a VSe₃ cage effect (kinetic trapping), not a true minimum. By contrast VASP MD
-      with DFT-D3 held Hf–Hf = 3.82 Å.</li>
+      convergence is a VSe₃ cage effect (kinetic trapping), not a true minimum.</li>
   </ol>
 
-  <h2>vdW-correction comparison: D2 vs D3(BJ) vs vdW-DF2</h2>
+  <h2>Dispersion treatment: D2 vs vdW-DF2</h2>
   <p>Grimme D2 (Grimme 2006) adds dispersion on top of PBE:</p>
   $$E_\mathrm{disp} = -s_6 \sum_{i<j} \frac{C_6^{ij}}{r_{ij}^6}\, f_\mathrm{damp}(r_{ij})$$
   <p>
     with element-fixed C₆ (no environment dependence) and PBE exchange (s₆ = 0.75 for PBE).
-    D3(BJ) (Grimme 2010) interpolates C₆ from the coordination number and adds a C₈ term with
-    Becke–Johnson damping. vdW-DF2 (Lee 2010) is non-empirical:
+    vdW-DF2 (Lee 2010) is non-empirical:
   </p>
   $$E_\mathrm{vdW\text{-}DF2} = E_x^{\mathrm{revPBE}} + E_c^{\mathrm{LDA}} + E_c^{\mathrm{nl}},\qquad
     E_c^{\mathrm{nl}} = \tfrac12 \iint n(\mathbf{r})\,\Phi(\mathbf{r},\mathbf{r}')\,n(\mathbf{r}')\,d\mathbf{r}\,d\mathbf{r}'$$
@@ -156,14 +153,14 @@
     $f_\mathrm{damp}$ = short-range damping, $s_6$ = global scaling.
   </p>
   <table>
-    <thead><tr><th>Feature</th><th>D2</th><th>D3(BJ)</th><th>vdW-DF2</th></tr></thead>
+    <thead><tr><th>Feature</th><th>D2</th><th>vdW-DF2</th></tr></thead>
     <tbody>
-      <tr><td>C₆ determination</td><td>fixed (1 per element)</td><td>CN-dependent interpolation</td><td>direct from density</td></tr>
-      <tr><td>Environment adaptivity</td><td>none</td><td>via CN</td><td>fully self-consistent</td></tr>
-      <tr><td>Exchange functional</td><td>PBE</td><td>PBE</td><td>revPBE</td></tr>
-      <tr><td>damping</td><td>zero (discontinuous)</td><td>BJ (smooth)</td><td>not needed (seamless)</td></tr>
-      <tr><td>SIESTA support</td><td>built-in (grimme.fdf)</td><td>conditional (libdftd3; not in 5.2.x)</td><td>built-in (XC.functional VDW)</td></tr>
-      <tr><td>Reliability for Hf₂Se₉</td><td>low (failures observed)</td><td>high (VASP-validated)</td><td>high (theoretical)</td></tr>
+      <tr><td>C₆ determination</td><td>fixed (1 per element)</td><td>direct from density</td></tr>
+      <tr><td>Environment adaptivity</td><td>none</td><td>fully self-consistent</td></tr>
+      <tr><td>Exchange functional</td><td>PBE</td><td>revPBE</td></tr>
+      <tr><td>damping</td><td>zero (discontinuous)</td><td>not needed (seamless)</td></tr>
+      <tr><td>SIESTA support</td><td>built-in (grimme.fdf)</td><td>built-in (XC.functional VDW)</td></tr>
+      <tr><td>Reliability for Hf₂Se₉</td><td>low (failures observed)</td><td>high (production)</td></tr>
     </tbody>
   </table>
 
@@ -184,20 +181,18 @@
     metastable geometry by preventing motion. The first run is planned as "CNT atoms fixed,
     Hf₂Se₉ relaxed only", following the JACS 2021 NbTe₃/VTe₃/TiTe₃@CNT protocol
     (10.1021/jacs.0c10175). A diameter scan over CNT chiralities (≈ 12 Å inner diameter needed; (9,9)
-    and (16,0) as starting candidates) precedes relaxation and MD. Status: structure scaffolds only;
-    a (9,9)+Hf₂Se₉ assembly was generated.
+    and (16,0) as starting candidates) precedes relaxation and MD. This has since been executed as phase-c: the VSe₃@CNT binding is complete and the Hf₂Se₉@CNT relaxation is running — see <a href="../cnt-binding/index.html">10. CNT binding</a>.
   </p>
   <figure>
     <img src="figures/hf2se9-cnt99-side.png" alt="Hf2Se9 in CNT(9,9) side view" style="max-width:380px">
-    <figcaption><strong>Fig. 3.</strong> Hf₂Se₉ in a (9,9) CNT, side view (assembled structure;
-      calculation not yet run).</figcaption>
+    <figcaption><strong>Fig. 3.</strong> Hf₂Se₉ in a (9,9) CNT, side view (initial assembled structure; the production phase-c run uses an 8-unit CNT cell — see 10. CNT binding).</figcaption>
   </figure>
 
   <h2>Discussion / next steps</h2>
   <ul>
     <li>Confirm optimal XC + EnergyShift (Phase A/B), then DFT+U scan (Phase D), then CNT (Phase C).</li>
     <li>Resolve A2 (PBE+D2) SCF failure; obtain QE A7 to separate code dependence.</li>
-    <li>Validate the chosen functional on the chain, since D3 has no effect on an isolated molecule.</li>
+    <li>Validate the chosen functional on the chain, where dispersion contributes (an isolated molecule cannot discriminate it).</li>
   </ul>
 </article>
 <nav class="subpages"></nav>

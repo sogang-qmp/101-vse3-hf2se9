@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="order" content="100">
+<title>CNT encapsulation binding — 101-vse3-hf2se9</title>
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/katex/katex.min.css">
+<script defer src="../../assets/katex/katex.min.js"></script>
+<script defer src="../../assets/katex/contrib/auto-render.min.js"></script>
+<script defer src="../../assets/tree.js"></script>
+<script defer src="../../assets/site.js"></script>
+<script defer src="../../assets/search-index.js"></script>
+<script defer src="../../assets/search.js"></script>
+</head><body>
+<aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
+<main>
+<article>
+  <h1>10. CNT encapsulation — binding energy</h1>
+  <p class="page-meta"><strong>2026-07-24</strong> · Source: 03-calc/phase-c/01_binding (siesta.stdout
+    total energies; structures from _scripts/build_at_cnt_v2.py). VSe₃@CNT complete;
+    Hf₂Se₉@CNT relaxation in progress.</p>
+
+  <h2>Goal</h2>
+  <p>
+    Quantify how strongly the two 1D building blocks — the VSe₃ wire and the Hf₂Se₉ molecule —
+    bind inside a (9,9) carbon nanotube (diameter ≈ 12.2 Å), the encapsulation geometry of the
+    experimental samples. The binding energy is
+  </p>
+  <p>
+    $$E_\mathrm{bind} = E(\mathrm{X@CNT}) - E(\mathrm{X}) - E(\mathrm{CNT}), \qquad
+    \mathrm{X} = \mathrm{VSe_3\ wire,\ Hf_2Se_9\ molecule},$$
+  </p>
+  <p>so that a negative value means the guest is bound inside the tube.</p>
+
+  <h2>Method</h2>
+  <p>
+    All three terms are computed with vdW-DF2 (LMKLL), MeshCutoff 500 Ry, and a
+    k-grid of (1,1,8) for the VSe₃ system, in the <strong>identical cell</strong>
+    (30 × 30 × 12.4629 Å, tube axis z) with the identical CNT atoms, so cell- and k-grid
+    errors cancel between the terms. The commensurate cell holds 4 VSe₃ formula units against
+    5 CNT rings (+1.34% axial strain on the CNT; the wire is unstrained). The complex is relaxed
+    with the 180 CNT carbons fixed and the wire free (force tolerance 0.02 eV/Å); the two
+    reference terms (wire in the same cell, empty CNT) are single-point energies.
+    The Hf₂Se₉ system uses the same protocol in a 19.6761 Å cell (8 CNT units, k = (1,1,6)),
+    which keeps the periodic images of the single molecule 12.7 Å apart.
+  </p>
+
+  <h2>Result — VSe₃@CNT</h2>
+  <p>
+    The relaxed wire stays centred in the tube and binds with
+    <strong>$E_\mathrm{bind}$ = −4.85 eV per cell</strong> (4 formula units), i.e.
+    <strong>−1.21 eV per VSe₃ unit</strong> or −0.39 eV per Å of tube.
+  </p>
+  <table>
+    <thead><tr><th>Term</th><th>Calculation</th><th>E (eV)</th></tr></thead>
+    <tbody>
+      <tr><td>E(VSe₃@CNT)</td><td>relax (CNT fixed)</td><td>−77563.030</td></tr>
+      <tr><td>E(VSe₃ wire)</td><td>single-point, same cell</td><td>−47820.171</td></tr>
+      <tr><td>E(CNT)</td><td>single-point, same cell</td><td>−29738.005</td></tr>
+      <tr><td><strong>E<sub>bind</sub></strong></td><td>per cell / per f.u. / per Å</td>
+        <td><strong>−4.854 / −1.213 / −0.390</strong></td></tr>
+    </tbody>
+  </table>
+
+  <figure>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center">
+      <span><img src="figures/vse3_at_cnt_axial.png" alt="VSe3@CNT axial view" style="max-width:300px"></span>
+      <span><img src="figures/vse3_at_cnt_side.png" alt="VSe3@CNT side view" style="max-width:340px"></span>
+    </div>
+    <figcaption><strong>Fig. 1.</strong> Relaxed VSe₃ wire inside the (9,9) CNT — axial view (left)
+      and side view, two periods (right). Brown = C, orange = Se, grey = V.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="figures/binding_energy.png" alt="binding energy bar chart" style="max-width:420px">
+    <figcaption><strong>Fig. 2.</strong> Encapsulation binding energy per guest unit.
+      The Hf₂Se₉@CNT bar will be added when its relaxation converges.</figcaption>
+  </figure>
+
+  <figure>
+    <iframe src="matviz-viewer_cntbind.html" style="width:100%;max-width:680px;height:460px;border:1px solid rgba(0,0,0,.25);border-radius:6px;background:#fff" title="matviz structure viewer" loading="lazy"></iframe>
+    <figcaption><strong>Fig. 3.</strong> Relaxed VSe₃@CNT (196 atoms), interactive.</figcaption>
+  </figure>
+
+  <h2>Hf₂Se₉@CNT — in progress</h2>
+  <p>
+    The two reference terms are converged (isolated molecule −32900.109 eV and empty CNT
+    −47576.043 eV, both in the 19.6761 Å cell). The complex relaxation is still running;
+    $E_\mathrm{bind}$(Hf₂Se₉@CNT) will be added here when it converges.
+  </p>
+
+  <h2>Next steps</h2>
+  <ul>
+    <li>Charge transfer Δρ = ρ(X@CNT) − ρ(X) − ρ(CNT) on the relaxed geometries
+      (three single-points with SaveRho, same cell) — VSe₃ first, Hf₂Se₉ after its relaxation.</li>
+    <li>Hf₂Se₉@CNT binding energy on convergence.</li>
+  </ul>
+</article>
+<nav class="subpages"></nav>
+</main>
+</body></html>

@@ -296,7 +296,7 @@ Se 14.1980 11.5210 166.4775
     <img src="figures/te-3way.png" alt="Three-way transmission">
     <figcaption><strong>Fig. 2.</strong> $T(E)$ — pristine VSe₃ (η = 0.001) / Hf₂Se₉ hetero /
       disconnected ($T\approx0$, off scale; hetero·disc η = 0.005). Removing the molecule
-      (~14 Å gap) kills conduction.</figcaption>
+      (~14 Å gap) eliminates conduction.</figcaption>
   </figure>
   <p>The transmitting states are molecular: the Hf₂Se₉ frontier (HOMO/LUMO, near-degenerate and
      pinned at $E_F$ — isolated-molecule HOMO $=-0.020$, LUMO $=+0.003$ eV, gap $0.023$ eV) sits
@@ -311,14 +311,13 @@ Se 14.1980 11.5210 166.4775
 
   <h3>C. Eigenchannel — the channel runs through the molecule</h3>
   <p>Real-space $|\psi|^2$ isosurface of the transmission eigenchannel (from the
-     <code>EC_0_psi2_*.cube</code> files; V grey, Se green). At $E_F$ the channel (EC₀,
-     $\tau=0.999$) runs along the whole device and clearly threads <em>through</em> the Hf₂Se₉
+     <code>EC_0_psi2_*.cube</code> files; V grey, Se green). At $E_F$ the dominant transmission eigenchannel runs along the whole device and clearly threads <em>through</em> the Hf₂Se₉
      at the centre — direct real-space evidence of molecule-mediated conduction.
      (Renders below: 3-cell device N25_k100; the length-converged 9-cell device gives the same
-     channel structure, $E_F$ $\tau_0 = 0.989$.)</p>
+     channel structure.)</p>
   <figure>
     <img src="figures/eigenchannel-EF.png" alt="Eigenchannel |psi|^2 isosurface at E_F" style="max-width:100%">
-    <figcaption><strong>Fig. 4.</strong> $E_F$ eigenchannel EC₀ ($\tau=0.999$) $|\psi|^2$ isosurface —
+    <figcaption><strong>Fig. 4.</strong> $E_F$ dominant eigenchannel $|\psi|^2$ isosurface —
       threads through the molecule (centre lobe) and into both VSe₃ leads.</figcaption>
   </figure>
   <figure>
@@ -353,9 +352,10 @@ Se 14.1980 11.5210 166.4775
   </figure>
 
   <h2>Discussion</h2>
-  <p>Conduction is resonant because the PBE/vdW-DF molecular resonance sits on $E_F$. Whether it
-     stays resonant under a corrected gap is the open question driving the
-     <a href="../../methods/index.html">B3LYP level correction</a> (see Results: level correction).</p>
+  <p>Conduction is resonant because the uncorrected (vdW-DF2) molecular resonance sits on $E_F$.
+     The B3LYP DFT+Σ correction resolves this question: the resonance moves off $E_F$ and
+     $T(E_F)$ drops to 0.0032 — see
+     <a href="../level-correction/index.html">08. Level correction</a>.</p>
 </article>
 <nav class="subpages"></nav>
 </main>

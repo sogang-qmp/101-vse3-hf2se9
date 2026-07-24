@@ -183,7 +183,7 @@ V 12.4971 12.5029 68.3316
     <thead><tr><th>VSe₃ unit cells / electrode</th><th>$T(E_F)$ (η = 0.005 eV)</th><th>transmission eigenchannel</th></tr></thead>
     <tbody>
       <tr><td>3</td><td>0.354</td><td>—</td></tr>
-      <tr><td>9</td><td><strong>0.348</strong></td><td>$\tau_0 = 0.989$ (single channel)</td></tr>
+      <tr><td>9</td><td><strong>0.348</strong></td><td>single dominant channel</td></tr>
     </tbody>
   </table>
 
@@ -275,11 +275,13 @@ V 12.4971 12.5029 68.3316
   <p>v1 built $\Delta_i$ by subtracting the two codes directly, aligned by vacuum level, and
      reported device $T(E_F)$ 0.355→0.051 with a "frontier gap 0.18 eV". These were the meeting
      figures:</p>
+  <figure>
   <table width="100%"><tr>
     <td width="50%" align="center"><img src="figures/v1_pdos_compare_zoom.png" style="max-width:100%"></td>
     <td width="50%" align="center"><img src="figures/v1_te_dH_compare.png" style="max-width:100%"></td>
   </tr></table>
   <figcaption style="text-align:center"><strong>Fig. C1 (v1, superseded).</strong> Molecular PDOS (left) and $T(E)$ (right): vdW-DF2 vs v1 DFT+Σ. The corrected molecular peaks still sit within ±0.2 eV of $E_F$ — that leftover splitting is the "0.18 eV".</figcaption>
+  </figure>
 
   <p><strong>Why it is wrong.</strong> The two codes carry a ~0.71 eV rigid offset that vacuum
      alignment does not remove (a same-PBE test gives +0.71 eV uniformly across all orbitals; even
@@ -311,7 +313,7 @@ V 12.4971 12.5029 68.3316
      inside each bracket (one extra SIESTA-PBE single point supplies the second bracket):</p>
   <p style="text-align:center">$\displaystyle \Delta_i^{v2}=[\varepsilon^{\text{B3LYP}}-\varepsilon^{\text{PBE}}]_{\text{VASP}}+[\varepsilon^{\text{PBE}}-\varepsilon^{\text{vdW-DF2}}]_{\text{SIESTA}}$</p>
   <p>The signs become physical — occupied levels shift down, virtual levels up — and the
-     isolated-molecule HOMO–LUMO gap opens to 0.75 eV.</p>
+     isolated-molecule HOMO–LUMO gap opens to 0.75 eV. Applied to the 9-cell device, the v2 correction suppresses $T(E_F)$ from 0.348 (uncorrected) to <strong>0.0032</strong>.</p>
   <figure>
     <img src="figures/v2_poster_levels.png" alt="level diagram vdW-DF2 to DFT+Sigma v2" style="max-width:360px">
     <figcaption><strong>Fig. C3.</strong> Molecular levels, vacuum-aligned: vdW-DF2 → DFT+Σ(v2). Occupied levels shift down, virtual up; the HOMO–LUMO gap opens to 0.75 eV.</figcaption>
@@ -324,11 +326,13 @@ V 12.4971 12.5029 68.3316
     <img src="figures/v2_te_beforeafter.png" alt="T(E) before/after DFT+Sigma v2" style="max-width:420px">
     <figcaption><strong>Fig. C3c.</strong> $T(E)$ before (vdW-DF2) vs after (DFT+Σ v2). The correction suppresses $T$ near $E_F$ as the molecular resonance moves off $E_F$.</figcaption>
   </figure>
+  <figure>
   <table width="100%"><tr>
     <td width="50%" align="center"><img src="figures/v2_te_mol_uncorr_zoom.png" style="max-width:100%"></td>
     <td width="50%" align="center"><img src="figures/v2_te_mol_corr_zoom.png" style="max-width:100%"></td>
   </tr></table>
   <figcaption style="text-align:center"><strong>Fig. C4.</strong> $T(E)$ + molecular PDOS ($E_F\pm0.5$ eV): vdW-DF2 (left) vs DFT+Σ v2 (right). The molecular resonance moves off $E_F$ on both sides.</figcaption>
+  </figure>
 
   <h3>3. Corrected eigenchannel (v2) — the HOMO carries the current</h3>
   <p>Transmission eigenchannel $|\psi|^2$ of the v2-corrected junction, evaluated at the molecular

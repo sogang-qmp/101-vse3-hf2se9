@@ -95,7 +95,7 @@
       <tr><td>gap increment $\Delta_L-\Delta_H$</td><td>(negative)</td><td><strong>+0.75 eV</strong></td></tr>
     </tbody>
   </table>
-  <p><strong>Assumption (stated honestly):</strong> the hybrid correction $[B3LYP-PBE]$ is
+  <p><strong>Assumption:</strong> the hybrid correction $[B3LYP-PBE]$ is
      code-independent ($_\text{VASP}\approx_\text{SIESTA}$). This is an approximation, but a physical
      one — the hybrid–semilocal difference is set by the exact-exchange fraction (a physical quantity),
      not a code artifact. The image-charge term is still omitted (image-charge-inclusive DFT+Σ / ΔSCF IP-EA is the quantitative route).</p>
@@ -148,7 +148,7 @@ STEP 5           compare T(E) / molecular PDOS before vs after + charge-conserva
   <p><strong>③ Take matrix elements in the PAO basis:</strong></p>
   <p style="text-align:center">$\displaystyle (\Delta H)_{\mu\nu}=\langle\chi_\mu|\Delta\hat H|\chi_\nu\rangle
      =\sum_i\Delta_i\,\langle\chi_\mu|\phi_i\rangle\,\langle\phi_i|\chi_\nu\rangle.$</p>
-  <p><strong>④ Where the overlap $S$ enters</strong> — the step that is easy to drop. The PAOs are
+  <p><strong>④ Where the overlap $S$ enters</strong>. The PAOs are
      non-orthogonal, $\langle\chi_\mu|\chi_\lambda\rangle=S_{\mu\lambda}\neq\delta_{\mu\lambda}$, so</p>
   <p style="text-align:center">$\displaystyle \langle\chi_\mu|\phi_i\rangle=\sum_\lambda C^i_\lambda\,S_{\mu\lambda}=(S\,C^i)_\mu.$</p>
   <p>Substituting into ③ gives the working form:</p>
@@ -271,7 +271,7 @@ sisl.get_sile('deltaH.dH.nc', 'w').write_delta(dH)      # no k=/E= → level-1</
      Montes &amp; Vázquez (2021) and Fallaque et al. (2022) — both correct DFT-overestimated
      molecular-junction conductance to experiment, and both sanction building the projector either
      from a separate isolated-molecule calculation or from the junction-cropped (MPSH) subspace
-     (annotated in References below). How ours differs (stated honestly): both precedents are
+     (annotated in References below). How ours differs: both precedents are
      <strong>organic molecule + Au</strong>; no direct precedent for an <strong>inorganic 1D chain
      (VSe₃) electrode</strong> was found. Our shift is the B3LYP−vdW-DF2 KS difference rather than the
      standard ΔSCF IP/EA, and we omit the image-charge term that both papers include.</p>
@@ -282,7 +282,7 @@ sisl.get_sile('deltaH.dH.nc', 'w').write_delta(dH)      # no k=/E= → level-1</
       (2022) — TRANSIESTA DFT+Σ + image charge, acene/Au (full text verified).
       <a href="https://doi.org/10.1088/1361-648X/ac89c4">DOI 10.1088/1361-648X/ac89c4</a></li>
     <li><strong>Montes &amp; Vázquez</strong>, <em>Appl. Sci.</em> <strong>11</strong>, 802 (2021) —
-      original SIESTA/TRANSIESTA orbital-dependent operator (full text not accessed; via Fallaque
+      original SIESTA/TRANSIESTA orbital-dependent operator (full text verified 2026-07-02; also via Fallaque
       citation). <a href="https://doi.org/10.3390/app11020802">DOI 10.3390/app11020802</a></li>
     <li><strong>Neaton, Hybertsen &amp; Louie</strong>, <em>Phys. Rev. Lett.</em>
       <strong>97</strong>, 216405 (2006) — <em>origin of the correction.</em> GW shows the

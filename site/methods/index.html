@@ -19,39 +19,40 @@
   <p class="page-meta">Computational setup for the current iteration</p>
 
   <h2>DFT (SIESTA)</h2>
-  <ul>
-    <li><strong>Functional: vdW-DF2</strong> (<code>XC.authors LMKLL</code>) — production for
-        chain and junction relaxation, bands, PDOS. PBE+D2 was anomalously unstable for the
-        Hf₂Se₉ relaxation, so it was dropped
-        (<a href="../results/hf2se9-stability/index.html">02. Hf₂Se₉ stability</a>).</li>
-    <li><strong>Basis / grid:</strong> MeshCutoff 500 Ry; SCF.DM.Tolerance 1.0×10⁻⁷;
-        density mixer weight 0.2, history 15.</li>
-  </ul>
+  <p>
+    The production functional is <strong>vdW-DF2</strong> (<code>XC.authors LMKLL</code>) for
+    chain and junction relaxation, bands, and PDOS — PBE+D2 was anomalously unstable for the
+    Hf₂Se₉ relaxation, so it was dropped
+    (<a href="../results/hf2se9-stability/index.html">02. Hf₂Se₉ stability</a>).
+    Numerical settings: MeshCutoff 500 Ry, SCF.DM.Tolerance 1.0×10⁻⁸, density mixer
+    weight 0.2 with history 15.
+  </p>
 
   <h2>Transport (TranSIESTA / TBtrans)</h2>
-  <ul>
-    <li>~220-atom device (scattering atoms 13–208): VSe₃ buffer + Hf₂Se₉ + VSe₃ buffer between
-        bulk VSe₃ electrodes.</li>
-    <li>Zero-bias NEGF; electrode <strong>k = 100</strong> along transport; broadening
-        <strong>η = 0.005 eV</strong>. Transmission $T(E)$ via sisl from <code>trans.TBT.nc</code>;
-        eigenchannels (Re/Im/|ψ|² cubes + z-profile).</li>
-  </ul>
+  <p>
+    The ~220-atom device (scattering atoms 13–208) places a Hf₂Se₉ molecule between VSe₃
+    buffers and bulk VSe₃ electrodes. Zero-bias NEGF uses electrode <strong>k = 100</strong>
+    along the transport direction and broadening <strong>η = 0.005 eV</strong>; the
+    transmission $T(E)$ is extracted with sisl from <code>trans.TBT.nc</code>, together with
+    the transmission eigenchannels (Re/Im/|ψ|² cubes).
+  </p>
 
   <h2>Molecular-level correction (DFT+Σ)</h2>
   <p>
     The GGA/vdW-DF level underestimates the molecular gap, mis-placing the resonance at $E_F$.
     Orbital shifts from the vacuum molecule,
-    $\Delta_i=\varepsilon_i^{\text{B3LYP}}-\varepsilon_i^{\text{PBE}}$
-    (PBE in SIESTA vs B3LYP in VASP, vacuum-level aligned), are applied to the device
-    Hamiltonian as a projector on the Hf/Se block,
+    $\Delta_i=[\varepsilon^{\text{B3LYP}}-\varepsilon^{\text{PBE}}]_{\text{VASP}}
+    +[\varepsilon^{\text{PBE}}-\varepsilon^{\text{vdW-DF2}}]_{\text{SIESTA}}$
+    (same-code differences through a common PBE reference, so the inter-code offset cancels),
+    are applied to the device Hamiltonian as a projector on the Hf₂Se₉ block,
   </p>
   <p style="text-align:center">
-    $\displaystyle (\Delta H)_{\mu\nu}=\sum_i \Delta_i\,(C^i_\mu)^{*}C^i_\nu,
+    $\displaystyle \Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^{\dagger}\,S,
      \qquad (\mu,\nu)\in\text{Hf}_2\text{Se}_9,$
   </p>
   <p>
     implemented through TBtrans's built-in δH (a <code>deltaH.dH.nc</code> file) with a
-    ±1–2 eV energy window — no TranSIESTA source patch.
+    $E_F\pm2$ eV energy window — no TranSIESTA source patch.
   </p>
 </article>
 <nav class="subpages"></nav>

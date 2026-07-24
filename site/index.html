@@ -23,14 +23,14 @@
     chains, forming a 1D molecular junction grown inside a carbon nanotube. The project
     computes the junction's conductance from first principles and asks one physical
     question: <em>does current flow through the molecule, and through which orbital?</em>
-    The transport evidence says yes — removing the molecule kills the conductance
+    The transport evidence says yes — removing the molecule eliminates the conductance
     entirely — and the present frontier is correcting the molecular level positions
-    (PBE underestimates the gap) so the resonance sits where it physically should.
+    (DFT underestimates the gap) so the resonance sits where it physically should.
   </p>
 
   <figure>
     <img src="figures/junction-structure.png" alt="Hf₂Se₉–VSe₃ junction">
-    <figcaption>The junction: a Hf₂Se₉ molecule (cyan Hf, orange Se) bridges two
+    <figcaption><strong>Fig. 1.</strong> The junction: a Hf₂Se₉ molecule (cyan Hf, orange Se) bridges two
       H-passivated VSe₃ chains (grey V, orange Se) acting as 1D electrodes. Central
       region of the relaxed 220-atom transport device (vdW-DF2, 60° staggered);
       transport axis horizontal.</figcaption>
@@ -42,27 +42,27 @@
     experimental report, and here it is identified as <strong>trigonal prismatic (TP)</strong>
     and is <strong>metallic</strong> — a natural 1D electrode. Encapsulating a Hf₂Se₉
     molecule between two such chains makes a metal–molecule–metal junction. Because the
-    molecule's HOMO–LUMO gap is tiny in PBE (0.024 eV), its frontier resonance sits
-    almost on the Fermi level and transmission looks "too good." Whether the headline
+    molecule's HOMO–LUMO gap is tiny at the DFT level (0.023 eV, vdW-DF2), its frontier resonance sits
+    almost on the Fermi level and the computed transmission is anomalously high. Whether the transport
     picture is <em>resonant</em> or <em>non-resonant</em> tunnelling therefore hinges on
     getting the molecular level alignment right.
   </p>
 
   <h2>Method</h2>
-  <ul>
-    <li><strong>DFT (SIESTA / VASP):</strong> chain and junction relaxation, band
-        structure, PDOS. Production functional is <strong>vdW-DF2</strong> — PBE+D2 was
-        anomalously unstable for the Hf₂Se₉ relaxation and was dropped
-        (<a href="results/hf2se9-stability/index.html">02. Hf₂Se₉ stability</a>).</li>
-    <li><strong>Transport (TranSIESTA / TBtrans):</strong> ~220-atom zero-bias NEGF,
-        electrode k = 100, broadening η = 0.005 eV. Transmission T(E), PDOS, and
-        eigenchannels (Re/Im/|ψ|² cubes + z-profile).</li>
-    <li><strong>Molecular-level correction (DFT+Σ):</strong> orbital shifts
-        $\Delta_i=\varepsilon_i^{\text{B3LYP}}-\varepsilon_i^{\text{vdW-DF2}}$ from the vacuum
-        molecule, applied to the device Hamiltonian as a projector
-        $\Delta H_{\mu\nu}=\sum_i \Delta_i\,(C^i_\mu)^{*}C^i_\nu$ on the Hf/Se block —
-        implemented through TBtrans's built-in δH, no source patch.</li>
-  </ul>
+  <p>
+    Chain and junction relaxations, band structures, and PDOS are computed with DFT in
+    SIESTA (VASP supplies the B3LYP reference), with <strong>vdW-DF2</strong> as the
+    production functional — PBE+D2 was anomalously unstable for the Hf₂Se₉ relaxation and
+    was dropped (<a href="results/hf2se9-stability/index.html">02. Hf₂Se₉ stability</a>).
+    Zero-bias transport is computed with NEGF (TranSIESTA / TBtrans) on the ~220-atom
+    device (electrode k = 100, broadening η = 0.005 eV), giving the transmission $T(E)$,
+    PDOS, and transmission eigenchannels. The molecular levels are then corrected with
+    DFT+Σ: vacuum-molecule orbital shifts
+    $\Delta_i=\varepsilon_i^{\text{B3LYP}}-\varepsilon_i^{\text{vdW-DF2}}$ (built from
+    same-code differences through a common PBE reference) enter the device Hamiltonian as
+    the projector $\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^{\dagger}S$ on the Hf₂Se₉
+    block — implemented through TBtrans's built-in δH, no source patch.
+  </p>
 
   <h2>Status</h2>
   <p>
@@ -70,10 +70,10 @@
     Transport is converged: scattering-region length is converged, k-grid and η
     converged, and the three-way comparison <strong>pristine 0.70 / heterojunction 0.35 /
     disconnected 0</strong> for $T(E_F)$ proves the molecule is the sole conduction
-    bridge (eigenchannel $\tau_0 = 0.999$). The <strong>DFT+Σ molecular-level correction is
+    bridge (a single dominant eigenchannel). The <strong>DFT+Σ molecular-level correction is
     applied</strong> (occupied levels shift down, virtual up; isolated-molecule
     gap opens 0.02 → 0.75 eV): on the 9-cell device the molecular resonance moves off $E_F$,
-    and $T(E_F)$ is strongly suppressed. The remaining analysis is the interface charge-transfer
+    and $T(E_F)$ drops to 0.0032. The remaining analysis is the interface charge-transfer
     $\Delta\rho$ — the δH correction enters at the TBtrans post-processing step, so the
     zero-bias $T(E)$ suffices and no finite-bias chain is needed.
   </p>

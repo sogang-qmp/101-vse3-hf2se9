@@ -28,16 +28,15 @@
   <h3>Settled conclusions</h3>
   <ul>
     <li><strong>Functional:</strong> production = vdW-DF2 (PBE+D2 anomalous — dropped).</li>
-    <li><strong>Geometry:</strong> 60° staggered interface most stable (−42 meV, cell-fixed); H-passivated, length-converged scattering region.</li>
+    <li><strong>Geometry:</strong> 60° staggered interface most stable (43.3 meV below 0°, cell-fixed); H-passivated, length-converged scattering region.</li>
     <li><strong>Molecule is the conduction bridge:</strong> $T(E_F)$ = 0.70 / 0.35 / 0 for
-        pristine / heterojunction / disconnected (k = 100, η = 0.005 eV); transmission
-        eigenchannel $\tau_0\approx1$.</li>
+        pristine / heterojunction / disconnected (k = 100, η = 0.005 eV); a single dominant transmission eigenchannel.</li>
     <li><strong>Length-independent:</strong> $T(E_F)$ = 0.43 / 0.35 / 0.29 across three scattering-region lengths — essentially flat.</li>
     <li><strong>Molecular frontier:</strong> Hf₂Se₉ HOMO/LUMO quasi-degenerate, pinned at $E_F$
-        (gap ≈ 0.024 eV, vdW-DF2); the Hf₂Se₉ chains are metallic.</li>
+        (gap ≈ 0.023 eV, vdW-DF2); the VSe₃ chains are metallic.</li>
     <li><strong>DFT+Σ correction applied (2026-07-01/02):</strong> occupied levels shift down,
         virtual up; the isolated-molecule gap opens to 0.75 eV and the molecular resonance moves off
-        $E_F$, strongly suppressing $T(E_F)$.</li>
+        $E_F$, suppressing $T(E_F)$ to 0.0032 (v2).</li>
     <li><strong>Corrected Landauer I–V (symmetric window):</strong> the correction suppresses the
         low-bias current. With a symmetric window ($\mu_{L,R}=\pm eV/2$)
         the curve is odd, $I(-V)=-I(V)$; the symmetric junction shows no rectification at this
@@ -45,8 +44,14 @@
   </ul>
   <h3>In progress</h3>
   <ul>
-    <li><strong>Next:</strong> interface charge transfer $\Delta\rho$. A finite-bias chain is not
+    <li><strong>Junction charge transfer $\Delta\rho$:</strong> next calculation. A finite-bias chain is not
         needed — δH is applied at the TBtrans post-processing step, so the zero-bias $T(E)$ suffices.</li>
+    <li><strong>Molecular stacking (07-19 →):</strong> gap-mode d = 3.5 Å dimer/trimer relaxation running
+        (<a href="../results/mol-stacking/index.html">results 09</a>); feeds the conductance-decay series
+        VSe₃–(Hf₂Se₉)ₙ–VSe₃ (n = 2, 3).</li>
+    <li><strong>CNT encapsulation (phase-c):</strong> VSe₃@CNT binding done
+        (E<sub>bind</sub> = −1.21 eV/f.u., <a href="../results/cnt-binding/index.html">results 10</a>);
+        Hf₂Se₉@CNT relaxing; Δρ(X@CNT) single-points follow on the relaxed geometries.</li>
   </ul>
 
   <hr>
@@ -120,10 +125,10 @@
   <h3>2026-06-26 · length convergence + correction inputs</h3>
   <ul>
     <li>Scattering region extended to 9 VSe₃ unit cells per electrode: $T(E_F)$ = 0.348 ≈ 0.354
-      (3 cells), single transmission eigenchannel ($\tau_0 = 0.989$); interface geometry and
+      (3 cells), a single transmission eigenchannel; interface geometry and
       molecular PDOS length-independent. See <a href="../results/level-correction/index.html">level correction</a>.</li>
     <li>B3LYP→vdW-DF2 orbital shifts computed ($\Delta_\text{HOMO} = -1.01$, $\Delta_\text{LUMO} = -0.29$ eV;
-      gap 0.02 → 0.75 eV) — DFT+Σ application is the next step.</li>
+      gap 0.02 → 0.75 eV) — DFT+Σ application is the next step. <em>(These Δ are the v1 cross-code values, superseded 07-08 by v2: −0.35 / +0.40 eV.)</em></li>
   </ul>
 
   <h3>2026-07-01 – 07-02 · correction applied; three-way + corrected I–V complete</h3>

@@ -16,7 +16,21 @@
 <main>
 <article>
   <h1>Log</h1>
-  <p class="page-meta">작업 일지 + 미팅 노트 (날짜순, 최신 위)</p>
+  <p class="page-meta">Work journal + meeting notes (dated, newest first)</p>
+
+  <h2>2026-07-24 — Since the 07-19 meeting: Hf₂Se₉ molecular stacking + CNT binding</h2>
+  <p><strong>Stacking.</strong> Distance scan (bare) and H-termination mode scan completed for the
+    Hf₂Se₉ dimer (2 mol) and trimer (3 mol). Bare stacks collapse to the shortest gap (d = 2.5 Å);
+    H-terminated, the <strong>gap-mode stack at d = 3.5 Å is the energy minimum</strong> for both —
+    consistent with the KIST TEM molecule–molecule spacing of 0.36 nm (3.6 Å). New page
+    <a href="../results/mol-stacking/index.html">09. Molecular stacking</a> (structure viewer + TEM).</p>
+  <p><strong>Relaxation.</strong> The gap-mode d = 3.5 Å dimer/trimer are relaxing on Stampede3
+    (vdW-DF2, Broyden, cell shrunk to cut mesh cost); max force ~0.2 eV/Å, not yet converged.</p>
+  <p><strong>CNT binding.</strong> Perlmutter under maintenance (~Aug 6) → phase-c moved to Stampede3.
+    <strong>E_bind(VSe₃@CNT) = −4.85 eV/cell (−1.21 eV per f.u.)</strong> (complex relax done) — new page
+    <a href="../results/cnt-binding/index.html">10. CNT binding</a>; Hf₂Se₉@CNT relaxing.</p>
+  <p><strong>Next.</strong> Connected multi-molecule heterojunction VSe₃–(Hf₂Se₉)ₙ–VSe₃ (n = 2, 3)
+    for conductance decay, built by chaining the relaxed 05-hf2se9-mol/DF2 molecule.</p>
 
   <h2>2026-07-19 — Group meeting: LUMO non-resonance; conductance-decay next</h2>
   <ul>
@@ -48,7 +62,7 @@
   <p><strong>Decisions</strong></p>
   <ol>
     <li><strong>Formalism confirmed.</strong> δH is applied to the molecule block only ($\Delta H = S\,C\,\mathrm{diag}(\Delta)\,C^\dagger S$), at the TBtrans post-processing step rather than in SCF → finite-bias recalculation is unnecessary, the zero-bias $T(E)$ suffices.</li>
-    <li><strong>Result accepted.</strong> The corrected zero-bias transmission drops ~7×, and the correction enters the molecular PDOS cleanly — the picture we want, provided the implementation is verified number-by-number.</li>
+    <li><strong>Result accepted.</strong> The corrected zero-bias transmission drops ~7× (v1 at the time; the final v2 correction gives 0.348 → 0.0032), and the correction enters the molecular PDOS cleanly — the picture we want, provided the implementation is verified number-by-number.</li>
   </ol>
   <p><strong>Action items</strong></p>
   <ol>
@@ -57,14 +71,12 @@
     <li>I–V bias-window symmetry + figure/caption consistency → <strong>done</strong> (07-06): re-integrated with a symmetric window, $I(-V)=-I(V)$ (no rectification).</li>
     <li>Remove unexplained statements from the slides and cite the source of every number → <strong>in progress</strong> (07-07/15): DFT+Σ write-up with verbatim Darancet citations + the full method audit.</li>
   </ol>
-  <p class="page-meta">Full notes: <code>meetings/next/afmeet/</code></p>
 
   <h2>2026-07-02 — Since the 06-19 meeting: 9-cell convergence → DFT+Σ applied → 3-way + corrected I–V</h2>
 
   <h3>1 · Scattering-region length convergence</h3>
   <ul>
-    <li>9 VSe₃ unit cells per electrode: $T(E_F)$ = 0.348 ≈ 0.354 (3 cells), single channel
-        $\tau_0$ = 0.989 — geometry, molecular PDOS, transmission all stable by 7–9 cells.</li>
+    <li>9 VSe₃ unit cells per electrode: $T(E_F)$ = 0.348 ≈ 0.354 (3 cells), a single dominant channel — geometry, molecular PDOS, transmission all stable by 7–9 cells.</li>
   </ul>
 
   <h3>2 · DFT+Σ molecular-level correction</h3>
@@ -113,7 +125,7 @@
      <a href="../results/level-correction/index.html">Results: level correction</a></p>
 
   <h2>2026-06-12 — Group meeting: structure, gap, passivation, rotation, transport</h2>
-  <p><strong>Presented.</strong> VSe₃ TP &gt; TAP by 0.163 eV/formula (metallic); Hf₂Se₉ gap 0.024 eV;
+  <p><strong>Presented.</strong> VSe₃ TP &gt; TAP by 0.163 eV/formula (metallic); Hf₂Se₉ gap 0.023 eV;
      H-passivation 3 configs, min $d$ ≈ 3.5 Å (top most stable); rotation minimum at 60°/180° (60°
      staggered, +43.3 meV); pristine $T(E)$ length-dependence = η broadening artifact (ballistic at
      η = 0.001 eV); heterojunction $T(E_F)$ ≈ 1.6 → 0.35, eigenchannel runs through the molecule.</p>

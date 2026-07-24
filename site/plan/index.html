@@ -25,14 +25,17 @@
      computed with a symmetric bias window. Remaining calculation: the interface charge transfer
      $\Delta\rho$. (A finite-bias chain is <em>not</em> needed — δH is applied at the TBtrans
      post-processing step, so the zero-bias $T(E)$ is sufficient.) Method detail:
-     <a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a>.</p>
+     <a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a>.
+     Since the 07-19 meeting the queue extends to the conductance-decay series
+     VSe₃–(Hf₂Se₉)ₙ–VSe₃ (n = 2, 3) and the CNT-encapsulation track
+     (<a href="../results/cnt-binding/index.html">results 10</a>).</p>
 
   <h2>DFT+Σ workflow — status</h2>
   <table>
     <thead><tr><th>Step</th><th>Task</th><th>Status</th></tr></thead>
     <tbody>
       <tr><td>1</td><td>vacuum molecule (VASP PBE/B3LYP; SIESTA PBE/vdW-DF2) → per-orbital $\Delta_i$ by same-code subtraction through a common PBE</td><td><strong>done</strong></td></tr>
-      <tr><td>2</td><td>SIESTA single-molecule (same PAO basis) → MO coefficients $C$</td><td><strong>done</strong> ($CSC^\dagger$ orthonormality 1e−5)</td></tr>
+      <tr><td>2</td><td>SIESTA single-molecule (same PAO basis) → MO coefficients $C$</td><td><strong>done</strong> ($C^\dagger S C = I$ verified)</td></tr>
       <tr><td>3</td><td>build $\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$ on the Hf/Se molecular block, apply to the device (TBtrans δH)</td><td><strong>done</strong> (isolated-molecule projector, Kabsch + Hungarian atom matching)</td></tr>
       <tr><td>4</td><td>corrected $T(E)$, before/after comparison</td><td><strong>done</strong> — resonance off $E_F$, $T(E_F)$ suppressed; transfers to the N25_k100 cross-check</td></tr>
       <tr><td>—</td><td>document the modified files / formula / application flow (advisor's emphasis)</td><td><strong>done</strong> → <a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a></td></tr>
@@ -66,9 +69,14 @@
     <thead><tr><th>Priority</th><th>Task</th><th>Status</th></tr></thead>
     <tbody>
       <tr><td>P1</td><td>corrected Landauer I–V (zero-bias $T(E)$) + bias-window figure</td><td><strong>done</strong> → <a href="../results/level-correction/index.html">level correction</a> Section C</td></tr>
-      <tr><td>P1</td><td>uncorrected 9-cell HOMO/LUMO eigenchannel re-check (−0.065 / +0.003 eV)</td><td><strong>verified</strong>; isosurface PNGs being rendered</td></tr>
+      <tr><td>P1</td><td>uncorrected 9-cell HOMO/LUMO eigenchannel re-check (HOMO −0.325 / LUMO +0.355 eV)</td><td><strong>verified</strong></td></tr>
       <tr><td>—</td><td>true finite-bias I–V — TranSIESTA bias chain 0 → ±0.5 V with the corrected $\Delta H$ (<code>TBT.dH</code>)</td><td><strong>not needed</strong> — δH is a TBtrans post-processing correction, so the zero-bias $T(E)$ is sufficient (2026-07-05)</td></tr>
       <tr><td>P2</td><td>charge transfer $\Delta\rho$ at the interface — $\Delta\rho = \rho_\text{junction} - \rho_\text{leads} - \rho_\text{molecule}$ (same cell/grid, no fragment re-relaxation). Step 0: Mulliken ΔQ of the 11 molecular atoms from the existing device output (sign = transfer direction, no new calculation); then two short fragment SCFs (<code>SaveRho</code>) → planar-averaged $\Delta\rho(z)$ + cumulative $Q(z)$ + accumulation/depletion isosurface</td><td><strong>planned</strong> (next calculation)</td></tr>
+      <tr><td>P1</td><td>conductance decay VSe₃–(Hf₂Se₉)ₙ–VSe₃, n = 2, 3 (07-19 meeting) — chain the
+          relaxed stack, transport per n</td><td><strong>planned</strong> — awaiting the stacking relaxation</td></tr>
+      <tr><td>P2</td><td>CNT encapsulation (phase-c): binding energies + Δρ(X@CNT)</td>
+          <td><strong>in progress</strong> — VSe₃ binding done
+          (<a href="../results/cnt-binding/index.html">results 10</a>); Hf₂Se₉@CNT relaxing</td></tr>
       <tr><td>P2</td><td>course-material figures for the Hf₂Se₉–VSe₃ junction (on request)</td><td>standby</td></tr>
       <tr><td>—</td><td>STEP 2–4 (δH build + corrected $T(E)$); LUMO label wording; 9-UC transport; mid-energy eigenchannels; 3-way disconnected display</td><td><strong>done</strong> (2026-07-01 – 07-02)</td></tr>
     </tbody>

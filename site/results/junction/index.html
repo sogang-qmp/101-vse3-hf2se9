@@ -102,15 +102,16 @@ Se 14.2063 11.5200 29.4290
     draw();
   })();
   </script>
-  <ul>
-    <li><strong>Dispersion correction:</strong> PBE+D2 was anomalously unstable for the Hf₂Se₉
-        relaxation; <strong>vdW-DF2</strong> (production) converges cleanly.</li>
-    <li><strong>Orientation:</strong> 60° staggered registry favoured by <strong>43.3 meV</strong>
-        (angle and lateral spacing both relaxed); H-passivation minimum at d ≈ 3.5 Å.</li>
-    <li><strong>Length convergence:</strong> the molecule–lead end gap settles once the VSe₃ buffer reaches 9 unit cells per electrode —
-        3.633 → 3.583 → 3.575 → 3.576 Å (increments 50 → 8 → 1 mÅ), and $T(E_F)$ is unchanged
-        between 3 and 9 unit cells per electrode (0.354 vs 0.348).</li>
-  </ul>
+  <p>
+    Three points settle the geometry. PBE+D2 was anomalously unstable for the Hf₂Se₉
+    relaxation, so <strong>vdW-DF2</strong> (production) is used and converges cleanly.
+    The <strong>60° staggered registry</strong> is favoured by <strong>43.3 meV</strong>
+    (angle and lateral spacing both relaxed), with the H-passivation minimum at d ≈ 3.5 Å.
+    And the device is length-converged: the molecule–lead end gap settles once the VSe₃
+    buffer reaches 9 unit cells per electrode — 3.633 → 3.583 → 3.575 → 3.576 Å
+    (increments 50 → 8 → 1 mÅ) — while $T(E_F)$ is unchanged between 3 and 9 unit cells
+    (0.354 vs 0.348).
+  </p>
   <table>
     <thead><tr><th>VSe₃ unit cells per electrode</th><th>3</th><th>5</th><th>7</th><th>9</th></tr></thead>
     <tbody>
@@ -137,6 +138,7 @@ Se 14.2063 11.5200 29.4290
       renders, along the chain axis).</figcaption>
   </figure>
   <p>The same relaxed structures, interactive (drag to rotate, scroll to zoom):</p>
+  <figure>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin:1rem 0">
     <div><div style="font-size:.85rem;color:var(--muted);margin-bottom:.2rem">0° (Se-aligned)</div>
       <div id="rv0" style="position:relative;width:100%;height:200px;border:1px solid var(--border);border-radius:6px;background:#fff"></div></div>
@@ -147,8 +149,9 @@ Se 14.2063 11.5200 29.4290
     <div><div style="font-size:.85rem;color:var(--muted);margin-bottom:.2rem">60° (staggered, most stable)</div>
       <div id="rv60" style="position:relative;width:100%;height:200px;border:1px solid var(--border);border-radius:6px;background:#fff"></div></div>
   </div>
-  <p class="page-meta"><strong>Fig. 3.</strong> Relaxed interface at four rotation angles —
-    interactive (cell-fixed, H-term v3). Source: <code>10-hetero-h-term-v3-relax/cellfix/rot_0NN</code>.</p>
+  <figcaption><strong>Fig. 3.</strong> Relaxed interface at four rotation angles —
+    interactive (cell-fixed, H-term v3). Source: <code>10-hetero-h-term-v3-relax/cellfix/rot_0NN</code>.</figcaption>
+  </figure>
 
   <script type="text/plain" id="rvx0">
 43
@@ -362,24 +365,21 @@ Se 14.2063 11.5200 29.4290
   </figure>
 
   <h3>Molecular PDOS</h3>
-  <p>This PDOS is for the <strong>60° (staggered)</strong> junction — the most stable registry.
-     Its structure (the same one rotated to 60°):</p>
-  <figure>
-    <img src="figures/junction-structure.png" alt="60 deg junction structure" style="max-width:100%">
-    <figcaption><strong>Fig. 5.</strong> The 60° relaxed junction whose PDOS is shown below.</figcaption>
-  </figure>
+  <p>This PDOS is for the <strong>60° (staggered)</strong> junction — the most stable registry,
+     whose relaxed structure is shown in Fig. 1.</p>
   <figure>
     <img src="figures/ppt_s7_1.png" alt="molecule PDOS" style="max-width:520px">
-    <figcaption><strong>Fig. 6.</strong> PDOS projected on the central Hf₂Se₉ of the
-      <strong>60° junction</strong> (structure in Fig. 5): molecular states concentrate
+    <figcaption><strong>Fig. 5.</strong> PDOS projected on the central Hf₂Se₉ of the
+      <strong>60° junction</strong> (structure in Fig. 1): molecular states concentrate
       at and below $E_F$, Se-dominated.</figcaption>
   </figure>
 
   <h2>Discussion</h2>
   <p>
     The device geometry is settled, so transmission differences come from electronic structure,
-    not an under-converged cell. Per advisor request the production transport is being re-run on
-    a structure relaxed with 9 VSe₃ unit cells per electrode (electrode-only extension) as a final check.
+    not an under-converged cell. As a final check, the production transport was re-run on a
+    structure relaxed with 9 VSe₃ unit cells per electrode (electrode-only extension);
+    $T(E_F)$ is unchanged (0.354 → 0.348).
   </p>
 </article>
 <nav class="subpages"></nav>
