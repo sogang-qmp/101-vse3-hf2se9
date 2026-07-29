@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="ko"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="order" content="90">
-<title>Hf₂Se₉ molecular stacking — 101-vse3-hf2se9</title>
+<title>Hf₂Se₉ 분자 stacking — 101-vse3-hf2se9</title>
 <link rel="stylesheet" href="../../assets/site.css">
 <link rel="stylesheet" href="../../assets/katex/katex.min.css">
 <script defer src="../../assets/katex/katex.min.js"></script>
@@ -15,33 +15,32 @@
 <aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
 <main>
 <article>
-  <h1>09. Hf₂Se₉ molecular stacking</h1>
-  <p class="page-meta"><strong>2026-07-29</strong> · Calculations: fixed-geometry distance scans and ongoing relaxations. Experimental TEM: Dr. Yangjin Lee (KIST).</p>
+  <h1>09. Hf₂Se₉ 분자 stacking</h1>
+  <p class="page-meta"><strong>2026-07-29</strong> · 계산: 고정 기하 거리 스캔과 진행 중인 구조 이완. 실험 TEM: 이양진 박사(KIST).</p>
 
   <h2>Goal</h2>
   <p>
-    Determine the terminal Se–Se separation $d$ and hydrogen arrangement for an Hf₂Se₉
-    <strong>dimer</strong> (2 molecules) and <strong>trimer</strong> (3 molecules).
+    Hf₂Se₉ <strong>dimer(dimer)</strong>와 <strong>trimer(trimer)</strong>의 말단 Se–Se
+    간격 $d$와 수소 배치를 결정한다.
   </p>
 
-  <h2>Experimental basis (TEM)</h2>
+  <h2>실험 근거 (TEM)</h2>
   <figure>
     <img src="figures/tem_chain_overlay.png" alt="TEM chain with structure overlay" style="width:100%;max-width:900px;display:block;margin:0 auto .8rem">
     <img src="figures/tem_distances.png" alt="TEM with measured distances" style="width:100%;max-width:900px;display:block;margin:0 auto">
-    <figcaption><strong>Fig. 1.</strong> Experimental TEM and structural overlay (Dr. Yangjin Lee,
-      KIST). The measured intermolecular spacing is <strong>≈ 0.36 nm (3.6 Å)</strong>; the
-      intramolecular width is ≈ 0.72 nm. Experimental data, not a calculated result.</figcaption>
+    <figcaption><strong>Fig. 1.</strong> 실험 TEM과 구조 중첩(이양진 박사, KIST).
+      측정된 <strong>분자 간 간격은 ≈ 0.36 nm (3.6 Å)</strong>, 분자 내부 폭은
+      ≈ 0.72 nm이다. 계산 결과가 아닌 실험 데이터이다.</figcaption>
   </figure>
 
   <h2>Method</h2>
   <ul>
-    <li><strong>Electronic structure:</strong> vdW-DF2 (van der Waals density functional, LMKLL),
-      500 Ry real-space mesh cutoff, Γ point, and a vacuum cell.</li>
-    <li><strong>Distance scan:</strong> fixed-geometry single-point energies at
-      $d$ = 2.5, 3.0, 3.5, 3.6, 4.0, and 4.5 Å for the dimer; the trimer omits 3.6 Å.</li>
-    <li><strong>Hydrogen arrangements:</strong> 3 H atoms at the mid-gap plane with triangular
-      radii 0.82, 1.97, and 3.0 Å. The labels <code>bond</code>, <code>gap</code>, and
-      <code>tilt</code> are project labels for these three starting geometries.</li>
+    <li><strong>전자구조:</strong> vdW-DF2(van der Waals density functional, LMKLL),
+      실공간 격자 cutoff 500 Ry, Γ점, 진공 셀.</li>
+    <li><strong>거리 스캔:</strong> dimer는 $d$ = 2.5, 3.0, 3.5, 3.6, 4.0, 4.5 Å,
+      trimer는 3.6 Å을 제외한 고정 기하 단일점(single-point) 에너지.</li>
+    <li><strong>수소 배치:</strong> gap 중앙면의 H 3개를 삼각 반경 0.82, 1.97, 3.0 Å로 배치했다.
+      <code>bond</code>, <code>gap</code>, <code>tilt</code>는 이 세 초기 구조를 구분하는 프로젝트 내부 명칭이다.</li>
   </ul>
 
   <h2>Result</h2>
@@ -49,8 +48,8 @@
   <script>
   (function () {
     const nodes = [
-      { id: "bare",  label: "1 · bare scan",      status: "done",   deps: [] },
-      { id: "hterm", label: "2 · H-term modes",    status: "done",   deps: ["bare"] },
+      { id: "bare",  label: "1 · bare 스캔",       status: "done",   deps: [] },
+      { id: "hterm", label: "2 · H-종단 모드",      status: "done",   deps: ["bare"] },
       { id: "relax", label: "3 · relax d=3.5 Å",   status: "active", deps: ["hterm"] },
       { id: "decay", label: "decay (n=2,3)",       status: "todo",   deps: ["relax"] },
     ];
@@ -182,25 +181,425 @@
   })();
   </script>
   <p>
-    <strong>The hydrogen-terminated <code>gap</code> geometry has its minimum at $d$ = 3.5 Å
-    for both the dimer and trimer.</strong> The nearest measured spacing is 3.6 Å; for the dimer,
-    the 3.6 Å point is 0.135 eV above the 3.5 Å minimum. In the unterminated scan, the minimum
-    occurs at the lower scan bound, $d$ = 2.5 Å.
+    <strong>수소 종단 <code>gap</code> 구조는 dimer와 trimer 모두 $d$ = 3.5 Å에서
+    최소 에너지를 갖는다.</strong> 가장 가까운 실험 간격은 3.6 Å이며, dimer의 3.6 Å 점은
+    3.5 Å 최소보다 0.135 eV 높다. 종단하지 않은 스캔의 최소는 스캔 하한 $d$ = 2.5 Å에 있다.
   </p>
 
   <table>
-    <thead><tr><th>System</th><th>Unterminated minimum</th><th>Hydrogen-terminated minimum</th><th>Relaxation</th></tr></thead>
+    <thead><tr><th>계</th><th>종단하지 않은 최소</th><th>수소 종단 최소</th><th>구조 이완</th></tr></thead>
     <tbody>
-      <tr><td>Dimer</td><td>$d$ = 2.5 Å (scan bound)</td><td><code>gap</code>, $d$ = 3.5 Å</td><td>running</td></tr>
-      <tr><td>Trimer</td><td>$d$ = 2.5 Å (scan bound)</td><td><code>gap</code>, $d$ = 3.5 Å</td><td>running</td></tr>
+      <tr><td>dimer</td><td>$d$ = 2.5 Å(스캔 하한)</td><td><code>gap</code>, $d$ = 3.5 Å</td><td>진행 중</td></tr>
+      <tr><td>trimer</td><td>$d$ = 2.5 Å(스캔 하한)</td><td><code>gap</code>, $d$ = 3.5 Å</td><td>진행 중</td></tr>
     </tbody>
   </table>
 
   <figure>
-    <iframe src="matviz-viewer_molstack.html" style="width:100%;max-width:680px;height:460px;border:1px solid rgba(0,0,0,.25);border-radius:6px;background:#fff" title="matviz structure viewer" loading="lazy"></iframe>
-    <figcaption><strong>Fig. 2.</strong> Hydrogen-terminated <code>gap</code> structures used to
-      start the current relaxations: dimer (25 atoms) and trimer (39 atoms). Blue = Hf,
-      tan = Se, white = H.</figcaption>
+  <div id="mv09" class="matviz-host" style="position:relative;height:460px;border:1px solid rgba(0,0,0,.25);border-radius:6px;background:#fff;overflow:hidden">
+<div id="sv-switch"><button data-m="Dimer (2 mol)" class="active">Dimer (2 mol)</button><button data-m="Trimer (3 mol)">Trimer (3 mol)</button><button class="sv-uitoggle" id="sv-ui" title="Toggle full controls">&#9881; Full UI</button></div>
+
+  <canvas id="canvas"></canvas>
+
+  <!-- Mode toolbar (far left) -->
+  <div id="mode-bar">
+    <button id="mode-navigate" class="mode-btn active" title="Navigate (click atom for info)" aria-label="Navigate"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2l5 6-5 6-5-6z"/><circle cx="8" cy="8" r="1.2" fill="currentColor" stroke="none"/></svg></button>
+    <button id="mode-measure" class="mode-btn" title="Measure (click 2/3/4 atoms)" aria-label="Measure"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8h12"/><path d="M5 5l-3 3 3 3"/><path d="M11 5l3 3-3 3"/></svg></button>
+    <button id="mode-bz" class="mode-btn" title="Brillouin zone (reciprocal space, bulk)" aria-label="Brillouin zone"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 1.5l5.6 3.25v6.5L8 14.5l-5.6-3.25v-6.5z"/><circle cx="8" cy="8" r="1" fill="currentColor" stroke="none"/><path d="M8 8l4-2.3M8 8v4.6M8 8L4 5.7"/></svg></button>
+    <div class="mode-sep"></div>
+    <button id="panel-toggle" class="mode-btn" title="Toggle side panel" aria-label="Toggle side panel"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg></button>
+    <button id="help-btn" class="mode-btn" title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M6.2 6a1.8 1.8 0 1 1 2.6 1.6c-.5.3-.8.7-.8 1.3"/><circle cx="8" cy="11.5" r=".5" fill="currentColor" stroke="none"/></svg></button>
+  </div>
+
+  <!-- Shortcuts help overlay -->
+  <div id="help-overlay" class="hidden" role="dialog" aria-modal="true" aria-labelledby="help-title">
+    <div id="help-card">
+      <div id="help-head">
+        <span id="help-title">Shortcuts<span class="help-sub">press <kbd>?</kbd> anytime</span></span>
+        <button id="help-close" class="bar-btn" title="Close (Esc)" aria-label="Close"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>
+      </div>
+      <div id="help-body">
+        <div class="help-col">
+          <div class="help-h">Rotation</div>
+          <div class="help-row"><span class="help-keys"><kbd>&#x2190;</kbd><kbd>&#x2193;</kbd><kbd>&#x2191;</kbd><kbd>&#x2192;</kbd></span><span>Rotate by step</span></div>
+          <div class="help-row"><span class="help-keys"><kbd>h</kbd><kbd>j</kbd><kbd>k</kbd><kbd>l</kbd></span><span>Vim rotate</span></div>
+          <div class="help-row"><span class="help-keys"><kbd>[</kbd><kbd>]</kbd></span><span>Rotate CCW / CW</span></div>
+          <div class="help-row"><span class="help-keys"><kbd>&#x21E7;</kbd>+key</span><span>1&deg; fine step</span></div>
+          <div class="help-row"><span class="help-keys"><kbd>+</kbd><kbd>&minus;</kbd></span><span>Zoom in / out</span></div>
+        </div>
+        <div class="help-col">
+          <div class="help-h">Navigation</div>
+          <div class="help-row"><span class="help-keys">Left drag</span><span>Rotate</span></div>
+          <div class="help-row"><span class="help-keys">Right drag</span><span>Pan</span></div>
+          <div class="help-row"><span class="help-keys">Wheel</span><span>Zoom</span></div>
+          <div class="help-row"><span class="help-keys">Click atom</span><span>Select / info</span></div>
+        </div>
+        <div class="help-col">
+          <div class="help-h">Style</div>
+          <div class="help-row"><span class="help-keys"><kbd>1</kbd></span><span>Ball &amp; Stick</span></div>
+          <div class="help-row"><span class="help-keys"><kbd>2</kbd></span><span>Space-filling</span></div>
+          <div class="help-row"><span class="help-keys"><kbd>3</kbd></span><span>Stick</span></div>
+          <div class="help-row"><span class="help-keys"><kbd>4</kbd></span><span>Wireframe</span></div>
+        </div>
+        <div class="help-col">
+          <div class="help-h">Mode</div>
+          <div class="help-row"><span class="help-keys"><kbd>?</kbd></span><span>This help</span></div>
+          <div class="help-row"><span class="help-keys"><kbd>Esc</kbd></span><span>Clear selection / close help</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top toolbar -->
+  <div id="top-bar">
+    <div class="bar-group" title="Axis Views">
+      <button id="view-a" class="bar-btn axis-btn" title="View along a axis">a</button>
+      <button id="view-b" class="bar-btn axis-btn" title="View along b axis">b</button>
+      <button id="view-c" class="bar-btn axis-btn" title="View along c axis">c</button>
+      <button id="view-a*" class="bar-btn axis-btn" title="View along a* (reciprocal a) axis">a*</button>
+      <button id="view-b*" class="bar-btn axis-btn" title="View along b* (reciprocal b) axis">b*</button>
+      <button id="view-c*" class="bar-btn axis-btn" title="View along c* (reciprocal c) axis">c*</button>
+    </div>
+    <span class="bar-sep"></span>
+    <div class="bar-group" title="Standard Orientation">
+      <button id="std-orient" class="bar-btn" title="Standard orientation (c-axis up, view from a*)" aria-label="Standard orientation"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 7l6-5 6 5"/><path d="M3.5 6.5V13h9V6.5"/></svg></button>
+    </div>
+    <span class="bar-sep"></span>
+    <div class="bar-group" title="Step Rotation">
+      <button id="rot-up" class="bar-btn" title="Rotate up" aria-label="Rotate up"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V3"/><path d="M4 7l4-4 4 4"/></svg></button>
+      <button id="rot-down" class="bar-btn" title="Rotate down" aria-label="Rotate down"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v10"/><path d="M4 9l4 4 4-4"/></svg></button>
+      <button id="rot-left" class="bar-btn" title="Rotate left" aria-label="Rotate left"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 8H3"/><path d="M7 4L3 8l4 4"/></svg></button>
+      <button id="rot-right" class="bar-btn" title="Rotate right" aria-label="Rotate right"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10"/><path d="M9 4l4 4-4 4"/></svg></button>
+      <button id="rot-ccw" class="bar-btn" title="Rotate CCW" aria-label="Rotate counter-clockwise"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a5 5 0 1 0 1.46-3.54"/><path d="M3 3v3h3"/></svg></button>
+      <button id="rot-cw" class="bar-btn" title="Rotate CW" aria-label="Rotate clockwise"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.46-3.54"/><path d="M13 3v3h-3"/></svg></button>
+      <label class="bar-label" title="Rotation step (degrees) per arrow-button / arrow-key press">Step(&deg;):
+        <span class="num-wrap" data-min="1" data-max="90">
+          <input type="text" inputmode="numeric" id="step-angle" value="15" class="bar-input num-input" title="Rotation step in degrees (1–90)">
+          <span class="num-steps">
+            <button type="button" class="num-step up" tabindex="-1" aria-label="Increment"><svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 4.5L5 1.5l3.5 3"/></svg></button>
+            <button type="button" class="num-step dn" tabindex="-1" aria-label="Decrement"><svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 1.5L5 4.5l3.5-3"/></svg></button>
+          </span>
+        </span>
+      </label>
+    </div>
+    <span class="bar-sep"></span>
+    <div class="bar-group" title="Zoom">
+      <button id="zoom-in" class="bar-btn" title="Zoom in" aria-label="Zoom in"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/><path d="M5 7h4M7 5v4"/></svg></button>
+      <button id="zoom-out" class="bar-btn" title="Zoom out" aria-label="Zoom out"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/><path d="M5 7h4"/></svg></button>
+      <button id="zoom-fit" class="bar-btn" title="Fit to view" aria-label="Fit to view"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6V2h4"/><path d="M14 6V2h-4"/><path d="M2 10v4h4"/><path d="M14 10v4h-4"/></svg></button>
+      <label class="bar-label" title="Zoom step (percent) per zoom-button press or wheel tick">Step(%):
+        <span class="num-wrap" data-min="1" data-max="50">
+          <input type="text" inputmode="numeric" id="step-zoom" value="10" class="bar-input num-input" title="Zoom step in percent (1–50)">
+          <span class="num-steps">
+            <button type="button" class="num-step up" tabindex="-1" aria-label="Increment"><svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 4.5L5 1.5l3.5 3"/></svg></button>
+            <button type="button" class="num-step dn" tabindex="-1" aria-label="Decrement"><svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 1.5L5 4.5l3.5-3"/></svg></button>
+          </span>
+        </span>
+      </label>
+    </div>
+    <span class="bar-sep"></span>
+    <div class="bar-group">
+      <button id="screenshot-btn" class="bar-btn" title="Screenshot" aria-label="Screenshot"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 5h2.5l1-1.5h5l1 1.5H14v8H2z"/><circle cx="8" cy="9" r="2.5"/></svg></button>
+      <button id="text-toggle" class="bar-btn" title="Toggle raw text view" aria-label="Toggle raw text"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 2h6l3 3v9H4z"/><path d="M10 2v3h3"/><path d="M6 8h5M6 11h5"/></svg></button>
+      <button id="palette-toggle" class="bar-btn" title="Color palette: Dark" aria-label="Color palette"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 9.5A5.5 5.5 0 0 1 6.5 3a5.5 5.5 0 1 0 6.5 6.5z"/></svg></button>
+    </div>
+  </div>
+
+  <!-- Left sidebar controls -->
+  <div id="side-panel">
+    <div id="panel-resize"></div>
+    <div class="panel-scroll">
+    <div class="panel-section">
+      <div class="panel-label">Style</div>
+      <div class="chips" id="display-style-chips" title="Rendering style for atoms and bonds (1-4 keys)">
+        <button class="chip active" data-style="ball-and-stick" title="Atoms as spheres, bonds as split-color cylinders (1)">Ball &amp; Stick</button>
+        <button class="chip" data-style="space-filling" title="Atoms at full van der Waals radius, no bonds (2)">Space-filling</button>
+        <button class="chip" data-style="stick" title="Bonds only, atoms shrunk to stick radius (3)">Stick</button>
+        <button class="chip" data-style="wireframe" title="Lines only (4)">Wireframe</button>
+      </div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-label">Camera</div>
+      <button id="camera-toggle" class="panel-btn active" title="Toggle between orthographic and perspective projection">Ortho</button>
+    </div>
+    <div class="panel-section">
+      <div class="panel-label">Visibility</div>
+      <div class="toggle-group">
+        <label class="toggle" title="Show bonds between atoms"><input type="checkbox" id="bonds-check" checked><span>Bonds</span></label>
+        <label class="toggle" title="Show element symbol labels on atoms"><input type="checkbox" id="labels-check"><span>Labels</span></label>
+        <label class="toggle" title="Show coordination polyhedra around selected elements"><input type="checkbox" id="poly-check"><span>Polyhedra</span></label>
+        <label class="toggle" title="Show boundary atoms (atoms on cell faces wrapped to neighbors)"><input type="checkbox" id="boundary-check" checked><span>Boundary</span></label>
+        <label class="toggle" title="Show dashed inner cell lines for supercells"><input type="checkbox" id="celldash-check" checked><span>Cell lines</span></label>
+      </div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-label" title="Screen size (pixels) of the axis indicator widget">Axes size</div>
+      <input type="range" id="axis-size" class="iso-slider" min="60" max="400" step="10" value="300" title="Axis indicator size (60–400 px)">
+    </div>
+    <div class="panel-section">
+      <div class="panel-label" title="Expand the unit cell along each lattice vector">Supercell</div>
+      <div class="sc-row">
+        <div class="sc">
+          <div class="sc-l">a</div>
+          <div class="sc-steppers">
+            <button type="button" class="sc-dec" data-target="sc-a" tabindex="-1" aria-label="Decrement a">&minus;</button>
+            <input type="text" inputmode="numeric" id="sc-a" value="1" class="sc-val" data-axis-min="1" title="Supercell repeats along a (≥1)">
+            <button type="button" class="sc-inc" data-target="sc-a" tabindex="-1" aria-label="Increment a">+</button>
+          </div>
+        </div>
+        <div class="sc">
+          <div class="sc-l">b</div>
+          <div class="sc-steppers">
+            <button type="button" class="sc-dec" data-target="sc-b" tabindex="-1" aria-label="Decrement b">&minus;</button>
+            <input type="text" inputmode="numeric" id="sc-b" value="1" class="sc-val" data-axis-min="1" title="Supercell repeats along b (≥1)">
+            <button type="button" class="sc-inc" data-target="sc-b" tabindex="-1" aria-label="Increment b">+</button>
+          </div>
+        </div>
+        <div class="sc">
+          <div class="sc-l">c</div>
+          <div class="sc-steppers">
+            <button type="button" class="sc-dec" data-target="sc-c" tabindex="-1" aria-label="Decrement c">&minus;</button>
+            <input type="text" inputmode="numeric" id="sc-c" value="1" class="sc-val" data-axis-min="1" title="Supercell repeats along c (≥1)">
+            <button type="button" class="sc-inc" data-target="sc-c" tabindex="-1" aria-label="Increment c">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-section hidden" id="iso-section">
+      <div class="panel-label" title="Isosurface contour level for the loaded volumetric data">Iso-level</div>
+      <label class="toggle" title="Set the level automatically (10% of the data maximum, re-derived per file). Uncheck to drag or type a manual level."><input type="checkbox" id="iso-auto-check" checked><span>Auto</span></label>
+      <div class="iso-row">
+        <input type="range" id="iso-slider" class="iso-slider" min="0" max="1" step="0.001" value="0" title="Drag to change isosurface level (absolute value; negative lobe drawn automatically)">
+        <input type="number" id="iso-input" class="iso-num" step="any" value="0" title="Isosurface level (numeric entry)">
+        <span id="iso-pct" class="iso-pct" title="Level as % of the data maximum"></span>
+      </div>
+    </div>
+    <div class="panel-section hidden" id="bz-section">
+      <div class="panel-label" title="First Brillouin zone of the loaded lattice (reciprocal space)">Brillouin zone</div>
+      <div id="bz-lattice-info" class="bz-info"></div>
+      <div class="toggle-group">
+        <label class="toggle" title="High-symmetry point markers"><input type="checkbox" id="bz-points-check" checked><span>Points</span></label>
+        <label class="toggle" title="Point labels (Γ, X, …)"><input type="checkbox" id="bz-labels-check" checked><span>Labels</span></label>
+        <label class="toggle" title="k-path polyline"><input type="checkbox" id="bz-path-check" checked><span>Path</span></label>
+      </div>
+      <div id="bz-path-list" class="bz-path-list" title="Current k-path. Click point markers in the view to append; | marks a discontinuity."></div>
+      <div class="bz-btn-row">
+        <button id="bz-path-undo" class="panel-btn" title="Remove the last point">Undo</button>
+        <button id="bz-path-break" class="panel-btn" title="Start a new segment (discontinuity)">Break</button>
+        <button id="bz-path-clear" class="panel-btn" title="Empty the path">Clear</button>
+        <button id="bz-path-reset" class="panel-btn" title="Restore the standard path (Setyawan–Curtarolo 2010)">Reset</button>
+      </div>
+      <div class="bz-export-row" title="SIESTA %block BandLines (BandLinesScale ReciprocalLatticeVectors)">
+        <span class="bz-export-label">pts/seg</span>
+        <input type="number" id="bz-siesta-n" value="30" min="2" max="999">
+        <button id="bz-export-siesta" class="panel-btn">Copy BandLines</button>
+      </div>
+      <div class="bz-export-row" title="VASP KPOINTS line-mode (Reciprocal)">
+        <span class="bz-export-label">divisions</span>
+        <input type="number" id="bz-vasp-n" value="40" min="2" max="999">
+        <button id="bz-export-vasp" class="panel-btn">Copy KPOINTS</button>
+      </div>
+    </div>
+    <div class="panel-section hidden" id="ellipsoids-section">
+      <div class="panel-label" title="Anisotropic-displacement ellipsoids parsed from CIF _atom_site_aniso_*">Thermal ellipsoids</div>
+      <div class="toggle-group">
+        <label class="toggle" title="Render atoms with anisotropic displacement parameters as probability ellipsoids (Phong path forced)"><input type="checkbox" id="ellipsoids-check"><span>Show ellipsoids</span></label>
+      </div>
+      <div class="toggle-group" id="ellipsoid-contour-row" title="Probability contour level (χ²₃ table)">
+        <label class="toggle"><input type="radio" name="ellipsoid-contour" value="0.5" id="ellipsoid-contour-50" checked><span>50%</span></label>
+        <label class="toggle"><input type="radio" name="ellipsoid-contour" value="0.9" id="ellipsoid-contour-90"><span>90%</span></label>
+      </div>
+    </div>
+    <div class="panel-section hidden" id="partial-occupancy-section">
+      <div class="panel-label" title="Sites with _atom_site_occupancy < 1 (mixed-occupancy)">Partial occupancy</div>
+      <div class="toggle-group">
+        <label class="toggle" title="Render partial-occupancy sites as transparent atoms with opacity = occupancy ratio (per-site preserved)"><input type="checkbox" id="partial-occ-check"><span>Show partial occupancy</span></label>
+      </div>
+    </div>
+    <div class="panel-section hidden" id="trajectory-section">
+      <div class="panel-label" title="MD trajectory from AXSF / XDATCAR / extended XYZ">Trajectory</div>
+      <div class="trajectory-controls">
+        <button id="traj-play-btn" class="panel-btn" title="Play / Pause (Space)">▶</button>
+        <input type="range" id="traj-slider" min="0" max="0" step="1" value="0" title="Scrub frames">
+        <input type="number" id="traj-frame-input" class="traj-frame-input" min="1" value="1" title="Jump to frame">
+        <span id="traj-frame-label" class="traj-frame-label">/ 0</span>
+      </div>
+      <div class="trajectory-controls">
+        <span class="traj-control-label" title="Playback speed multiplier">Speed</span>
+        <input type="range" id="traj-speed-slider" min="0.25" max="2" step="0.25" value="1" title="0.25× – 2×">
+        <span id="traj-speed-label" class="traj-frame-label">1.00×</span>
+      </div>
+      <div class="toggle-group">
+        <label class="toggle" title="Repeat playback at end of trajectory"><input type="checkbox" id="traj-loop-check" checked><span>Loop</span></label>
+        <label class="toggle" title="Re-detect bonds at every frame (slow — disable above ~5k atoms; off by default uses frame-0 bonds for all frames)"><input type="checkbox" id="traj-bond-recompute"><span>Recompute bonds every frame (slow)</span></label>
+      </div>
+    </div>
+    <div class="panel-section hidden" id="phases-section">
+      <div class="panel-label panel-label-toggle" id="phases-toggle" title="Secondary structures overlaid alongside the primary (formerly Phases). Click to expand.">Overlay &#x25B6;</div>
+      <div id="phases-content" class="hidden">
+        <div id="phases-list"></div>
+        <button id="add-phase-btn" class="panel-btn full-width" title="Add a structure file to overlay">+ Add Overlay&hellip;</button>
+        <div class="toggle-group" id="comparison-row">
+          <label class="toggle" title="Display NN displacement arrows from primary atoms to first secondary phase atoms (Viridis colormap)"><input type="checkbox" id="compare-toggle"><span>Compare to first overlay (displacement arrows)</span></label>
+        </div>
+        <div id="comparison-stats" class="comparison-stats hidden"></div>
+      </div>
+    </div>
+    <div class="panel-section hidden" id="atom-vectors-section">
+      <div class="panel-label" title="Per-atom vector overlay (magnetic moments, forces, velocities, displacements). Auto-detected from MAGMOM tags, XSF trailing columns, extended-XYZ Properties, or CIF _atom_site_moment_*.">Vectors</div>
+      <div class="vec-kind-label" id="vec-kind-label"></div>
+      <div class="toggle-group">
+        <label class="toggle" title="Render arrows on atoms with non-zero vector data (length ∝ |v|, color by colormap)"><input type="checkbox" id="vector-check"><span>Show arrows</span></label>
+      </div>
+      <div class="toggle-group" id="vector-colormap-row" title="Colormap for arrow color">
+        <label class="toggle"><input type="radio" name="vec-colormap" value="redblue" id="vec-cmap-redblue" checked><span>Red/Blue</span></label>
+        <label class="toggle"><input type="radio" name="vec-colormap" value="viridis" id="vec-cmap-viridis"><span>Viridis</span></label>
+      </div>
+      <div class="iso-row" title="Arrow length scale (Å per unit-magnitude vector). 1.0 = 1 Å arrow per μB / per eV·Å⁻¹.">
+        <span class="iso-row-k">Scale</span>
+        <input type="range" id="vec-scale-slider" class="iso-slider" min="0.1" max="50" step="0.1" value="1.0">
+        <input type="text" inputmode="decimal" id="vec-scale-num" class="iso-num" data-min="0.1" data-max="50" data-step="0.1" data-precision="1" value="1.0">
+      </div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-label panel-label-toggle" id="atoms-toggle" title="Expand per-element color / radius / visibility overrides">Atoms &#x25B6;</div>
+      <div id="atoms-props" class="props-list hidden"></div>
+    </div>
+    <div class="panel-section hidden" id="poly-centers-section">
+      <div class="panel-label panel-label-toggle" id="poly-centers-toggle" title="Choose which element's atoms become polyhedra centers">Polyhedra centers &#x25B6;</div>
+      <div id="poly-centers-props" class="props-list hidden"></div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-label panel-label-toggle" id="bonds-toggle" title="Expand per-pair bond cutoff settings">Bonds &#x25B6;</div>
+      <div id="bond-skip-hint" class="bond-skip-hint hidden">
+        <span id="bond-skip-msg"></span>
+        <button id="bond-force-btn" class="panel-btn" title="Run bond detection anyway (may be slow)">Compute anyway</button>
+      </div>
+      <div id="bonds-props" class="props-list hidden"></div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-label panel-label-toggle" id="options-toggle" title="Advanced rendering options">Options &#x25B6;</div>
+      <div id="options-props" class="toggle-group hidden">
+        <label class="toggle" title="Render atoms and bonds as shader-computed impostors on camera-facing quads (faster, always smooth). Disable to use tessellated sphere/cylinder geometry."><input type="checkbox" id="impostor-check" checked><span>Use impostor rendering (faster)</span></label>
+        <div class="bg-row" title="3D viewport background. 'Theme' follows the VSCode theme; cell/axis line colors adapt to the background. Exported PNGs keep a transparent background either way.">
+          <span class="bg-label">Background</span>
+          <select id="bg-select" class="panel-select">
+            <option value="theme">Theme</option>
+            <option value="dark">Dark</option>
+            <option value="white">White</option>
+            <option value="custom">Custom&hellip;</option>
+          </select>
+          <input type="color" id="bg-color" class="hidden" value="#1e1e1e" title="Custom background color">
+        </div>
+      </div>
+    </div>
+    </div><!-- /.panel-scroll -->
+  </div>
+
+  <!-- Bottom-left info pill — always visible. Picked-atom info appends as
+       an extra segment after the meta when an atom is clicked. -->
+  <div id="info-pill" class="hidden">
+    <span id="pill-formula"></span>
+    <span id="pill-meta"></span>
+    <span id="pill-selected" class="hidden"></span>
+  </div>
+
+  <!-- Measure HUD (top-right; visible only in measure mode) -->
+  <div id="measure-hud" class="hidden" role="region" aria-label="Measurement readout">
+    <div class="measure-head">
+      <div class="measure-kinds" role="tablist">
+        <button type="button" class="measure-kind" data-kind="distance" role="tab" aria-selected="true">Distance</button>
+        <button type="button" class="measure-kind" data-kind="angle" role="tab" disabled title="Needs 3 atoms">Angle</button>
+        <button type="button" class="measure-kind" data-kind="dihedral" role="tab" disabled title="Needs 4 atoms">Dihedral</button>
+      </div>
+      <button type="button" id="measure-clear" class="measure-x" title="Clear (Esc)" aria-label="Clear measurement"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>
+    </div>
+
+    <div class="measure-value">
+      <span class="measure-num" id="measure-num">&mdash;</span>
+      <span class="measure-unit" id="measure-unit">&Aring;</span>
+    </div>
+
+    <div class="measure-pair" id="measure-pair"></div>
+
+    <div class="measure-delta hidden" id="measure-delta">
+      <div class="measure-delta-row">
+        <span class="measure-delta-k">&Delta; fractional</span>
+        <span class="measure-delta-v" id="measure-delta-frac"></span>
+      </div>
+      <div class="measure-delta-row">
+        <span class="measure-delta-k">&Delta; cartesian</span>
+        <span class="measure-delta-v" id="measure-delta-cart"></span>
+      </div>
+    </div>
+
+    <div class="measure-foot">
+      <span class="measure-hint" id="measure-hint">Click an atom to start measuring.</span>
+      <button type="button" id="measure-copy" class="measure-copy" title="Copy measurement">Copy</button>
+    </div>
+  </div>
+
+  <div id="tooltip" class="hidden"></div>
+  </div>
+  <style>
+  /* matviz CSS assumes it owns html/body (html,body{height:100%;overflow:hidden} and
+     #canvas{height:100%}). Inlined into a page, the canvas parent chain gives 0 height and
+     the global rules would kill page scrolling. Re-anchor both to the container. */
+  #mv09 { contain: layout paint; }
+  #mv09 > #canvas { position:absolute; inset:0; width:100% !important; height:100% !important; display:block; }
+  #mv09 #side-panel, #mv09 #top-bar, #mv09 #mode-bar,
+  #mv09 #help-overlay, #mv09 #measure-hud, #mv09 #tooltip,
+  #mv09 #info-pill, #mv09 #sv-switch { position:absolute; }
+
+  </style>
+  <link href="../../assets/lib/matviz-styles.css" rel="stylesheet">
+  <style>
+  /* undo matviz's global page takeover (loaded above) */
+  html, body { width:auto !important; height:auto !important; overflow:visible !important; }
+  </style>
+  <script>
+
+// acquireVsCodeApi shim — the one VS Code coupling in the webview bundle.
+// Browser equivalents: clipboard for k-path export, download for screenshots,
+// localStorage for persisted state. Host-only messages are safely ignored.
+window.acquireVsCodeApi = function () {
+  return {
+    postMessage: function (m) {
+      if (!m || typeof m !== 'object') return;
+      if (m.type === 'copyToClipboard' && navigator.clipboard) {
+        navigator.clipboard.writeText(m.text).catch(function () {});
+      } else if (m.type === 'saveScreenshot' && m.dataUrl) {
+        var a = document.createElement('a');
+        a.href = m.dataUrl; a.download = 'matviz.png'; a.click();
+      }
+    },
+    getState: function () { return null; },
+    setState: function (s) { try { localStorage.setItem('matviz-state', JSON.stringify(s)); } catch (e) {} return s; }
+  };
+};
+window.MATVIZ_DEFAULTS = { background: 'white', palette: 'light' };
+
+  </script>
+  <script src="../../assets/lib/matviz-webview.js"></script>
+  <script id="sv-structs" type="application/json">{"Dimer (2 mol)": {"lattice": [[25.0, 0.0, 0.0], [0.0, 25.0, 0.0], [0.0, 0.0, 35.0]], "species": ["Hf", "Hf", "Se", "Se", "Se", "Se", "Se", "Se", "Se", "Se", "Se", "Hf", "Hf", "Se", "Se", "Se", "Se", "Se", "Se", "Se", "Se", "Se", "H", "H", "H"], "positions": [[12.510863, 12.493269, 10.373135], [12.506702, 12.491409, 14.408908], [10.842693, 13.468648, 12.400429], [12.492546, 10.566593, 12.400497], [14.162149, 13.476966, 12.401642], [10.774811, 11.508318, 8.793437], [14.227065, 11.501526, 8.779203], [12.487713, 14.490868, 8.795757], [10.578011, 11.401324, 15.763197], [14.428044, 11.389616, 15.759152], [12.494817, 14.711853, 15.762012], [12.506899, 12.491276, 20.591122], [12.511147, 12.493121, 24.626571], [10.842861, 13.468717, 22.59959], [12.492185, 10.566374, 22.599432], [14.161992, 13.477528, 22.598338], [10.578053, 11.401383, 19.236883], [14.428047, 11.389614, 19.241203], [12.494783, 14.711751, 19.23804], [10.774714, 11.508671, 26.2065], [14.227323, 11.501341, 26.220678], [12.487421, 14.490319, 26.204474], [12.498993, 14.431368, 17.499864], [10.82585, 11.536624, 17.499849], [14.181104, 11.529965, 17.499502]], "pbc": [true, true, true], "title": "Dimer (2 mol)"}, "Trimer (3 mol)": {"lattice": [[25.0, 0.0, 0.0], [0.0, 25.0, 0.0], [0.0, 0.0, 45.0]], "species": ["Hf", "Hf", "Se", "Se", "Se", "Se", "Se", "Se", "Se", "Se", "Se", "H", "H", "H", "Hf", "Hf", "Se", "Se", "Se", "Se", "Se", "Se", "Se", "Se", "Se", "H", "H", "H", "Hf", "Hf", "Se", "Se", "Se", "Se", "Se", "Se", "Se", "Se", "Se"], "positions": [[12.507146, 12.494857, 9.990321], [12.502276, 12.498635, 13.987933], [10.815534, 13.475098, 12.000414], [12.503693, 10.547495, 12.002297], [14.190018, 13.475325, 12.00222], [10.704477, 11.472332, 8.525562], [14.284907, 11.465836, 8.502584], [12.492025, 14.565071, 8.523977], [10.65749, 11.440688, 15.482397], [14.342626, 11.433544, 15.480936], [12.492964, 14.625, 15.47948], [12.503003, 14.402377, 17.27578], [10.854304, 11.545259, 17.271338], [14.149909, 11.546926, 17.272123], [12.501191, 12.497673, 20.603832], [12.501177, 12.497835, 24.396302], [10.756514, 13.511533, 22.500034], [12.507116, 10.479642, 22.500085], [14.247969, 13.508002, 22.500071], [10.673755, 11.450631, 18.998439], [14.324619, 11.444156, 18.997009], [12.492867, 14.606215, 18.996075], [10.673607, 11.450546, 26.001713], [14.32465, 11.444177, 26.00303], [12.492927, 14.606375, 26.004014], [12.503003, 14.402386, 27.724099], [10.854351, 11.545272, 27.728014], [14.149892, 11.546931, 27.727668], [12.502276, 12.498556, 31.012161], [12.507056, 12.494926, 35.009924], [10.815501, 13.475243, 32.999592], [12.503794, 10.547418, 32.997821], [14.189896, 13.475377, 32.997872], [10.657606, 11.44063, 29.517781], [14.342566, 11.433535, 29.519115], [12.492978, 14.624951, 29.520659], [10.704376, 11.472327, 36.474441], [14.284857, 11.465963, 36.497265], [12.492002, 14.564973, 36.476071]], "pbc": [true, true, true], "title": "Trimer (3 mol)"}}</script>
+  <script>
+
+(function(){
+  var S = JSON.parse(document.getElementById('sv-structs').textContent);
+  function load(m){ window.postMessage({type:'loadStructure', data:S[m]}, '*'); }
+  document.querySelectorAll('#sv-switch button[data-m]').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('#sv-switch button[data-m]').forEach(function(x){x.classList.remove('active');});
+      b.classList.add('active'); load(b.getAttribute('data-m'));
+    });
+  });
+  var ui=document.getElementById('sv-ui');
+  ui.addEventListener('click', function(){ var min=document.body.classList.toggle('mv-minimal'); ui.innerHTML = min?'\u2699 Full UI':'\u2699 Minimal'; });
+  setTimeout(function(){ load("Dimer (2 mol)"); }, 150);
+})();
+
+  </script>
+<figcaption><strong>Fig. 2.</strong> 현재 구조 이완의 초기 구조인 수소 종단
+      <code>gap</code> 배치: dimer 25원자, trimer 39원자. 파랑 = Hf, 황갈색 = Se, 흰색 = H.</figcaption>
   </figure>
 
   <figure>
@@ -208,8 +607,8 @@
       <span><img src="figures/E_vs_distance_2mol.png" alt="dimer bare distance scan" style="max-width:330px"></span>
       <span><img src="figures/E_vs_distance_3mol.png" alt="trimer bare distance scan" style="max-width:330px"></span>
     </div>
-    <figcaption><strong>Fig. 3.</strong> Unterminated fixed-geometry energy scans: dimer (left)
-      and trimer (right). $\Delta E$ is referenced to the minimum of each scan.</figcaption>
+    <figcaption><strong>Fig. 3.</strong> 종단하지 않은 고정 기하 에너지 스캔:
+      dimer(왼쪽)와 trimer(오른쪽). 각 $\Delta E$는 해당 스캔의 최소 기준이다.</figcaption>
   </figure>
 
   <figure>
@@ -217,24 +616,24 @@
       <span><img src="figures/hterm_modes_2mol.png" alt="dimer H-term modes" style="max-width:330px"></span>
       <span><img src="figures/hterm_modes_3mol.png" alt="trimer H-term modes" style="max-width:330px"></span>
     </div>
-    <figcaption><strong>Fig. 4.</strong> Hydrogen-terminated fixed-geometry scans for the three
-      project-labelled arrangements: dimer (left) and trimer (right).</figcaption>
+    <figcaption><strong>Fig. 4.</strong> 세 프로젝트 명칭에 대한 수소 종단 고정 기하 스캔:
+      dimer(왼쪽)와 trimer(오른쪽).</figcaption>
   </figure>
 
-  <p><em>Scope.</em> These are fixed-geometry energy differences, not intermolecular binding
-    energies. The 3 H atoms remain at the mid-gap plane while $d$ changes.</p>
+  <p><em>범위.</em> 이 값은 고정 기하 에너지 차이이며 분자 간 결합에너지가 아니다.
+    $d$를 바꿀 때 H 3개는 gap 중앙면에 유지된다.</p>
 
-  <h2>Relaxation <span class="status">in progress</span></h2>
+  <h2>구조 이완 <span class="status">진행 중</span></h2>
   <p>
-    <strong>Both structures remain unconverged against the maximum-force tolerance of
-    0.02 eV/Å.</strong> The current calculations use conjugate-gradient relaxation with a maximum
-    displacement of 0.01 Å. Live force values are listed on <a href="../../status/index.html">Status</a>.
+    <strong>두 구조 모두 최대 힘 수렴 기준 0.02 eV/Å에 도달하지 않았다.</strong>
+    현재 계산은 CG(conjugate gradient)과 MaxDispl 0.01 Å을 사용한다.
+    최신 힘은 <a href="../../status/index.html">Status</a>에 기록한다.
   </p>
 
-  <h2>Next steps</h2>
+  <h2>다음 단계</h2>
   <ul>
-    <li>Converge both structures and report the relaxed Hf–Hf and terminal Se–Se separations.</li>
-    <li>Use the relaxed structures for the 2- and 3-molecule conductance-decay calculations.</li>
+    <li>두 구조를 수렴시키고 이완된 Hf–Hf와 말단 Se–Se 간격을 보고한다.</li>
+    <li>이완 구조로 2·3분자 conductance decay(conductance decay)를 계산한다.</li>
   </ul>
 </article>
 <nav class="subpages"></nav>

@@ -12,41 +12,40 @@
 <aside id="nav" data-brand="101 · VSe₃–Hf₂Se₉"></aside>
 <main>
 <article>
-  <h1>VSe₃ TP vs TAP stability</h1>
-  <p class="page-meta">Source: meetings 2026-03-19, 2026-04-07, 2026-04-16; initial-structures report.</p>
+  <h1>VSe₃ TP vs TAP 안정성</h1>
+  <p class="page-meta">출처: meetings 2026-03-19, 2026-04-07, 2026-04-16; initial-structures 리포트.</p>
 
-  <h2>Goal</h2>
+  <h2>목표</h2>
   <p>
-    Determine which 1D chain coordination — TP (trigonal prismatic) or TAP (trigonal
-    anti-prismatic) — is more stable for VSe₃, supporting the experimental (STEM) claim that the
-    CNT-confined VSe₃ single chain is TP. The two differ by a 60° rotation between adjacent Se₃
-    triangles along the chain axis: in TP the triangles are aligned (top view shows 3 Se), in TAP
-    adjacent triangles are rotated 60° (top view shows a 6-pointed star).
+    VSe₃에서 어느 1D chain 배위 — TP(trigonal prismatic)인지 TAP(trigonal anti-prismatic)인지 —
+    가 더 안정한지 규명하여, CNT 구속 VSe₃ single chain이 TP라는 실험(STEM) 주장을 뒷받침한다.
+    둘은 chain 축을 따라 인접한 Se₃ triangle 사이의 60° 회전으로 구별된다: TP에서는 triangle들이
+    정렬돼 있고(top view에서 Se 3개), TAP에서는 인접 triangle이 60° 회전돼 있다(top view에서
+    6-pointed star).
   </p>
 
-  <h2>Method</h2>
+  <h2>방법</h2>
   <p>
-    Initial structures were built from literature parameters with <code>build_vse3.py</code>:
-    TP from d<sub>VSe</sub> = 2.45 Å, d<sub>VV</sub> = 3.09 Å (covalent-radii sum, Cordero 2008 +
-    NbSe₃ scaling, Hodeau 1978); TAP is the same with a 60° rotation (c = 6.18 Å, 8 atoms).
-    Both were relaxed in SIESTA. TP/TAP stability was then compared with two functionals,
-    vdW-DF2 (LMKLL) and PBE+D2. Within a single functional the total-energy difference is a valid
-    comparison; across functionals it is not (see
-    <a href="../hf2se9-stability/index.html">stability methodology</a>).
+    초기 구조는 문헌 파라미터로 <code>build_vse3.py</code>를 써서 만들었다:
+    TP는 d<sub>VSe</sub> = 2.45 Å, d<sub>VV</sub> = 3.09 Å(공유 반지름 합, Cordero 2008 +
+    NbSe₃ scaling, Hodeau 1978)에서; TAP은 동일 구조를 60° 회전한 것(c = 6.18 Å, 8 atoms).
+    둘 다 SIESTA에서 relax했다. 이어서 TP/TAP 안정성을 두 functional, vdW-DF2 (LMKLL)와 PBE+D2로
+    비교했다. 단일 functional 내부에서는 total-energy 차이가 유효한 비교지만, functional 간에는
+    그렇지 않다(<a href="../hf2se9-stability/index.html">안정성 방법론</a> 참조).
   </p>
 
-  <h2>Result</h2>
-  <p><strong>TP is more stable than TAP in both functionals.</strong></p>
+  <h2>결과</h2>
+  <p><strong>두 functional 모두에서 TP가 TAP보다 더 안정하다.</strong></p>
   <table>
-    <thead><tr><th>Functional</th><th>ΔE (TP relative to TAP)</th><th>TP band character</th></tr></thead>
+    <thead><tr><th>Functional</th><th>ΔE (TAP 대비 TP)</th><th>TP band 성격</th></tr></thead>
     <tbody>
-      <tr><td>vdW-DF2</td><td>TP more stable by <strong>41 meV/atom</strong></td><td>metallic</td></tr>
-      <tr><td>PBE+D2</td><td>TP more stable by <strong>20 meV/atom</strong></td><td>metallic</td></tr>
+      <tr><td>vdW-DF2</td><td>TP가 <strong>41 meV/atom</strong> 더 안정</td><td>metallic</td></tr>
+      <tr><td>PBE+D2</td><td>TP가 <strong>20 meV/atom</strong> 더 안정</td><td>metallic</td></tr>
     </tbody>
   </table>
   <p>
-    The TP band structure is metallic in both methods. (Source: 2026-04-07 meeting; the 41 meV/atom
-    vdW-DF2 value is also quoted in the stability-comparison-method note.)
+    TP band 구조는 두 방법 모두에서 metallic이다. (출처: 2026-04-07 미팅; 41 meV/atom의 vdW-DF2
+    값은 stability-comparison-method 노트에도 인용돼 있다.)
   </p>
 
   <figure>
@@ -54,7 +53,7 @@
       <span><img src="figures/vse3-tp-relaxed.png" alt="VSe3 TP relaxed" style="max-width:260px"></span>
       <span><img src="figures/vse3-tap-relaxed.png" alt="VSe3 TAP relaxed" style="max-width:260px"></span>
     </div>
-    <figcaption><strong>Fig. 1.</strong> vdW-DF2 relaxed VSe₃ TP (left) and TAP (right) chains.</figcaption>
+    <figcaption><strong>Fig. 1.</strong> vdW-DF2 relaxed VSe₃ TP(왼쪽)와 TAP(오른쪽) chain.</figcaption>
   </figure>
 
   <figure>
@@ -62,8 +61,8 @@
       <span><img src="figures/vse3_tp_topview.png" alt="TP top view" style="max-width:230px"></span>
       <span><img src="figures/vse3_tap_topview.png" alt="TAP top view" style="max-width:230px"></span>
     </div>
-    <figcaption><strong>Fig. 2.</strong> Top views (initial structures): TP — aligned Se₃ triangles
-      (3 Se visible); TAP — adjacent triangles rotated 60° (6-pointed star).</figcaption>
+    <figcaption><strong>Fig. 2.</strong> Top view(초기 구조): TP — 정렬된 Se₃ triangle
+      (Se 3개 보임); TAP — 인접 triangle이 60° 회전(6-pointed star).</figcaption>
   </figure>
 
   <figure>
@@ -71,17 +70,16 @@
       <span><img src="figures/vse3-tp-band.png" alt="TP band vdW-DF2" style="max-width:300px"></span>
       <span><img src="figures/vse3-tp-band-d2.png" alt="TP band PBE+D2" style="max-width:300px"></span>
     </div>
-    <figcaption><strong>Fig. 3.</strong> VSe₃ TP band structure: vdW-DF2 (left) and PBE+D2 (right).
-      Metallic in both.</figcaption>
+    <figcaption><strong>Fig. 3.</strong> VSe₃ TP band 구조: vdW-DF2(왼쪽)와 PBE+D2(오른쪽).
+      둘 다 metallic.</figcaption>
   </figure>
 
-  <h2>Discussion</h2>
+  <h2>논의</h2>
   <p>
-    The TAP relaxed structure was delivered to the experimental team (Dr. Yangjin Lee) for STEM
-    image simulation (2026-04-16). Its vdW-DF2 relaxed local parameters: c = 5.535 Å,
-    V–Se = 2.508 Å, V–V = 2.768 Å. A planned extension is a Se-vs-Te (VSe₃ vs VTe₃) TP/TAP
-    comparison; VTe₃ TP/TAP initial structures were built (cases 03/04) but those relaxations are
-    listed as 2nd priority and not reported here.
+    TAP relaxed 구조는 STEM 이미지 시뮬레이션을 위해 실험팀(Dr. Yangjin Lee)에 전달됐다
+    (2026-04-16). vdW-DF2 relaxed 국소 파라미터: c = 5.535 Å, V–Se = 2.508 Å, V–V = 2.768 Å.
+    계획된 확장은 Se-vs-Te (VSe₃ vs VTe₃) TP/TAP 비교이며, VTe₃ TP/TAP 초기 구조는 만들었으나
+    (case 03/04) 그 relaxation들은 2순위로 분류돼 여기서는 보고하지 않는다.
   </p>
 </article>
 <nav class="subpages"></nav>

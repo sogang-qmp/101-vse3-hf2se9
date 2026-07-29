@@ -2,7 +2,7 @@
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="order" content="40">
-<title>H termination — 101-vse3-hf2se9</title>
+<title>H 종단 — 101-vse3-hf2se9</title>
 <link rel="stylesheet" href="../../assets/site.css">
 <link rel="stylesheet" href="../../assets/katex/katex.min.css">
 <script defer src="../../assets/katex/katex.min.js"></script>
@@ -15,109 +15,108 @@
 <aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
 <main>
 <article>
-  <h1>04. H termination of the VSe₃ interface: separation minimum restored</h1>
-  <p class="page-meta"><strong>2026-04-16</strong> · Source: reports/h-termination/ (progress-update.md, h-termination.md, README.md), meeting 2026-04-16.</p>
+  <h1>04. VSe₃ 계면의 H 종단: 분리 거리 최소점 복원</h1>
+  <p class="page-meta"><strong>2026-04-16</strong> · 출처: reports/h-termination/ (progress-update.md, h-termination.md, README.md), 미팅 2026-04-16.</p>
 
-  <h2>Goal</h2>
+  <h2>목표</h2>
   <p>
-    Test the hypothesis (proposed at the 2026-04-07 meeting) that the missing equilibrium in the
-    bare VSe₃–Hf₂Se₉ separation curve is caused by <strong>dangling bonds on the cut VSe₃ interface
-    Se</strong>. In the TP chain each Se bonds to two V (V–Se = 2.508 Å); cutting the chain removes
-    one V, leaving an unsaturated bond that binds unphysically strongly to Hf₂Se₉. Hf₂Se₉ is
-    closed-shell, so the problem is localized to the VSe₃ side. Verification: attach H to the VSe₃
-    interface Se and compare the separation-energy curve with the bare case.
+    (2026-04-07 미팅에서 제기된) 가설, 즉 맨몸(bare) VSe₃–Hf₂Se₉ 분리 곡선에서 평형점이 없는 것이
+    <strong>잘린 VSe₃ 계면 Se의 dangling bond</strong> 때문이라는 가설을 검증한다. TP 사슬에서
+    각 Se는 두 개의 V와 결합하는데 (V–Se = 2.508 Å), 사슬을 자르면 V 하나가 사라지면서
+    포화되지 않은(unsaturated) 결합이 남아 Hf₂Se₉와 비물리적으로 강하게 결합한다. Hf₂Se₉는
+    closed-shell이므로 문제는 VSe₃ 쪽에 국한된다. 검증 방법: VSe₃ 계면 Se에 H를 붙여
+    분리 에너지 곡선을 맨몸 경우와 비교한다.
   </p>
 
-  <h2>Method</h2>
+  <h2>방법</h2>
   <ul>
-    <li>H attached to the 3 interface Se on each side (6 H total), VSe₃ side only.</li>
-    <li>H placed toward the missing-V direction (Se–H bond aligned with the original V–Se direction).</li>
-    <li>d(Se–H) = 1.46 Å (H₂Se experimental r₀, NIST CCCBDB).</li>
-    <li>Single-point scan d = 2.0, 2.5, 3.0, 3.5, 4.0, 4.5 Å.</li>
+    <li>각 쪽 계면 Se 3개에 H 부착 (총 6 H), VSe₃ 쪽에만.</li>
+    <li>H는 사라진 V 방향으로 배치 (Se–H 결합을 원래 V–Se 방향에 정렬).</li>
+    <li>d(Se–H) = 1.46 Å (H₂Se 실험 r₀, NIST CCCBDB).</li>
+    <li>Single-point 스캔 d = 2.0, 2.5, 3.0, 3.5, 4.0, 4.5 Å.</li>
     <li>vdW-DF2 (LMKLL), MeshCutoff 500 Ry, k = 1×1×4, 44 atoms (6 V + 2 Hf + 30 Se + 6 H).</li>
   </ul>
-  <p>Here <em>d</em> is the z-distance between the VSe₃ terminal Se and the Hf₂Se₉ terminal Se.</p>
+  <p>여기서 <em>d</em>는 VSe₃ 말단 Se와 Hf₂Se₉ 말단 Se 사이의 z 거리다.</p>
 
-  <h2>Result</h2>
-  <p><strong>With H, a clear separation-energy minimum appears at d = 3.5 Å — matching the experimental ~3.5 Å.</strong> The bare structure keeps decreasing monotonically.</p>
+  <h2>결과</h2>
+  <p><strong>H가 있으면 d = 3.5 Å에서 뚜렷한 분리 에너지 최소점이 나타난다 — 실험값 ~3.5 Å과 일치.</strong> 맨몸 구조는 단조 감소만 계속한다.</p>
   <table>
-    <thead><tr><th>d (Å)</th><th>E<sub>sep</sub>, with H (eV)</th><th>E<sub>sep</sub>, without H (eV)</th></tr></thead>
+    <thead><tr><th>d (Å)</th><th>E<sub>sep</sub>, H 있음 (eV)</th><th>E<sub>sep</sub>, H 없음 (eV)</th></tr></thead>
     <tbody>
       <tr><td>2.0</td><td>+26.90</td><td>—</td></tr>
       <tr><td>2.5</td><td>+4.92</td><td>−6.21</td></tr>
       <tr><td>3.0</td><td>+0.15</td><td>−4.10</td></tr>
-      <tr><td><strong>3.5</strong></td><td><strong>−0.68 (min)</strong></td><td>−1.61</td></tr>
+      <tr><td><strong>3.5</strong></td><td><strong>−0.68 (최소)</strong></td><td>−1.61</td></tr>
       <tr><td>4.0</td><td>−0.48</td><td>0.00</td></tr>
-      <tr><td>4.5</td><td>0.00 (ref)</td><td>—</td></tr>
+      <tr><td>4.5</td><td>0.00 (기준)</td><td>—</td></tr>
     </tbody>
   </table>
-  <p class="page-meta">"Without H" = 08-hetero-v2 (vdW-DF2 symmetric), referenced to d = 4.0 Å. "With H" referenced to d = 4.5 Å. Absolute Kohn–Sham energies are in <code>scripts/plot_sep_energy.py</code>.</p>
+  <p class="page-meta">"H 없음" = 08-hetero-v2 (vdW-DF2 대칭), d = 4.0 Å 기준. "H 있음"은 d = 4.5 Å 기준. 절대 Kohn–Sham 에너지는 <code>scripts/plot_sep_energy.py</code>에 있다.</p>
 
   <figure>
     <img src="figures/sep_energy_h_term.png" alt="Separation energy: with H vs without H" style="max-width:480px">
-    <figcaption><strong>Fig. 1.</strong> Separation energy vs interface separation: H-terminated
-      (with H) develops a minimum at d = 3.5 Å (circled); the bare structure (without H) does not.
-      Green band = experimental separation. (Plot: <code>scripts/plot_sep_energy.py</code>.)</figcaption>
+    <figcaption><strong>Fig. 1.</strong> 분리 에너지 vs 계면 분리 거리: H 종단
+      (H 있음)은 d = 3.5 Å에서 최소점이 생긴다 (원 표시); 맨몸 구조 (H 없음)는 그렇지 않다.
+      녹색 밴드 = 실험 분리 거리. (플롯: <code>scripts/plot_sep_energy.py</code>.)</figcaption>
   </figure>
 
-  <h2>H-orientation comparison (2026-04-16)</h2>
+  <h2>H 배향(orientation) 비교 (2026-04-16)</h2>
   <p>
-    Three initial H directions were compared under the same conditions (vdW-DF2 single-point,
-    44 atoms, Se–H = 1.46 Å): <code>bond</code> (H toward the missing V center), <code>gap</code>
-    (H ⊥ Se₃ plane, i.e. pure ±z), and <code>tilt</code> (H tilted 45° radially outward).
+    동일 조건에서 (vdW-DF2 single-point, 44 atoms, Se–H = 1.46 Å) 세 가지 초기 H 방향을 비교했다:
+    <code>bond</code> (H가 사라진 V 중심을 향함), <code>gap</code>
+    (H가 Se₃ 평면에 수직, 즉 순수 ±z), <code>tilt</code> (H를 반경 방향 바깥으로 45° 기울임).
   </p>
   <ul>
-    <li><code>gap</code> is the most stable over the whole range; its minimum sits at d = 3.5–4.0 Å
-      (the two points differ by ~4 meV).</li>
-    <li><code>bond</code> is 1.11 eV higher and <code>tilt</code> 3.72 eV higher than <code>gap</code>.</li>
-    <li>Recommended relaxation starting structure: <code>gap</code> mode, d = 3.5 Å.</li>
+    <li><code>gap</code>이 전 범위에서 가장 안정하며, 최소점은 d = 3.5–4.0 Å에 있다
+      (두 점의 차이는 ~4 meV).</li>
+    <li><code>bond</code>은 <code>gap</code>보다 1.11 eV, <code>tilt</code>은 3.72 eV 높다.</li>
+    <li>권장 relaxation 시작 구조: <code>gap</code> 모드, d = 3.5 Å.</li>
   </ul>
   <figure>
     <img src="figures/h-orientation-schematic.png" alt="H orientation schematic" style="max-width:480px">
-    <figcaption><strong>Fig. 2.</strong> Schematic of the three H-orientation modes (bond / gap / tilt).</figcaption>
+    <figcaption><strong>Fig. 2.</strong> 세 가지 H 배향 모드 (bond / gap / tilt)의 모식도.</figcaption>
   </figure>
   <figure>
     <img src="figures/h-term-three-mode.png" alt="Three-mode separation scan" style="max-width:480px">
-    <figcaption><strong>Fig. 3.</strong> Separation-energy scan for the three H-orientation modes.</figcaption>
+    <figcaption><strong>Fig. 3.</strong> 세 가지 H 배향 모드의 분리 에너지 스캔.</figcaption>
   </figure>
 
-  <h3>Junction configurations (2026-06-12)</h3>
-  <p>The H-passivated VSe₃–Hf₂Se₉–VSe₃ junction in the three modes; all three minimise at
-     d ≈ 3.5 Å, with <code>top</code> the most stable.</p>
+  <h3>접합(junction) 구성 (2026-06-12)</h3>
+  <p>세 모드에서의 H 패시베이션된 VSe₃–Hf₂Se₉–VSe₃ 접합; 세 모드 모두
+     d ≈ 3.5 Å에서 최소가 되며, <code>top</code>이 가장 안정하다.</p>
   <figure>
     <img src="figures/junction_bond.png" alt="bond config" style="max-width:560px">
-    <figcaption><strong>Fig. 4a.</strong> <code>bond</code> (top) configuration.</figcaption>
+    <figcaption><strong>Fig. 4a.</strong> <code>bond</code> (top) 구성.</figcaption>
   </figure>
   <figure>
     <img src="figures/junction_gap.png" alt="gap config" style="max-width:560px">
-    <figcaption><strong>Fig. 4b.</strong> <code>gap</code> (hollow) configuration.</figcaption>
+    <figcaption><strong>Fig. 4b.</strong> <code>gap</code> (hollow) 구성.</figcaption>
   </figure>
   <figure>
     <img src="figures/junction_tilt.png" alt="tilt config" style="max-width:560px">
-    <figcaption><strong>Fig. 4c.</strong> <code>tilt</code> configuration.</figcaption>
+    <figcaption><strong>Fig. 4c.</strong> <code>tilt</code> 구성.</figcaption>
   </figure>
   <figure>
     <img src="figures/ppt_s5_1.png" alt="dE vs Se-Se separation" style="max-width:420px">
-    <figcaption><strong>Fig. 5.</strong> ΔE vs Se–Se separation d for the three modes
-      (top / hollow / tilted); minimum at d ≈ 3.5 Å.</figcaption>
+    <figcaption><strong>Fig. 5.</strong> 세 모드 (top / hollow / tilted)의 Se–Se 분리 거리 d에 대한 ΔE;
+      최소점은 d ≈ 3.5 Å.</figcaption>
   </figure>
 
-  <h2>Discussion</h2>
+  <h2>논의</h2>
   <ul>
-    <li>H passivation removes the interface's unphysical strong binding: d &lt; 3.0 Å rises steeply
-      (Pauli repulsion / repulsive wall), d ≈ 3.5 Å balances vdW attraction and repulsion
-      (equilibrium), d &gt; 4.0 Å converges.</li>
-    <li>This indicates the VSe₃ Se dangling bond was the main cause of the earlier separation
-      failure.</li>
-    <li>The H-direction choice is supported by MoS₂-edge literature (Bollinger 2003, Kronberg 2017,
-      Lauritsen 2018): the chalcogen–H bond points along the dangling-bond direction, not toward the
-      metal center; the ~1 eV mode spread is consistent with those studies.</li>
+    <li>H 패시베이션은 계면의 비물리적 강한 결합을 없앤다: d &lt; 3.0 Å는 가파르게 상승하고
+      (Pauli 반발 / 반발 벽), d ≈ 3.5 Å는 vdW 인력과 반발이 균형을 이루며
+      (평형), d &gt; 4.0 Å에서 수렴한다.</li>
+    <li>이는 VSe₃ Se dangling bond가 앞선 분리 실패의 주원인이었음을 가리킨다.</li>
+    <li>H 방향 선택은 MoS₂-edge 문헌 (Bollinger 2003, Kronberg 2017,
+      Lauritsen 2018)이 뒷받침한다: chalcogen–H 결합은 금속 중심이 아니라 dangling-bond 방향을
+      향하며, ~1 eV의 모드 간격도 이들 연구와 일치한다.</li>
   </ul>
 
-  <h2>Next steps (as stated)</h2>
+  <h2>다음 단계 (기재된 대로)</h2>
   <ol>
-    <li>Finalize H direction (bond/gap/tilt comparison).</li>
-    <li>Full relaxation at transport size (20 unit cells).</li>
+    <li>H 방향 확정 (bond/gap/tilt 비교).</li>
+    <li>Transport 크기 (20 unit cells)에서 full relaxation.</li>
     <li>Hf₂Se₉ PDOS → band gap.</li>
     <li>TranSIESTA transport (electrode + device + I-V).</li>
   </ol>

@@ -2,7 +2,7 @@
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="order" content="30">
-<title>Heterostructure separation test — 101-vse3-hf2se9</title>
+<title>헤테로 구조 분리 테스트 — 101-vse3-hf2se9</title>
 <link rel="stylesheet" href="../../assets/site.css">
 <link rel="stylesheet" href="../../assets/katex/katex.min.css">
 <script defer src="../../assets/katex/katex.min.js"></script>
@@ -15,39 +15,38 @@
 <aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
 <main>
 <article>
-  <h1>03. VSe₃–Hf₂Se₉ heterostructure separation test</h1>
-  <p class="page-meta"><strong>2026-04-07</strong> · Source: reports/initial-structures/failure-analysis.md §6, hetero-energy-vs-sep.csv, meeting 2026-04-07.</p>
+  <h1>03. VSe₃–Hf₂Se₉ 헤테로 구조 분리 테스트</h1>
+  <p class="page-meta"><strong>2026-04-07</strong> · 출처: reports/initial-structures/failure-analysis.md §6, hetero-energy-vs-sep.csv, 미팅 2026-04-07.</p>
 
-  <h2>Goal</h2>
+  <h2>목표</h2>
   <p>
-    In the VSe₃ (3 unit cells)–Hf₂Se₉–VSe₃ (3 unit cells) heterojunction, compute the single-point energy as a function
-    of the VSe₃–Hf₂Se₉ interface separation <em>d</em> (2.5–4.0 Å), to find the equilibrium
-    interface distance and check whether DFT reproduces the experimentally observed ~3.5 Å minimum.
+    VSe₃ (3 unit cells)–Hf₂Se₉–VSe₃ (3 unit cells) 헤테로접합에서, VSe₃–Hf₂Se₉ 계면 분리 거리
+    <em>d</em> (2.5–4.0 Å)의 함수로 single-point 에너지를 계산해 평형 계면 거리를 찾고,
+    실험적으로 관측된 ~3.5 Å 최소점을 DFT가 재현하는지 확인한다.
   </p>
 
-  <h2>Method</h2>
+  <h2>방법</h2>
   <p>
-    Three versions were computed. Because their structures differ, total energy cannot be compared
-    directly between versions; only the energy trend <em>within</em> each version is compared, with
-    d = 4.0 Å as the per-version reference.
+    세 가지 버전을 계산했다. 구조가 서로 다르므로 버전 간 total energy는 직접 비교할 수 없고,
+    각 버전 <em>내부</em>의 에너지 추세만 비교하며, d = 4.0 Å를 버전별 기준으로 삼는다.
   </p>
   <table>
-    <thead><tr><th>Version</th><th>Functional</th><th>Structure origin</th><th>Interface arrangement</th></tr></thead>
+    <thead><tr><th>버전</th><th>Functional</th><th>구조 출처</th><th>계면 배치</th></tr></thead>
     <tbody>
-      <tr><td>07-hetero</td><td>vdW-DF2</td><td>vdW-DF2 relaxed</td><td>V-Se₃-V (asymmetric)</td></tr>
-      <tr><td>08-hetero-v2</td><td>vdW-DF2</td><td>same as 07, flipped so Se faces Se</td><td>Se₃-V-Se₃ (symmetric)</td></tr>
-      <tr><td>09-hetero-d2</td><td>PBE+D2</td><td>PBE+D2 relaxed</td><td>Se₃-V-Se₃ (symmetric)</td></tr>
+      <tr><td>07-hetero</td><td>vdW-DF2</td><td>vdW-DF2 relaxed</td><td>V-Se₃-V (비대칭)</td></tr>
+      <tr><td>08-hetero-v2</td><td>vdW-DF2</td><td>07과 동일, Se가 Se를 마주보게 뒤집음</td><td>Se₃-V-Se₃ (대칭)</td></tr>
+      <tr><td>09-hetero-d2</td><td>PBE+D2</td><td>PBE+D2 relaxed</td><td>Se₃-V-Se₃ (대칭)</td></tr>
     </tbody>
   </table>
   <ul>
-    <li><strong>07 vs 08:</strong> same functional, same structure — interface arrangement only
-      (V-facing vs Se-facing). Total energy <em>is</em> directly comparable.</li>
-    <li><strong>07/08 vs 09:</strong> functional and relaxed structure both differ — total energy
-      not directly comparable.</li>
+    <li><strong>07 vs 08:</strong> 같은 functional, 같은 구조 — 계면 배치만 다름
+      (V가 마주봄 vs Se가 마주봄). Total energy를 직접 비교할 수 <em>있다</em>.</li>
+    <li><strong>07/08 vs 09:</strong> functional과 relaxed 구조가 둘 다 다름 — total energy를
+      직접 비교할 수 없음.</li>
   </ul>
 
-  <h2>Result</h2>
-  <p><strong>All three decrease monotonically over 2.5–4.0 Å — no minimum within the scanned range.</strong></p>
+  <h2>결과</h2>
+  <p><strong>세 버전 모두 2.5–4.0 Å에서 단조 감소한다 — 스캔한 범위 안에 최소점이 없다.</strong></p>
   <table>
     <thead><tr><th>d (Å)</th><th>07 vdW-DF2 V-Se₃-V (eV)</th><th>08 vdW-DF2 Se₃-V-Se₃ (eV)</th><th>09 PBE+D2 Se₃-V-Se₃ (eV)</th></tr></thead>
     <tbody>
@@ -57,12 +56,12 @@
       <tr><td>4.0</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
     </tbody>
   </table>
-  <p class="page-meta">Energies relative to d = 4.0 Å within each version (data: <code>data/hetero-energy-vs-sep.csv</code>, with absolute E<sub>KS</sub>).</p>
+  <p class="page-meta">에너지는 각 버전 내에서 d = 4.0 Å 기준 (데이터: <code>data/hetero-energy-vs-sep.csv</code>, 절대 E<sub>KS</sub> 포함).</p>
 
   <figure>
     <img src="figures/hetero-energy-vs-sep.png" alt="Energy vs separation, three versions" style="max-width:560px">
-    <figcaption><strong>Fig. 1.</strong> Relative energy vs interface separation for the three versions
-      (each referenced to its own d = 4.0 Å).</figcaption>
+    <figcaption><strong>Fig. 1.</strong> 세 버전의 계면 분리 거리에 대한 상대 에너지
+      (각각 자기 자신의 d = 4.0 Å 기준).</figcaption>
   </figure>
 
   <figure>
@@ -71,23 +70,22 @@
       <span><img src="figures/hetero-df2-sym-d3.5.png" alt="08 vdW-DF2 symmetric" style="max-width:210px"></span>
       <span><img src="figures/hetero-d2-sym-d3.5.png" alt="09 PBE+D2 symmetric" style="max-width:210px"></span>
     </div>
-    <figcaption><strong>Fig. 2.</strong> Side views at d = 3.5 Å: 07 (vdW-DF2, V-Se₃-V asymmetric),
-      08 (vdW-DF2, Se₃-V-Se₃ symmetric), 09 (PBE+D2, Se₃-V-Se₃ symmetric).</figcaption>
+    <figcaption><strong>Fig. 2.</strong> d = 3.5 Å에서의 측면도: 07 (vdW-DF2, V-Se₃-V 비대칭),
+      08 (vdW-DF2, Se₃-V-Se₃ 대칭), 09 (PBE+D2, Se₃-V-Se₃ 대칭).</figcaption>
   </figure>
 
-  <h2>Discussion</h2>
+  <h2>논의</h2>
   <ul>
-    <li>All three keep decreasing at d = 2.5 Å — no minimum is found within 2.5–4.0 Å.</li>
-    <li><strong>07 vs 08 (same functional, interface only):</strong> the Se–Se symmetric arrangement (08)
-      has a steeper slope than V-facing (07), and its total energy at d = 4.0 Å is 0.60 eV lower —
-      i.e. the Se–Se interface binds more strongly.</li>
-    <li>09 (PBE+D2) cannot be compared directly to 07/08 because both functional and relaxed
-      structure differ.</li>
+    <li>세 버전 모두 d = 2.5 Å에서도 계속 감소한다 — 2.5–4.0 Å 안에 최소점이 없다.</li>
+    <li><strong>07 vs 08 (같은 functional, 계면만 다름):</strong> Se–Se 대칭 배치 (08)가
+      V가 마주보는 배치 (07)보다 기울기가 더 가파르고, d = 4.0 Å에서 total energy가 0.60 eV 더 낮다 —
+      즉 Se–Se 계면이 더 강하게 결합한다.</li>
+    <li>09 (PBE+D2)는 functional과 relaxed 구조가 둘 다 달라 07/08과 직접 비교할 수 없다.</li>
   </ul>
   <p>
-    This monotonic behavior motivated the dangling-bond hypothesis and the H-termination test (see
-    <a href="../h-termination/index.html">H termination</a>), where passivating the VSe₃ interface
-    Se restores a minimum near d ≈ 3.5 Å.
+    이 단조 거동이 dangling-bond 가설과 H 종단 테스트 (
+    <a href="../h-termination/index.html">H 종단</a> 참조)의 동기가 되었으며,
+    VSe₃ 계면 Se를 패시베이션하면 d ≈ 3.5 Å 근처에서 최소점이 복원된다.
   </p>
 </article>
 <nav class="subpages"></nav>

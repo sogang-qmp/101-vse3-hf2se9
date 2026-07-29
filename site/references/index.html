@@ -15,96 +15,89 @@
 <aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
 <main>
 <article>
-  <h1>References</h1>
-  <p class="page-meta">Every external reference used on this site: full citation + link, what it
-     contains, and <strong>where we used it</strong>. Grouped by topic.</p>
+  <h1>References — 사용 문헌</h1>
+  <p class="page-meta">이 사이트에서 사용한 외부 레퍼런스 전체: 서지 + 링크, 무슨 내용인지,
+     <strong>어디에 썼는지</strong>. 주제별 정리.</p>
 
-  <h2>A. DFT+Σ molecular-level correction</h2>
+  <h2>A. DFT+Σ 분자준위 보정</h2>
   <ol>
     <li><strong>J. B. Neaton, M. S. Hybertsen, S. G. Louie</strong>, <em>Phys. Rev. Lett.</em>
       <strong>97</strong>, 216405 (2006).
       <a href="https://doi.org/10.1103/PhysRevLett.97.216405">DOI 10.1103/PhysRevLett.97.216405</a>
-      <br><span class="page-meta"><em>Origin of the correction.</em> GW shows the metal-surface
-      image charge renormalizes the molecular HOMO–LUMO gap relative to gas phase — an interface
-      polarization effect semi-local DFT misses.
-      <strong>Used in:</strong> physical basis of our level correction
-      (<a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a>); direction-of-gap-change check in
-      <a href="../results/level-correction/index.html">Results: level correction</a>.</span></li>
+      <br><span class="page-meta"><em>보정의 기원.</em> 금속 표면 image charge가 분자 HOMO–LUMO gap을
+      기체상 대비 renormalize함을 GW로 보임 — semi-local DFT가 놓치는 계면 polarization 효과.
+      <strong>사용:</strong> 준위 보정의 물리적 근거
+      (<a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a>); gap 변화 방향 검증
+      (<a href="../results/level-correction/index.html">Results: level correction</a>).</span></li>
     <li><strong>S. Y. Quek, L. Venkataraman, H. J. Choi, S. G. Louie, M. S. Hybertsen,
       J. B. Neaton</strong>, <em>Nano Lett.</em> <strong>7</strong>, 3477 (2007).
       <a href="https://doi.org/10.1021/nl072058i">DOI 10.1021/nl072058i</a>
-      <br><span class="page-meta"><em>The DFT+Σ transport recipe.</em> Gas-phase gap correction +
-      image-charge scissor for benzenediamine/Au; bare DFT overestimates the conductance.
-      <strong>Used in:</strong> direct template for our per-orbital scissor $\Delta_i$
-      (<a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a>, Section B of
-      <a href="../results/level-correction/index.html">level correction</a>).</span></li>
+      <br><span class="page-meta"><em>DFT+Σ transport 레시피.</em> 기체상 gap 보정 + image-charge
+      scissor (benzenediamine/Au); bare DFT는 conductance 과대평가.
+      <strong>사용:</strong> per-orbital scissor $\Delta_i$의 직접 템플릿
+      (<a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a>,
+      <a href="../results/level-correction/index.html">level correction</a> Section B).</span></li>
     <li><strong>M. Strange, C. Rostgaard, H. Häkkinen, K. S. Thygesen</strong>, <em>Phys. Rev. B</em>
       <strong>83</strong>, 115108 (2011).
       <a href="https://doi.org/10.1103/PhysRevB.83.115108">DOI 10.1103/PhysRevB.83.115108</a>
-      <br><span class="page-meta"><em>Validation against full GW.</em> Self-consistent GW transport
-      (no scissor approximation) for thiol-/amine-linked benzene/Au; justifies approximating $\Sigma$
-      as a static, orbital-diagonal shift.
-      <strong>Used in:</strong> justification of our static level-1 δH
+      <br><span class="page-meta"><em>full GW 대비 검증.</em> scissor 근사 없는 self-consistent GW
+      transport (thiol-/amine-linked benzene/Au); $\Sigma$를 정적·orbital-diagonal shift로
+      근사하는 것을 정당화.
+      <strong>사용:</strong> 정적 level-1 δH의 근거
       (<a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a>).</span></li>
     <li><strong>F. Montes, H. Vázquez</strong>, <em>Appl. Sci.</em> <strong>11</strong>, 802 (2021).
       <a href="https://doi.org/10.3390/app11020802">DOI 10.3390/app11020802</a>
-      <br><span class="page-meta"><em>Original SIESTA/TranSIESTA implementation</em> — the self-energy
-      correction added to the Hamiltonian as an orbital-dependent operator (benzenediamine/Au; DFT
-      overestimates conductance 5–13×, DFT+Σ brings it to 1.0–1.8× of experiment). Full text
-      verified 2026-07-02 (Eq. (1): isolated-molecule and MPSH projector constructions both
-      sanctioned); PDF in repo <code>references/</code>.
-      <strong>Used in:</strong> implementation precedent and the expected size of the conductance
-      drop (Section C discussion of
-      <a href="../results/level-correction/index.html">level correction</a>).</span></li>
+      <br><span class="page-meta"><em>SIESTA/TranSIESTA 원조 구현</em> — self-energy 보정을
+      orbital-dependent operator로 Hamiltonian에 직접 추가 (benzenediamine/Au; DFT가 conductance
+      5–13× 과대 → DFT+Σ가 실험의 1.0–1.8×로). 원문 확인 2026-07-02 (Eq.(1): 고립분자·MPSH projector
+      두 구성 모두 공인); PDF는 repo <code>references/</code>.
+      <strong>사용:</strong> 구현 선례 + conductance 감소 폭 기대치
+      (<a href="../results/level-correction/index.html">level correction</a> Section C 논의).</span></li>
     <li><strong>Fallaque et al.</strong>, <em>J. Phys.: Condens. Matter</em> <strong>34</strong>,
       435901 (2022).
       <a href="https://doi.org/10.1088/1361-648X/ac89c4">DOI 10.1088/1361-648X/ac89c4</a>
-      <br><span class="page-meta"><em>Efficient TranSIESTA re-implementation</em> with an
-      infinite-reflection image charge, benchmarked on acene/Au (full text verified). Its workflow —
-      extract $H_\text{mol}, S_\text{mol}$ from <code>.TSHS</code> (sisl) → MPSH — is the procedure we
-      adapted; we use isolated-molecule orbitals as the projector (with the MPSH construction as a
-      cross-check), since our molecule is a discrete unit only weakly (van-der-Waals) bound to the electrodes.
-      <strong>Used in:</strong> workflow template + MPSH-vs-isolated-projector decision
+      <br><span class="page-meta"><em>효율적 TranSIESTA 재구현</em> (infinite-reflection image charge,
+      acene/Au 벤치마크, 원문 확인). 그 워크플로우 — <code>.TSHS</code>에서
+      $H_\text{mol}, S_\text{mol}$ 추출(sisl) → MPSH — 를 우리가 차용했고, 분자가 전극에 약한
+      반데르발스 접촉만 하는 독립 단위체라 MPSH를 교차 확인용으로 두고 고립분자 orbital을 projector로 썼다.
+      <strong>사용:</strong> 워크플로우 템플릿 + MPSH-vs-고립projector 결정
       (<a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a>,
-      <a href="../log/index.html">Log 2026-07-02</a>).</span></li>
+      <a href="../log/index.html">Log 2026-07-01</a>).</span></li>
     <li><strong>P. Darancet, J. R. Widawsky, H. J. Choi, L. Venkataraman, J. B. Neaton</strong>,
       <em>Nano Lett.</em> <strong>12</strong>, 6250 (2012).
       <a href="https://doi.org/10.1021/nl3033137">DOI 10.1021/nl3033137</a>
-      <br><span class="page-meta"><em>Quantitative DFT+Σ I–V.</em> Splits the self-energy into a
-      gas-phase term $\Sigma_\text{GP}$ (computed by a <strong>ΔSCF total-energy</strong> IP/EA) and a
-      classical image-charge term $\Sigma_\text{CORR}$ (opposite sign, planar-Au image planes 1 Å from
-      the surface). Formally derived in the weak-coupling limit of GW; the authors note it breaks down
-      "for molecular resonances closer to the Fermi energy of the metal."
-      <strong>Used in:</strong> establishes that the gas-phase correction is a ΔSCF total-energy
-      quantity (not a functional-eigenvalue difference) and the applicability limits of DFT+Σ
+      <br><span class="page-meta"><em>정량 DFT+Σ I–V.</em> self-energy를 gas-phase 항
+      $\Sigma_\text{GP}$(<strong>ΔSCF 총에너지</strong> IP/EA로 계산)와 classical image-charge 항
+      $\Sigma_\text{CORR}$(반대부호, 표면 1 Å 밖 평면 Au image plane)로 분리. GW 약결합 극한에서
+      유도되며, 저자는 "분자 공명이 금속 Fermi level에 가까우면" 방법이 깨진다고 명시.
+      <strong>사용:</strong> gas-phase 보정이 ΔSCF 총에너지 값(functional 고유값 차가 아님)임을
+      확립 + DFT+Σ 적용 한계 근거
       (<a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a>).</span></li>
   </ol>
 
-  <h2>B. Method / software documentation</h2>
-  <ol start="7">
+  <h2>B. 방법 / 소프트웨어 문서</h2>
+  <ol start="6">
     <li><strong>M. Paulsson, M. Brandbyge</strong>, <em>Phys. Rev. B</em> <strong>76</strong>,
       115117 (2007).
       <a href="https://doi.org/10.1103/PhysRevB.76.115117">DOI 10.1103/PhysRevB.76.115117</a>
-      <br><span class="page-meta"><em>Transmission eigenchannels from nonequilibrium Green's
-      functions</em> — the eigenchannel construction (spectral function → $\tau_n$ decomposition) our
-      eigenchannel figures follow.
-      <strong>Used in:</strong> eigenchannel sections of
-      <a href="../results/transmission/index.html">transmission</a> and
-      <a href="../results/level-correction/index.html">level correction</a>.</span></li>
+      <br><span class="page-meta"><em>NEGF transmission eigenchannel 구성법</em> — spectral function
+      → $\tau_n$ 분해. 우리 eigenchannel figure들이 따르는 방법.
+      <strong>사용:</strong> <a href="../results/transmission/index.html">transmission</a>·
+      <a href="../results/level-correction/index.html">level correction</a>의 eigenchannel 섹션.</span></li>
     <li><strong>SIESTA 5.2 TBtrans reference</strong> —
       <a href="https://docs.siesta-project.org/projects/siesta/en/5.2/reference/tbtrans.html">docs.siesta-project.org</a>
-      <br><span class="page-meta">The δH mechanism: $H \leftarrow H + \delta H$ via
-      <code>TBT.dH</code>, no source patch.
-      <strong>Used in:</strong> how ΔH enters the device Green function
+      <br><span class="page-meta">δH 메커니즘: <code>TBT.dH</code>로 $H \leftarrow H + \delta H$,
+      source patch 불필요.
+      <strong>사용:</strong> ΔH가 device Green function에 들어가는 방식
       (<a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a>).</span></li>
     <li><strong>sisl <code>write_delta</code></strong> —
       <a href="https://sisl.readthedocs.io/en/latest/_modules/sisl/io/tbtrans/delta.html">sisl.io.tbtrans.delta</a> ·
       <a href="https://github.com/zerothi/sisl/issues/129">issue #129</a>
-      <br><span class="page-meta">The level-1 (E- and k-independent) <code>deltaH.dH.nc</code>
-      writer/reader matching <code>TBT.dH</code>.
-      <strong>Used in:</strong> building our ΔH file
+      <br><span class="page-meta">level-1(E·k 무관) <code>deltaH.dH.nc</code> writer/reader.
+      <strong>사용:</strong> ΔH 파일 생성
       (<a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a>).</span></li>
   </ol>
+
 </article>
 <nav class="subpages"></nav>
 </main>

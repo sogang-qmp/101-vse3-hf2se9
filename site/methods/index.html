@@ -16,43 +16,42 @@
 <main>
 <article>
   <h1>Methods</h1>
-  <p class="page-meta">Computational setup for the current iteration</p>
+  <p class="page-meta">현재 iteration의 계산 셋업</p>
 
   <h2>DFT (SIESTA)</h2>
-  <p>
-    The production functional is <strong>vdW-DF2</strong> (<code>XC.authors LMKLL</code>) for
-    chain and junction relaxation, bands, and PDOS — PBE+D2 was anomalously unstable for the
-    Hf₂Se₉ relaxation, so it was dropped
-    (<a href="../results/hf2se9-stability/index.html">02. Hf₂Se₉ stability</a>).
-    Numerical settings: MeshCutoff 500 Ry, SCF.DM.Tolerance 1.0×10⁻⁸, density mixer
-    weight 0.2 with history 15.
-  </p>
+  <ul>
+    <li><strong>Functional: vdW-DF2</strong> (<code>XC.authors LMKLL</code>) — 사슬 및 접합
+        relaxation, band, PDOS의 production. PBE+D2는 Hf₂Se₉ relaxation에서 비정상적으로
+        불안정하여 폐기했다
+        (<a href="../results/hf2se9-stability/index.html">02. Hf₂Se₉ 안정성</a>).</li>
+    <li><strong>Basis / grid:</strong> MeshCutoff 500 Ry; SCF.DM.Tolerance 1.0×10⁻⁷;
+        density mixer weight 0.2, history 15.</li>
+  </ul>
 
   <h2>Transport (TranSIESTA / TBtrans)</h2>
-  <p>
-    The ~220-atom device (scattering atoms 13–208) places a Hf₂Se₉ molecule between VSe₃
-    buffers and bulk VSe₃ electrodes. Zero-bias NEGF uses electrode <strong>k = 100</strong>
-    along the transport direction and broadening <strong>η = 0.005 eV</strong>; the
-    transmission $T(E)$ is extracted with sisl from <code>trans.TBT.nc</code>, together with
-    the transmission eigenchannels (Re/Im/|ψ|² cubes).
-  </p>
+  <ul>
+    <li>~220-atom device (scattering atom 13–208): bulk VSe₃ 전극 사이에 VSe₃ buffer +
+        Hf₂Se₉ + VSe₃ buffer.</li>
+    <li>Zero-bias NEGF; transport 방향 electrode <strong>k = 100</strong>; broadening
+        <strong>η = 0.005 eV</strong>. Transmission $T(E)$는 <code>trans.TBT.nc</code>에서 sisl로;
+        eigenchannel(Re/Im/|ψ|² cubes + z-profile).</li>
+  </ul>
 
   <h2>Molecular-level correction (DFT+Σ)</h2>
   <p>
-    The GGA/vdW-DF level underestimates the molecular gap, mis-placing the resonance at $E_F$.
-    Orbital shifts from the vacuum molecule,
-    $\Delta_i=[\varepsilon^{\text{B3LYP}}-\varepsilon^{\text{PBE}}]_{\text{VASP}}
-    +[\varepsilon^{\text{PBE}}-\varepsilon^{\text{vdW-DF2}}]_{\text{SIESTA}}$
-    (same-code differences through a common PBE reference, so the inter-code offset cancels),
-    are applied to the device Hamiltonian as a projector on the Hf₂Se₉ block,
+    GGA/vdW-DF 준위는 분자 gap을 과소평가하여 resonance를 $E_F$에 잘못 위치시킨다.
+    vacuum 분자에서 얻은 orbital shift
+    $\Delta_i=\varepsilon_i^{\text{B3LYP}}-\varepsilon_i^{\text{PBE}}$
+    (SIESTA의 PBE vs VASP의 B3LYP, vacuum-level aligned)를 Hf/Se block에 대한 projector로
+    device Hamiltonian에 적용한다,
   </p>
   <p style="text-align:center">
-    $\displaystyle \Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^{\dagger}\,S,
+    $\displaystyle (\Delta H)_{\mu\nu}=\sum_i \Delta_i\,(C^i_\mu)^{*}C^i_\nu,
      \qquad (\mu,\nu)\in\text{Hf}_2\text{Se}_9,$
   </p>
   <p>
-    implemented through TBtrans's built-in δH (a <code>deltaH.dH.nc</code> file) with a
-    $E_F\pm2$ eV energy window — no TranSIESTA source patch.
+    ±1–2 eV energy window와 함께 TBtrans에 내장된 δH(<code>deltaH.dH.nc</code> 파일)를 통해
+    구현한다 — TranSIESTA source patch는 없다.
   </p>
 </article>
 <nav class="subpages"></nav>

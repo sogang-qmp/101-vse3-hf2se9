@@ -2,7 +2,7 @@
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="order" content="50">
-<title>Junction structure — 101-vse3-hf2se9</title>
+<title>접합 구조 — 101-vse3-hf2se9</title>
 <link rel="stylesheet" href="../../assets/site.css">
 <link rel="stylesheet" href="../../assets/katex/katex.min.css">
 <script defer src="../../assets/katex/katex.min.js"></script>
@@ -15,29 +15,29 @@
 <aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
 <main>
 <article>
-  <h1>05. Junction structure — 60° staggered, length-converged</h1>
-  <p class="page-meta"><strong>2026-06-12</strong> · Assembling and settling the Hf₂Se₉–VSe₃ device</p>
+  <h1>05. 접합 구조 — 60° 엇갈림(staggered), 길이 수렴</h1>
+  <p class="page-meta"><strong>2026-06-12</strong> · Hf₂Se₉–VSe₃ 소자 조립 및 안정화</p>
 
-  <h2>Goal</h2>
-  <p>Build a relaxed, converged scattering region: how the molecule sits between the chains
-     (orientation, separation) and how much VSe₃ buffer the transport needs.</p>
+  <h2>목표</h2>
+  <p>Relax되고 수렴한 scattering region을 만든다: 분자가 사슬 사이에 어떻게 놓이는지
+     (배향, 분리 거리), 그리고 transport에 VSe₃ buffer가 얼마나 필요한지.</p>
 
-  <h2>Method</h2>
-  <p>SIESTA, vdW-DF2; H-passivated interface; orientation and lateral spacing relaxed;
-     scattering-region buffer scanned 3→5→7→9 unit cells per side.</p>
+  <h2>방법</h2>
+  <p>SIESTA, vdW-DF2; H 패시베이션된 계면; 배향과 측면 간격을 relax;
+     scattering-region buffer를 한 쪽당 3→5→7→9 unit cells로 스캔.</p>
 
-  <h2>Result</h2>
+  <h2>결과</h2>
   <figure>
     <img src="figures/junction-structure.png" alt="Hf2Se9-VSe3 junction">
-    <figcaption><strong>Fig. 1.</strong> Relaxed 60° junction (H-termination v3, cell-fixed):
-      one Se-capped VSe₃–Hf₂Se₉–VSe₃ repeat, 43 atoms (cyan Hf, grey V, orange Se, white H).</figcaption>
+    <figcaption><strong>Fig. 1.</strong> Relax된 60° 접합 (H 종단 v3, cell-fixed):
+      Se로 capping된 VSe₃–Hf₂Se₉–VSe₃ 반복 단위 하나, 43 atoms (cyan Hf, 회색 V, 주황 Se, 흰색 H).</figcaption>
   </figure>
 
-  <p>Interactive (drag to rotate, scroll to zoom) — the same relaxed 60° structure:</p>
+  <p>인터랙티브 (드래그로 회전, 스크롤로 확대/축소) — 동일한 relax된 60° 구조:</p>
   <div id="jxtal-viewer"
        style="position:relative;width:100%;height:360px;border:1px solid var(--border);border-radius:6px;background:#fff;overflow:hidden"></div>
-  <p class="page-meta">V grey · Se orange · Hf · H. Renders via the portal / <code>qmp-site serve</code>
-     (3Dmol from <code>assets/lib/</code>); a static PNG is above for offline viewing.</p>
+  <p class="page-meta">V 회색 · Se 주황 · Hf · H. 포탈 / <code>qmp-site serve</code>
+     (<code>assets/lib/</code>의 3Dmol)로 렌더링; 오프라인 열람용 정적 PNG는 위에 있음.</p>
 
   <script type="text/plain" id="jxtal-xyz">
 43
@@ -102,56 +102,53 @@ Se 14.2063 11.5200 29.4290
     draw();
   })();
   </script>
-  <p>
-    Three points settle the geometry. PBE+D2 was anomalously unstable for the Hf₂Se₉
-    relaxation, so <strong>vdW-DF2</strong> (production) is used and converges cleanly.
-    The <strong>60° staggered registry</strong> is favoured by <strong>43.3 meV</strong>
-    (angle and lateral spacing both relaxed), with the H-passivation minimum at d ≈ 3.5 Å.
-    And the device is length-converged: the molecule–lead end gap settles once the VSe₃
-    buffer reaches 9 unit cells per electrode — 3.633 → 3.583 → 3.575 → 3.576 Å
-    (increments 50 → 8 → 1 mÅ) — while $T(E_F)$ is unchanged between 3 and 9 unit cells
-    (0.354 vs 0.348).
-  </p>
+  <ul>
+    <li><strong>Dispersion 보정:</strong> Hf₂Se₉ relaxation에서 PBE+D2는 비정상적으로 불안정했고,
+        <strong>vdW-DF2</strong> (production)는 깔끔하게 수렴한다.</li>
+    <li><strong>배향:</strong> 60° 엇갈림 registry가 <strong>43.3 meV</strong>만큼 선호됨
+        (각도와 측면 간격 둘 다 relax); H 패시베이션 최소점은 d ≈ 3.5 Å.</li>
+    <li><strong>길이 수렴:</strong> VSe₃ buffer가 전극당 9 unit cells에 도달하면 분자–lead 말단 gap이 안정된다 —
+        3.633 → 3.583 → 3.575 → 3.576 Å (증가분 50 → 8 → 1 mÅ), 그리고 $T(E_F)$는
+        전극당 3에서 9 unit cells 사이에서 변하지 않는다 (0.354 vs 0.348).</li>
+  </ul>
   <table>
-    <thead><tr><th>VSe₃ unit cells per electrode</th><th>3</th><th>5</th><th>7</th><th>9</th></tr></thead>
+    <thead><tr><th>전극당 VSe₃ unit cells</th><th>3</th><th>5</th><th>7</th><th>9</th></tr></thead>
     <tbody>
-      <tr><td>molecule–lead end gap (Å)</td><td>3.633</td><td>3.583</td><td>3.575</td><td>3.576</td></tr>
+      <tr><td>분자–lead 말단 gap (Å)</td><td>3.633</td><td>3.583</td><td>3.575</td><td>3.576</td></tr>
     </tbody>
   </table>
 
-  <h3>Interface rotation</h3>
-  <p>The central Hf₂Se₉ was rotated in 15° increments (0°–180°). ΔE minimises at
-     <strong>60° and 180°</strong>; the 60° staggered registry is <strong>43.3 meV</strong> more
-     stable than 0° (Se-aligned).</p>
+  <h3>계면 회전(rotation)</h3>
+  <p>중심 Hf₂Se₉를 15° 간격으로 (0°–180°) 회전시켰다. ΔE는
+     <strong>60°와 180°</strong>에서 최소가 되며, 60° 엇갈림 registry가 0° (Se 정렬)보다
+     <strong>43.3 meV</strong> 더 안정하다.</p>
   <figure>
     <div style="display:flex;flex-direction:column;gap:.9rem">
-      <div><div class="page-meta" style="margin:0 0 .15rem">0° (Se-aligned)</div>
+      <div><div class="page-meta" style="margin:0 0 .15rem">0° (Se 정렬)</div>
         <img src="figures/rot_00.png" alt="0°" style="max-width:100%"></div>
       <div><div class="page-meta" style="margin:0 0 .15rem">15°</div>
         <img src="figures/rot_15.png" alt="15°" style="max-width:100%"></div>
       <div><div class="page-meta" style="margin:0 0 .15rem">30°</div>
         <img src="figures/rot_30.png" alt="30°" style="max-width:100%"></div>
-      <div><div class="page-meta" style="margin:0 0 .15rem">60° (staggered, most stable)</div>
+      <div><div class="page-meta" style="margin:0 0 .15rem">60° (엇갈림, 가장 안정)</div>
         <img src="figures/rot_60.png" alt="60°" style="max-width:100%"></div>
     </div>
-    <figcaption><strong>Fig. 2.</strong> Rotation structures 0° / 15° / 30° / 60° (presentation
-      renders, along the chain axis).</figcaption>
+    <figcaption><strong>Fig. 2.</strong> 회전 구조 0° / 15° / 30° / 60° (발표용
+      렌더, 사슬 축 방향).</figcaption>
   </figure>
-  <p>The same relaxed structures, interactive (drag to rotate, scroll to zoom):</p>
-  <figure>
+  <p>동일한 relax된 구조, 인터랙티브 (드래그로 회전, 스크롤로 확대/축소):</p>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin:1rem 0">
-    <div><div style="font-size:.85rem;color:var(--muted);margin-bottom:.2rem">0° (Se-aligned)</div>
+    <div><div style="font-size:.85rem;color:var(--muted);margin-bottom:.2rem">0° (Se 정렬)</div>
       <div id="rv0" style="position:relative;width:100%;height:200px;border:1px solid var(--border);border-radius:6px;background:#fff"></div></div>
     <div><div style="font-size:.85rem;color:var(--muted);margin-bottom:.2rem">15°</div>
       <div id="rv15" style="position:relative;width:100%;height:200px;border:1px solid var(--border);border-radius:6px;background:#fff"></div></div>
     <div><div style="font-size:.85rem;color:var(--muted);margin-bottom:.2rem">30°</div>
       <div id="rv30" style="position:relative;width:100%;height:200px;border:1px solid var(--border);border-radius:6px;background:#fff"></div></div>
-    <div><div style="font-size:.85rem;color:var(--muted);margin-bottom:.2rem">60° (staggered, most stable)</div>
+    <div><div style="font-size:.85rem;color:var(--muted);margin-bottom:.2rem">60° (엇갈림, 가장 안정)</div>
       <div id="rv60" style="position:relative;width:100%;height:200px;border:1px solid var(--border);border-radius:6px;background:#fff"></div></div>
   </div>
-  <figcaption><strong>Fig. 3.</strong> Relaxed interface at four rotation angles —
-    interactive (cell-fixed, H-term v3). Source: <code>10-hetero-h-term-v3-relax/cellfix/rot_0NN</code>.</figcaption>
-  </figure>
+  <p class="page-meta"><strong>Fig. 3.</strong> 네 가지 회전 각도에서의 relax된 계면 —
+    인터랙티브 (cell-fixed, H 종단 v3). 출처: <code>10-hetero-h-term-v3-relax/cellfix/rot_0NN</code>.</p>
 
   <script type="text/plain" id="rvx0">
 43
@@ -360,26 +357,28 @@ Se 14.2063 11.5200 29.4290
 
   <figure>
     <img src="figures/ppt_s6_1.png" alt="dE vs rotation angle" style="max-width:420px">
-    <figcaption><strong>Fig. 4.</strong> ΔE vs rotation angle (0°–180°, 15° steps) — minima at
-      60° and 180°; 60° is 43.3 meV below 0°.</figcaption>
+    <figcaption><strong>Fig. 4.</strong> 회전 각도에 대한 ΔE (0°–180°, 15° 간격) — 최소점은
+      60°와 180°; 60°는 0°보다 43.3 meV 낮다.</figcaption>
   </figure>
 
-  <h3>Molecular PDOS</h3>
-  <p>This PDOS is for the <strong>60° (staggered)</strong> junction — the most stable registry,
-     whose relaxed structure is shown in Fig. 1.</p>
+  <h3>분자 PDOS</h3>
+  <p>이 PDOS는 <strong>60° (엇갈림)</strong> 접합에 대한 것이다 — 가장 안정한 registry.
+     그 구조 (동일 구조를 60°로 회전한 것):</p>
+  <figure>
+    <img src="figures/junction-structure.png" alt="60 deg junction structure" style="max-width:100%">
+    <figcaption><strong>Fig. 5.</strong> 아래에 PDOS가 표시된 60° relax 접합.</figcaption>
+  </figure>
   <figure>
     <img src="figures/ppt_s7_1.png" alt="molecule PDOS" style="max-width:520px">
-    <figcaption><strong>Fig. 5.</strong> PDOS projected on the central Hf₂Se₉ of the
-      <strong>60° junction</strong> (structure in Fig. 1): molecular states concentrate
-      at and below $E_F$, Se-dominated.</figcaption>
+    <figcaption><strong>Fig. 6.</strong> <strong>60° 접합</strong> (구조는 Fig. 5)의 중심
+      Hf₂Se₉에 투영한 PDOS: 분자 상태는 $E_F$와 그 아래에 집중되며 Se가 지배적이다.</figcaption>
   </figure>
 
-  <h2>Discussion</h2>
+  <h2>논의</h2>
   <p>
-    The device geometry is settled, so transmission differences come from electronic structure,
-    not an under-converged cell. As a final check, the production transport was re-run on a
-    structure relaxed with 9 VSe₃ unit cells per electrode (electrode-only extension);
-    $T(E_F)$ is unchanged (0.354 → 0.348).
+    소자 기하 구조가 안정되었으므로, transmission 차이는 덜 수렴된 셀이 아니라 전자 구조에서
+    비롯된다. 지도교수 요청에 따라 production transport를 전극당 VSe₃ 9 unit cells로 relax한
+    구조 (전극만 확장)에서 최종 확인 차원에서 재계산하고 있다.
   </p>
 </article>
 <nav class="subpages"></nav>

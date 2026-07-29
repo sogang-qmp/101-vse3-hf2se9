@@ -16,75 +16,73 @@
 <main>
 <article>
   <h1>Status <span class="status">working</span></h1>
-  <p class="page-meta"><strong>2026-07-29</strong> · Current snapshot first, then the dated progress timeline</p>
+  <p class="page-meta"><strong>2026-07-29</strong> · 현재 상태 먼저, 이후 날짜별 진행 기록</p>
 
-  <h2>Current calculations</h2>
+  <h2>현재 계산</h2>
   <p>
-    <strong>The conjugate-gradient trial was stopped after all three maximum-force trajectories increased.</strong>
-    Broyden relaxations were restarted from the 2026-07-29 backup DM/XV states with a maximum
-    displacement of 0.02 Å and a maximum-force tolerance of 0.02 eV/Å. None is converged.
+    <strong>세 CG 궤적 모두에서 최대 힘이 상승해 CG 시험을 중단했다.</strong>
+    2026-07-29 backup DM/XV 상태에서 Broyden으로 재시작했으며 MaxDispl는 0.02 Å,
+    최대 힘 수렴 기준은 0.02 eV/Å이다. 아직 수렴한 계산은 없다.
   </p>
   <table>
-    <thead><tr><th>System</th><th>State</th><th>Final CG maximum force (eV/Å)</th><th>Completion gate</th></tr></thead>
+    <thead><tr><th>계</th><th>상태</th><th>CG 종료 시 최대 힘 (eV/Å)</th><th>완료 기준</th></tr></thead>
     <tbody>
-      <tr><td>Hf₂Se₉ dimer</td><td>Broyden restart</td><td><strong>0.506433</strong></td><td>≤ 0.02</td></tr>
-      <tr><td>Hf₂Se₉ trimer</td><td>Broyden restart</td><td><strong>0.215633</strong></td><td>≤ 0.02</td></tr>
-      <tr><td>Hf₂Se₉@(9,9) CNT</td><td>Broyden restart</td><td><strong>0.361229</strong></td><td>≤ 0.02</td></tr>
+      <tr><td>Hf₂Se₉ dimer</td><td>Broyden 재시작</td><td><strong>0.506433</strong></td><td>≤ 0.02</td></tr>
+      <tr><td>Hf₂Se₉ trimer</td><td>Broyden 재시작</td><td><strong>0.215633</strong></td><td>≤ 0.02</td></tr>
+      <tr><td>Hf₂Se₉@(9,9) CNT</td><td>Broyden 재시작</td><td><strong>0.361229</strong></td><td>≤ 0.02</td></tr>
     </tbody>
   </table>
 
-  <h2>Established results</h2>
+  <h2>확정 결과</h2>
   <ul>
-    <li><strong>Junction geometry:</strong> the 60° staggered interface is 43.3 meV below the
-      0° interface in the fixed-cell comparison.</li>
-    <li><strong>Conduction path:</strong> $T(E_F)$ = 0.704 / 0.348 / 0.000 for pristine /
-      heterojunction / disconnected 9-cell devices; Hf₂Se₉ is the bridge between the VSe₃ leads.</li>
-    <li><strong>Molecular-level correction:</strong> the isolated-molecule gap is 0.75 eV and
-      the corrected 9-cell $T(E_F)$ is 0.0032.</li>
-    <li><strong>Junction charge transfer:</strong> Mulliken analysis gives 0.25 $e$ from VSe₃
-      to Hf₂Se₉.</li>
-    <li><strong>Molecular stacking:</strong> the hydrogen-terminated <code>gap</code> geometry
-      has its fixed-geometry minimum at $d$ = 3.5 Å for both dimer and trimer; TEM gives 3.6 Å.</li>
-    <li><strong>CNT encapsulation:</strong> converged VSe₃@(9,9) CNT has
-      $E_\mathrm{bind}$ = −4.854 eV/cell (−1.213 eV/formula unit).</li>
+    <li><strong>접합 구조:</strong> 고정 셀 비교에서 60° 엇갈린 계면이 0°보다 43.3 meV 낮다.</li>
+    <li><strong>전도 경로:</strong> 9-cell 소자의 $T(E_F)$ = 0.704 / 0.348 / 0.000
+      (pristine / heterojunction / disconnected); Hf₂Se₉가 두 VSe₃ 전극을 잇는다.</li>
+    <li><strong>분자 준위 보정:</strong> 고립분자 gap은 0.75 eV, 보정된 9-cell
+      $T(E_F)$는 0.0032이다.</li>
+    <li><strong>접합 전하이동:</strong> Mulliken 분석에서 VSe₃ → Hf₂Se₉ 방향으로 0.25 $e$.</li>
+    <li><strong>분자 stacking:</strong> 수소 종단 <code>gap</code> 구조는 dimer·trimer 모두
+      고정 기하 $d$ = 3.5 Å에서 최소; TEM 간격은 3.6 Å.</li>
+    <li><strong>CNT encapsulation:</strong> 수렴한 VSe₃@(9,9) CNT의
+      $E_\mathrm{bind}$ = −4.854 eV/cell (−1.213 eV/f.u.).</li>
   </ul>
 
-  <h2>Next gates</h2>
+  <h2>다음 완료 조건</h2>
   <ol>
-    <li>Converge the dimer and trimer, then calculate conductance decay for
-      VSe₃–(Hf₂Se₉)ₙ–VSe₃ with $n$ = 2 and 3.</li>
-    <li>Converge Hf₂Se₉@CNT, finalize its binding energy, and evaluate
-      $\Delta\rho=\rho(\mathrm{X@CNT})-\rho(\mathrm{X})-\rho(\mathrm{CNT})$.</li>
-    <li>Run the prepared VSe₃@CNT charge-density single points.</li>
+    <li>dimer·trimer를 수렴시킨 뒤
+      VSe₃–(Hf₂Se₉)ₙ–VSe₃($n$ = 2, 3)의 conductance decay를 계산한다.</li>
+    <li>Hf₂Se₉@CNT를 수렴시켜 결합에너지를 확정하고
+      $\Delta\rho=\rho(\mathrm{X@CNT})-\rho(\mathrm{X})-\rho(\mathrm{CNT})$를 계산한다.</li>
+    <li>준비된 VSe₃@CNT 전하밀도 단일점 계산을 실행한다.</li>
   </ol>
 
   <hr>
 
-  <h2>Progress timeline</h2>
-  <p class="page-meta">What was added / settled, by date. Structure phase → transport phase.
-     The full frozen structure-phase site is under <a href="../iterations/index.html">Iterations</a>.</p>
+  <h2>진행 timeline</h2>
+  <p class="page-meta">날짜별로 무엇이 추가/확정되었는가. 구조 phase → transport phase.
+     전체 동결된 구조-phase 사이트는 <a href="../iterations/index.html">Iterations</a>에 있다.</p>
 
-  <h3>2026-03 – 04-07 · structure &amp; stability</h3>
+  <h3>2026-03 – 04-07 · 구조 &amp; 안정성</h3>
   <ul>
-    <li>VSe₃ TP vs TAP: <strong>TP consistently more stable</strong>; Hf₂Se₉ molecule/chain
-        (vdW-DF2) relaxed — over-expansion confirmed; hetero separation monotonic.</li>
+    <li>VSe₃ TP vs TAP: <strong>TP가 일관되게 더 안정</strong>; Hf₂Se₉ molecule/chain
+        (vdW-DF2) relax — over-expansion 확인; hetero separation은 단조적.</li>
   </ul>
   <table>
-    <thead><tr><th>Work package</th><th>Status</th><th>Comment</th></tr></thead>
+    <thead><tr><th>Work package</th><th>상태</th><th>비고</th></tr></thead>
     <tbody>
-      <tr><td>VSe₃ TP/TAP comparison</td><td>Done</td><td>TP consistently more stable</td></tr>
-      <tr><td>Hf₂Se₉ mol/chain (vdW-DF2)</td><td>Done</td><td>Over-expansion confirmed</td></tr>
-      <tr><td>Phase A functional scan</td><td>Closed</td><td>Production functional settled to vdW-DF2</td></tr>
-      <tr><td>Hetero separation test</td><td>Done</td><td>All 3 versions monotonically decreasing</td></tr>
-      <tr><td>CNT stabilization study</td><td>Shelved</td><td>2026-04-07 meeting decision</td></tr>
+      <tr><td>VSe₃ TP/TAP 비교</td><td>완료</td><td>TP가 일관되게 더 안정</td></tr>
+      <tr><td>Hf₂Se₉ mol/chain (vdW-DF2)</td><td>완료</td><td>Over-expansion 확인</td></tr>
+      <tr><td>Phase A functional scan</td><td>종결</td><td>Production functional = vdW-DF2로 확정</td></tr>
+      <tr><td>Hetero separation 테스트</td><td>완료</td><td>3개 버전 모두 단조 감소</td></tr>
+      <tr><td>CNT 안정화 연구</td><td>보류</td><td>2026-04-07 미팅 결정</td></tr>
     </tbody>
   </table>
-  <p>Phase A — Hf–Hf vs experiment (TEM 3.6 Å):</p>
+  <p>Phase A — Hf–Hf vs 실험 (TEM 3.6 Å):</p>
   <table>
-    <thead><tr><th>Test</th><th>Method</th><th>Code</th><th>Hf–Hf (Å)</th><th>Δ(3.6 Å)</th><th>Status</th></tr></thead>
+    <thead><tr><th>Test</th><th>Method</th><th>Code</th><th>Hf–Hf (Å)</th><th>Δ(3.6 Å)</th><th>상태</th></tr></thead>
     <tbody>
       <tr><td>A1</td><td>PBE</td><td>SIESTA</td><td>3.857</td><td>+7%</td><td>✅</td></tr>
-      <tr><td>A2</td><td>PBE+D2</td><td>SIESTA</td><td>—</td><td>—</td><td>❌ SCF not converged</td></tr>
+      <tr><td>A2</td><td>PBE+D2</td><td>SIESTA</td><td>—</td><td>—</td><td>❌ SCF 미수렴</td></tr>
       <tr><td>A3</td><td>vdW-DF2 (LMKLL)</td><td>SIESTA</td><td>3.967</td><td>+10%</td><td>✅</td></tr>
       <tr><td>A4</td><td>PBE+D3(BJ)</td><td>SIESTA</td><td>3.857</td><td>+7%</td><td>✅</td></tr>
       <tr><td>A5</td><td>PBE+D3</td><td>VASP</td><td>2.934</td><td>−18.5%</td><td>✅</td></tr>
@@ -92,54 +90,53 @@
     </tbody>
   </table>
 
-  <h3>2026-04-16 · H termination &amp; interface</h3>
+  <h3>2026-04-16 · H termination &amp; 계면</h3>
   <ul>
-    <li><strong>H termination restores a separation-energy minimum.</strong> bond/gap/tilt modes
-        compared (vdW-DF2, 44 atoms, Se–H = 1.46 Å); <code>gap</code> most stable, minimum at
-        d = 3.5–4.0 Å (<code>bond</code> +1.11 eV, <code>tilt</code> +3.72 eV). See
-        <a href="../results/h-termination/index.html">H termination</a>.</li>
-    <li>VSe₃ TAP relaxed structure delivered to the experimental team (STEM simulation):
+    <li><strong>H termination이 separation-energy 최소를 회복한다.</strong> bond/gap/tilt 모드를
+        비교(vdW-DF2, 44 atoms, Se–H = 1.46 Å); <code>gap</code>이 가장 안정, 최소는
+        d = 3.5–4.0 Å (<code>bond</code> +1.11 eV, <code>tilt</code> +3.72 eV).
+        <a href="../results/h-termination/index.html">H termination</a> 참조.</li>
+    <li>VSe₃ TAP relax 구조를 실험팀에 전달(STEM 시뮬레이션):
         c = 5.535 Å, V–Se = 2.508 Å, V–V = 2.768 Å.</li>
   </ul>
 
-  <h3>2026-06-02 · η-broadening resolved</h3>
+  <h3>2026-06-02 · η-broadening 해소</h3>
   <ul>
-    <li>The apparent length dependence of pristine $T(E)$ is an <strong>η-broadening artifact</strong>
-        (η 0.05 → 0.001 eV restores length independence), not physics; TBtrans contour method +
-        η fixed → <strong>production η = 0.005 eV</strong>.</li>
+    <li>pristine $T(E)$의 겉보기 길이 의존성은 <strong>η-broadening artifact</strong>이며
+        (η 0.05 → 0.001 eV에서 길이 무관성 회복), 물리가 아니다; TBtrans contour method +
+        η 확정 → <strong>production η = 0.005 eV</strong>.</li>
   </ul>
 
-  <h3>2026-06-12 · junction confirmed, transport established</h3>
+  <h3>2026-06-12 · 접합 확인, transport 확립</h3>
   <ul>
-    <li>Structure confirmed: Hf₂Se₉ relaxes cleanly under <strong>vdW-DF2</strong> (D2 dropped);
-        eigenchannel crosses the molecule (connected, not tunnelling).</li>
-    <li><strong>Three-way comparison</strong> pristine / heterojunction / disconnected →
-        molecule is the sole conduction bridge.</li>
-    <li>Electrode k-grid 4 → 100 converged ($T(E_F)$ shift ~0.3%); B3LYP vacuum shift computed:
-        occupied levels shift down, virtual up (isolated-molecule gap 0.02 → 0.75 eV).</li>
+    <li>구조 확인: Hf₂Se₉는 <strong>vdW-DF2</strong>에서 깔끔하게 relax된다(D2 폐기);
+        eigenchannel이 분자를 가로지른다(연결됨, tunneling 아님).</li>
+    <li><strong>3종 비교</strong> pristine / heterojunction / disconnected →
+        분자가 유일한 전도 다리.</li>
+    <li>Electrode k-grid 4 → 100 수렴($T(E_F)$ 변화 ~0.3%); B3LYP vacuum shift 계산:
+        점유는 아래로, 비점유는 위로 (고립분자 gap 0.02 → 0.75 eV).</li>
   </ul>
 
-  <h3>2026-06-19 · convergence checks done, correction designed</h3>
+  <h3>2026-06-19 · 수렴성 점검 완료, 보정 설계</h3>
   <ul>
-    <li>Convergence checks (scattering-region length, electrode k-grid, η, benchmarks) done; B3LYP molecular gap = <strong>0.752 eV</strong>.</li>
-    <li>Advisor derived the $\Delta H$ correction (DFT+Σ) on the board → implement via TBtrans δH
-        (no source patch); SCF wall-time 18 h → 9 h via mixer tuning.</li>
-    <li>Re-relaxation at ≥ 5 (ideally 9) VSe₃ unit cells per electrode assigned.</li>
+    <li>수렴성 점검(scattering-region 길이, electrode k-grid, η, benchmark) 완료; B3LYP 분자 gap = <strong>0.752 eV</strong>.</li>
+    <li>지도교수가 $\Delta H$ 보정(DFT+Σ)을 칠판에서 유도 → TBtrans δH로 구현
+        (source patch 없음); mixer 튜닝으로 SCF wall-time 18 h → 9 h.</li>
+    <li>전극당 VSe₃ unit cell ≥ 5개(이상적으로 9개)에서의 재-relaxation 배정.</li>
   </ul>
-  <h3>2026-06-26 · length convergence + correction inputs</h3>
+  <h3>2026-06-26 · 길이 수렴 + 보정 입력값</h3>
   <ul>
-    <li>Scattering region extended to 9 VSe₃ unit cells per electrode: $T(E_F)$ = 0.348 ≈ 0.354
-      (3 cells), a single transmission eigenchannel; interface geometry and
-      molecular PDOS length-independent. See <a href="../results/level-correction/index.html">level correction</a>.</li>
-    <li>B3LYP→vdW-DF2 orbital shifts computed ($\Delta_\text{HOMO} = -1.01$, $\Delta_\text{LUMO} = -0.29$ eV;
-      gap 0.02 → 0.75 eV) — DFT+Σ application is the next step. <em>(These Δ are the v1 cross-code values, superseded 07-08 by v2: −0.35 / +0.40 eV.)</em></li>
+    <li>Scattering region을 전극당 VSe₃ unit cell 9개로 확장: $T(E_F)$ = 0.348 ≈ 0.354
+      (3 cells), transmission eigenchannel 단일($\tau_0 = 0.989$); 계면 geometry와
+      분자 PDOS는 길이 무관. <a href="../results/level-correction/index.html">level correction</a> 참조.</li>
+    <li>B3LYP→vdW-DF2 orbital shift 계산($\Delta_\text{HOMO} = -1.01$, $\Delta_\text{LUMO} = -0.29$ eV;
+      gap 0.02 → 0.75 eV) — DFT+Σ 적용이 다음 단계.</li>
   </ul>
 
-  <h3>2026-07-01 – 07-02 · correction applied; three-way + corrected I–V complete</h3>
+  <h3>2026-07-01 – 07-02 · 보정 적용; 3종 비교 + 보정 I–V 완결</h3>
   <ul>
-    <li>DFT+Σ applied on the 9-cell device (gap opens to 0.75 eV, $T(E_F)$ suppressed); disconnected device done →
-        three-way comparison complete; corrected Landauer I–V posted (symmetric window — no
-        rectification; earlier asymmetric-window value corrected 2026-07-05).</li>
+    <li>9-cell 소자에 DFT+Σ 적용(gap 0.75 eV 개방, $T(E_F)$ 억제); disconnected 완료 → 3종 비교 완결;
+        보정 Landauer I–V 게시(대칭 window — 정류 없음; 이전 비대칭 window 값은 2026-07-05 정정).</li>
   </ul>
 </article>
 <nav class="subpages"></nav>

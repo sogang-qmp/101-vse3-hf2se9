@@ -2,7 +2,7 @@
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="order" content="30">
-<title>DFT+Σ implementation — TBtrans δH — 101-vse3-hf2se9</title>
+<title>DFT+Σ 구현 — TBtrans δH — 101-vse3-hf2se9</title>
 <link rel="stylesheet" href="../../assets/site.css">
 <link rel="stylesheet" href="../../assets/katex/katex.min.css">
 <script defer src="../../assets/katex/katex.min.js"></script>
@@ -15,162 +15,159 @@
 <aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
 <main>
 <article>
-  <h1>DFT+Σ via TBtrans δH — implementation</h1>
-  <p class="page-meta"><strong>2026-06-19 · method</strong> · How the molecular-level correction
-    enters the transport calculation, and why no SIESTA source patch is needed</p>
+  <h1>DFT+Σ via TBtrans δH — 구현</h1>
+  <p class="page-meta"><strong>2026-06-19 · method</strong> · molecular-level 보정이
+    transport 계산에 어떻게 들어가는지, 그리고 왜 SIESTA source patch가 필요 없는지</p>
 
-  <h2>Summary</h2>
-  <p>The B3LYP→vdW-DF2 level correction is a <strong>DFT+Σ</strong> scissor shift. It does
-     <strong>not</strong> require editing SIESTA/TBtrans source — TBtrans has a built-in
-     <strong>δH (delta-H) mechanism</strong> that adds a correction matrix to the input
-     Hamiltonian at read time. We build $\Delta H$ with sisl, write it to a <code>.dH.nc</code>
-     file, and point TBtrans at it with <code>TBT.dH</code>.</p>
-
-  <h2>Symbols &amp; terms</h2>
+  <h2>요약</h2>
+  <p>B3LYP→vdW-DF2 준위 보정은 <strong>DFT+Σ</strong> scissor shift이다. SIESTA/TBtrans
+     source를 편집할 <strong>필요가 없다</strong> — TBtrans에는 읽어들이는 시점에 input
+     Hamiltonian에 보정 행렬을 더해주는 내장 <strong>δH (delta-H) mechanism</strong>이 있다.
+     $\Delta H$를 sisl로 build하여 <code>.dH.nc</code> 파일에 쓰고, <code>TBT.dH</code>로
+     TBtrans가 그것을 가리키도록 한다.</p>
   <table>
-    <thead><tr><th>Symbol / term</th><th>Meaning</th></tr></thead>
+    <thead><tr><th>질문</th><th>답</th></tr></thead>
     <tbody>
-      <tr><td><strong>PAO</strong> $\chi_\mu$</td><td>Pseudo-atomic orbital — SIESTA's numerical atomic-orbital basis (each atom's s/p/d functions). <em>Non-orthogonal</em>: $\langle\chi_\mu|\chi_\nu\rangle=S_{\mu\nu}\neq\delta_{\mu\nu}$. $H$, $S$, $\Delta H$ are all matrices in this basis.</td></tr>
-      <tr><td><strong>MO</strong> $\phi_i$</td><td>Molecular orbital — an eigenstate of the isolated Hf₂Se₉ molecule, $H_{\rm mol}c_i=\varepsilon_i S_{\rm mol}c_i$. Indexed relative to HOMO (HOMO, HOMO−1, LUMO, …).</td></tr>
-      <tr><td><strong>$C$</strong> (MO coeff.)</td><td>Expansion of each MO over PAOs, $|\phi_i\rangle=\sum_\mu C^i_\mu|\chi_\mu\rangle$ ($C^i_\mu$ = weight of PAO $\mu$ in MO $i$). Extracted from the molecule's WFSX.</td></tr>
-      <tr><td><strong>$S$</strong> (overlap)</td><td>PAO overlap $S_{\mu\nu}=\langle\chi_\mu|\chi_\nu\rangle$. Enters $\Delta H$ on both sides because the basis is non-orthogonal.</td></tr>
-      <tr><td><strong>projector</strong></td><td>Operator $|\phi_i\rangle\langle\phi_i|$ that acts only on MO $i$. Adding $\Delta_i$ times it shifts only that level. In PAO form: $\Delta H=S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$.</td></tr>
-      <tr><td><strong>$\Delta_i$</strong> (scissor)</td><td>Per-orbital energy shift $\varepsilon_i^{\rm B3LYP}-\varepsilon_i^{\rm vdW\text{-}DF2}$ (vacuum-aligned) — the static self-energy $\Sigma$ approximated as an energy-independent, orbital-diagonal shift.</td></tr>
-    </tbody>
-  </table>
-  <table>
-    <thead><tr><th>Question</th><th>Answer</th></tr></thead>
-    <tbody>
-      <tr><td>Dedicated "DFT+Σ" command in SIESTA?</td><td>No — implemented via the general δH mechanism (below).</td></tr>
-      <tr><td>Patch the source?</td><td><strong>No.</strong> The δH file path <em>is</em> the supported hook.</td></tr>
-      <tr><td>How?</td><td>sisl builds $\Delta H$ → <code>deltaH.dH.nc</code> → TBtrans applies $H'(k)=H(k)+\delta H$.</td></tr>
-      <tr><td>Standard name?</td><td>DFT+Σ (DFT+Sigma) — molecular-junction level alignment.</td></tr>
+      <tr><td>SIESTA에 전용 "DFT+Σ" 명령이 있는가?</td><td>없다 — 일반 δH mechanism으로 구현(아래).</td></tr>
+      <tr><td>source를 patch하는가?</td><td><strong>아니다.</strong> δH 파일 경로가 <em>바로</em> 지원되는 hook이다.</td></tr>
+      <tr><td>어떻게?</td><td>sisl이 $\Delta H$를 build → <code>deltaH.dH.nc</code> → TBtrans가 $H'(k)=H(k)+\delta H$를 적용.</td></tr>
+      <tr><td>표준 명칭?</td><td>DFT+Σ (DFT+Sigma) — molecular-junction level alignment.</td></tr>
     </tbody>
   </table>
 
-  <h2>Why the correction is needed</h2>
-  <p>Non-hybrid functionals (PBE/vdW-DF2) carry a self-interaction/delocalization error: occupied
-     levels sit too high, virtual too low, so the HOMO–LUMO gap is underestimated (our molecule: vdW-DF2 0.02 eV
-     vs B3LYP 0.75 eV). In off-resonant tunnelling the linear conductance follows a single-level
-     Lorentzian</p>
+  <h2>기호 · 용어</h2>
+  <table>
+    <thead><tr><th>기호 / 용어</th><th>의미</th></tr></thead>
+    <tbody>
+      <tr><td><strong>PAO</strong> $\chi_\mu$</td><td>Pseudo-atomic orbital — SIESTA의 수치 원자궤도 기저(각 원자의 s/p/d 함수). <em>비직교</em>: $\langle\chi_\mu|\chi_\nu\rangle=S_{\mu\nu}\neq\delta_{\mu\nu}$. $H$, $S$, $\Delta H$가 모두 이 기저의 행렬.</td></tr>
+      <tr><td><strong>MO</strong> $\phi_i$</td><td>Molecular orbital — 고립 Hf₂Se₉ 분자의 고유상태, $H_{\rm mol}c_i=\varepsilon_i S_{\rm mol}c_i$. HOMO 기준 indexing(HOMO, HOMO−1, LUMO, …).</td></tr>
+      <tr><td><strong>$C$</strong> (MO 계수)</td><td>각 MO를 PAO로 전개, $|\phi_i\rangle=\sum_\mu C^i_\mu|\chi_\mu\rangle$ ($C^i_\mu$ = MO $i$에서 PAO $\mu$의 가중치). 분자 WFSX에서 추출.</td></tr>
+      <tr><td><strong>$S$</strong> (overlap)</td><td>PAO overlap $S_{\mu\nu}=\langle\chi_\mu|\chi_\nu\rangle$. 기저가 비직교라 $\Delta H$ 양쪽에 들어감.</td></tr>
+      <tr><td><strong>projector</strong></td><td>MO $i$에만 작용하는 연산자 $|\phi_i\rangle\langle\phi_i|$. $\Delta_i$배 더하면 그 준위만 이동. PAO 형태: $\Delta H=S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$.</td></tr>
+      <tr><td><strong>$\Delta_i$</strong> (scissor)</td><td>궤도별 에너지 shift $\varepsilon_i^{\rm B3LYP}-\varepsilon_i^{\rm vdW\text{-}DF2}$(vacuum 정렬) — 정적 자체에너지 $\Sigma$를 에너지-무관·궤도-대각 shift로 근사한 것.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>보정이 필요한 이유</h2>
+  <p>비-하이브리드 functional(PBE/vdW-DF2)은 self-interaction error를 갖는다: occupied 준위는 너무
+     높고 virtual은 너무 낮아, HOMO–LUMO gap이 과소평가된다(우리 분자: vdW-DF2 0.02 eV
+     vs B3LYP 0.75 eV). Off-resonant tunneling에서 linear conductance는 single-level
+     Lorentzian을 따른다</p>
   <p style="text-align:center">$\displaystyle T(E)=\frac{\Gamma_L\,\Gamma_R}{(E-\varepsilon_0)^2+[(\Gamma_L+\Gamma_R)/2]^2},$</p>
-  <p>so the level offset $|\varepsilon_0-E_F|$ governs $T(E_F)$. A gap squeezed onto $E_F$ inflates
-     conductance. DFT+Σ shifts each molecular level by
-     $\Delta_i=\varepsilon_i^{\text{B3LYP}}-\varepsilon_i^{\text{vdW-DF2}}$ to restore the offset —
-     the quasiparticle self-energy $\Sigma$ approximated as a per-orbital constant (scissor).
-     Because $\Delta_i$ is energy-independent, the static self-energy equals a Hamiltonian
-     correction:</p>
+  <p>따라서 준위 offset $|\varepsilon_0-E_F|$가 $T(E_F)$를 지배한다. gap이 $E_F$에 밀착되면
+     conductance가 부풀려진다. DFT+Σ는 각 분자 준위를
+     $\Delta_i=\varepsilon_i^{\text{B3LYP}}-\varepsilon_i^{\text{vdW-DF2}}$만큼 이동시켜 offset을
+     회복한다 — quasiparticle self-energy $\Sigma$를 per-orbital 상수(scissor)로 근사한 것이다.
+     $\Delta_i$가 energy-independent이므로, static self-energy는 Hamiltonian 보정과 같아진다:</p>
   <p style="text-align:center">$\displaystyle G(E)=\big[(E+i\eta)S-(H+\Delta H)-\Sigma_L-\Sigma_R\big]^{-1},
      \qquad \Delta\Sigma(E)=\Delta H=\text{const.}$</p>
-  <p>Hence TBtrans <strong>level-1 δH</strong> (no $E$/$k$ dependence) is exactly the right tool;
-     for $T(E)$ the δH and δΣ paths are identical (they differ only in bond/orbital currents).</p>
+  <p>따라서 TBtrans <strong>level-1 δH</strong>($E$/$k$ 의존성 없음)가 바로 딱 맞는 도구다;
+     $T(E)$의 경우 δH와 δΣ 경로는 동일하다(bond/orbital current에서만 차이가 난다).</p>
 
   <div style="border-left:4px solid #c0392b;padding:0.4em 1em;margin:1em 0;background:rgba(192,57,43,0.06)">
-    <strong>2026-07-08 correction (v2).</strong> The first attempt (v1) computed
-    $\Delta_i=\varepsilon_i(\text{B3LYP, VASP})-\varepsilon_i(\text{vdW-DF2, SIESTA})$ by subtracting
-    <em>two different codes directly</em>. Vacuum alignment does <strong>not</strong> remove the
-    residual cross-code offset (~0.69 eV on the HOMO) — it is larger than the true virtual shift
-    (~0.2 eV) and flipped the sign of every virtual $\Delta$ (LUMO–LUMO+4 all $<0$), so the gap did
-    not open and the molecule was over-charged. The claim that a "relative scissor" cancels the code
-    offset was wrong. v2 removes the offset by subtracting <strong>within each code, using a common PBE reference</strong> (below).
+    <strong>2026-07-08 정정 (v2).</strong> 첫 시도(v1)는
+    $\Delta_i=\varepsilon_i(\text{B3LYP, VASP})-\varepsilon_i(\text{vdW-DF2, SIESTA})$를
+    <em>서로 다른 코드 값의 직접 뺄셈</em>으로 계산했다. vacuum 정렬로도 코드 간 잔여
+    offset(HOMO ~0.69 eV)이 <strong>제거되지 않는다</strong> — 이 offset이 진짜 virtual shift
+    (~0.2 eV)보다 커서 모든 virtual $\Delta$의 부호를 뒤집었고(LUMO~LUMO+4 전부 $<0$), gap이
+    열리지 않고 분자가 과충전됐다. "relative scissor라 코드 offset이 상쇄된다"던 서술은 틀렸다.
+    v2는 <strong>PBE를 공통 기준으로 각 코드 안에서만 빼서</strong> offset을 제거한다(아래).
   </div>
 
-  <h2>Correction value — same-code subtraction via a common PBE (v2)</h2>
-  <p>We want $\Delta_i=\varepsilon_i^{\text{B3LYP}}-\varepsilon_i^{\text{vdW-DF2}}$ on the
-     <strong>device (SIESTA) footing</strong>, but B3LYP is only available in VASP. Subtracting the
-     two codes directly injects a code offset (v1's failure). Instead, insert a common PBE reference
-     and subtract only <strong>within each code</strong>:</p>
-  <p style="text-align:center">$\displaystyle \Delta_i^{v2}=\underbrace{\big[\varepsilon_i^{\text{B3LYP}}-\varepsilon_i^{\text{PBE}}\big]_{\text{VASP}}}_{\text{same code}}+\underbrace{\big[\varepsilon_i^{\text{PBE}}-\varepsilon_i^{\text{vdW-DF2}}\big]_{\text{SIESTA}}}_{\text{same code}}$</p>
-  <p>Each bracket is a same-code subtraction, so the code-dependent basis/pseudopotential offset
-     cancels inside each term; the intermediate PBE drops out, leaving $B3LYP-vdW\text{-}DF2$ free of
-     the cross-code artifact. This required one extra <strong>SIESTA-PBE single point</strong> on the
-     vacuum molecule (identical to the vdW-DF2 run except XC) to measure the second bracket
-     (+0.23 eV, uniform across frontier).</p>
+  <h2>보정값 — 공통 PBE 기준으로 각 코드 안에서만 뺌 (v2)</h2>
+  <p>우리가 원하는 것은 <strong>device(SIESTA) 기준</strong>의
+     $\Delta_i=\varepsilon_i^{\text{B3LYP}}-\varepsilon_i^{\text{vdW-DF2}}$이지만 B3LYP는 VASP에만
+     있다. 두 코드를 직접 빼면 코드 offset이 섞인다(v1 실패). 대신 공통 PBE 기준을 끼워
+     <strong>각 코드 안에서만</strong> 뺀다:</p>
+  <p style="text-align:center">$\displaystyle \Delta_i^{v2}=\underbrace{\big[\varepsilon_i^{\text{B3LYP}}-\varepsilon_i^{\text{PBE}}\big]_{\text{VASP}}}_{\text{같은 코드}}+\underbrace{\big[\varepsilon_i^{\text{PBE}}-\varepsilon_i^{\text{vdW-DF2}}\big]_{\text{SIESTA}}}_{\text{같은 코드}}$</p>
+  <p>각 괄호가 같은 코드 안 뺄셈이라 코드 의존 basis/pseudopotential offset이 항마다 자체
+     상쇄된다. 중간 PBE가 소거되어 형식상 $B3LYP-vdW\text{-}DF2$가 되지만 코드 아티팩트는 섞이지
+     않는다. 둘째 항 측정을 위해 진공 분자에 <strong>SIESTA-PBE single point</strong> 1개(vdW-DF2
+     계산과 XC만 다르고 나머지 동일)를 추가했다(+0.23 eV, frontier 전역 균일).</p>
   <table>
-    <thead><tr><th></th><th>v1 (cross-code, wrong)</th><th>v2 (same-code)</th></tr></thead>
+    <thead><tr><th></th><th>v1 (교차코드, 오류)</th><th>v2 (same-code)</th></tr></thead>
     <tbody>
       <tr><td>$\Delta_\text{HOMO}$</td><td>−1.01 eV (↓)</td><td>−0.35 eV (↓)</td></tr>
-      <tr><td>$\Delta_\text{LUMO}$</td><td>−0.29 eV (↓ — sign wrong)</td><td><strong>+0.40 eV (↑)</strong></td></tr>
-      <tr><td>virtual manifold sign</td><td>all $<0$ (fail)</td><td>all $>0$ (occ↓ / virt↑ ✓)</td></tr>
-      <tr><td>gap increment $\Delta_L-\Delta_H$</td><td>(negative)</td><td><strong>+0.75 eV</strong></td></tr>
+      <tr><td>$\Delta_\text{LUMO}$</td><td>−0.29 eV (↓ — 부호 오류)</td><td><strong>+0.40 eV (↑)</strong></td></tr>
+      <tr><td>virtual manifold 부호</td><td>전부 $<0$ (실패)</td><td>전부 $>0$ (occ↓ / virt↑ ✓)</td></tr>
+      <tr><td>gap 증가분 $\Delta_L-\Delta_H$</td><td>(음수)</td><td><strong>+0.75 eV</strong></td></tr>
     </tbody>
   </table>
-  <p><strong>Assumption:</strong> the hybrid correction $[B3LYP-PBE]$ is
-     code-independent ($_\text{VASP}\approx_\text{SIESTA}$). This is an approximation, but a physical
-     one — the hybrid–semilocal difference is set by the exact-exchange fraction (a physical quantity),
-     not a code artifact. The image-charge term is still omitted (image-charge-inclusive DFT+Σ / ΔSCF IP-EA is the quantitative route).</p>
+  <p><strong>가정(정직):</strong> 하이브리드 보정 $[B3LYP-PBE]$가 코드 무관
+     ($_\text{VASP}\approx_\text{SIESTA}$). 근사지만 물리적 — 하이브리드–반국소 차이는
+     exact-exchange 분율(물리량)이지 코드 아티팩트가 아니다. image-charge 항은 여전히 생략
+     (정량 경로는 image-charge 포함 DFT+Σ / ΔSCF IP-EA).</p>
 
   <h2>Workflow (v2)</h2>
-  <pre><code>STEP 1a (VASP)   vacuum molecule: PBE, B3LYP   →  [B3LYP − PBE]_VASP   (hybrid shift)
-STEP 1b (SIESTA) vacuum molecule: PBE, vdW-DF2  →  [PBE − vdW-DF2]_SIESTA (code offset removal)
-                 Δᵢ = STEP 1a + STEP 1b  (same-code differences; cross-code offset cancels)
+  <pre><code>STEP 1a (VASP)   vacuum molecule: PBE, B3LYP   →  [B3LYP − PBE]_VASP   (하이브리드 shift)
+STEP 1b (SIESTA) vacuum molecule: PBE, vdW-DF2  →  [PBE − vdW-DF2]_SIESTA (코드 offset 제거)
+                 Δᵢ = STEP 1a + STEP 1b  (각 코드 안 차이; 교차코드 offset 상쇄)
 STEP 2 (SIESTA)  vacuum molecule: same PAO basis  →  single-molecule MO coefficients
 STEP 3 (sisl)    read device .TSHS  →  build ΔH (Hf₂Se₉ block)  →  write deltaH_v2.dH.nc
 STEP 4 (TBtrans) fdf: TBT.dH deltaH_v2.dH.nc  →  recompute T(E)
-STEP 5           compare T(E) / molecular PDOS before vs after + charge-conservation gate</code></pre>
+STEP 5           보정 전/후 T(E)·분자 PDOS 비교 + 전하보존 게이트</code></pre>
 
-  <h3>Reference inputs — where each quantity comes from</h3>
+  <h3>Reference 입력값 — 각 양이 어디서 오는가</h3>
   <table>
-    <thead><tr><th>Quantity</th><th>What</th><th>Source</th></tr></thead>
+    <thead><tr><th>양</th><th>무엇</th><th>Source</th></tr></thead>
     <tbody>
-      <tr><td>$\Delta_i^{v2}$</td><td>per-orbital level shift (same-code)</td><td><code>05-hf2se9-mol/tables/mo_delta_orbital_v2.csv</code></td></tr>
-      <tr><td>$\varepsilon_i$(B3LYP)</td><td>vacuum-molecule B3LYP levels</td><td><code>05-hf2se9-mol/B3LYP/EIGENVAL</code> (VASP)</td></tr>
-      <tr><td>$\varepsilon_i$(PBE, VASP)</td><td>hybrid-shift reference</td><td><code>05-hf2se9-mol/tables/mo_delta_orbital_vasp.csv</code></td></tr>
-      <tr><td>$\varepsilon_i$(PBE, SIESTA)</td><td>code-offset reference (new, 2026-07-08)</td><td><code>05-hf2se9-mol/PBE_SIESTA/siesta.EIG</code></td></tr>
-      <tr><td>$\varepsilon_i$(vdW-DF2)</td><td>vacuum-molecule vdW-DF2 levels</td><td><code>05-hf2se9-mol/DF2/mo_coeff/siesta.EIG</code> (SIESTA)</td></tr>
-      <tr><td>$C$</td><td>vacuum-molecule MO coefficients</td><td><code>05-hf2se9-mol/DF2/mo_coeff/extracted/</code> (from WFSX)</td></tr>
-      <tr><td>$S$</td><td>device molecular-block overlap</td><td><code>11-hetero60-transport/N25_9uc/0bias/trans.TSHS</code></td></tr>
+      <tr><td>$\Delta_i^{v2}$</td><td>per-orbital 준위 shift (same-code)</td><td><code>05-hf2se9-mol/tables/mo_delta_orbital_v2.csv</code></td></tr>
+      <tr><td>$\varepsilon_i$(B3LYP)</td><td>vacuum-molecule B3LYP 준위</td><td><code>05-hf2se9-mol/B3LYP/EIGENVAL</code> (VASP)</td></tr>
+      <tr><td>$\varepsilon_i$(PBE, VASP)</td><td>하이브리드-shift 기준</td><td><code>05-hf2se9-mol/tables/mo_delta_orbital_vasp.csv</code></td></tr>
+      <tr><td>$\varepsilon_i$(PBE, SIESTA)</td><td>코드-offset 기준 (신규, 2026-07-08)</td><td><code>05-hf2se9-mol/PBE_SIESTA/siesta.EIG</code></td></tr>
+      <tr><td>$\varepsilon_i$(vdW-DF2)</td><td>vacuum-molecule vdW-DF2 준위</td><td><code>05-hf2se9-mol/DF2/mo_coeff/siesta.EIG</code> (SIESTA)</td></tr>
+      <tr><td>$C$</td><td>vacuum-molecule MO coefficient</td><td><code>05-hf2se9-mol/DF2/mo_coeff/extracted/</code> (WFSX에서)</td></tr>
+      <tr><td>$S$</td><td>device 분자 block overlap</td><td><code>11-hetero60-transport/N25_9uc/0bias/trans.TSHS</code></td></tr>
     </tbody>
   </table>
-  <p>$\Delta_i$ are vacuum-level aligned before differencing; the energy window keeps only orbitals
-     within $E_F\pm2$ eV (orbitals further out do not contribute to transport).</p>
+  <p>$\Delta_i$는 차이를 취하기 전에 vacuum-level aligned되며; energy window는 $E_F\pm2$ eV
+     이내의 orbital만 남긴다(더 바깥의 orbital은 transport에 기여하지 않는다).</p>
 
-  <h3>When &amp; how it enters the calculation</h3>
-  <p><strong>Timing — post-SCF, non-self-consistent.</strong> The correction is applied <em>after</em>
-     the device vdW-DF2 SCF has converged; the SCF is not re-run. Structure and bonding stay at their
-     vdW-DF2 values — only the molecular level positions move. The flow:</p>
+  <h3>언제 &amp; 어떻게 계산에 들어가는가</h3>
+  <p><strong>시점 — post-SCF, non-self-consistent.</strong> 보정은 device vdW-DF2 SCF가 수렴한
+     <em>이후에</em> 적용되며; SCF는 재실행하지 않는다. 구조와 결합은 vdW-DF2 값에 그대로
+     머문다 — 분자 준위 위치만 이동한다. 흐름:</p>
   <ol>
     <li>device DFT (TranSIESTA) → $H$, $S$ (<code>trans.TSHS</code>)</li>
-    <li>add ΔH to the molecular block: $H\to H+\Delta H$</li>
-    <li>TBtrans Green's function with the corrected Hamiltonian:
+    <li>분자 block에 ΔH를 더함: $H\to H+\Delta H$</li>
+    <li>보정된 Hamiltonian으로 TBtrans Green's function:
       $G(E)=[(E+i\eta)S-(H+\Delta H)-\Sigma_L-\Sigma_R]^{-1}$</li>
-    <li>corrected transmission $T(E)=\mathrm{Tr}[\Gamma_L\,G\,\Gamma_R\,G^\dagger]$</li>
+    <li>보정된 transmission $T(E)=\mathrm{Tr}[\Gamma_L\,G\,\Gamma_R\,G^\dagger]$</li>
   </ol>
 
-  <h3>The ΔH matrix — step-by-step derivation (non-orthogonal basis)</h3>
-  <p><strong>① Correction operator.</strong> Shift each molecular orbital $\phi_i$ by $\Delta_i$ — a
-     scissor projector. Only the level <em>position</em> moves; the internal hopping (wavefunction
-     shape) and the electrode coupling $\Gamma$ stay at their vdW-DF2 values:</p>
+  <h3>ΔH 행렬 — 단계별 유도(non-orthogonal basis)</h3>
+  <p><strong>① 보정 연산자.</strong> 각 molecular orbital $\phi_i$를 $\Delta_i$만큼 이동시킨다 —
+     scissor projector. 준위 <em>위치</em>만 이동하고; 내부 hopping(wavefunction 모양)과 전극
+     coupling $\Gamma$는 vdW-DF2 값에 머문다:</p>
   <p style="text-align:center">$\displaystyle \Delta\hat H = \sum_i \Delta_i\,|\phi_i\rangle\langle\phi_i|$</p>
-  <p><strong>② Expand the MO over atomic orbitals (PAO):</strong>
-     $|\phi_i\rangle=\sum_\mu C^i_\mu|\chi_\mu\rangle$, where the $C^i_\mu$ are the molecular-orbital
-     coefficients (STEP 2) and $\chi_\mu$ the atomic orbitals.</p>
-  <p><strong>③ Take matrix elements in the PAO basis:</strong></p>
+  <p><strong>② MO를 atomic orbital (PAO)로 전개:</strong>
+     $|\phi_i\rangle=\sum_\mu C^i_\mu|\chi_\mu\rangle$, 여기서 $C^i_\mu$는 molecular-orbital
+     coefficient(STEP 2)이고 $\chi_\mu$는 atomic orbital이다.</p>
+  <p><strong>③ PAO basis에서 matrix element를 취함:</strong></p>
   <p style="text-align:center">$\displaystyle (\Delta H)_{\mu\nu}=\langle\chi_\mu|\Delta\hat H|\chi_\nu\rangle
      =\sum_i\Delta_i\,\langle\chi_\mu|\phi_i\rangle\,\langle\phi_i|\chi_\nu\rangle.$</p>
-  <p><strong>④ Where the overlap $S$ enters</strong>. The PAOs are
-     non-orthogonal, $\langle\chi_\mu|\chi_\lambda\rangle=S_{\mu\lambda}\neq\delta_{\mu\lambda}$, so</p>
+  <p><strong>④ overlap $S$가 들어가는 지점</strong> — 빠뜨리기 쉬운 단계. PAO는
+     non-orthogonal이므로, $\langle\chi_\mu|\chi_\lambda\rangle=S_{\mu\lambda}\neq\delta_{\mu\lambda}$, 따라서</p>
   <p style="text-align:center">$\displaystyle \langle\chi_\mu|\phi_i\rangle=\sum_\lambda C^i_\lambda\,S_{\mu\lambda}=(S\,C^i)_\mu.$</p>
-  <p>Substituting into ③ gives the working form:</p>
+  <p>이를 ③에 대입하면 실제 사용 형태가 된다:</p>
   <p style="text-align:center">$\displaystyle \boxed{\;\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^{\dagger}\,S\;}$</p>
-  <p>In an orthogonal basis ($S=I$) this reduces to the textbook $\sum_i\Delta_i c_i c_i^\dagger$ —
-     the $S$ on both sides is precisely the non-orthogonal correction.</p>
-  <p><strong>⑤ Verify the levels move by exactly $\Delta_j$.</strong> With the generalized
-     eigenproblem $Hc_j=\varepsilon_j Sc_j$ and $S$-orthonormality $C^\dagger SC=I$ (hence
-     $C^\dagger Sc_j=e_j$, the $j$-th unit vector):</p>
+  <p>orthogonal basis($S=I$)에서 이것은 교과서적 $\sum_i\Delta_i c_i c_i^\dagger$로 환원된다 —
+     양쪽의 $S$가 바로 non-orthogonal 보정이다.</p>
+  <p><strong>⑤ 준위가 정확히 $\Delta_j$만큼 이동함을 검증.</strong> generalized
+     eigenproblem $Hc_j=\varepsilon_j Sc_j$와 $S$-orthonormality $C^\dagger SC=I$(따라서
+     $C^\dagger Sc_j=e_j$, $j$번째 unit vector)를 사용하면:</p>
   <p style="text-align:center">$\displaystyle (H+\Delta H)c_j=\varepsilon_j Sc_j + S\,C\,\mathrm{diag}(\Delta)\,e_j=(\varepsilon_j+\Delta_j)\,Sc_j.$</p>
-  <p>The eigenvector $c_j$ is unchanged and the eigenvalue moves
-     $\varepsilon_j\to\varepsilon_j+\Delta_j$ — exactly the intended shift. Adding to a single onsite
-     element $H_{\mu\mu}$ alone does <em>not</em> achieve this in a non-orthogonal basis (verified in
-     sisl #129), which is why $S$ must sit on both sides.</p>
-  <p><strong>Projector: isolated-molecule MO, cross-checked against MPSH.</strong> The usual robust
-     route diagonalises the <em>in-device</em> molecular block (MPSH), which auto-normalises $C$. Here
-     the H-terminated Hf₂Se₉ is a discrete unit bound to each VSe₃ electrode only through a weak,
-     van-der-Waals-range contact, so its isolated (vacuum) orbitals are already a clean, well-defined
-     molecular basis. We build the projector from the <strong>isolated (vacuum) molecule</strong> MO
-     coefficients (the same molecule/geometry used for $\Delta_i$), register them into the device basis,
-     and rescale to $C^\dagger S_\text{dev} C = I$; the in-device MPSH construction is carried out in
-     parallel as a cross-check:</p>
+  <p>eigenvector $c_j$는 변하지 않고 eigenvalue는
+     $\varepsilon_j\to\varepsilon_j+\Delta_j$로 이동한다 — 정확히 의도한 shift이다. 단일 onsite
+     element $H_{\mu\mu}$에만 더하는 것은 non-orthogonal basis에서 이를 달성하지 <em>못한다</em>
+     (sisl #129에서 검증), 그래서 $S$가 양쪽에 있어야 한다.</p>
+  <p><strong>Projector: 고립분자 MO, MPSH와 교차 확인.</strong> 통상적인 견고한 경로는 <em>in-device</em>
+     분자 block을 diagonalize(MPSH — Molecular Projected self-consistent Hamiltonian)해 $C$를 자동
+     정규화하는 것이다. 그러나 여기서는 H-종단된 Hf₂Se₉가 각 VSe₃ 전극과 약한 반데르발스 거리로만
+     결합한 독립 단위체라, 그 고립(진공) 오비탈이 이미 깨끗한 분자 기저다. 그래서 projector를
+     <strong>고립(진공) 분자</strong> MO 계수($\Delta_i$에 쓴 것과 같은 분자/구조)에서 만들고, device
+     basis에 등록한 뒤 $C^\dagger S_\text{dev} C = I$로 rescale한다; in-device MPSH 구성은 교차 확인용으로
+     병행한다:</p>
   <pre><code>import sisl, numpy as np
 
 H   = sisl.get_sile('device.TSHS').read_hamiltonian()
@@ -178,12 +175,12 @@ S   = H.Sk(format='array').real               # device overlap
 mol = np.load('mol_orbital_idx.npy')          # Hf2Se9 PAO indices in the device
 SM  = S[np.ix_(mol, mol)]
 
-# MO coefficients from the ISOLATED vacuum-molecule SIESTA run (STEP 2) — NOT an
-# MPSH diagonalization of the in-device block (built separately as a cross-check)
-C     = np.load('mo_coeff_isolated.npy')      # (n_mol_orb, n_MO), same geometry as Δ_i
+# 고립 진공-분자 SIESTA 계산(STEP 2)의 MO 계수 — in-device block의 MPSH
+# diagonalization이 아님(MPSH는 교차 확인용으로 별도 구성)
+C     = np.load('mo_coeff_isolated.npy')      # (n_mol_orb, n_MO), Δ_i와 동일 구조
 delta = np.load('delta_i.npy')                # eV, per orbital, |ε − E_F| ≲ 2 eV window
 
-# register into the device basis: rescale so Cᵀ S_dev C = I
+# device basis에 등록: Cᵀ S_dev C = I 되도록 rescale
 norm = np.einsum('mi,mn,ni->i', C.conj(), SM, C).real
 C    = C / np.sqrt(norm)
 
@@ -192,45 +189,42 @@ dH = H.copy(); dH.empty(); dH.set_nsc([1,1,1])          # molecule closed in uni
 for a, mu in enumerate(mol):
     for b, nu in enumerate(mol):
         dH[mu, nu] = dH_block[a, b]
-sisl.get_sile('deltaH.dH.nc', 'w').write_delta(dH)      # no k=/E= → level-1</code></pre>
-  <p><strong>Both constructions are sanctioned by the original implementation.</strong>
-     Montes &amp; Vázquez (<em>Appl. Sci.</em> 11, 802 (2021), Eq. (1)) build Σ either from
-     <em>a separate calculation of the relaxed isolated molecule</em> or from the junction-cropped
-     molecular subspace (MPSH) — the isolated-molecule projector is a standard route, not a
-     workaround (full text verified 2026-07-02).</p>
-  <p>The isolated-molecule build reproduces the earlier attempt to ~10 meV. (For the 9-cell run the
-     projector should come from a molecular single point at the <em>device</em> geometry, with
-     isolated↔device orientation registration.)</p>
+sisl.get_sile('deltaH.dH.nc', 'w').write_delta(dH)     # no k=/E= → level-1</code></pre>
+  <p><strong>두 구성 모두 원 구현에서 인정된다.</strong> Montes &amp; Vázquez
+     (<em>Appl. Sci.</em> 11, 802 (2021), Eq. (1))는 Σ를 <em>완화된 고립분자의 별도 계산</em> 또는
+     junction에서 잘라낸 분자 부분공간(MPSH) 어느 쪽에서도 만든다 — 고립분자 projector는 우회가 아니라
+     표준 경로다(원문 확인 2026-07-02).</p>
+  <p>고립분자 구성은 이전 시도를 ~10 meV까지 재현한다. (9-cell 계산에서는 projector를 <em>device</em>
+     구조에서의 분자 single point로부터 얻고, 고립↔device 방향 정렬을 맞춰야 한다.)</p>
 
   <h3>TBtrans input</h3>
   <pre><code>TBT.dH deltaH.dH.nc</code></pre>
-  <p>Verify TBtrans stdout logs that it read the δH file. For $T(E)$ comparison, <code>TBT.dH</code>
-     and <code>TBT.dSE</code> give the same result.</p>
+  <p>TBtrans stdout에 δH 파일을 읽었다는 로그가 있는지 확인한다. $T(E)$ 비교에서는 <code>TBT.dH</code>와
+     <code>TBT.dSE</code>가 동일한 결과를 준다.</p>
 
-  <!-- Physics-validity (honest read) is kept only in the local note meetings/next/DFT_Sigma_physics_validity.md (hidden 2026-07-08; restore here when image-charge/ΔSCF quantification lands). -->
+  <!-- 물리 타당성(정직한 판정)은 로컬 노트 meetings/next/DFT_Sigma_physics_validity.md 에만 유지(2026-07-08 숨김; image-charge/ΔSCF 정량화 시 복원). -->
 
-  <h2>Pitfalls</h2>
+  <h2>Pitfall</h2>
   <ul>
-    <li><strong>Supercell (non-square submatrix).</strong> A <code>.TSHS</code> packs supercell
-      couplings into one matrix, so slicing the molecule block can give a non-square array. Close
-      the molecule inside the unit cell with <code>H.set_nsc([1,1,1])</code> — the manual states
-      Bloch "phases are only added on super-cell elements, not unit-cell elements", so a unit-cell
-      block needs no phase correction. Never diagonalise the 27 supercell blocks separately.</li>
-    <li><strong>Non-orthogonal ΔH ($S$ on both sides).</strong> Adding a bare onsite term
-      (<code>H[i,i] += …</code>) does <em>not</em> move the generalized eigenvalue
-      ($H\psi=\varepsilon S\psi$) as intended (sisl #129). Use
-      $\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$; the orthogonal limit $S=I$ recovers
-      the textbook form.</li>
-    <li><strong>Post-check (gate before recomputing T).</strong> After applying ΔH, confirm the
-      molecular PDOS / MPSH peaks actually moved by $\Delta_i$. A mismatch means a missing $S$,
-      bad normalization, or an index-mapping error.</li>
+    <li><strong>Supercell (non-square submatrix).</strong> <code>.TSHS</code>는 supercell
+      coupling을 하나의 행렬에 담으므로, 분자 block을 잘라내면 non-square 배열이 나올 수 있다.
+      <code>H.set_nsc([1,1,1])</code>로 분자를 unit cell 안에 닫는다 — 매뉴얼은 Bloch
+      "phases are only added on super-cell elements, not unit-cell elements"라고 명시하므로,
+      unit-cell block에는 phase 보정이 필요 없다. 27개 supercell block을 따로 diagonalize하지 말 것.</li>
+    <li><strong>Non-orthogonal ΔH ($S$ 양쪽).</strong> 맨몸 onsite 항
+      (<code>H[i,i] += …</code>)을 더하는 것은 generalized eigenvalue
+      ($H\psi=\varepsilon S\psi$)를 의도대로 이동시키지 <em>못한다</em>(sisl #129).
+      $\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$를 사용한다; orthogonal 극한 $S=I$가
+      교과서 형태를 회복한다.</li>
+    <li><strong>Post-check (T 재계산 전 gate).</strong> ΔH를 적용한 뒤, 분자 PDOS / MPSH peak이
+      실제로 $\Delta_i$만큼 이동했는지 확인한다. 불일치는 $S$ 누락, 잘못된 normalization,
+      또는 index-mapping 오류를 뜻한다.</li>
   </ul>
 
-  <h2>Manual / source basis (verbatim)</h2>
-  <p>These are documented features, not guesses — read directly from the manuals/source on
-     2026-06-19:</p>
+  <h2>매뉴얼 / source 근거 (원문)</h2>
+  <p>이것들은 추측이 아니라 문서화된 기능이다 — 2026-06-19에 매뉴얼/source에서 직접 읽었다:</p>
   <table>
-    <thead><tr><th>Item</th><th>Verbatim</th><th>Source</th></tr></thead>
+    <thead><tr><th>항목</th><th>원문</th><th>Source</th></tr></thead>
     <tbody>
       <tr><td><code>write_delta</code> level</td><td>no <code>k</code>/<code>E</code> arg ⇒ "level-1: no E or k dependence"</td><td>sisl delta source</td></tr>
       <tr><td>correction</td><td>"$H'(k)=H(k)+\delta H(E,k)+\delta\Sigma(E,k)$"</td><td>sisl</td></tr>
@@ -240,41 +234,40 @@ sisl.get_sile('deltaH.dH.nc', 'w').write_delta(dH)      # no k=/E= → level-1</
     </tbody>
   </table>
 
-  <h3>How δH actually enters — per (E,k), verified from source</h3>
-  <p>The table above is the <em>what</em>; this is the <em>how</em>, read from the sisl delta source and
-     the TBtrans reference (2026-07-01) so the level-1 choice is not taken on faith.</p>
+  <h3>δH가 실제로 어떻게 들어가나 — (E,k)마다, 소스로 검증</h3>
+  <p>위 표가 <em>무엇</em>이라면, 이건 <em>어떻게</em>다 — level-1 선택을 믿음이 아니라 sisl delta
+     소스와 TBtrans reference(2026-07-01 직접 열람)로 확인했다.</p>
   <ul>
-    <li><strong>The file carries a "level" tag.</strong> sisl <code>write_delta</code> tags the matrix by
-      which arguments are present (<code>_get_lvl_k_E</code>): <em>level-1 = no E or k dependence</em>,
-      level-2 = k, level-3 = E, level-4 = both. We call <code>write_delta(dH)</code> with <strong>no
-      <code>k=</code>/<code>E=</code></strong> → <strong>level-1, one constant matrix</strong>. That is
-      exactly the static-self-energy scissor $\Delta\Sigma(E)=\Delta H=\text{const}$ — choosing level-1
-      <em>is</em> the scissor approximation.</li>
-    <li><strong>It enters inside the Green's-function inverse, at every (E,k).</strong> sisl's class
-      docstring gives $H'(k)=H(k)+\delta H(E,k)+\delta\Sigma(E,k)$; TBtrans forms
+    <li><strong>파일은 "level" 태그를 갖는다.</strong> sisl <code>write_delta</code>는 어떤 인자가
+      주어졌는지로 행렬에 level을 매긴다 (<code>_get_lvl_k_E</code>): <em>level-1 = E·k 의존 없음</em>,
+      level-2 = k, level-3 = E, level-4 = 둘 다. 우리는 <code>write_delta(dH)</code>를
+      <strong><code>k=</code>·<code>E=</code> 없이</strong> 호출 → <strong>level-1, 상수 행렬 하나</strong>.
+      이것이 static self-energy scissor $\Delta\Sigma(E)=\Delta H=\text{const}$와 정확히 대응 —
+      level-1을 쓴 것 자체가 scissor 근사다.</li>
+    <li><strong>그린 함수 역행렬 안, 매 (E,k)에서 들어간다.</strong> sisl class docstring:
+      $H'(k)=H(k)+\delta H(E,k)+\delta\Sigma(E,k)$; TBtrans는 각 에너지·k점에서
       <span style="display:block;text-align:center">$G(E,k)=\big[(E+i\eta)S(k)-H(k)-\delta H-\Sigma_L(E,k)-\Sigma_R(E,k)\big]^{-1}$</span>
-      at each energy / k-point. Because our term is level-1, the <em>same</em> $\delta H$ is added at
-      every (E,k) (a level-4 term would take precedence where its grid matches).</li>
-    <li><strong>δH vs δΣ:</strong> identical in $G$, $T(E)$, and DOS; they differ only in bond/orbital
-      currents (δΣ excluded). We use δH so orbital currents stay physical.</li>
-    <li><strong>Why <code>set_nsc([1,1,1])</code>:</strong> TBtrans "add[s] the phases on <em>all</em>
-      elements of δ" but only on super-cell elements. Closing the molecule block inside the unit cell
-      leaves no super-cell element, so no Bloch phase $e^{ik\cdot R}$ is wrongly applied to $\delta H$
-      (otherwise one must pre-multiply δ by the negative phase).</li>
+      를 만든다. 우리 항은 level-1이라 <em>모든</em> (E,k)에서 같은 $\delta H$가 더해진다
+      (level-4 항이 있으면 그 격자가 맞는 곳에서 우선).</li>
+    <li><strong>δH vs δΣ:</strong> $G$·$T(E)$·DOS에는 동일; bond/orbital current에서만 갈린다
+      (δΣ 제외). 우리는 orbital current까지 물리적으로 맞도록 δH를 쓴다.</li>
+    <li><strong>왜 <code>set_nsc([1,1,1])</code>인가:</strong> TBtrans는 "δ의 <em>모든</em> 원소에
+      phase를 더한다"지만 super-cell 원소에만 붙는다. 분자 블록을 unit cell 안에 닫으면 super-cell
+      원소가 없어 $\delta H$에 Bloch phase $e^{ik\cdot R}$가 잘못 붙지 않는다 (안 닫으면 δ에
+      음의 phase를 곱해 상쇄해야 함).</li>
   </ul>
-  <p class="page-meta">Verified 2026-07-01:
-    <a href="https://sisl.readthedocs.io/en/latest/_modules/sisl/io/tbtrans/delta.html">sisl delta source</a> ·
+  <p class="page-meta">2026-07-01 검증:
+    <a href="https://sisl.readthedocs.io/en/latest/_modules/sisl/io/tbtrans/delta.html">sisl delta 소스</a> ·
     <a href="https://docs.siesta-project.org/projects/siesta/en/5.2/reference/tbtrans.html">SIESTA 5.2 TBtrans reference</a>.</p>
 
-  <h2>Precedent &amp; how ours differs</h2>
-  <p>The direct precedent for STEP 3 (adding Σ to the molecular Hamiltonian via the MPSH block) is
-     Montes &amp; Vázquez (2021) and Fallaque et al. (2022) — both correct DFT-overestimated
-     molecular-junction conductance to experiment, and both sanction building the projector either
-     from a separate isolated-molecule calculation or from the junction-cropped (MPSH) subspace
-     (annotated in References below). How ours differs: both precedents are
-     <strong>organic molecule + Au</strong>; no direct precedent for an <strong>inorganic 1D chain
-     (VSe₃) electrode</strong> was found. Our shift is the B3LYP−vdW-DF2 KS difference rather than the
-     standard ΔSCF IP/EA, and we omit the image-charge term that both papers include.</p>
+  <h2>선례 &amp; 우리 방식의 차이</h2>
+  <p>STEP 3(분자 Hamiltonian에 Σ를 더하는 것)의 직접 선례는 Montes &amp; Vázquez (2021)와 Fallaque
+     et al. (2022) — 둘 다 DFT가 과대평가한 molecular-junction conductance를 실험 수준으로 보정하고,
+     projector를 <em>고립분자 별도 계산</em> 또는 junction에서 crop한 (MPSH) subspace 어느 쪽에서
+     만들어도 됨을 공인한다(아래 References에 주석). 우리 방식의 차이(솔직히): 두 선례 모두
+     <strong>organic molecule + Au</strong>이며 <strong>inorganic 1D chain (VSe₃) 전극</strong>에
+     대한 직접 선례는 찾지 못했다. 우리 shift은 표준 ΔSCF IP/EA가 아니라 B3LYP−vdW-DF2 KS 차이이며,
+     두 논문이 포함하는 image-charge 항을 생략한다.</p>
 
   <h2>References</h2>
   <ul>
@@ -282,25 +275,22 @@ sisl.get_sile('deltaH.dH.nc', 'w').write_delta(dH)      # no k=/E= → level-1</
       (2022) — TRANSIESTA DFT+Σ + image charge, acene/Au (full text verified).
       <a href="https://doi.org/10.1088/1361-648X/ac89c4">DOI 10.1088/1361-648X/ac89c4</a></li>
     <li><strong>Montes &amp; Vázquez</strong>, <em>Appl. Sci.</em> <strong>11</strong>, 802 (2021) —
-      original SIESTA/TRANSIESTA orbital-dependent operator (full text verified 2026-07-02; also via Fallaque
+      original SIESTA/TRANSIESTA orbital-dependent operator (full text not accessed; via Fallaque
       citation). <a href="https://doi.org/10.3390/app11020802">DOI 10.3390/app11020802</a></li>
     <li><strong>Neaton, Hybertsen &amp; Louie</strong>, <em>Phys. Rev. Lett.</em>
-      <strong>97</strong>, 216405 (2006) — <em>origin of the correction.</em> GW shows the
-      metal-surface image charge renormalizes (narrows) the molecular HOMO–LUMO gap relative to gas
-      phase — an interface polarization effect DFT misses. This is the physical basis for adding a
-      self-energy $\Sigma$ to the molecular levels.
+      <strong>97</strong>, 216405 (2006) — <em>보정의 기원.</em> GW로 금속 표면 image charge가
+      분자 HOMO–LUMO gap을 재규격화(축소)함을 보임 — DFT가 놓치는 계면 분극. Σ를 분자준위에
+      더하는 물리적 근거.
       <a href="https://doi.org/10.1103/PhysRevLett.97.216405">DOI 10.1103/PhysRevLett.97.216405</a></li>
     <li><strong>Quek, Venkataraman, Choi, Louie, Hybertsen &amp; Neaton</strong>,
-      <em>Nano Lett.</em> <strong>7</strong>, 3477 (2007) — <em>the DFT+Σ transport recipe.</em>
-      Applies the gas-phase gap correction plus an image-charge scissor to benzenediamine/Au,
-      aligning the molecular levels so the computed conductance matches experiment (bare DFT
-      overestimates it). The direct template for our per-orbital scissor.
+      <em>Nano Lett.</em> <strong>7</strong>, 3477 (2007) — <em>DFT+Σ transport 레시피.</em>
+      benzenediamine/Au에 gap 보정 + image-charge scissor를 적용해 분자 준위를 정렬, 계산
+      conductance를 실험과 일치시킴(bare DFT는 과대평가). 우리 per-orbital scissor의 직접 템플릿.
       <a href="https://doi.org/10.1021/nl072058i">DOI 10.1021/nl072058i</a></li>
     <li><strong>Strange, Rostgaard, Häkkinen &amp; Thygesen</strong>, <em>Phys. Rev. B</em>
-      <strong>83</strong>, 115108 (2011) — <em>validation against full GW.</em> Self-consistent GW
-      transport (no scissor approximation) for thiol-/amine-linked benzene/Au: the GW self-energy
-      corrects the DFT conductance overestimate and justifies approximating $\Sigma$ as a static,
-      orbital-diagonal shift — exactly our level-1 δH.
+      <strong>83</strong>, 115108 (2011) — <em>full GW 대조 검증.</em> Self-consistent GW transport
+      (scissor 근사 없음, thiol-/amine-benzene/Au): GW self-energy가 DFT conductance 과대평가를
+      보정하고, Σ를 static·orbital-diagonal shift로 근사하는 것(=우리 level-1 δH)을 정당화한다.
       <a href="https://doi.org/10.1103/PhysRevB.83.115108">DOI 10.1103/PhysRevB.83.115108</a></li>
     <li>δH mechanism —
       <a href="https://docs.siesta-project.org/projects/siesta/en/5.2/reference/tbtrans.html">SIESTA 5.2 TBtrans reference</a> ·

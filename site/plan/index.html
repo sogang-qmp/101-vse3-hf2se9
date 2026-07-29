@@ -16,69 +16,60 @@
 <main>
 <article>
   <h1>Plan</h1>
-  <p class="page-meta">Current goal · DFT+Σ workflow status · validation gates · figures · queue</p>
+  <p class="page-meta">현재 목표 · DFT+Σ workflow 상태 · 검증 gate · figure · queue</p>
 
-  <h2>Current goal</h2>
-  <p>The <strong>B3LYP DFT+Σ molecular-level correction is applied</strong> on the length-converged
-     9-cell device (isolated-molecule gap opens to 0.75 eV, $T(E_F)$ suppressed — <a href="../results/level-correction/index.html">
-     Results: level correction</a>, Section C), and the <strong>corrected Landauer I–V</strong> is
-     computed with a symmetric bias window. Remaining calculation: the interface charge transfer
-     $\Delta\rho$. (A finite-bias chain is <em>not</em> needed — δH is applied at the TBtrans
-     post-processing step, so the zero-bias $T(E)$ is sufficient.) Method detail:
-     <a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a>.
-     Since the 07-19 meeting the queue extends to the conductance-decay series
-     VSe₃–(Hf₂Se₉)ₙ–VSe₃ (n = 2, 3) and the CNT-encapsulation track
-     (<a href="../results/cnt-binding/index.html">results 10</a>).</p>
+  <h2>현재 목표</h2>
+  <p>길이 수렴 9-cell 소자에 <strong>B3LYP DFT+Σ molecular-level 보정 적용 완료</strong>
+     (고립분자 gap 0.75 eV 개방, $T(E_F)$ 억제 — <a href="../results/level-correction/index.html">Results: level
+     correction</a>, Section C), 보정 $T(E)$의 <strong>Landauer I–V</strong>는 대칭 bias window로
+     계산 완료. 남은 계산: 계면 charge transfer $\Delta\rho$. (finite-bias chain은 <em>불필요</em> —
+     δH는 TBtrans post-processing 단계에서 적용되므로 zero-bias $T(E)$로 충분.)
+     방법 상세: <a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a>.</p>
 
-  <h2>DFT+Σ workflow — status</h2>
+  <h2>DFT+Σ workflow — 상태</h2>
   <table>
-    <thead><tr><th>Step</th><th>Task</th><th>Status</th></tr></thead>
+    <thead><tr><th>Step</th><th>Task</th><th>상태</th></tr></thead>
     <tbody>
-      <tr><td>1</td><td>vacuum molecule (VASP PBE/B3LYP; SIESTA PBE/vdW-DF2) → per-orbital $\Delta_i$ by same-code subtraction through a common PBE</td><td><strong>done</strong></td></tr>
-      <tr><td>2</td><td>SIESTA single-molecule (same PAO basis) → MO coefficients $C$</td><td><strong>done</strong> ($C^\dagger S C = I$ verified)</td></tr>
-      <tr><td>3</td><td>build $\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$ on the Hf/Se molecular block, apply to the device (TBtrans δH)</td><td><strong>done</strong> (isolated-molecule projector, Kabsch + Hungarian atom matching)</td></tr>
-      <tr><td>4</td><td>corrected $T(E)$, before/after comparison</td><td><strong>done</strong> — resonance off $E_F$, $T(E_F)$ suppressed; transfers to the N25_k100 cross-check</td></tr>
-      <tr><td>—</td><td>document the modified files / formula / application flow (advisor's emphasis)</td><td><strong>done</strong> → <a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a></td></tr>
+      <tr><td>1</td><td>vacuum molecule (VASP PBE/B3LYP; SIESTA PBE/vdW-DF2) → per-orbital $\Delta_i$ — 공통 PBE 기준 same-code 뺄셈</td><td><strong>완료</strong></td></tr>
+      <tr><td>2</td><td>SIESTA single-molecule (same PAO basis) → MO coefficient $C$</td><td><strong>완료</strong> ($CSC^\dagger$ 직교성 1e−5)</td></tr>
+      <tr><td>3</td><td>Hf/Se 분자 block에 $\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$를 build하고 device에 적용(TBtrans δH)</td><td><strong>완료</strong> (고립분자 projector, Kabsch + Hungarian 원자매칭)</td></tr>
+      <tr><td>4</td><td>보정된 $T(E)$, before/after 비교</td><td><strong>완료</strong> — 공명이 $E_F$에서 벗어나 $T(E_F)$ 억제; N25_k100 cross-check에도 전이</td></tr>
+      <tr><td>—</td><td>수정된 파일 / 수식 / 적용 흐름 문서화(지도교수 강조)</td><td><strong>완료</strong> → <a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a></td></tr>
     </tbody>
   </table>
 
-  <h2>Validation gates</h2>
+  <h2>검증 gate</h2>
   <ul>
-    <li><strong>STEP 2:</strong> the SIESTA single-molecule PAO basis must match the device molecular
-      basis (same species and basis set).</li>
-    <li><strong>STEP 3:</strong> supercell handled (<code>set_nsc([1,1,1])</code>), overlap $S$ on
-      both sides of ΔH, and the $E_F\pm2$ eV energy-window cutoff applied.</li>
-    <li><strong>STEP 4:</strong> TBtrans stdout logs that it read the δH file; the molecular PDOS /
-      MPSH peaks actually move by $\Delta_i$; and $T(E_F)$ drops as expected (resonance pushed off
-      $E_F$).</li>
+    <li><strong>STEP 2:</strong> SIESTA single-molecule PAO basis는 device 분자
+      basis와 일치해야 한다(동일 species와 basis set).</li>
+    <li><strong>STEP 3:</strong> supercell 처리(<code>set_nsc([1,1,1])</code>), ΔH 양쪽에
+      overlap $S$, 그리고 $E_F\pm2$ eV energy-window cutoff 적용.</li>
+    <li><strong>STEP 4:</strong> TBtrans stdout에 δH 파일을 읽었다는 로그; 분자 PDOS /
+      MPSH peak이 실제로 $\Delta_i$만큼 이동; 그리고 $T(E_F)$가 예상대로 감소(resonance가
+      $E_F$에서 밀려남).</li>
   </ul>
 
-  <h2>Figure plan</h2>
+  <h2>Figure 계획</h2>
   <table>
-    <thead><tr><th>Figure</th><th>Content</th></tr></thead>
+    <thead><tr><th>Figure</th><th>내용</th></tr></thead>
     <tbody>
-      <tr><td>Fig 1</td><td>Hf₂Se₉ bridging two VSe₃ chains in a CNT; STEM confirming TP VSe₃.</td></tr>
-      <tr><td>Fig 2</td><td>VSe₃ metallic band + Hf₂Se₉ HOMO/LUMO wavefunctions.</td></tr>
-      <tr><td>Fig 3</td><td>Three-way T(E): pristine / heterojunction / disconnected + eigenchannel.</td></tr>
-      <tr><td>Fig 4</td><td>B3LYP-corrected T(E) and the I–V curve.</td></tr>
+      <tr><td>Fig 1</td><td>CNT 안에서 두 VSe₃ 사슬을 잇는 Hf₂Se₉; TP VSe₃를 확인하는 STEM.</td></tr>
+      <tr><td>Fig 2</td><td>VSe₃ 금속성 band + Hf₂Se₉ HOMO/LUMO wavefunction.</td></tr>
+      <tr><td>Fig 3</td><td>3종 T(E): pristine / heterojunction / disconnected + eigenchannel.</td></tr>
+      <tr><td>Fig 4</td><td>B3LYP 보정된 T(E)와 I–V 곡선.</td></tr>
     </tbody>
   </table>
 
-  <h2>Near-term queue</h2>
+  <h2>단기 queue</h2>
   <table>
-    <thead><tr><th>Priority</th><th>Task</th><th>Status</th></tr></thead>
+    <thead><tr><th>Priority</th><th>Task</th><th>상태</th></tr></thead>
     <tbody>
-      <tr><td>P1</td><td>corrected Landauer I–V (zero-bias $T(E)$) + bias-window figure</td><td><strong>done</strong> → <a href="../results/level-correction/index.html">level correction</a> Section C</td></tr>
-      <tr><td>P1</td><td>uncorrected 9-cell HOMO/LUMO eigenchannel re-check (HOMO −0.325 / LUMO +0.355 eV)</td><td><strong>verified</strong></td></tr>
-      <tr><td>—</td><td>true finite-bias I–V — TranSIESTA bias chain 0 → ±0.5 V with the corrected $\Delta H$ (<code>TBT.dH</code>)</td><td><strong>not needed</strong> — δH is a TBtrans post-processing correction, so the zero-bias $T(E)$ is sufficient (2026-07-05)</td></tr>
-      <tr><td>P2</td><td>charge transfer $\Delta\rho$ at the interface — $\Delta\rho = \rho_\text{junction} - \rho_\text{leads} - \rho_\text{molecule}$ (same cell/grid, no fragment re-relaxation). Step 0: Mulliken ΔQ of the 11 molecular atoms from the existing device output (sign = transfer direction, no new calculation); then two short fragment SCFs (<code>SaveRho</code>) → planar-averaged $\Delta\rho(z)$ + cumulative $Q(z)$ + accumulation/depletion isosurface</td><td><strong>planned</strong> (next calculation)</td></tr>
-      <tr><td>P1</td><td>conductance decay VSe₃–(Hf₂Se₉)ₙ–VSe₃, n = 2, 3 (07-19 meeting) — chain the
-          relaxed stack, transport per n</td><td><strong>planned</strong> — awaiting the stacking relaxation</td></tr>
-      <tr><td>P2</td><td>CNT encapsulation (phase-c): binding energies + Δρ(X@CNT)</td>
-          <td><strong>in progress</strong> — VSe₃ binding done
-          (<a href="../results/cnt-binding/index.html">results 10</a>); Hf₂Se₉@CNT relaxing</td></tr>
-      <tr><td>P2</td><td>course-material figures for the Hf₂Se₉–VSe₃ junction (on request)</td><td>standby</td></tr>
-      <tr><td>—</td><td>STEP 2–4 (δH build + corrected $T(E)$); LUMO label wording; 9-UC transport; mid-energy eigenchannels; 3-way disconnected display</td><td><strong>done</strong> (2026-07-01 – 07-02)</td></tr>
+      <tr><td>P1</td><td>보정 Landauer I–V (zero-bias $T(E)$) + bias-window figure</td><td><strong>완료</strong> → <a href="../results/level-correction/index.html">level correction</a> Section C</td></tr>
+      <tr><td>P1</td><td>무보정 9-cell HOMO/LUMO eigenchannel 재확인(−0.065 / +0.003 eV)</td><td><strong>검증 완료</strong>; isosurface PNG 렌더 중</td></tr>
+      <tr><td>—</td><td>진짜 finite-bias I–V — 보정 $\Delta H$(<code>TBT.dH</code>)로 TranSIESTA bias chain 0 → ±0.5 V</td><td><strong>불필요</strong> — δH는 TBtrans post-processing 보정이라 zero-bias $T(E)$로 충분 (2026-07-05)</td></tr>
+      <tr><td>P2</td><td>계면 charge transfer $\Delta\rho$ — $\Delta\rho = \rho_\text{접합} - \rho_\text{전극} - \rho_\text{분자}$ (같은 셀/grid, 조각 재-relax 금지). Step 0: 기존 device 출력의 분자 11원자 Mulliken ΔQ(부호 = 이동 방향, 신규 계산 0); 이후 짧은 조각 SCF 2개(<code>SaveRho</code>) → planar-averaged $\Delta\rho(z)$ + 누적 $Q(z)$ + 축적/고갈 isosurface</td><td><strong>예정</strong> (다음 계산)</td></tr>
+      <tr><td>P2</td><td>Hf₂Se₉–VSe₃ 접합용 교육자료 figure(요청 시)</td><td>대기</td></tr>
+      <tr><td>—</td><td>STEP 2–4 (δH build + 보정 $T(E)$); LUMO 라벨 표현; 9-UC transport; mid-energy eigenchannel; 3종 disconnected 표시</td><td><strong>완료</strong> (2026-07-01 – 07-02)</td></tr>
     </tbody>
   </table>
 </article>

@@ -2,7 +2,7 @@
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="order" content="60">
-<title>Transmission & eigenchannel — 101-vse3-hf2se9</title>
+<title>투과 & eigenchannel — 101-vse3-hf2se9</title>
 <link rel="stylesheet" href="../../assets/site.css">
 <link rel="stylesheet" href="../../assets/katex/katex.min.css">
 <script defer src="../../assets/katex/katex.min.js"></script>
@@ -15,20 +15,20 @@
 <aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
 <main>
 <article>
-  <h1>06. Transmission — the molecule is the conduction bridge</h1>
-  <p class="page-meta"><strong>2026-06-12 – 06-19</strong> · Zero-bias transport: pristine convergence · three-way · eigenchannel · I–V (TranSIESTA/TBtrans, vdW-DF2, k=100, η=0.005 eV)</p>
+  <h1>06. 투과(transmission) — 분자가 전도 bridge다</h1>
+  <p class="page-meta"><strong>2026-06-12 – 06-19</strong> · Zero-bias transport: pristine 수렴 · 3종 비교 · eigenchannel · I–V (TranSIESTA/TBtrans, vdW-DF2, k=100, η=0.005 eV)</p>
 
-  <h2>Goal</h2>
-  <p>Show whether current flows <em>through</em> the molecule, through which channel, and what the zero-bias I–V looks like.</p>
+  <h2>목표</h2>
+  <p>전류가 분자를 <em>통해</em> 흐르는지, 어느 채널을 통해 흐르는지, 그리고 zero-bias I–V가 어떤 모습인지 보인다.</p>
 
-  <h2>Method</h2>
-  <p>TranSIESTA / TBtrans, vdW-DF2, ~220-atom device, electrode $k=100$, $\eta=0.005$ eV.
-     $T(E)$ extracted with sisl from <code>trans.TBT.nc</code>; eigenchannels from spectral-function
-     decomposition at $E_F$, HOMO, and LUMO.</p>
+  <h2>방법</h2>
+  <p>TranSIESTA / TBtrans, vdW-DF2, ~220-atom 소자, 전극 $k=100$, $\eta=0.005$ eV.
+     $T(E)$는 <code>trans.TBT.nc</code>에서 sisl로 추출; eigenchannel은 $E_F$, HOMO, LUMO에서의
+     spectral-function 분해로 구함.</p>
 
-  <h3>Device structure</h3>
-  <p>The full ~220-atom scattering region — two VSe₃ leads with the Hf₂Se₉ molecule at the centre
-     (drag to rotate, scroll to zoom):</p>
+  <h3>소자 구조</h3>
+  <p>전체 ~220-atom scattering region — 두 개의 VSe₃ lead 사이 중심에 Hf₂Se₉ 분자
+     (드래그로 회전, 스크롤로 확대/축소):</p>
   <div id="devview" style="position:relative;width:100%;height:300px;border:1px solid var(--border);border-radius:6px;background:#fff"></div>
   <script type="text/plain" id="devview-xyz">
 219
@@ -270,92 +270,89 @@ Se 14.1980 11.5210 166.4775
   })();
   </script>
 
-  <h2>Result</h2>
+  <h2>결과</h2>
 
-  <h3>A. Pristine VSe₃ — length dependence is an η artifact</h3>
-  <p>For a continuous chain, $T(E)$ must be independent of electrode $k$-grid and scattering-region
-     length. At $\eta=0.05$ eV the broadening makes $T(E)$ length-dependent (N28 vs N38); at
-     $\eta=0.001$ eV it returns to length-independent — the dependence is a broadening artifact,
-     not physics.</p>
+  <h3>A. Pristine VSe₃ — 길이 의존성은 η 아티팩트</h3>
+  <p>연속 사슬의 경우 $T(E)$는 전극 $k$-grid와 scattering-region
+     길이에 무관해야 한다. $\eta=0.05$ eV에서는 broadening 때문에 $T(E)$가 길이 의존적이 되지만 (N28 vs N38),
+     $\eta=0.001$ eV에서는 다시 길이에 무관해진다 — 이 의존성은 물리가 아니라 broadening
+     아티팩트다.</p>
   <figure>
     <img src="figures/pristine-eta-length.png" alt="Pristine VSe3 T(E) at two eta values">
-    <figcaption><strong>Fig. 1.</strong> Pristine VSe₃ $T(E)$: $\eta=0.05$ eV (left, length-dependent)
-      vs $\eta=0.001$ eV (right, length-independent).</figcaption>
+    <figcaption><strong>Fig. 1.</strong> Pristine VSe₃ $T(E)$: $\eta=0.05$ eV (왼쪽, 길이 의존적)
+      vs $\eta=0.001$ eV (오른쪽, 길이 무관).</figcaption>
   </figure>
 
-  <h3>B. Three-way comparison — the molecule is the sole bridge</h3>
+  <h3>B. 3종 비교 — 분자가 유일한 bridge</h3>
   <table>
-    <thead><tr><th>System</th><th>$T(E_F)$</th><th>Reading</th></tr></thead>
+    <thead><tr><th>시스템</th><th>$T(E_F)$</th><th>해석</th></tr></thead>
     <tbody>
-      <tr><td>Pristine VSe₃</td><td>0.704</td><td>reference (continuous chain)</td></tr>
-      <tr><td>Heterojunction</td><td>0.348</td><td>conducts through the molecule</td></tr>
-      <tr><td>Disconnected</td><td>0.000</td><td>molecule removed → no conduction</td></tr>
+      <tr><td>Pristine VSe₃</td><td>0.704</td><td>기준 (연속 사슬)</td></tr>
+      <tr><td>헤테로접합</td><td>0.348</td><td>분자를 통해 전도</td></tr>
+      <tr><td>Disconnected</td><td>0.000</td><td>분자 제거 → 전도 없음</td></tr>
     </tbody>
   </table>
   <figure>
     <img src="figures/te-3way.png" alt="Three-way transmission">
     <figcaption><strong>Fig. 2.</strong> $T(E)$ — pristine VSe₃ (η = 0.001) / Hf₂Se₉ hetero /
-      disconnected ($T\approx0$, off scale; hetero·disc η = 0.005). Removing the molecule
-      (~14 Å gap) eliminates conduction.</figcaption>
+      disconnected ($T\approx0$, 척도 밖; hetero·disc는 η = 0.005). 분자를 제거하면
+      (~14 Å gap) 전도가 사라진다.</figcaption>
   </figure>
-  <p>The transmitting states are molecular: the Hf₂Se₉ frontier (HOMO/LUMO, near-degenerate and
-     pinned at $E_F$ — isolated-molecule HOMO $=-0.020$, LUMO $=+0.003$ eV, gap $0.023$ eV) sits
-     right at $E_F$, so the molecular PDOS peaks there ($-0.065$ / $0$ eV) and the $T(E)$ peaks line
-     up. The $+0.175$ eV peak is a <em>higher</em> unoccupied molecular resonance at $+0.15$ eV
-     (isolated MO87/88), well above the $E_F$-pinned frontier manifold (MO82–86) — not the LUMO.</p>
+  <p>전달 상태는 분자성이다: Hf₂Se₉ frontier (HOMO/LUMO는 준축퇴이고 $E_F$에 고정 —
+     고립 분자 HOMO $=-0.020$, LUMO $=+0.003$ eV, gap $0.023$ eV)가 $E_F$ 바로 위에 놓여,
+     분자 PDOS가 그곳에서 peak($-0.065$ / $0$ eV)를 이루고 $T(E)$ peak가 이에 정렬된다.
+     $+0.175$ eV peak는 $+0.15$ eV의 <em>더 높은</em> 비점유 분자 공명(고립 분자 MO87/88)으로,
+     $E_F$에 고정된 frontier manifold(MO82–86)보다 훨씬 위이지 LUMO가 아니다.</p>
   <figure>
     <img src="figures/te-dos-hetero.png" alt="Heterojunction T(E) and DOS">
-    <figcaption><strong>Fig. 3.</strong> Heterojunction $T(E)$ (black) with total DOS (gray) and
-      molecular Hf₂Se₉ PDOS (red). Molecular resonances near $E_F$ carry the transmission.</figcaption>
+    <figcaption><strong>Fig. 3.</strong> 헤테로접합 $T(E)$ (검정)와 total DOS (회색),
+      분자 Hf₂Se₉ PDOS (빨강). $E_F$ 근처의 분자 공명이 transmission을 담당한다.</figcaption>
   </figure>
 
-  <h3>C. Eigenchannel — the channel runs through the molecule</h3>
-  <p>Real-space $|\psi|^2$ isosurface of the transmission eigenchannel (from the
-     <code>EC_0_psi2_*.cube</code> files; V grey, Se green). At $E_F$ the dominant transmission eigenchannel runs along the whole device and clearly threads <em>through</em> the Hf₂Se₉
-     at the centre — direct real-space evidence of molecule-mediated conduction.
-     (Renders below: 3-cell device N25_k100; the length-converged 9-cell device gives the same
-     channel structure.)</p>
+  <h3>C. Eigenchannel — 채널이 분자를 통해 흐른다</h3>
+  <p>전달 eigenchannel의 실공간 $|\psi|^2$ 등가면 (
+     <code>EC_0_psi2_*.cube</code> 파일에서; V 회색, Se green). $E_F$에서 채널 (EC₀,
+     $\tau=0.999$)은 소자 전체를 따라 흐르며 중심의 Hf₂Se₉를 명확히 <em>통과</em>한다 —
+     분자 매개 전도의 직접적인 실공간 증거다.
+     (아래 렌더: 3-cell 소자 N25_k100; 길이 수렴 9-cell 소자도 같은 채널 구조, $E_F$ $\tau_0 = 0.989$.)</p>
   <figure>
     <img src="figures/eigenchannel-EF.png" alt="Eigenchannel |psi|^2 isosurface at E_F" style="max-width:100%">
-    <figcaption><strong>Fig. 4.</strong> $E_F$ dominant eigenchannel $|\psi|^2$ isosurface —
-      threads through the molecule (centre lobe) and into both VSe₃ leads.</figcaption>
+    <figcaption><strong>Fig. 4.</strong> $E_F$ eigenchannel EC₀ ($\tau=0.999$) $|\psi|^2$ 등가면 —
+      분자 (중심 lobe)를 관통해 양쪽 VSe₃ lead로 이어진다.</figcaption>
   </figure>
   <figure>
     <img src="figures/eigenchannel-homo.png" alt="eigenchannel isosurface at -0.065 eV" style="max-width:100%">
-    <figcaption><strong>Fig. 5a.</strong> Channel at $-0.065$ eV (HOMO-like), zoomed to the molecule region.</figcaption>
+    <figcaption><strong>Fig. 5a.</strong> $-0.065$ eV (HOMO-like)에서의 채널, 분자 영역으로 확대.</figcaption>
   </figure>
   <figure>
     <img src="figures/eigenchannel-lumo.png" alt="eigenchannel isosurface at +0.175 eV" style="max-width:100%">
-    <figcaption><strong>Fig. 5b.</strong> Channel at $+0.175$ eV (a higher molecular resonance,
-      MO87/88 well above the $E_F$-pinned frontier — not the LUMO), zoomed to the molecule region.</figcaption>
+    <figcaption><strong>Fig. 5b.</strong> $+0.175$ eV에서의 채널 (더 높은 분자 공명,
+      MO87/88 — $E_F$-pinned frontier보다 훨씬 위, LUMO 아님), 분자 영역으로 확대.</figcaption>
   </figure>
-  <p class="page-meta">Note: the $+0.175$ eV level is a higher unoccupied molecular resonance (isolated
-     MO87/88 at $+0.154$/$+0.156$ eV), well above the $E_F$-pinned frontier manifold,
-     <strong>not the LUMO</strong> — the true HOMO/LUMO (MO83/84) are
-     near-degenerate and pinned at $E_F$ (HOMO $-0.020$, LUMO $+0.003$ eV), which is why conduction
-     is concentrated there. Each cube is ~45 MB
-     (<code>N25_k100/0bias/eigenchannel/</code>) — shown here as the rendered isosurface, not embedded raw.</p>
+  <p class="page-meta">참고: $+0.175$ eV 준위는 더 높은 비점유 분자 공명(고립 분자 MO87/88,
+     $+0.154$/$+0.156$ eV)으로 $E_F$에 고정된 frontier manifold보다 훨씬 위이고 <strong>LUMO가 아니다</strong> — 실제 HOMO/LUMO (MO83/84)는
+     준축퇴이며 $E_F$에 고정(HOMO $-0.020$, LUMO $+0.003$ eV)되어 있어, 전도가 그곳에 집중된다.
+     각 cube는 ~45 MB (<code>N25_k100/0bias/eigenchannel/</code>) — 여기서는 raw를 임베드하지 않고
+     렌더된 등가면으로 표시.</p>
 
-  <h3>D. I–V from the zero-bias approximation</h3>
-  <p>Integrating the zero-bias $T(E)$ over a <strong>symmetric</strong> bias window
-     ($\mu_{L,R}=\pm eV/2$, Landauer), without recomputing $T(E)$ at finite bias, gives the I–V
-     ($\approx\pm5.9$ μA at $\pm0.5$ V). With a symmetric window it is odd, $I(-V)=-I(V)$
-     (symmetric junction → no rectification at this level).</p>
+  <h3>D. Zero-bias 근사에서의 I–V</h3>
+  <p>Finite bias에서 $T(E)$를 다시 계산하지 않고, zero-bias $T(E)$를 <strong>대칭</strong> bias window
+     ($\mu_{L,R}=\pm eV/2$, Landauer)에 걸쳐 적분하면 I–V가 나온다 ($\pm0.5$ V에서 $\approx\pm5.9$ μA).
+     대칭 window에서는 홀함수 $I(-V)=-I(V)$ (대칭 접합 → 이 수준에서 정류 없음).</p>
   <figure>
     <img src="figures/iv-biaswindow.png" alt="Bias-window integration over T(E)">
-    <figcaption><strong>Fig. 6a.</strong> Bias windows ($|V|=0.1$–$0.5$ V) over $T(E)$, symmetric
-      about $E_F$ ($\mu_{L,R}=\pm eV/2$) — the integration ranges that give each current.</figcaption>
+    <figcaption><strong>Fig. 6a.</strong> $T(E)$ 위의 bias window ($|V|=0.1$–$0.5$ V), $E_F$ 중심 대칭
+      ($\mu_{L,R}=\pm eV/2$) — 각 전류를 주는 적분 구간.</figcaption>
   </figure>
   <figure>
     <img src="figures/iv-zerobias.png" alt="Zero-bias-approximation I-V">
-    <figcaption><strong>Fig. 6b.</strong> Landauer I–V (zero-bias $T(E)$).</figcaption>
+    <figcaption><strong>Fig. 6b.</strong> Zero-bias 근사 I–V.</figcaption>
   </figure>
 
-  <h2>Discussion</h2>
-  <p>Conduction is resonant because the uncorrected (vdW-DF2) molecular resonance sits on $E_F$.
-     The B3LYP DFT+Σ correction resolves this question: the resonance moves off $E_F$ and
-     $T(E_F)$ drops to 0.0032 — see
-     <a href="../level-correction/index.html">08. Level correction</a>.</p>
+  <h2>논의</h2>
+  <p>PBE/vdW-DF 분자 공명이 $E_F$에 놓이므로 전도가 공명(resonant)이다. 보정된 gap 하에서도
+     공명으로 남는지가 <a href="../../methods/index.html">B3LYP 준위 보정</a>을 이끄는
+     미해결 질문이다 (Results: level correction 참조).</p>
 </article>
 <nav class="subpages"></nav>
 </main>

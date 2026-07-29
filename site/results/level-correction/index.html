@@ -2,7 +2,7 @@
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="order" content="80">
-<title>Level correction (DFT+Σ) & length convergence — 101-vse3-hf2se9</title>
+<title>준위 보정 (DFT+Σ) & 길이 수렴 — 101-vse3-hf2se9</title>
 <link rel="stylesheet" href="../../assets/site.css">
 <link rel="stylesheet" href="../../assets/katex/katex.min.css">
 <script defer src="../../assets/katex/katex.min.js"></script>
@@ -15,29 +15,29 @@
 <aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
 <main>
 <article>
-  <h1>08. Molecular-level correction (DFT+Σ) and length convergence</h1>
-  <p class="page-meta"><strong>2026-06-26 · current frontier</strong> · A longer scattering region
-    confirms the result; B3LYP orbital shifts computed as the input to the DFT+Σ level correction</p>
+  <h1>08. 분자 준위 보정 (DFT+Σ)과 길이 수렴</h1>
+  <p class="page-meta"><strong>2026-06-26 · 현재 최전선</strong> · 더 긴 scattering region이
+    결과를 확인; DFT+Σ 준위 보정의 입력으로 B3LYP 오비탈 shift 계산</p>
 
-  <h2>Goal</h2>
-  <p>Two things before the level-corrected transport: (1) confirm the conductance is converged once
-     the <strong>scattering region</strong> (the central device between the two semi-infinite VSe₃
-     electrodes) is made longer, and (2) compute the B3LYP→vdW-DF2 molecular-orbital energy shifts
-     $\Delta_i$ that feed the DFT+Σ correction.</p>
+  <h2>목표</h2>
+  <p>준위 보정된 transport에 앞서 두 가지: (1) <strong>scattering region</strong>
+     (두 반무한 VSe₃ 전극 사이의 중심 소자)을 더 길게 만들었을 때 conductance가 수렴함을 확인하고,
+     (2) DFT+Σ 보정에 들어갈 B3LYP→vdW-DF2 분자 오비탈 에너지 shift
+     $\Delta_i$를 계산한다.</p>
 
-  <h2>A. Scattering-region length convergence</h2>
-  <p>The 60° heterojunction was relaxed and its transport recomputed with the scattering region
-     extended from <strong>3 to 9 VSe₃ unit cells per electrode</strong> (cell-fixed relaxation,
-     vdW-DF2; transport at electrode k-point grid 100, η = 0.005 eV). Geometry, molecular PDOS, and
-     transmission all converge.</p>
+  <h2>A. Scattering-region 길이 수렴</h2>
+  <p>60° 헤테로접합을 relax하고, scattering region을 <strong>전극당 VSe₃ 3에서 9 unit cells</strong>로
+     확장하며 transport를 재계산했다 (cell-fixed relaxation,
+     vdW-DF2; transport는 전극 k-point grid 100, η = 0.005 eV). 기하 구조, 분자 PDOS,
+     transmission이 모두 수렴한다.</p>
 
-  <h3>Relaxation — interface geometry converges by 7 unit cells</h3>
-  <p>The interface bond lengths and the molecule–chain gap stop changing by 7 cells: the
-     molecule–chain (Se···VSe₃) gap moves 50 → 8 → 1 mÅ and is stable at 9.</p>
-  <p>Interactive — the relaxed 9-unit-cell junction (semi-infinite VSe₃ electrode → H-terminated
-     Hf₂Se₉ bridge → VSe₃; 92 atoms, $L_z$ = 69.9 Å; drag to rotate, scroll to zoom). Relaxed
-     coordinates (vdW-DF2, cell-fixed) from
-     <code>10-hetero-h-term-v3-relax/01_relax/rot_060_tight_9uc</code>.</p>
+  <h3>Relaxation — 계면 기하 구조는 7 unit cells에서 수렴</h3>
+  <p>계면 결합 길이와 분자–사슬 gap은 7 cells에서 변화를 멈춘다: 분자–사슬 (Se···VSe₃)
+     gap은 50 → 8 → 1 mÅ로 움직이고 9에서 안정된다.</p>
+  <p>인터랙티브 — relax된 9-unit-cell 접합 (반무한 VSe₃ 전극 → H 종단
+     Hf₂Se₉ bridge → VSe₃; 92 atoms, $L_z$ = 69.9 Å; 드래그로 회전, 스크롤로 확대/축소). Relax된
+     좌표 (vdW-DF2, cell-fixed)는
+     <code>10-hetero-h-term-v3-relax/01_relax/rot_060_tight_9uc</code>에서.</p>
 <div id="sr9view" style="position:relative;width:100%;height:380px;border:1px solid var(--border);border-radius:6px;background:#fff"></div>
 <script type="text/plain" id="sr9view-xyz">
 92
@@ -152,7 +152,7 @@ V 12.4971 12.5029 68.3316
 })();
 </script>
   <table>
-    <thead><tr><th>VSe₃ unit cells / electrode</th><th>Hf–Se (Å)</th><th>H–Se (Å)</th><th>Se···VSe₃ gap (Å)</th></tr></thead>
+    <thead><tr><th>전극당 VSe₃ unit cells</th><th>Hf–Se (Å)</th><th>H–Se (Å)</th><th>Se···VSe₃ gap (Å)</th></tr></thead>
     <tbody>
       <tr><td>3</td><td>2.620</td><td>1.516</td><td>3.633</td></tr>
       <tr><td>5</td><td>2.619</td><td>1.515</td><td>3.583</td></tr>
@@ -162,87 +162,82 @@ V 12.4971 12.5029 68.3316
   </table>
   <figure>
     <img src="figures/sr_bond_vs_uc.png" alt="structural metrics vs scattering-region length" style="max-width:460px">
-    <figcaption><strong>Fig. 1.</strong> Interface structural metrics vs scattering-region length —
-      flat from 7 to 9 unit cells. (Relaxed structures in <code>10-hetero-h-term-v3-relax/01_relax</code>.)</figcaption>
+    <figcaption><strong>Fig. 1.</strong> scattering-region 길이에 대한 계면 구조 지표 —
+      7에서 9 unit cells까지 평탄. (relax된 구조는 <code>10-hetero-h-term-v3-relax/01_relax</code>에.)</figcaption>
   </figure>
 
-  <h3>Molecular PDOS is length-independent</h3>
-  <p>The molecular Hf₂Se₉ PDOS is nearly identical across 3 / 5 / 7 / 9 unit cells — the peak
-     positions do not move, confirming length-independent molecular levels.</p>
+  <h3>분자 PDOS는 길이에 무관</h3>
+  <p>분자 Hf₂Se₉ PDOS는 3 / 5 / 7 / 9 unit cells에 걸쳐 거의 동일하다 — peak
+     위치가 움직이지 않아 분자 준위가 길이에 무관함을 확인한다.</p>
   <figure>
     <img src="figures/sr_pdos_compare.png" alt="molecular PDOS across 3/5/7/9 unit cells" style="max-width:460px">
-    <figcaption><strong>Fig. 2.</strong> Molecular PDOS overlaid for 3 / 5 / 7 / 9 unit cells per
-      electrode — peak positions unchanged.</figcaption>
+    <figcaption><strong>Fig. 2.</strong> 전극당 3 / 5 / 7 / 9 unit cells에 대해 겹쳐 그린 분자 PDOS —
+      peak 위치 불변.</figcaption>
   </figure>
 
-  <h3>Transmission is converged</h3>
-  <p>The Fermi-level transmission is unchanged — $T(E_F) = \mathbf{0.348}$ for 9 cells vs 0.354 for
-     3 — with a single dominant eigenchannel; the Landauer I–V (zero-bias $T(E)$) shows no negative
-     differential conductance (resonant tunnelling).</p>
+  <h3>Transmission이 수렴함</h3>
+  <p>Fermi-level transmission은 변하지 않는다 — 9 cells일 때 $T(E_F) = \mathbf{0.348}$, 3일 때 0.354 —
+     단일 지배 eigenchannel을 가지며, Landauer I–V (zero-bias $T(E)$)는 음의
+     differential conductance를 보이지 않는다 (공명 터널링, resonant tunnelling).</p>
   <table>
-    <thead><tr><th>VSe₃ unit cells / electrode</th><th>$T(E_F)$ (η = 0.005 eV)</th><th>transmission eigenchannel</th></tr></thead>
+    <thead><tr><th>전극당 VSe₃ unit cells</th><th>$T(E_F)$ (η = 0.005 eV)</th><th>전달 eigenchannel</th></tr></thead>
     <tbody>
       <tr><td>3</td><td>0.354</td><td>—</td></tr>
-      <tr><td>9</td><td><strong>0.348</strong></td><td>single dominant channel</td></tr>
+      <tr><td>9</td><td><strong>0.348</strong></td><td>$\tau_0 = 0.989$ (단일 채널)</td></tr>
     </tbody>
   </table>
 
-  <h3>Eigenchannel vs energy — resonant tunnelling</h3>
-  <p>Real-space $|\psi|^2$ isosurface of the transmission eigenchannel at four energies. At $E_F$ the
-     channel is <strong>delocalised across the molecule</strong> (on-resonance); moving away in energy
-     it becomes <strong>localised / decays at the molecule</strong> (off-resonance) — the signature of
-     resonant tunnelling through the molecular level.</p>
+  <h3>Eigenchannel vs 에너지 — 공명 터널링</h3>
+  <p>네 가지 에너지에서 전달 eigenchannel의 실공간 $|\psi|^2$ 등가면(isosurface). $E_F$에서
+     채널은 <strong>분자 전체에 걸쳐 비편재(delocalised)</strong>되어 있고 (on-resonance),
+     에너지에서 멀어지면 <strong>분자에서 국소화(localised)/감쇠</strong>한다 (off-resonance) —
+     분자 준위를 통한 공명 터널링의 특징이다.</p>
   <figure>
     <div style="display:flex;flex-direction:column;gap:.8rem">
-      <div><div class="page-meta" style="margin:0 0 .15rem">$E_F$ — delocalised (on-resonance)</div>
+      <div><div class="page-meta" style="margin:0 0 .15rem">$E_F$ — 비편재 (on-resonance)</div>
         <img src="figures/n25_9uc_ec_EF.png" alt="eigenchannel at E_F" style="max-width:100%"></div>
       <div><div class="page-meta" style="margin:0 0 .15rem">+0.10 eV</div>
         <img src="figures/n25_9uc_ec_0.10.png" alt="eigenchannel at 0.10 eV" style="max-width:100%"></div>
       <div><div class="page-meta" style="margin:0 0 .15rem">+0.19 eV</div>
         <img src="figures/n25_9uc_ec_0.19.png" alt="eigenchannel at 0.19 eV" style="max-width:100%"></div>
-      <div><div class="page-meta" style="margin:0 0 .15rem">+0.30 eV — localised (off-resonance)</div>
+      <div><div class="page-meta" style="margin:0 0 .15rem">+0.30 eV — 국소화 (off-resonance)</div>
         <img src="figures/n25_9uc_ec_0.30.png" alt="eigenchannel at 0.30 eV" style="max-width:100%"></div>
     </div>
-    <figcaption><strong>Fig. 3.</strong> Transmitting eigenchannel $|\psi|^2$ at $E_F$ → +0.30 eV:
-      delocalised through the molecule on-resonance, localised off-resonance.</figcaption>
+    <figcaption><strong>Fig. 3.</strong> $E_F$ → +0.30 eV에서의 전달 eigenchannel $|\psi|^2$:
+      on-resonance에서는 분자를 통해 비편재, off-resonance에서는 국소화.</figcaption>
   </figure>
   <figure>
     <img src="figures/n25_9uc_iv.png" alt="Landauer I-V (zero-bias T(E))" style="max-width:420px">
-    <figcaption><strong>Fig. 4.</strong> Landauer I–V (zero-bias $T(E)$) (9-unit-cell device) — resonant
-      tunnelling, no negative differential conductance.</figcaption>
+    <figcaption><strong>Fig. 4.</strong> Landauer I–V (zero-bias $T(E)$) (9-unit-cell 소자) — 공명
+      터널링, 음의 differential conductance 없음.</figcaption>
   </figure>
 
-  <h2>B. B3LYP molecular-level correction (DFT+Σ) — inputs</h2>
-  <p>vdW-DF2, a non-hybrid functional, underestimates the isolated molecule's HOMO–LUMO gap, so the
-     transmission resonance sits too close to $E_F$. The correction is a <strong>DFT+Σ</strong>
-     (DFT plus a self-energy $\Sigma$) level alignment: each molecular orbital $i$ is rigidly shifted
-     by $\Delta_i$ — the gap-opening shift from the transport functional to an accurate hybrid — and
-     the shift is added to the device Hamiltonian as</p>
+  <h2>B. B3LYP 분자 준위 보정 (DFT+Σ) — 입력</h2>
+  <p>비-하이브리드 functional인 vdW-DF2는 고립분자 HOMO–LUMO gap을 과소평가하므로 transmission
+     공명이 $E_F$에 너무 가깝게 놓인다. 보정은 <strong>DFT+Σ</strong>(DFT + 자체에너지 $\Sigma$)
+     준위 정렬이다: 각 분자 오비탈 $i$를 $\Delta_i$(transport functional → 정확한 하이브리드로의
+     gap 개방 shift)만큼 강체 이동시켜 소자 Hamiltonian에 다음과 같이 더한다</p>
   <p style="text-align:center">$\displaystyle \Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^{\dagger}\,S,$</p>
-  <p>with $S$ the overlap and $C$ the <strong>isolated-molecule</strong> MO coefficients. The
-     H-terminated Hf₂Se₉ is a discrete unit that meets each VSe₃ electrode through a weak,
-     van-der-Waals-range contact (Se···chain ≈ 3.6 Å), so its isolated-molecule orbitals are a clean,
-     well-defined projector basis (the in-device MPSH projector is built in parallel as a cross-check;
-     construction detail in <a href="../../methods/dft-sigma/index.html">Methods: DFT+Σ</a>). The device
-     transport uses vdW-DF2 throughout, so the corrected levels stay referenced to the same functional.
-     The target shifts $\Delta_i$ come from the molecular-orbital energies in an accurate hybrid (B3LYP)
-     versus the transport functional (vdW-DF2); because B3LYP is available only in VASP and vdW-DF2 only
-     in SIESTA, combining them into a physical $\Delta_i$ is the crux — worked out in Section C.</p>
+  <p>$S$는 overlap, $C$는 <strong>고립분자</strong> MO 계수다. H-종단된 Hf₂Se₉는 독립된 단위체이고
+     각 VSe₃ 전극과 약한 반데르발스 거리(Se···chain ≈ 3.6 Å)로 접촉하므로, 고립분자 오비탈이 깨끗한
+     projector 기저가 된다(in-device MPSH projector는 교차 확인으로 병행 구성;
+     <a href="../../methods/dft-sigma/index.html">Methods · DFT+Σ</a> 참조). 소자 transport는 vdW-DF2로
+     통일돼 있어 보정 준위가 같은 functional 기준을 유지한다. 목표 shift $\Delta_i$는 정확한
+     하이브리드(B3LYP)와 transport functional(vdW-DF2)의 분자 오비탈 에너지 차로 정해지는데, B3LYP는
+     VASP에만·vdW-DF2는 SIESTA에만 있어 이를 물리적 $\Delta_i$로 합치는 것이 핵심 — Section C에서 다룬다.</p>
   <figure>
     <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center">
       <span><img src="figures/b3lyp_levels_all.png" alt="level alignment" style="max-width:300px"></span>
       <span><img src="figures/b3lyp_delta.png" alt="per-orbital shift" style="max-width:360px"></span>
     </div>
-    <figcaption><strong>Fig. 5.</strong> (a) Vacuum-aligned levels, both codes — solid = occupied,
-      dashed = virtual; (b) the naive per-orbital difference taken <em>directly</em> across codes,
-      $\varepsilon^{\text{B3LYP}}-\varepsilon^{\text{vdW-DF2}}$. This direct subtraction is the
-      first-pass input; Section C shows why it is unphysical and gives the corrected shift.</figcaption>
+    <figcaption><strong>Fig. 5.</strong> (a) 두 코드의 진공 정렬 준위 — 실선 = occupied, 점선 = virtual;
+      (b) 코드 간 <em>직접</em> 차 $\varepsilon^{\text{B3LYP}}-\varepsilon^{\text{vdW-DF2}}$. 이 직접
+      뺄셈이 1차 입력이며, 왜 비물리적인지와 보정된 shift는 Section C 참조.</figcaption>
   </figure>
-  <p>Full set of levels (vacuum-aligned, $E - V_\text{vac}$, eV; <code>mo_delta_orbital.csv</code>).
-     The last column is the <em>direct</em> cross-code difference — the naive first-pass input,
-     superseded by the same-code construction in Section C:</p>
+  <p>전체 준위 (진공 정렬, $E - V_\text{vac}$, eV; <code>mo_delta_orbital.csv</code>). 마지막 열은
+     코드 간 <em>직접</em> 차 — 1차 입력이며 Section C의 same-code 구성으로 대체된다:</p>
   <table>
-    <thead><tr><th>Orbital</th><th>vdW-DF2 (SIESTA)</th><th>B3LYP (VASP)</th><th>Δ = B3LYP − vdW-DF2</th></tr></thead>
+    <thead><tr><th>오비탈</th><th>vdW-DF2 (SIESTA)</th><th>B3LYP (VASP)</th><th>Δ = B3LYP − vdW-DF2</th></tr></thead>
     <tbody>
       <tr><td>LUMO+4</td><td>−5.40</td><td>−5.49</td><td>−0.09</td></tr>
       <tr><td>LUMO+3</td><td>−5.40</td><td>−5.68</td><td>−0.27</td></tr>
@@ -258,38 +253,33 @@ V 12.4971 12.5029 68.3316
       <tr><td>HOMO−6</td><td>−6.75</td><td>−7.85</td><td>−1.10</td></tr>
     </tbody>
   </table>
-  <p class="page-meta">LUMO+5 is excluded — its B3LYP energy (−2.27 eV) sits ~3.5 eV above the other
-    virtual levels: high virtual orbitals are basis-dependent (SIESTA numerical atomic orbitals vs
-    VASP PAW), so the two codes' orbitals stop matching there. It is outside the transport window and
-    is not used in the correction.</p>
+  <p class="page-meta">LUMO+5는 제외 — 그 B3LYP 에너지 (−2.27 eV)가 다른
+    비점유 준위보다 ~3.5 eV 위에 있다: 높은 비점유 오비탈은 basis 의존적이라 (SIESTA numerical atomic orbitals vs
+    VASP PAW) 그 지점부터 두 코드의 오비탈이 더 이상 일치하지 않는다. transport window 밖이며
+    보정에 쓰이지 않는다.</p>
 
-  <h2>C. DFT+Σ molecular-level correction</h2>
-  <p>The molecular frontier levels are shifted by a scissor operator applied only to the Hf₂Se₉
-     block, non-self-consistently at the TBtrans stage
-     ($\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$; see
-     <a href="../../methods/dft-sigma/index.html">Methods · DFT+Σ</a>). The shift
-     $\Delta_i=\varepsilon_i^{\text{B3LYP}}-\varepsilon_i^{\text{vdW-DF2}}$ is where the
-     difficulty lies — B3LYP is only available in VASP, vdW-DF2 in SIESTA.</p>
+  <h2>C. DFT+Σ 분자준위 보정</h2>
+  <p>분자 frontier 준위를 Hf₂Se₉ 블록에만 scissor로 이동시킨다(비-self-consistent, TBtrans
+     단계; $\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$,
+     <a href="../../methods/dft-sigma/index.html">Methods · DFT+Σ</a> 참조). 이동값
+     $\Delta_i=\varepsilon_i^{\text{B3LYP}}-\varepsilon_i^{\text{vdW-DF2}}$가 문제의 핵심 —
+     B3LYP는 VASP에만, vdW-DF2는 SIESTA에만 있다.</p>
 
-  <h3>1. First attempt (v1) — and why it was wrong</h3>
-  <p>v1 built $\Delta_i$ by subtracting the two codes directly, aligned by vacuum level, and
-     reported device $T(E_F)$ 0.355→0.051 with a "frontier gap 0.18 eV". These were the meeting
-     figures:</p>
-  <figure>
+  <h3>1. 기존 시도 (v1) — 그리고 왜 틀렸나</h3>
+  <p>v1은 두 코드를 vacuum 정렬로 직접 빼서 $\Delta_i$를 만들었고, device $T(E_F)$ 0.355→0.051,
+     "frontier 갭 0.18 eV"로 보고했다. 미팅에서 보고한 그림이다:</p>
   <table width="100%"><tr>
     <td width="50%" align="center"><img src="figures/v1_pdos_compare_zoom.png" style="max-width:100%"></td>
     <td width="50%" align="center"><img src="figures/v1_te_dH_compare.png" style="max-width:100%"></td>
   </tr></table>
-  <figcaption style="text-align:center"><strong>Fig. C1 (v1, superseded).</strong> Molecular PDOS (left) and $T(E)$ (right): vdW-DF2 vs v1 DFT+Σ. The corrected molecular peaks still sit within ±0.2 eV of $E_F$ — that leftover splitting is the "0.18 eV".</figcaption>
-  </figure>
+  <figcaption style="text-align:center"><strong>Fig. C1 (v1, 폐기).</strong> 분자 PDOS(좌)와 $T(E)$(우): vdW-DF2 vs v1 DFT+Σ. 보정된 분자 peak이 여전히 $E_F$ ±0.2 eV 안에 있고, 그 남은 간격이 "0.18 eV"다.</figcaption>
 
-  <p><strong>Why it is wrong.</strong> The two codes carry a ~0.71 eV rigid offset that vacuum
-     alignment does not remove (a same-PBE test gives +0.71 eV uniformly across all orbitals; even
-     the explicit valence-electron count differs, SIESTA 168 vs VASP 74). The offset pushes every
-     B3LYP level down, so at the vdW-DF2 frontier energy (−5.55, ≈$E_F$) the B3LYP level that lands
-     there is <strong>not</strong> the HOMO (−6.59, far below) but the virtual LUMO+3/LUMO+4:</p>
+  <p><strong>왜 틀렸나.</strong> 두 코드는 vacuum 정렬로 안 지워지는 ~0.71 eV rigid offset이 있다
+     (같은 PBE 검증: 전 궤도 +0.71 균일; 명시 valence 전자 수부터 SIESTA 168 vs VASP 74로 다름).
+     이 offset이 B3LYP 준위 전체를 아래로 밀어, vdW-DF2 frontier 에너지(−5.55, ≈$E_F$)에 오는
+     B3LYP 준위는 HOMO(−6.59, 한참 아래)가 <strong>아니라</strong> 비점유 LUMO+3/LUMO+4다:</p>
   <table>
-    <thead><tr><th>orbital</th><th>vdW-DF2 ($E-V_{vac}$)</th><th>B3LYP ($E-V_{vac}$)</th><th>Δ</th></tr></thead>
+    <thead><tr><th>오비탈</th><th>vdW-DF2 ($E-V_{vac}$)</th><th>B3LYP ($E-V_{vac}$)</th><th>Δ</th></tr></thead>
     <tbody>
       <tr><td>LUMO+4</td><td>−5.342</td><td><strong>−5.494</strong></td><td>−0.151</td></tr>
       <tr><td>LUMO+3</td><td>−5.396</td><td><strong>−5.679</strong></td><td>−0.282</td></tr>
@@ -300,90 +290,84 @@ V 12.4971 12.5029 68.3316
     </tbody>
   </table>
   <figure>
-    <img src="figures/v2_alignment_projection.png" alt="vdW-DF2 to B3LYP level alignment" style="max-width:360px">
-    <figcaption><strong>Fig. C2.</strong> vdW-DF2 (teal) vs B3LYP (red) levels, vacuum-aligned. The vdW-DF2 HOMO/LUMO (≈$E_F$, dotted line) maps onto B3LYP's virtual LUMO+3/LUMO+4; the B3LYP HOMO is far below at −6.59 eV.</figcaption>
+    <img src="figures/v2_alignment_projection.png" alt="vdW-DF2 → B3LYP 준위 정렬" style="max-width:360px">
+    <figcaption><strong>Fig. C2.</strong> vdW-DF2(teal) vs B3LYP(빨강) 준위, vacuum 정렬. vdW-DF2 HOMO/LUMO(≈$E_F$, 점선)가 B3LYP 비점유 LUMO+3/LUMO+4에 매칭; B3LYP HOMO는 −6.59 eV로 한참 아래.</figcaption>
   </figure>
-  <p>The two B3LYP levels straddling $E_F$ are LUMO+4 (−5.494) and LUMO+3 (−5.679), spacing
-     <strong>0.185 eV — exactly the v1 "0.18"</strong>. So the v1 "gap" was never a HOMO–LUMO gap;
-     it was two mis-aligned <em>virtual</em> levels dragged onto $E_F$. The true isolated-molecule
-     gap is 0.75 eV. This is the direct disproof of the v1 result.</p>
+  <p>$E_F$를 사이에 두는 B3LYP 준위 쌍은 LUMO+4(−5.494)와 LUMO+3(−5.679), 간격
+     <strong>0.185 eV — 바로 v1의 "0.18"</strong>이다. 즉 v1의 "갭"은 HOMO–LUMO 갭이 아니라 $E_F$
+     자리로 잘못 온 두 <em>비점유</em> 준위의 간격이었다. 진짜 고립분자 갭은 0.75 eV. 이것이 v1
+     결과에 대한 직접 반박이다.</p>
 
-  <h3>2. Fix (v2) — subtract within each code (common PBE reference)</h3>
-  <p>Subtract only within each code, inserting a common PBE reference so the code offset cancels
-     inside each bracket (one extra SIESTA-PBE single point supplies the second bracket):</p>
+  <h3>2. 수정 (v2) — 각 코드 안에서만 뺌 (공통 PBE 기준)</h3>
+  <p>공통 PBE 기준을 끼워 각 코드 안에서만 빼면 코드 offset이 각 항에서 상쇄된다(둘째 항 위해
+     SIESTA-PBE single point 하나 추가):</p>
   <p style="text-align:center">$\displaystyle \Delta_i^{v2}=[\varepsilon^{\text{B3LYP}}-\varepsilon^{\text{PBE}}]_{\text{VASP}}+[\varepsilon^{\text{PBE}}-\varepsilon^{\text{vdW-DF2}}]_{\text{SIESTA}}$</p>
-  <p>The signs become physical — occupied levels shift down, virtual levels up — and the
-     isolated-molecule HOMO–LUMO gap opens to 0.75 eV. Applied to the 9-cell device, the v2 correction suppresses $T(E_F)$ from 0.348 (uncorrected) to <strong>0.0032</strong>.</p>
+  <p>부호가 물리적으로 맞아진다 — 점유 준위는 아래로, 비점유는 위로 — 고립분자 HOMO–LUMO 갭이
+     0.75 eV로 열린다.</p>
   <figure>
-    <img src="figures/v2_poster_levels.png" alt="level diagram vdW-DF2 to DFT+Sigma v2" style="max-width:360px">
-    <figcaption><strong>Fig. C3.</strong> Molecular levels, vacuum-aligned: vdW-DF2 → DFT+Σ(v2). Occupied levels shift down, virtual up; the HOMO–LUMO gap opens to 0.75 eV.</figcaption>
+    <img src="figures/v2_poster_levels.png" alt="준위도 vdW-DF2 → DFT+Σ v2" style="max-width:360px">
+    <figcaption><strong>Fig. C3.</strong> 분자 준위(vacuum 정렬): vdW-DF2 → DFT+Σ(v2). 점유는 아래로·비점유는 위로, HOMO–LUMO 갭 0.75 eV 개방.</figcaption>
   </figure>
   <figure>
-    <img src="figures/v2_delta_v2_bars.png" alt="per-orbital shift v1 vs v2" style="max-width:520px">
-    <figcaption><strong>Fig. C3b.</strong> Per-orbital $\Delta_i$: v1 (grey, cross-code — virtual sign wrong) vs v2 (blue occupied ↓ / red virtual ↑). Only the same-code $\Delta_i$ satisfies the occ↓/virt↑ rule.</figcaption>
+    <img src="figures/v2_delta_v2_bars.png" alt="MO별 shift v1 vs v2" style="max-width:520px">
+    <figcaption><strong>Fig. C3b.</strong> MO별 $\Delta_i$: v1(회색, 교차코드 — 비점유 부호 오류) vs v2(파랑 점유↓ / 빨강 비점유↑). same-code $\Delta_i$만 occ↓/virt↑ 규약을 만족한다.</figcaption>
   </figure>
   <figure>
-    <img src="figures/v2_te_beforeafter.png" alt="T(E) before/after DFT+Sigma v2" style="max-width:420px">
-    <figcaption><strong>Fig. C3c.</strong> $T(E)$ before (vdW-DF2) vs after (DFT+Σ v2). The correction suppresses $T$ near $E_F$ as the molecular resonance moves off $E_F$.</figcaption>
+    <img src="figures/v2_te_beforeafter.png" alt="T(E) 보정 전/후 DFT+Σ v2" style="max-width:420px">
+    <figcaption><strong>Fig. C3c.</strong> $T(E)$ 보정 전(vdW-DF2) vs 후(DFT+Σ v2). 보정으로 분자 공명이 $E_F$에서 벗어나 $E_F$ 근처 $T$가 억제된다.</figcaption>
   </figure>
-  <figure>
   <table width="100%"><tr>
     <td width="50%" align="center"><img src="figures/v2_te_mol_uncorr_zoom.png" style="max-width:100%"></td>
     <td width="50%" align="center"><img src="figures/v2_te_mol_corr_zoom.png" style="max-width:100%"></td>
   </tr></table>
-  <figcaption style="text-align:center"><strong>Fig. C4.</strong> $T(E)$ + molecular PDOS ($E_F\pm0.5$ eV): vdW-DF2 (left) vs DFT+Σ v2 (right). The molecular resonance moves off $E_F$ on both sides.</figcaption>
-  </figure>
+  <figcaption style="text-align:center"><strong>Fig. C4.</strong> $T(E)$ + 분자 PDOS ($E_F\pm0.5$ eV): vdW-DF2(좌) vs DFT+Σ v2(우). 분자 공명이 $E_F$ 양쪽으로 벗어난다.</figcaption>
 
-  <h3>3. Corrected eigenchannel (v2) — the HOMO carries the current</h3>
-  <p>Transmission eigenchannel $|\psi|^2$ of the v2-corrected junction, evaluated at the molecular
-     frontier levels (mol PDOS peaks nearest $E_F$: HOMO $-0.325$, LUMO $+0.355$ eV) and at $E_F$
-     (η = 10⁻⁴). Isosurfaces along the wire (transport axis horizontal):</p>
+  <h3>3. 보정된 eigenchannel (v2) — HOMO가 전류를 나른다</h3>
+  <p>v2 보정 접합의 전달 eigenchannel $|\psi|^2$을 분자 frontier 준위(mol PDOS의 $E_F$ 최근접 피크:
+     HOMO $-0.325$, LUMO $+0.355$ eV)와 $E_F$에서 계산(η = 10⁻⁴). wire 축(transport)을 가로로 둔 isosurface:</p>
   <figure>
     <img src="figures/n25_9uc_ec_v2_homo.png" alt="v2 eigenchannel HOMO" style="max-width:100%">
-    <figcaption><strong>Fig. C5a.</strong> HOMO ($-0.325$ eV): the weight localizes on the molecule and a single dominant channel carries essentially all the current → a genuine molecular conduction channel.</figcaption>
+    <figcaption><strong>Fig. C5a.</strong> HOMO ($-0.325$ eV): 세기가 분자에 국재하고 단일 지배 채널이 전류의 대부분을 나른다 → 진짜 분자 전도 채널.</figcaption>
   </figure>
   <figure>
     <img src="figures/n25_9uc_ec_v2_ef.png" alt="v2 eigenchannel E_F" style="max-width:100%">
-    <figcaption><strong>Fig. C5b.</strong> $E_F$ (0): weight sits on the left wire only and is blocked at the molecule — the eigenchannel signature of the opened gap.</figcaption>
+    <figcaption><strong>Fig. C5b.</strong> $E_F$ (0): 세기가 왼쪽 wire에만 있고 분자에서 막힘 — 열린 gap의 eigenchannel 증거.</figcaption>
   </figure>
   <figure>
     <img src="figures/n25_9uc_ec_v2_lumo.png" alt="v2 eigenchannel LUMO" style="max-width:100%">
-    <figcaption><strong>Fig. C5c.</strong> LUMO ($+0.355$ eV): electrode-like — negligible transmission.</figcaption>
+    <figcaption><strong>Fig. C5c.</strong> LUMO ($+0.355$ eV): 전극 형태 — 전달 무시할 수준.</figcaption>
   </figure>
   <figure>
-    <img src="figures/n25_9uc_ec_v2_zprofile.png" alt="psi2 z-profile HOMO/EF/LUMO" style="max-width:440px">
-    <figcaption><strong>Fig. C6.</strong> $|\psi|^2$ (=Re²+Im²) integrated over $xy$ along the wire (log scale, from $z=60$ Å; grey band = molecule). HOMO (red) peaks on the molecule ($z\approx85$ Å) and decays least into the right electrode (tail $\sim10^{-2}$) — the conduction channel; $E_F$ (black) and LUMO (blue) fall off fast ($10^{-4}$–$10^{-5}$).</figcaption>
+    <img src="figures/n25_9uc_ec_v2_zprofile.png" alt="psi2 z-profile" style="max-width:440px">
+    <figcaption><strong>Fig. C6.</strong> $|\psi|^2$ (=Re²+Im²)를 $xy$로 적분해 wire 축을 따라(로그 스케일, $z=60$ Å부터; 회색 band = 분자). HOMO(빨강)는 분자($z\approx85$ Å)에서 peak이고 오른쪽 전극으로 감쇠가 가장 적다(tail $\sim10^{-2}$) — 전도 채널; $E_F$(검정)·LUMO(파랑)는 빠르게 감쇠($10^{-4}$–$10^{-5}$).</figcaption>
   </figure>
   <table width="100%">
-    <thead><tr><th>energy (E$-$E$_F$)</th><th>eigenchannel character</th></tr></thead>
+    <thead><tr><th>에너지 (E$-$E$_F$)</th><th>eigenchannel 특성</th></tr></thead>
     <tbody>
-      <tr><td>HOMO ($-0.325$)</td><td>single dominant channel localized on the molecule — the conduction channel</td></tr>
-      <tr><td>$E_F$ (0)</td><td>blocked at the molecule (gap open)</td></tr>
-      <tr><td>LUMO ($+0.355$)</td><td>electrode-like — negligible transmission</td></tr>
+      <tr><td>HOMO ($-0.325$)</td><td>분자에 국재한 단일 지배 채널 — 전도 채널</td></tr>
+      <tr><td>$E_F$ (0)</td><td>분자에서 막힘 (gap 열림)</td></tr>
+      <tr><td>LUMO ($+0.355$)</td><td>전극 형태 — 전달 무시할 수준</td></tr>
     </tbody>
   </table>
 
-    <h2>Discussion / next</h2>
-  <p><strong>δH insertion path (implementation check):</strong> the correction enters through
-    TBtrans's documented built-in hook — $H \leftarrow H + \delta H$, where <code>TBT.dH</code> is the
-    fdf flag for a NetCDF file holding $\delta H$ and sisl's <code>write_delta</code> writes that
-    level-1 static file. No SIESTA source patch is needed; our task is only to construct the molecular
-    projector matrix $\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$ and write it as
-    <code>deltaH.dH.nc</code>.</p>
-  <p class="page-meta">Evidence tags:
-    <a class="status" href="https://docs.siesta-project.org/projects/siesta/en/5.2/reference/tbtrans.html#changing-the-electronic-structure-via-delta-elements">Official TBtrans δ-elements</a>
-    <a class="status" href="https://docs.siesta-project.org/projects/siesta/en/5.2/reference/tbtrans.html#fdfparam:tbt.dh">Official TBT.dH flag</a>
-    <a class="status" href="https://sisl.readthedocs.io/en/latest/_modules/sisl/io/tbtrans/delta.html#deltancSileTBtrans.write_delta">sisl write_delta source</a>
-    <a class="status" href="../../methods/dft-sigma/index.html">DFT+Σ implementation note</a>
+    <h2>논의 / 다음</h2>
+  <p><strong>δH 삽입 경로 (구현 확인):</strong> 보정은 TBtrans의 문서화된 내장 hook으로 들어간다 —
+    $H \leftarrow H + \delta H$이고, <code>TBT.dH</code>는 $\delta H$를 담은 NetCDF 파일을 가리키는
+    fdf 플래그, sisl <code>write_delta</code>가 그 level-1 정적 파일을 쓴다. SIESTA source patch는
+    불필요하고, 우리 몫은 분자 projector 행렬 $\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$를
+    구성해 <code>deltaH.dH.nc</code>로 쓰는 것뿐이다.</p>
+  <p class="page-meta">근거 태그:
+    <a class="status" href="https://docs.siesta-project.org/projects/siesta/en/5.2/reference/tbtrans.html#changing-the-electronic-structure-via-delta-elements">공식 TBtrans δ-elements</a>
+    <a class="status" href="https://docs.siesta-project.org/projects/siesta/en/5.2/reference/tbtrans.html#fdfparam:tbt.dh">공식 TBT.dH 플래그</a>
+    <a class="status" href="https://sisl.readthedocs.io/en/latest/_modules/sisl/io/tbtrans/delta.html#deltancSileTBtrans.write_delta">sisl write_delta 소스</a>
+    <a class="status" href="../../methods/dft-sigma/index.html">DFT+Σ 구현 노트</a>
   </p>
   <ul>
-    <li><strong>Done:</strong> $\Delta H$ built (same-code construction, Section C) and the corrected
-      $T(E)$ computed on the length-converged N25_9uc device. The correction opens the isolated-molecule
-      gap to 0.75 eV, moves the molecular resonance off $E_F$, and suppresses the Fermi-level
-      transmission; it transfers directly to the 3-cell N25_k100 cross-check.</li>
-    <li><strong>Next:</strong> charge-transfer $\Delta\rho$ analysis. A finite-bias chain is
-      <em>not</em> needed — the δH correction is applied at the TBtrans post-processing step, so the
-      zero-bias $T(E)$ already carries the correction.</li>
+    <li><strong>완료:</strong> same-code 구성으로 $\Delta H$ 구축(Section C) 후 길이 수렴 N25_9uc
+      소자에서 보정 $T(E)$ 계산. 보정으로 고립분자 gap이 0.75 eV로 열리고 분자 공명이 $E_F$에서 벗어나
+      Fermi 준위 transmission이 억제되며, 3-cell N25_k100 cross-check에도 그대로 전이된다.</li>
+    <li><strong>다음:</strong> charge-transfer $\Delta\rho$ 분석. finite-bias chain은
+      <em>불필요</em> — δH 보정은 TBtrans post-processing 단계에서 들어가므로 zero-bias $T(E)$로 충분하다.</li>
   </ul>
 </article>
 <nav class="subpages"></nav>

@@ -2,7 +2,7 @@
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="order" content="-1">
-<title>VSe₃ TP/TAP &amp; Hf₂Se₉ junction in CNTs — 101-vse3-hf2se9</title>
+<title>VSe₃ TP/TAP &amp; CNT 안 Hf₂Se₉ junction — 101-vse3-hf2se9</title>
 <link rel="stylesheet" href="assets/site.css">
 <link rel="stylesheet" href="assets/katex/katex.min.css">
 <script defer src="assets/katex/katex.min.js"></script>
@@ -13,58 +13,56 @@
 <aside id="nav" data-brand="101 · VSe₃–Hf₂Se₉"></aside>
 <main>
 <article>
-  <h1>VSe₃ TP/TAP structure &amp; Hf-doped molecule junction in CNTs <span class="status">archived</span></h1>
+  <h1>VSe₃ TP/TAP 구조 &amp; CNT 안 Hf-도핑 분자 junction <span class="status">active</span></h1>
   <p class="page-meta">Members: yw-choi, bychanlee, nangman98 · created 2026-03-16</p>
 
   <h2>Idea</h2>
   <p>
-    Transition-metal trichalcogenides (MX₃) form 1D chains in either a
-    <strong>TP</strong> (trigonal prismatic) or <strong>TAP</strong> (trigonal anti-prismatic)
-    coordination. Te-based MX₃ are reported as TAP and Nb as TP, but
-    <strong>VSe₃ had no experimental report</strong>. The goal is to identify the structure of a
-    VSe₃ single chain synthesized inside a carbon nanotube (CNT) by atomic-resolution STEM —
-    confirming the <strong>TP structure for the first time</strong> — and to compare TP vs TAP
-    stability with DFT.
+    전이금속 trichalcogenide(MX₃)는 <strong>TP</strong>(trigonal prismatic) 또는
+    <strong>TAP</strong>(trigonal anti-prismatic) 배위 중 하나로 1D chain을 이룬다. Te 기반
+    MX₃는 TAP, Nb는 TP로 보고돼 있으나 <strong>VSe₃는 실험 보고가 없었다</strong>. 목표는
+    탄소나노튜브(CNT) 안에서 합성된 VSe₃ single chain의 구조를 원자분해능 STEM으로 규명해
+    <strong>TP 구조를 처음으로 확인</strong>하고, TP와 TAP 안정성을 DFT로 비교하는 것이다.
   </p>
 
-  <h3>Core questions (as stated in the README)</h3>
+  <h3>핵심 질문 (README에 명시된 대로)</h3>
   <ol>
-    <li>For a VSe₃ single chain, which is more stable, TP or TAP?</li>
-    <li>How does TP/TAP preference differ between Se and Te (referencing existing JACS Te data)?</li>
-    <li>Is an Hf-doped molecule structure stabilized inside a CNT?</li>
+    <li>VSe₃ single chain에서 TP와 TAP 중 어느 쪽이 더 안정한가?</li>
+    <li>TP/TAP 선호도가 Se와 Te 사이에서 어떻게 달라지는가 (기존 JACS Te 데이터 참조)?</li>
+    <li>Hf-도핑 분자 구조가 CNT 안에서 안정화되는가?</li>
   </ol>
 
-  <h3>Extension</h3>
+  <h3>확장</h3>
   <ul>
-    <li>Hf doping → observation of a 1D molecule junction + structure proposal.</li>
-    <li>Ultimate target: a 1D metal superlattice structure (concept proposal).</li>
+    <li>Hf 도핑 → 1D 분자 junction 관찰 + 구조 제안.</li>
+    <li>최종 목표: 1D 금속 초격자(superlattice) 구조 (개념 제안).</li>
   </ul>
 
-  <h2>Method / scope</h2>
+  <h2>방법 / 범위</h2>
   <p>
-    DFT with SIESTA (NAO basis), VASP (PAW), and Quantum ESPRESSO, comparing exchange–correlation
-    functionals (PBE, vdW-DF2, PBE+D2, PBE+D3(BJ), HSE06) and van der Waals corrections. The work
-    spans VSe₃ TP/TAP chains, the Hf₂Se₉ molecule/chain, the VSe₃–Hf₂Se₉ heterostructure, and
-    (planned) CNT-confined and transport calculations.
+    SIESTA(NAO basis), VASP(PAW), Quantum ESPRESSO로 DFT 계산을 수행하며, 교환-상관
+    functional(PBE, vdW-DF2, PBE+D2, PBE+D3(BJ), HSE06)과 van der Waals 보정을 비교한다. 작업은
+    VSe₃ TP/TAP chain, Hf₂Se₉ molecule/chain, VSe₃–Hf₂Se₉ heterostructure, 그리고 (계획된)
+    CNT 구속 및 transport 계산을 아우른다.
   </p>
 
-  <h2>Planned figures (draft, from README)</h2>
+  <h2>계획된 figure (초안, README 기반)</h2>
   <table>
-    <thead><tr><th>Figure</th><th>Content</th></tr></thead>
+    <thead><tr><th>Figure</th><th>내용</th></tr></thead>
     <tbody>
-      <tr><td>Fig 1</td><td>VSe₃ inserted in CNT; TP structure confirmed by STEM</td></tr>
-      <tr><td>Fig 2</td><td>DFT: TP vs TAP stability, band structure, CNT effect</td></tr>
-      <tr><td>Fig 3</td><td>(extension) Hf doping → 1D molecule junction + structure proposal</td></tr>
+      <tr><td>Fig 1</td><td>CNT 안에 삽입된 VSe₃; STEM으로 TP 구조 확인</td></tr>
+      <tr><td>Fig 2</td><td>DFT: TP vs TAP 안정성, band 구조, CNT 효과</td></tr>
+      <tr><td>Fig 3</td><td>(확장) Hf 도핑 → 1D 분자 junction + 구조 제안</td></tr>
     </tbody>
   </table>
 
-  <h2>Pages</h2>
+  <h2>페이지</h2>
   <p>
-    See <a href="status/index.html">Status</a> for the current state, and the result pages below for
-    each completed analysis. Key results so far: <em>TP is more stable than TAP for VSe₃</em>; the
-    isolated Hf₂Se₉ molecule/chain relaxes to an over-expanded Hf–Hf distance; the bare
-    VSe₃–Hf₂Se₉ separation curve has no minimum, but <em>H termination of the VSe₃ interface Se
-    restores a minimum near d ≈ 3.5 Å</em>.
+    현재 상태는 <a href="status/index.html">Status</a>를, 각 완료된 분석은 아래 결과 페이지를
+    참조하라. 지금까지의 핵심 결과: <em>VSe₃에서 TP가 TAP보다 더 안정하다</em>; 고립된 Hf₂Se₉
+    molecule/chain은 Hf–Hf 거리가 과도하게 팽창한 상태로 relax된다; 맨몸 VSe₃–Hf₂Se₉ separation
+    곡선에는 최소점이 없으나, <em>VSe₃ 계면 Se를 H로 종단(termination)하면 d ≈ 3.5 Å 부근에서
+    최소점이 복원된다</em>.
   </p>
 </article>
 <nav class="subpages"></nav>

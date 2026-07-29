@@ -13,60 +13,60 @@
 <main>
 <article>
   <h1>Status</h1>
-  <p class="page-meta">Synthesized from the meeting notes (latest 2026-04-16) and report tables. No standalone STATUS.md / comchart.yaml exists in the repo.</p>
+  <p class="page-meta">미팅 노트(최신 2026-04-16)와 리포트 표에서 종합. 레포에 별도 STATUS.md / comchart.yaml은 없음.</p>
 
-  <h2>Work-package status (as of 2026-04-07 meeting)</h2>
+  <h2>Work-package 상태 (2026-04-07 미팅 기준)</h2>
   <table>
-    <thead><tr><th>Work package</th><th>Status</th><th>Comment</th></tr></thead>
+    <thead><tr><th>Work package</th><th>상태</th><th>비고</th></tr></thead>
     <tbody>
-      <tr><td>VSe₃ TP/TAP comparison</td><td>Done</td><td>TP consistently more stable</td></tr>
-      <tr><td>Hf₂Se₉ mol/chain (vdW-DF2)</td><td>Done</td><td>Over-expansion confirmed</td></tr>
-      <tr><td>Phase A functional scan</td><td>In progress</td><td>A2-v3, A7 (QE) remaining</td></tr>
-      <tr><td>Phase B basis scan</td><td>In progress</td><td>B1 at step 67</td></tr>
-      <tr><td>Hetero separation test</td><td>Done</td><td>All 3 versions monotonically decreasing</td></tr>
-      <tr><td>Chain D2</td><td>In progress</td><td>OOM, resubmission needed</td></tr>
-      <tr><td>CNT stabilization study</td><td>Preparation</td><td>Diameter scan needed</td></tr>
-      <tr><td>Phase D (DFT+U)</td><td>Not started</td><td>—</td></tr>
+      <tr><td>VSe₃ TP/TAP 비교</td><td>완료</td><td>TP가 일관되게 더 안정</td></tr>
+      <tr><td>Hf₂Se₉ mol/chain (vdW-DF2)</td><td>완료</td><td>과팽창 확인</td></tr>
+      <tr><td>Phase A functional scan</td><td>진행 중</td><td>A2-v3, A7 (QE) 남음</td></tr>
+      <tr><td>Phase B basis scan</td><td>진행 중</td><td>B1 step 67</td></tr>
+      <tr><td>Hetero separation 테스트</td><td>완료</td><td>세 버전 모두 단조 감소</td></tr>
+      <tr><td>Chain D2</td><td>진행 중</td><td>OOM, 재제출 필요</td></tr>
+      <tr><td>CNT 안정화 연구</td><td>준비</td><td>직경 scan 필요</td></tr>
+      <tr><td>Phase D (DFT+U)</td><td>미착수</td><td>—</td></tr>
     </tbody>
   </table>
 
-  <h2>Latest progress (2026-04-16 meeting)</h2>
+  <h2>최신 진행 (2026-04-16 미팅)</h2>
   <ul>
-    <li><strong>H termination of the VSe₃ interface Se restores a separation-energy minimum.</strong>
-      With H, the bond/gap/tilt H-orientation modes were compared (vdW-DF2 single-point, 44 atoms,
-      Se–H = 1.46 Å). The <code>gap</code> mode is most stable over the whole range; its minimum sits at
-      d = 3.5–4.0 Å (the two points differ by ~4 meV). <code>bond</code> is 1.11 eV higher and
-      <code>tilt</code> 3.72 eV higher than <code>gap</code>. See
-      <a href="../h-termination/index.html">H termination</a>.</li>
-    <li><strong>VSe₃ TAP relaxed structure delivered to the experimental team</strong> (Dr. Yangjin Lee),
-      for STEM image simulation. vdW-DF2 relaxed: c = 5.535 Å, V–Se = 2.508 Å, V–V = 2.768 Å.</li>
-    <li>Heterostructure relax → transport setup: action item open (not yet done).</li>
+    <li><strong>VSe₃ 계면 Se의 H termination이 separation 에너지 최소점을 복원한다.</strong>
+      H가 있을 때 bond/gap/tilt H 방향 mode를 비교했다(vdW-DF2 single-point, 44 atoms,
+      Se–H = 1.46 Å). <code>gap</code> mode가 전 범위에서 가장 안정하며, 최소점은
+      d = 3.5–4.0 Å에 있다(두 점 차이 ~4 meV). <code>bond</code>는 <code>gap</code>보다
+      1.11 eV, <code>tilt</code>는 3.72 eV 높다.
+      <a href="../h-termination/index.html">H termination</a> 참조.</li>
+    <li><strong>VSe₃ TAP relaxed 구조를 실험팀에 전달</strong>(Dr. Yangjin Lee), STEM 이미지
+      시뮬레이션용. vdW-DF2 relaxed: c = 5.535 Å, V–Se = 2.508 Å, V–V = 2.768 Å.</li>
+    <li>Heterostructure relax → transport 셋업: action item 미완(아직 안 함).</li>
   </ul>
 
-  <h2>Hf₂Se₉ molecule Phase A scan — result snapshot</h2>
-  <p>Reference experimental Hf–Hf distance (TEM): 3.6 Å. (Source: 2026-04-07 meeting, stability report.)</p>
+  <h2>Hf₂Se₉ molecule Phase A scan — 결과 스냅샷</h2>
+  <p>기준 실험 Hf–Hf 거리(TEM): 3.6 Å. (출처: 2026-04-07 미팅, 안정성 리포트.)</p>
   <table>
-    <thead><tr><th>Test</th><th>Method</th><th>Code</th><th>Hf–Hf (Å)</th><th>Δ(3.6 Å)</th><th>Status</th></tr></thead>
+    <thead><tr><th>Test</th><th>방법</th><th>Code</th><th>Hf–Hf (Å)</th><th>Δ(3.6 Å)</th><th>상태</th></tr></thead>
     <tbody>
       <tr><td>A1</td><td>PBE</td><td>SIESTA</td><td>3.857</td><td>+7%</td><td>✅ 14 steps</td></tr>
-      <tr><td>A2</td><td>PBE+D2</td><td>SIESTA</td><td>—</td><td>—</td><td>❌ SCF not converged</td></tr>
+      <tr><td>A2</td><td>PBE+D2</td><td>SIESTA</td><td>—</td><td>—</td><td>❌ SCF 미수렴</td></tr>
       <tr><td>A3</td><td>vdW-DF2 (LMKLL)</td><td>SIESTA</td><td>3.967</td><td>+10%</td><td>✅ 13 steps</td></tr>
       <tr><td>A4</td><td>PBE+D3(BJ)</td><td>SIESTA</td><td>3.857</td><td>+7%</td><td>✅ 14 steps (= A1)</td></tr>
       <tr><td>A5</td><td>PBE+D3</td><td>VASP</td><td>2.934</td><td>−18.5%</td><td>✅</td></tr>
       <tr><td>A6</td><td>HSE06+D3</td><td>VASP</td><td>3.330</td><td>−7.5%</td><td>✅</td></tr>
-      <tr><td>A7</td><td>PBE</td><td>QE</td><td>—</td><td>—</td><td>📋 prepared</td></tr>
+      <tr><td>A7</td><td>PBE</td><td>QE</td><td>—</td><td>—</td><td>📋 준비됨</td></tr>
     </tbody>
   </table>
   <p>
-    Within SIESTA, PBE and PBE+D3(BJ) give the closest value to experiment (3.857 Å); VASP HSE06+D3
-    is closest overall (3.330 Å) but the SIESTA–VASP gap is large. Detail:
-    <a href="../hf2se9-stability/index.html">Hf₂Se₉ stability</a>.
+    SIESTA 안에서는 PBE와 PBE+D3(BJ)가 실험에 가장 가까운 값(3.857 Å)을 주고, VASP HSE06+D3가
+    전체적으로 가장 근접(3.330 Å)하나 SIESTA–VASP 간극이 크다. 상세:
+    <a href="../hf2se9-stability/index.html">Hf₂Se₉ 안정성</a>.
   </p>
 
-  <h2>Open action items (2026-04-16)</h2>
+  <h2>미완 action item (2026-04-16)</h2>
   <ul>
-    <li>Adopt <code>gap</code> mode, d = 3.5 Å as the relaxation starting structure (under discussion).</li>
-    <li>Set up transport calculation once the heterostructure relax completes (open).</li>
+    <li>relaxation 시작 구조로 <code>gap</code> mode, d = 3.5 Å 채택(논의 중).</li>
+    <li>heterostructure relax 완료 후 transport 계산 셋업(미완).</li>
   </ul>
 </article>
 <nav class="subpages"></nav>

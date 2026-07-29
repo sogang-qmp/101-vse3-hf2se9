@@ -15,61 +15,58 @@
 <aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
 <main>
 <article>
-  <h1>Motivation — a single-molecule junction grown inside a nanotube</h1>
-  <p class="page-meta">Collaboration experiment (manuscript in preparation) — this page records the
-     experimental findings that motivate the calculation, <strong>not our results</strong>. Formal
-     citation goes to <a href="../references/index.html">References</a> on publication.</p>
+  <h1>Motivation — 나노튜브 안에서 자란 단분자 접합</h1>
+  <p class="page-meta">공동연구 실험 (manuscript 준비 중) — 이 페이지는 계산의 동기가 된 실험 사실을
+     정리하며, <strong>우리 계산 결과가 아니다</strong>. 정식 서지는 출간 후
+     <a href="../references/index.html">References</a>에 추가.</p>
 
-  <h2>1. Background — the missing selenium member</h2>
-  <p>Transition-metal trichalcogenides (TMTCs, MX₃) are quasi-1D crystals of weakly coupled atomic
-     chains. In the <em>single-chain</em> limit the tellurium members (VTe₃, NbTe₃) are known to take
-     <strong>trigonal antiprismatic (TAP)</strong> coordination — but the selenium counterpart
-     VSe₃ had never been isolated as a single chain.</p>
+  <h2>1. 배경 — 빠져 있던 셀레늄 멤버</h2>
+  <p>전이금속 trichalcogenide(TMTC, MX₃)는 약하게 결합된 원자 사슬로 이루어진 준-1D 결정이다.
+     <em>단일 사슬</em> 극한에서 텔루륨 계열(VTe₃, NbTe₃)은 <strong>trigonal antiprismatic
+     (TAP)</strong> 배위로 알려져 있었지만 — 셀레늄 대응물 VSe₃는 고립 사슬로 실현된 적이 없었다.</p>
 
-  <h2>2. The experiment</h2>
+  <h2>2. 실험</h2>
   <ul>
-    <li><strong>Single-chain VSe₃ realized inside carbon nanotubes.</strong> Nanotube-confined
-        growth stabilizes the otherwise inaccessible isolated chain.</li>
-    <li><strong>STEM identifies it as trigonal prismatic (TP)</strong> — like NbSe₃, unlike the TAP
-        tellurides. This completes the missing Se member of the group-V TMTC single-chain family and
-        establishes a <strong>chalcogen-dependent coordination trend</strong> under 1D confinement
-        (DFT on local coordination units confirms the TP preference —
+    <li><strong>탄소 나노튜브 안에서 single-chain VSe₃ 실현.</strong> 나노튜브 갇힘 성장이
+        접근 불가능하던 고립 사슬을 안정화한다.</li>
+    <li><strong>STEM이 trigonal prismatic (TP)으로 동정</strong> — NbSe₃와 같고 TAP인 텔루라이드와
+        다름. group-V TMTC 단일사슬 가족의 빠진 Se 멤버를 완성하고, 1D 갇힘에서
+        <strong>chalcogen에 따라 배위가 갈리는 경향</strong>을 확립 (국소 배위 유닛 DFT가 TP 선호 확인 —
         <a href="../results/vse3-tp-tap/index.html">01. VSe₃ TP vs TAP</a>).</li>
-    <li><strong>Beyond the pristine chain:</strong> the confined channel also shows atomic-scale
-        <strong>Hf incorporation</strong> (Z-contrast ADF-STEM) and the formation of Se-rich
-        molecular species — in particular a <strong>Hf₂Se₉ single molecule sitting between two VSe₃
-        single chains</strong>: a naturally formed <em>1D heterojunction at the single-chain limit</em>
-        (manuscript Fig. 5, experimental + simulated STEM + atomic model).</li>
+    <li><strong>순수 사슬 너머:</strong> 갇힌 채널에서 원자 단위 <strong>Hf 도핑</strong>(Z-contrast
+        ADF-STEM)과 Se-rich 분자종 형성도 관측 — 특히 <strong>두 VSe₃ 단일 사슬 사이에 낀 Hf₂Se₉
+        단일 분자</strong>: 자연 형성된 <em>단일사슬 극한의 1D heterojunction</em>
+        (manuscript Fig. 5, 실험 + 시뮬레이션 STEM + 원자 모델).</li>
   </ul>
 
-  <h2>3. Our question</h2>
-  <p>That Figure-5 motif — <strong>metal chain / single molecule / metal chain</strong> — is a
-     molecular junction the experiment can grow but not measure electrically. This project computes
-     its conductance from first principles: <em>does current flow through the Hf₂Se₉ molecule, through
-     which orbital, and where do its levels really sit?</em></p>
+  <h2>3. 우리의 질문</h2>
+  <p>그 Figure-5 모티프 — <strong>금속 사슬 / 단일 분자 / 금속 사슬</strong> — 는 실험이 만들 수는
+     있지만 전기적으로 측정할 수 없는 분자 접합이다. 본 프로젝트는 그 conductance를 제일원리로
+     계산한다: <em>전류가 Hf₂Se₉ 분자를 통해 흐르는가, 어느 orbital을 통해서인가, 그리고 분자
+     준위는 실제로 어디에 있는가?</em></p>
   <figure>
     <img src="../figures/junction-structure.png" alt="DFT model of the Hf₂Se₉–VSe₃ junction">
-    <figcaption><strong>Fig. 1.</strong> Our DFT model of the observed motif — a Hf₂Se₉ molecule
-      bridging two H-passivated VSe₃ chains (central region of the relaxed transport device,
-      vdW-DF2). Experimental STEM images stay unpublished until the manuscript is out.</figcaption>
+    <figcaption><strong>Fig. 1.</strong> 관측된 모티프의 우리 DFT 모델 — Hf₂Se₉ 분자가
+      H-passivated VSe₃ 사슬 둘을 잇는다 (relax된 transport device 중앙부, vdW-DF2).
+      실험 STEM 이미지는 출간 전까지 미게시.</figcaption>
   </figure>
 
-  <h2>4. From the experiment to the results</h2>
+  <h2>4. 실험에서 결과 페이지로</h2>
   <table>
-    <thead><tr><th>Question raised by the experiment</th><th>Where it is answered</th></tr></thead>
+    <thead><tr><th>실험이 던진 질문</th><th>답한 곳</th></tr></thead>
     <tbody>
-      <tr><td>Is TP really the stable coordination of the VSe₃ single chain?</td>
-          <td><a href="../results/vse3-tp-tap/index.html">01. VSe₃ TP vs TAP</a> — TP more stable
-              by 0.163 eV/formula, metallic.</td></tr>
-      <tr><td>Is the Hf₂Se₉ bridge structurally consistent with TEM (Hf–Hf ≈ 3.6 Å)?</td>
-          <td><a href="../results/hf2se9-stability/index.html">02. Hf₂Se₉ stability</a> —
-              functional scan against the TEM bond length.</td></tr>
-      <tr><td>Does current actually flow <em>through</em> the molecule?</td>
-          <td><a href="../results/transmission/index.html">06. Transmission</a> — three-way
-              $T(E_F)$ 0.70 / 0.35 / 0; the molecule is the sole bridge.</td></tr>
-      <tr><td>Where do the molecular levels really sit (the DFT gap is far too small)?</td>
-          <td><a href="../results/level-correction/index.html">08. Level correction (DFT+Σ)</a> —
-              gap 0.02 → 0.75 eV; the molecular resonance moves off $E_F$ and $T(E_F)$ is suppressed.</td></tr>
+      <tr><td>TP가 정말 VSe₃ 단일 사슬의 안정 배위인가?</td>
+          <td><a href="../results/vse3-tp-tap/index.html">01. VSe₃ TP vs TAP</a> — TP가
+              formula당 0.163 eV 안정, 금속성.</td></tr>
+      <tr><td>Hf₂Se₉ 다리가 TEM(Hf–Hf ≈ 3.6 Å)과 구조적으로 부합하나?</td>
+          <td><a href="../results/hf2se9-stability/index.html">02. Hf₂Se₉ 안정성</a> —
+              TEM 결합길이에 대한 functional scan.</td></tr>
+      <tr><td>전류가 정말 분자를 <em>통해</em> 흐르는가?</td>
+          <td><a href="../results/transmission/index.html">06. 투과(transmission)</a> — 3종
+              $T(E_F)$ 0.70 / 0.35 / 0; 분자가 유일한 다리.</td></tr>
+      <tr><td>분자 준위는 실제로 어디에 있는가 (DFT gap이 너무 작다)?</td>
+          <td><a href="../results/level-correction/index.html">08. 준위 보정 (DFT+Σ)</a> —
+              gap 0.02 → 0.75 eV; 분자 공명이 $E_F$에서 벗어나 $T(E_F)$ 억제.</td></tr>
     </tbody>
   </table>
 </article>

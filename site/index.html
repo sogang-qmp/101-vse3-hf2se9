@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Conductance of a 1D Hf₂Se₉–VSe₃ heterojunction — 101-vse3-hf2se9</title>
+<title>1D Hf₂Se₉–VSe₃ heterojunction의 conductance — 101-vse3-hf2se9</title>
 <link rel="stylesheet" href="assets/site.css">
 <link rel="stylesheet" href="assets/katex/katex.min.css">
 <script defer src="assets/katex/katex.min.js"></script>
@@ -14,79 +14,479 @@
 <aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
 <main>
 <article>
-  <h1>First-principles conductance of a 1D Hf₂Se₉–VSe₃ heterojunction
-      <span class="status">working</span></h1>
-  <p class="page-meta">Members: Seongbin Park · Young Woo Choi (advisor)</p>
+  <h1>1D Hf₂Se₉–VSe₃ 헤테로접합의 제일원리 전도도
+      <span class="status">진행 중</span></h1>
+  <p class="page-meta">참여자: Seongbin Park · Young Woo Choi (지도교수)</p>
 
   <p>
-    A single <strong>Hf₂Se₉</strong> molecule bridges two metallic <strong>VSe₃</strong>
-    chains, forming a 1D molecular junction grown inside a carbon nanotube. The project
-    computes the junction's conductance from first principles and asks one physical
-    question: <em>does current flow through the molecule, and through which orbital?</em>
-    The transport evidence says yes — removing the molecule eliminates the conductance
-    entirely — and the present frontier is correcting the molecular level positions
-    (DFT underestimates the gap) so the resonance sits where it physically should.
+    <strong>Hf₂Se₉</strong> 분자 하나가 금속성 <strong>VSe₃</strong> 사슬 두 개를 잇는
+    다리를 이루어, 탄소 나노튜브 안에서 자라난 1D 분자 접합을 형성한다. 본 프로젝트는
+    이 접합의 conductance를 제일원리로 계산하고, 하나의 물리적 질문을 던진다:
+    <em>전류가 분자를 통해 흐르는가, 그리고 어느 orbital을 통해 흐르는가?</em>
+    Transport 증거는 그렇다고 답한다 — 분자를 제거하면 conductance가 완전히 사라진다 —
+    그리고 현재의 최전선은 분자 준위 위치를 보정하여(PBE는 gap을 과소평가한다) resonance가
+    물리적으로 있어야 할 곳에 놓이도록 하는 것이다.
   </p>
 
   <figure>
-    <iframe src="matviz-viewer_junction.html" style="width:100%;max-width:680px;height:460px;border:1px solid rgba(0,0,0,.25);border-radius:6px;background:#fff" title="matviz structure viewer" loading="lazy"></iframe>
-    <figcaption><strong>Fig. 1.</strong> The junction, interactive: a Hf₂Se₉ molecule (cyan Hf, orange Se)
-      bridges two H-passivated VSe₃ chains (grey V, orange Se) acting as 1D electrodes — the relaxed
-      220-atom transport device (vdW-DF2, 60° staggered), transport axis along z. Drag to rotate, scroll to
-      zoom; "⚙ Full UI" exposes supercell and style controls.</figcaption>
+  <div id="mvhome" class="matviz-host" style="position:relative;height:460px;border:1px solid rgba(0,0,0,.25);border-radius:6px;background:#fff;overflow:hidden">
+<div id="sv-switch"><button class="sv-uitoggle" id="sv-ui" title="Toggle full controls">&#9881; Full UI</button></div>
+
+  <canvas id="canvas"></canvas>
+
+  <!-- Mode toolbar (far left) -->
+  <div id="mode-bar">
+    <button id="mode-navigate" class="mode-btn active" title="Navigate (click atom for info)" aria-label="Navigate"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2l5 6-5 6-5-6z"/><circle cx="8" cy="8" r="1.2" fill="currentColor" stroke="none"/></svg></button>
+    <button id="mode-measure" class="mode-btn" title="Measure (click 2/3/4 atoms)" aria-label="Measure"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8h12"/><path d="M5 5l-3 3 3 3"/><path d="M11 5l3 3-3 3"/></svg></button>
+    <button id="mode-bz" class="mode-btn" title="Brillouin zone (reciprocal space, bulk)" aria-label="Brillouin zone"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 1.5l5.6 3.25v6.5L8 14.5l-5.6-3.25v-6.5z"/><circle cx="8" cy="8" r="1" fill="currentColor" stroke="none"/><path d="M8 8l4-2.3M8 8v4.6M8 8L4 5.7"/></svg></button>
+    <div class="mode-sep"></div>
+    <button id="panel-toggle" class="mode-btn" title="Toggle side panel" aria-label="Toggle side panel"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg></button>
+    <button id="help-btn" class="mode-btn" title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M6.2 6a1.8 1.8 0 1 1 2.6 1.6c-.5.3-.8.7-.8 1.3"/><circle cx="8" cy="11.5" r=".5" fill="currentColor" stroke="none"/></svg></button>
+  </div>
+
+  <!-- Shortcuts help overlay -->
+  <div id="help-overlay" class="hidden" role="dialog" aria-modal="true" aria-labelledby="help-title">
+    <div id="help-card">
+      <div id="help-head">
+        <span id="help-title">Shortcuts<span class="help-sub">press <kbd>?</kbd> anytime</span></span>
+        <button id="help-close" class="bar-btn" title="Close (Esc)" aria-label="Close"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>
+      </div>
+      <div id="help-body">
+        <div class="help-col">
+          <div class="help-h">Rotation</div>
+          <div class="help-row"><span class="help-keys"><kbd>&#x2190;</kbd><kbd>&#x2193;</kbd><kbd>&#x2191;</kbd><kbd>&#x2192;</kbd></span><span>Rotate by step</span></div>
+          <div class="help-row"><span class="help-keys"><kbd>h</kbd><kbd>j</kbd><kbd>k</kbd><kbd>l</kbd></span><span>Vim rotate</span></div>
+          <div class="help-row"><span class="help-keys"><kbd>[</kbd><kbd>]</kbd></span><span>Rotate CCW / CW</span></div>
+          <div class="help-row"><span class="help-keys"><kbd>&#x21E7;</kbd>+key</span><span>1&deg; fine step</span></div>
+          <div class="help-row"><span class="help-keys"><kbd>+</kbd><kbd>&minus;</kbd></span><span>Zoom in / out</span></div>
+        </div>
+        <div class="help-col">
+          <div class="help-h">Navigation</div>
+          <div class="help-row"><span class="help-keys">Left drag</span><span>Rotate</span></div>
+          <div class="help-row"><span class="help-keys">Right drag</span><span>Pan</span></div>
+          <div class="help-row"><span class="help-keys">Wheel</span><span>Zoom</span></div>
+          <div class="help-row"><span class="help-keys">Click atom</span><span>Select / info</span></div>
+        </div>
+        <div class="help-col">
+          <div class="help-h">Style</div>
+          <div class="help-row"><span class="help-keys"><kbd>1</kbd></span><span>Ball &amp; Stick</span></div>
+          <div class="help-row"><span class="help-keys"><kbd>2</kbd></span><span>Space-filling</span></div>
+          <div class="help-row"><span class="help-keys"><kbd>3</kbd></span><span>Stick</span></div>
+          <div class="help-row"><span class="help-keys"><kbd>4</kbd></span><span>Wireframe</span></div>
+        </div>
+        <div class="help-col">
+          <div class="help-h">Mode</div>
+          <div class="help-row"><span class="help-keys"><kbd>?</kbd></span><span>This help</span></div>
+          <div class="help-row"><span class="help-keys"><kbd>Esc</kbd></span><span>Clear selection / close help</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top toolbar -->
+  <div id="top-bar">
+    <div class="bar-group" title="Axis Views">
+      <button id="view-a" class="bar-btn axis-btn" title="View along a axis">a</button>
+      <button id="view-b" class="bar-btn axis-btn" title="View along b axis">b</button>
+      <button id="view-c" class="bar-btn axis-btn" title="View along c axis">c</button>
+      <button id="view-a*" class="bar-btn axis-btn" title="View along a* (reciprocal a) axis">a*</button>
+      <button id="view-b*" class="bar-btn axis-btn" title="View along b* (reciprocal b) axis">b*</button>
+      <button id="view-c*" class="bar-btn axis-btn" title="View along c* (reciprocal c) axis">c*</button>
+    </div>
+    <span class="bar-sep"></span>
+    <div class="bar-group" title="Standard Orientation">
+      <button id="std-orient" class="bar-btn" title="Standard orientation (c-axis up, view from a*)" aria-label="Standard orientation"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 7l6-5 6 5"/><path d="M3.5 6.5V13h9V6.5"/></svg></button>
+    </div>
+    <span class="bar-sep"></span>
+    <div class="bar-group" title="Step Rotation">
+      <button id="rot-up" class="bar-btn" title="Rotate up" aria-label="Rotate up"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V3"/><path d="M4 7l4-4 4 4"/></svg></button>
+      <button id="rot-down" class="bar-btn" title="Rotate down" aria-label="Rotate down"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v10"/><path d="M4 9l4 4 4-4"/></svg></button>
+      <button id="rot-left" class="bar-btn" title="Rotate left" aria-label="Rotate left"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 8H3"/><path d="M7 4L3 8l4 4"/></svg></button>
+      <button id="rot-right" class="bar-btn" title="Rotate right" aria-label="Rotate right"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10"/><path d="M9 4l4 4-4 4"/></svg></button>
+      <button id="rot-ccw" class="bar-btn" title="Rotate CCW" aria-label="Rotate counter-clockwise"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a5 5 0 1 0 1.46-3.54"/><path d="M3 3v3h3"/></svg></button>
+      <button id="rot-cw" class="bar-btn" title="Rotate CW" aria-label="Rotate clockwise"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.46-3.54"/><path d="M13 3v3h-3"/></svg></button>
+      <label class="bar-label" title="Rotation step (degrees) per arrow-button / arrow-key press">Step(&deg;):
+        <span class="num-wrap" data-min="1" data-max="90">
+          <input type="text" inputmode="numeric" id="step-angle" value="15" class="bar-input num-input" title="Rotation step in degrees (1–90)">
+          <span class="num-steps">
+            <button type="button" class="num-step up" tabindex="-1" aria-label="Increment"><svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 4.5L5 1.5l3.5 3"/></svg></button>
+            <button type="button" class="num-step dn" tabindex="-1" aria-label="Decrement"><svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 1.5L5 4.5l3.5-3"/></svg></button>
+          </span>
+        </span>
+      </label>
+    </div>
+    <span class="bar-sep"></span>
+    <div class="bar-group" title="Zoom">
+      <button id="zoom-in" class="bar-btn" title="Zoom in" aria-label="Zoom in"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/><path d="M5 7h4M7 5v4"/></svg></button>
+      <button id="zoom-out" class="bar-btn" title="Zoom out" aria-label="Zoom out"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/><path d="M5 7h4"/></svg></button>
+      <button id="zoom-fit" class="bar-btn" title="Fit to view" aria-label="Fit to view"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6V2h4"/><path d="M14 6V2h-4"/><path d="M2 10v4h4"/><path d="M14 10v4h-4"/></svg></button>
+      <label class="bar-label" title="Zoom step (percent) per zoom-button press or wheel tick">Step(%):
+        <span class="num-wrap" data-min="1" data-max="50">
+          <input type="text" inputmode="numeric" id="step-zoom" value="10" class="bar-input num-input" title="Zoom step in percent (1–50)">
+          <span class="num-steps">
+            <button type="button" class="num-step up" tabindex="-1" aria-label="Increment"><svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 4.5L5 1.5l3.5 3"/></svg></button>
+            <button type="button" class="num-step dn" tabindex="-1" aria-label="Decrement"><svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 1.5L5 4.5l3.5-3"/></svg></button>
+          </span>
+        </span>
+      </label>
+    </div>
+    <span class="bar-sep"></span>
+    <div class="bar-group">
+      <button id="screenshot-btn" class="bar-btn" title="Screenshot" aria-label="Screenshot"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 5h2.5l1-1.5h5l1 1.5H14v8H2z"/><circle cx="8" cy="9" r="2.5"/></svg></button>
+      <button id="text-toggle" class="bar-btn" title="Toggle raw text view" aria-label="Toggle raw text"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 2h6l3 3v9H4z"/><path d="M10 2v3h3"/><path d="M6 8h5M6 11h5"/></svg></button>
+      <button id="palette-toggle" class="bar-btn" title="Color palette: Dark" aria-label="Color palette"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 9.5A5.5 5.5 0 0 1 6.5 3a5.5 5.5 0 1 0 6.5 6.5z"/></svg></button>
+    </div>
+  </div>
+
+  <!-- Left sidebar controls -->
+  <div id="side-panel">
+    <div id="panel-resize"></div>
+    <div class="panel-scroll">
+    <div class="panel-section">
+      <div class="panel-label">Style</div>
+      <div class="chips" id="display-style-chips" title="Rendering style for atoms and bonds (1-4 keys)">
+        <button class="chip active" data-style="ball-and-stick" title="Atoms as spheres, bonds as split-color cylinders (1)">Ball &amp; Stick</button>
+        <button class="chip" data-style="space-filling" title="Atoms at full van der Waals radius, no bonds (2)">Space-filling</button>
+        <button class="chip" data-style="stick" title="Bonds only, atoms shrunk to stick radius (3)">Stick</button>
+        <button class="chip" data-style="wireframe" title="Lines only (4)">Wireframe</button>
+      </div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-label">Camera</div>
+      <button id="camera-toggle" class="panel-btn active" title="Toggle between orthographic and perspective projection">Ortho</button>
+    </div>
+    <div class="panel-section">
+      <div class="panel-label">Visibility</div>
+      <div class="toggle-group">
+        <label class="toggle" title="Show bonds between atoms"><input type="checkbox" id="bonds-check" checked><span>Bonds</span></label>
+        <label class="toggle" title="Show element symbol labels on atoms"><input type="checkbox" id="labels-check"><span>Labels</span></label>
+        <label class="toggle" title="Show coordination polyhedra around selected elements"><input type="checkbox" id="poly-check"><span>Polyhedra</span></label>
+        <label class="toggle" title="Show boundary atoms (atoms on cell faces wrapped to neighbors)"><input type="checkbox" id="boundary-check" checked><span>Boundary</span></label>
+        <label class="toggle" title="Show dashed inner cell lines for supercells"><input type="checkbox" id="celldash-check" checked><span>Cell lines</span></label>
+      </div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-label" title="Screen size (pixels) of the axis indicator widget">Axes size</div>
+      <input type="range" id="axis-size" class="iso-slider" min="60" max="400" step="10" value="300" title="Axis indicator size (60–400 px)">
+    </div>
+    <div class="panel-section">
+      <div class="panel-label" title="Expand the unit cell along each lattice vector">Supercell</div>
+      <div class="sc-row">
+        <div class="sc">
+          <div class="sc-l">a</div>
+          <div class="sc-steppers">
+            <button type="button" class="sc-dec" data-target="sc-a" tabindex="-1" aria-label="Decrement a">&minus;</button>
+            <input type="text" inputmode="numeric" id="sc-a" value="1" class="sc-val" data-axis-min="1" title="Supercell repeats along a (≥1)">
+            <button type="button" class="sc-inc" data-target="sc-a" tabindex="-1" aria-label="Increment a">+</button>
+          </div>
+        </div>
+        <div class="sc">
+          <div class="sc-l">b</div>
+          <div class="sc-steppers">
+            <button type="button" class="sc-dec" data-target="sc-b" tabindex="-1" aria-label="Decrement b">&minus;</button>
+            <input type="text" inputmode="numeric" id="sc-b" value="1" class="sc-val" data-axis-min="1" title="Supercell repeats along b (≥1)">
+            <button type="button" class="sc-inc" data-target="sc-b" tabindex="-1" aria-label="Increment b">+</button>
+          </div>
+        </div>
+        <div class="sc">
+          <div class="sc-l">c</div>
+          <div class="sc-steppers">
+            <button type="button" class="sc-dec" data-target="sc-c" tabindex="-1" aria-label="Decrement c">&minus;</button>
+            <input type="text" inputmode="numeric" id="sc-c" value="1" class="sc-val" data-axis-min="1" title="Supercell repeats along c (≥1)">
+            <button type="button" class="sc-inc" data-target="sc-c" tabindex="-1" aria-label="Increment c">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-section hidden" id="iso-section">
+      <div class="panel-label" title="Isosurface contour level for the loaded volumetric data">Iso-level</div>
+      <label class="toggle" title="Set the level automatically (10% of the data maximum, re-derived per file). Uncheck to drag or type a manual level."><input type="checkbox" id="iso-auto-check" checked><span>Auto</span></label>
+      <div class="iso-row">
+        <input type="range" id="iso-slider" class="iso-slider" min="0" max="1" step="0.001" value="0" title="Drag to change isosurface level (absolute value; negative lobe drawn automatically)">
+        <input type="number" id="iso-input" class="iso-num" step="any" value="0" title="Isosurface level (numeric entry)">
+        <span id="iso-pct" class="iso-pct" title="Level as % of the data maximum"></span>
+      </div>
+    </div>
+    <div class="panel-section hidden" id="bz-section">
+      <div class="panel-label" title="First Brillouin zone of the loaded lattice (reciprocal space)">Brillouin zone</div>
+      <div id="bz-lattice-info" class="bz-info"></div>
+      <div class="toggle-group">
+        <label class="toggle" title="High-symmetry point markers"><input type="checkbox" id="bz-points-check" checked><span>Points</span></label>
+        <label class="toggle" title="Point labels (Γ, X, …)"><input type="checkbox" id="bz-labels-check" checked><span>Labels</span></label>
+        <label class="toggle" title="k-path polyline"><input type="checkbox" id="bz-path-check" checked><span>Path</span></label>
+      </div>
+      <div id="bz-path-list" class="bz-path-list" title="Current k-path. Click point markers in the view to append; | marks a discontinuity."></div>
+      <div class="bz-btn-row">
+        <button id="bz-path-undo" class="panel-btn" title="Remove the last point">Undo</button>
+        <button id="bz-path-break" class="panel-btn" title="Start a new segment (discontinuity)">Break</button>
+        <button id="bz-path-clear" class="panel-btn" title="Empty the path">Clear</button>
+        <button id="bz-path-reset" class="panel-btn" title="Restore the standard path (Setyawan–Curtarolo 2010)">Reset</button>
+      </div>
+      <div class="bz-export-row" title="SIESTA %block BandLines (BandLinesScale ReciprocalLatticeVectors)">
+        <span class="bz-export-label">pts/seg</span>
+        <input type="number" id="bz-siesta-n" value="30" min="2" max="999">
+        <button id="bz-export-siesta" class="panel-btn">Copy BandLines</button>
+      </div>
+      <div class="bz-export-row" title="VASP KPOINTS line-mode (Reciprocal)">
+        <span class="bz-export-label">divisions</span>
+        <input type="number" id="bz-vasp-n" value="40" min="2" max="999">
+        <button id="bz-export-vasp" class="panel-btn">Copy KPOINTS</button>
+      </div>
+    </div>
+    <div class="panel-section hidden" id="ellipsoids-section">
+      <div class="panel-label" title="Anisotropic-displacement ellipsoids parsed from CIF _atom_site_aniso_*">Thermal ellipsoids</div>
+      <div class="toggle-group">
+        <label class="toggle" title="Render atoms with anisotropic displacement parameters as probability ellipsoids (Phong path forced)"><input type="checkbox" id="ellipsoids-check"><span>Show ellipsoids</span></label>
+      </div>
+      <div class="toggle-group" id="ellipsoid-contour-row" title="Probability contour level (χ²₃ table)">
+        <label class="toggle"><input type="radio" name="ellipsoid-contour" value="0.5" id="ellipsoid-contour-50" checked><span>50%</span></label>
+        <label class="toggle"><input type="radio" name="ellipsoid-contour" value="0.9" id="ellipsoid-contour-90"><span>90%</span></label>
+      </div>
+    </div>
+    <div class="panel-section hidden" id="partial-occupancy-section">
+      <div class="panel-label" title="Sites with _atom_site_occupancy < 1 (mixed-occupancy)">Partial occupancy</div>
+      <div class="toggle-group">
+        <label class="toggle" title="Render partial-occupancy sites as transparent atoms with opacity = occupancy ratio (per-site preserved)"><input type="checkbox" id="partial-occ-check"><span>Show partial occupancy</span></label>
+      </div>
+    </div>
+    <div class="panel-section hidden" id="trajectory-section">
+      <div class="panel-label" title="MD trajectory from AXSF / XDATCAR / extended XYZ">Trajectory</div>
+      <div class="trajectory-controls">
+        <button id="traj-play-btn" class="panel-btn" title="Play / Pause (Space)">▶</button>
+        <input type="range" id="traj-slider" min="0" max="0" step="1" value="0" title="Scrub frames">
+        <input type="number" id="traj-frame-input" class="traj-frame-input" min="1" value="1" title="Jump to frame">
+        <span id="traj-frame-label" class="traj-frame-label">/ 0</span>
+      </div>
+      <div class="trajectory-controls">
+        <span class="traj-control-label" title="Playback speed multiplier">Speed</span>
+        <input type="range" id="traj-speed-slider" min="0.25" max="2" step="0.25" value="1" title="0.25× – 2×">
+        <span id="traj-speed-label" class="traj-frame-label">1.00×</span>
+      </div>
+      <div class="toggle-group">
+        <label class="toggle" title="Repeat playback at end of trajectory"><input type="checkbox" id="traj-loop-check" checked><span>Loop</span></label>
+        <label class="toggle" title="Re-detect bonds at every frame (slow — disable above ~5k atoms; off by default uses frame-0 bonds for all frames)"><input type="checkbox" id="traj-bond-recompute"><span>Recompute bonds every frame (slow)</span></label>
+      </div>
+    </div>
+    <div class="panel-section hidden" id="phases-section">
+      <div class="panel-label panel-label-toggle" id="phases-toggle" title="Secondary structures overlaid alongside the primary (formerly Phases). Click to expand.">Overlay &#x25B6;</div>
+      <div id="phases-content" class="hidden">
+        <div id="phases-list"></div>
+        <button id="add-phase-btn" class="panel-btn full-width" title="Add a structure file to overlay">+ Add Overlay&hellip;</button>
+        <div class="toggle-group" id="comparison-row">
+          <label class="toggle" title="Display NN displacement arrows from primary atoms to first secondary phase atoms (Viridis colormap)"><input type="checkbox" id="compare-toggle"><span>Compare to first overlay (displacement arrows)</span></label>
+        </div>
+        <div id="comparison-stats" class="comparison-stats hidden"></div>
+      </div>
+    </div>
+    <div class="panel-section hidden" id="atom-vectors-section">
+      <div class="panel-label" title="Per-atom vector overlay (magnetic moments, forces, velocities, displacements). Auto-detected from MAGMOM tags, XSF trailing columns, extended-XYZ Properties, or CIF _atom_site_moment_*.">Vectors</div>
+      <div class="vec-kind-label" id="vec-kind-label"></div>
+      <div class="toggle-group">
+        <label class="toggle" title="Render arrows on atoms with non-zero vector data (length ∝ |v|, color by colormap)"><input type="checkbox" id="vector-check"><span>Show arrows</span></label>
+      </div>
+      <div class="toggle-group" id="vector-colormap-row" title="Colormap for arrow color">
+        <label class="toggle"><input type="radio" name="vec-colormap" value="redblue" id="vec-cmap-redblue" checked><span>Red/Blue</span></label>
+        <label class="toggle"><input type="radio" name="vec-colormap" value="viridis" id="vec-cmap-viridis"><span>Viridis</span></label>
+      </div>
+      <div class="iso-row" title="Arrow length scale (Å per unit-magnitude vector). 1.0 = 1 Å arrow per μB / per eV·Å⁻¹.">
+        <span class="iso-row-k">Scale</span>
+        <input type="range" id="vec-scale-slider" class="iso-slider" min="0.1" max="50" step="0.1" value="1.0">
+        <input type="text" inputmode="decimal" id="vec-scale-num" class="iso-num" data-min="0.1" data-max="50" data-step="0.1" data-precision="1" value="1.0">
+      </div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-label panel-label-toggle" id="atoms-toggle" title="Expand per-element color / radius / visibility overrides">Atoms &#x25B6;</div>
+      <div id="atoms-props" class="props-list hidden"></div>
+    </div>
+    <div class="panel-section hidden" id="poly-centers-section">
+      <div class="panel-label panel-label-toggle" id="poly-centers-toggle" title="Choose which element's atoms become polyhedra centers">Polyhedra centers &#x25B6;</div>
+      <div id="poly-centers-props" class="props-list hidden"></div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-label panel-label-toggle" id="bonds-toggle" title="Expand per-pair bond cutoff settings">Bonds &#x25B6;</div>
+      <div id="bond-skip-hint" class="bond-skip-hint hidden">
+        <span id="bond-skip-msg"></span>
+        <button id="bond-force-btn" class="panel-btn" title="Run bond detection anyway (may be slow)">Compute anyway</button>
+      </div>
+      <div id="bonds-props" class="props-list hidden"></div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-label panel-label-toggle" id="options-toggle" title="Advanced rendering options">Options &#x25B6;</div>
+      <div id="options-props" class="toggle-group hidden">
+        <label class="toggle" title="Render atoms and bonds as shader-computed impostors on camera-facing quads (faster, always smooth). Disable to use tessellated sphere/cylinder geometry."><input type="checkbox" id="impostor-check" checked><span>Use impostor rendering (faster)</span></label>
+        <div class="bg-row" title="3D viewport background. 'Theme' follows the VSCode theme; cell/axis line colors adapt to the background. Exported PNGs keep a transparent background either way.">
+          <span class="bg-label">Background</span>
+          <select id="bg-select" class="panel-select">
+            <option value="theme">Theme</option>
+            <option value="dark">Dark</option>
+            <option value="white">White</option>
+            <option value="custom">Custom&hellip;</option>
+          </select>
+          <input type="color" id="bg-color" class="hidden" value="#1e1e1e" title="Custom background color">
+        </div>
+      </div>
+    </div>
+    </div><!-- /.panel-scroll -->
+  </div>
+
+  <!-- Bottom-left info pill — always visible. Picked-atom info appends as
+       an extra segment after the meta when an atom is clicked. -->
+  <div id="info-pill" class="hidden">
+    <span id="pill-formula"></span>
+    <span id="pill-meta"></span>
+    <span id="pill-selected" class="hidden"></span>
+  </div>
+
+  <!-- Measure HUD (top-right; visible only in measure mode) -->
+  <div id="measure-hud" class="hidden" role="region" aria-label="Measurement readout">
+    <div class="measure-head">
+      <div class="measure-kinds" role="tablist">
+        <button type="button" class="measure-kind" data-kind="distance" role="tab" aria-selected="true">Distance</button>
+        <button type="button" class="measure-kind" data-kind="angle" role="tab" disabled title="Needs 3 atoms">Angle</button>
+        <button type="button" class="measure-kind" data-kind="dihedral" role="tab" disabled title="Needs 4 atoms">Dihedral</button>
+      </div>
+      <button type="button" id="measure-clear" class="measure-x" title="Clear (Esc)" aria-label="Clear measurement"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>
+    </div>
+
+    <div class="measure-value">
+      <span class="measure-num" id="measure-num">&mdash;</span>
+      <span class="measure-unit" id="measure-unit">&Aring;</span>
+    </div>
+
+    <div class="measure-pair" id="measure-pair"></div>
+
+    <div class="measure-delta hidden" id="measure-delta">
+      <div class="measure-delta-row">
+        <span class="measure-delta-k">&Delta; fractional</span>
+        <span class="measure-delta-v" id="measure-delta-frac"></span>
+      </div>
+      <div class="measure-delta-row">
+        <span class="measure-delta-k">&Delta; cartesian</span>
+        <span class="measure-delta-v" id="measure-delta-cart"></span>
+      </div>
+    </div>
+
+    <div class="measure-foot">
+      <span class="measure-hint" id="measure-hint">Click an atom to start measuring.</span>
+      <button type="button" id="measure-copy" class="measure-copy" title="Copy measurement">Copy</button>
+    </div>
+  </div>
+
+  <div id="tooltip" class="hidden"></div>
+  </div>
+  <style>
+  /* matviz CSS assumes it owns html/body (html,body{height:100%;overflow:hidden} and
+     #canvas{height:100%}). Inlined into a page, the canvas parent chain gives 0 height and
+     the global rules would kill page scrolling. Re-anchor both to the container. */
+  #mvhome { contain: layout paint; }
+  #mvhome > #canvas { position:absolute; inset:0; width:100% !important; height:100% !important; display:block; }
+  #mvhome #side-panel, #mvhome #top-bar, #mvhome #mode-bar,
+  #mvhome #help-overlay, #mvhome #measure-hud, #mvhome #tooltip,
+  #mvhome #info-pill, #mvhome #sv-switch { position:absolute; }
+
+  </style>
+  <link href="assets/lib/matviz-styles.css" rel="stylesheet">
+  <style>
+  /* undo matviz's global page takeover (loaded above) */
+  html, body { width:auto !important; height:auto !important; overflow:visible !important; }
+  </style>
+  <script>
+
+// acquireVsCodeApi shim — the one VS Code coupling in the webview bundle.
+// Browser equivalents: clipboard for k-path export, download for screenshots,
+// localStorage for persisted state. Host-only messages are safely ignored.
+window.acquireVsCodeApi = function () {
+  return {
+    postMessage: function (m) {
+      if (!m || typeof m !== 'object') return;
+      if (m.type === 'copyToClipboard' && navigator.clipboard) {
+        navigator.clipboard.writeText(m.text).catch(function () {});
+      } else if (m.type === 'saveScreenshot' && m.dataUrl) {
+        var a = document.createElement('a');
+        a.href = m.dataUrl; a.download = 'matviz.png'; a.click();
+      }
+    },
+    getState: function () { return null; },
+    setState: function (s) { try { localStorage.setItem('matviz-state', JSON.stringify(s)); } catch (e) {} return s; }
+  };
+};
+window.MATVIZ_DEFAULTS = { background: 'white', palette: 'light' };
+
+  </script>
+  <script src="assets/lib/matviz-webview.js"></script>
+  <script id="sv-structs" type="application/json">{"N25 device (220 atoms)": {"lattice": [[25.0, 0.0, 0.0], [0.0, 25.0, 0.0], [0.0, 0.0, 169.5931697]], "species": ["Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "H", "H", "H", "Se", "Se", "Se", "Hf", "Se", "Se", "Se", "Hf", "Se", "Se", "Se", "H", "H", "H", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V", "Se", "Se", "Se", "V"], "positions": [[12.498, 14.47, 0.0], [10.795, 11.52, 0.0], [14.198, 11.521, 0.0], [12.498, 12.5, 1.55785], [12.498, 14.47, 3.1157], [10.795, 11.52, 3.1157], [14.198, 11.521, 3.1157], [12.498, 12.5, 4.67355], [12.498, 14.47, 6.2314], [10.795, 11.52, 6.2314], [14.198, 11.521, 6.2314], [12.498, 12.5, 7.78925], [12.498, 14.47, 9.3471], [10.795, 11.52, 9.3471], [14.198, 11.521, 9.3471], [12.498, 12.5, 10.90495], [12.498, 14.47, 12.4628], [10.795, 11.52, 12.4628], [14.198, 11.521, 12.4628], [12.498, 12.5, 14.02065], [12.498, 14.47, 15.5785], [10.795, 11.52, 15.5785], [14.198, 11.521, 15.5785], [12.498, 12.5, 17.13635], [12.498, 14.47, 18.6942], [10.795, 11.52, 18.6942], [14.198, 11.521, 18.6942], [12.498, 12.5, 20.25205], [12.498, 14.47, 21.8099], [10.795, 11.52, 21.8099], [14.198, 11.521, 21.8099], [12.498, 12.5, 23.36775], [12.498, 14.47, 24.9256], [10.795, 11.52, 24.9256], [14.198, 11.521, 24.9256], [12.498, 12.5, 26.48345], [12.498, 14.47, 28.0413], [10.795, 11.52, 28.0413], [14.198, 11.521, 28.0413], [12.498, 12.5, 29.59915], [12.498, 14.47, 31.157], [10.795, 11.52, 31.157], [14.198, 11.521, 31.157], [12.498, 12.5, 32.71485], [12.498, 14.47, 34.2727], [10.795, 11.52, 34.2727], [14.198, 11.521, 34.2727], [12.498, 12.5, 35.83055], [12.498, 14.47, 37.3884], [10.795, 11.52, 37.3884], [14.198, 11.521, 37.3884], [12.498, 12.5, 38.94625], [12.498, 14.47, 40.5041], [10.795, 11.52, 40.5041], [14.198, 11.521, 40.5041], [12.498, 12.5, 42.06195], [12.498, 14.47, 43.6198], [10.795, 11.52, 43.6198], [14.198, 11.521, 43.6198], [12.498, 12.5, 45.17765], [12.498, 14.47, 46.7355], [10.795, 11.52, 46.7355], [14.198, 11.521, 46.7355], [12.498, 12.5, 48.29335], [12.498, 14.47, 49.8512], [10.795, 11.52, 49.8512], [14.198, 11.521, 49.8512], [12.498, 12.5, 51.40905], [12.498, 14.47, 52.9669], [10.795, 11.52, 52.9669], [14.198, 11.521, 52.9669], [12.498, 12.5, 54.52475], [12.498, 14.47, 56.0826], [10.795, 11.52, 56.0826], [14.198, 11.521, 56.0826], [12.498, 12.5, 57.64045], [12.498, 14.47, 59.1983], [10.795, 11.52, 59.1983], [14.198, 11.521, 59.1983], [12.498, 12.5, 60.75615], [12.498, 14.47, 62.314], [10.795, 11.52, 62.314], [14.198, 11.521, 62.314], [12.498, 12.5, 63.87185], [12.498, 14.47, 65.4297], [10.795, 11.52, 65.4297], [14.198, 11.521, 65.4297], [12.498, 12.5, 66.98755], [14.208311, 11.519678, 68.544471], [10.788572, 11.519747, 68.544903], [12.499564, 14.478776, 68.545133], [12.498749, 12.505137, 70.130838], [10.79038, 11.521868, 71.620272], [12.499507, 14.474824, 71.620494], [14.206373, 11.521572, 71.620501], [12.498381, 12.503058, 73.3027], [10.818319, 11.529699, 74.761092], [12.498081, 14.442545, 74.761817], [14.175486, 11.527518, 74.763391], [12.497068, 12.49972, 76.556128], [10.695883, 11.460022, 77.911378], [12.498062, 14.579312, 77.912318], [14.296017, 11.459803, 77.915021], [11.200286, 11.749703, 79.311809], [12.503927, 13.996682, 79.312138], [13.794622, 11.757162, 79.315053], [10.734563, 13.536197, 81.546973], [14.275729, 13.521869, 81.547109], [12.500614, 10.472489, 81.547281], [12.499329, 12.515378, 83.115737], [14.404792, 11.43186, 84.795029], [12.502629, 14.700439, 84.795754], [10.625612, 11.385796, 84.795829], [12.499373, 12.514095, 86.474561], [10.735564, 13.538032, 88.042811], [12.50297, 10.473547, 88.04594], [14.273094, 13.522304, 88.046382], [13.792933, 11.757038, 90.27682], [12.504297, 13.997717, 90.27941], [11.199938, 11.749465, 90.280093], [14.294665, 11.460866, 91.676995], [12.497056, 14.580329, 91.679271], [10.695159, 11.460527, 91.680515], [12.496041, 12.500934, 93.035868], [14.17527, 11.528891, 94.828566], [12.497116, 14.443743, 94.830025], [10.816925, 11.531019, 94.830779], [12.497317, 12.504028, 96.288935], [14.205267, 11.522049, 97.97061], [12.498047, 14.475015, 97.971316], [10.789336, 11.523266, 97.971563], [12.498249, 12.505542, 99.461418], [12.498, 14.47, 101.04777], [10.795, 11.52, 101.04777], [14.198, 11.521, 101.04777], [12.498, 12.5, 102.60562], [12.498, 14.47, 104.16347], [10.795, 11.52, 104.16347], [14.198, 11.521, 104.16347], [12.498, 12.5, 105.72132], [12.498, 14.47, 107.27917], [10.795, 11.52, 107.27917], [14.198, 11.521, 107.27917], [12.498, 12.5, 108.83702], [12.498, 14.47, 110.39487], [10.795, 11.52, 110.39487], [14.198, 11.521, 110.39487], [12.498, 12.5, 111.95272], [12.498, 14.47, 113.51057], [10.795, 11.52, 113.51057], [14.198, 11.521, 113.51057], [12.498, 12.5, 115.06842], [12.498, 14.47, 116.62627], [10.795, 11.52, 116.62627], [14.198, 11.521, 116.62627], [12.498, 12.5, 118.18412], [12.498, 14.47, 119.74197], [10.795, 11.52, 119.74197], [14.198, 11.521, 119.74197], [12.498, 12.5, 121.29982], [12.498, 14.47, 122.85767], [10.795, 11.52, 122.85767], [14.198, 11.521, 122.85767], [12.498, 12.5, 124.41552], [12.498, 14.47, 125.97337], [10.795, 11.52, 125.97337], [14.198, 11.521, 125.97337], [12.498, 12.5, 127.53122], [12.498, 14.47, 129.08907], [10.795, 11.52, 129.08907], [14.198, 11.521, 129.08907], [12.498, 12.5, 130.64692], [12.498, 14.47, 132.20477], [10.795, 11.52, 132.20477], [14.198, 11.521, 132.20477], [12.498, 12.5, 133.76262], [12.498, 14.47, 135.32047], [10.795, 11.52, 135.32047], [14.198, 11.521, 135.32047], [12.498, 12.5, 136.87832], [12.498, 14.47, 138.43617], [10.795, 11.52, 138.43617], [14.198, 11.521, 138.43617], [12.498, 12.5, 139.99402], [12.498, 14.47, 141.55187], [10.795, 11.52, 141.55187], [14.198, 11.521, 141.55187], [12.498, 12.5, 143.10972], [12.498, 14.47, 144.66757], [10.795, 11.52, 144.66757], [14.198, 11.521, 144.66757], [12.498, 12.5, 146.22542], [12.498, 14.47, 147.78327], [10.795, 11.52, 147.78327], [14.198, 11.521, 147.78327], [12.498, 12.5, 149.34112], [12.498, 14.47, 150.89897], [10.795, 11.52, 150.89897], [14.198, 11.521, 150.89897], [12.498, 12.5, 152.45682], [12.498, 14.47, 154.01467], [10.795, 11.52, 154.01467], [14.198, 11.521, 154.01467], [12.498, 12.5, 155.57252], [12.498, 14.47, 157.13037], [10.795, 11.52, 157.13037], [14.198, 11.521, 157.13037], [12.498, 12.5, 158.68822], [12.498, 14.47, 160.24607], [10.795, 11.52, 160.24607], [14.198, 11.521, 160.24607], [12.498, 12.5, 161.80392], [12.498, 14.47, 163.36177], [10.795, 11.52, 163.36177], [14.198, 11.521, 163.36177], [12.498, 12.5, 164.91962], [12.498, 14.47, 166.47747], [10.795, 11.52, 166.47747], [14.198, 11.521, 166.47747], [12.498, 12.5, 168.03532]], "pbc": [true, true, true], "title": "N25 device (220 atoms)"}}</script>
+  <script>
+
+(function(){
+  var S = JSON.parse(document.getElementById('sv-structs').textContent);
+  function load(m){ window.postMessage({type:'loadStructure', data:S[m]}, '*'); }
+  document.querySelectorAll('#sv-switch button[data-m]').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('#sv-switch button[data-m]').forEach(function(x){x.classList.remove('active');});
+      b.classList.add('active'); load(b.getAttribute('data-m'));
+    });
+  });
+  var ui=document.getElementById('sv-ui');
+  ui.addEventListener('click', function(){ var min=document.body.classList.toggle('mv-minimal'); ui.innerHTML = min?'\u2699 Full UI':'\u2699 Minimal'; });
+  setTimeout(function(){ load("N25 device (220 atoms)"); }, 150);
+})();
+
+  </script>
+<figcaption><strong>Fig. 1.</strong> 접합 구조(인터랙티브): Hf₂Se₉ 분자(하늘색 Hf, 주황 Se)가 H 종단된
+      VSe₃ chain 2개(회색 V, 주황 Se)를 1D 전극으로 연결한다 — relaxed 220원자 transport device
+      (vdW-DF2, 60° staggered), transport 축은 z. 드래그로 회전·스크롤로 확대하며, "⚙ Full UI"에서
+      supercell·style 조절이 열린다.</figcaption>
   </figure>
 
   <h2>Idea</h2>
   <p>
-    VSe₃ forms a 1D chain; among the trichalcogenides its coordination had no
-    experimental report, and here it is identified as <strong>trigonal prismatic (TP)</strong>
-    and is <strong>metallic</strong> — a natural 1D electrode. Encapsulating a Hf₂Se₉
-    molecule between two such chains makes a metal–molecule–metal junction. Because the
-    molecule's HOMO–LUMO gap is tiny at the DFT level (0.023 eV, vdW-DF2), its frontier resonance sits
-    almost on the Fermi level and the computed transmission is anomalously high. Whether the transport
-    picture is <em>resonant</em> or <em>non-resonant</em> tunnelling therefore hinges on
-    getting the molecular level alignment right.
+    VSe₃는 1D 사슬을 이룬다; trichalcogenide 중에서 그 배위(coordination)에 대한 실험
+    보고가 없었는데, 여기서 <strong>trigonal prismatic (TP)</strong>으로 규명되었고
+    <strong>금속성</strong>이다 — 자연스러운 1D 전극이다. 이런 사슬 두 개 사이에 Hf₂Se₉
+    분자를 encapsulation하면 metal–molecule–metal 접합이 만들어진다. PBE에서 분자의 HOMO–LUMO
+    gap이 매우 작기 때문에(0.024 eV), frontier resonance가 거의 Fermi level 위에 놓여
+    transmission이 "너무 좋게" 보인다. 따라서 대표 그림이 <em>resonant</em> tunneling인지
+    <em>non-resonant</em> tunneling인지는 분자 준위 정렬(level alignment)을 제대로 잡는가에
+    달려 있다.
   </p>
 
   <h2>Method</h2>
-  <p>
-    Chain and junction relaxations, band structures, and PDOS are computed with DFT in
-    SIESTA (VASP supplies the B3LYP reference), with <strong>vdW-DF2</strong> as the
-    production functional — PBE+D2 was anomalously unstable for the Hf₂Se₉ relaxation and
-    was dropped (<a href="results/hf2se9-stability/index.html">02. Hf₂Se₉ stability</a>).
-    Zero-bias transport is computed with NEGF (TranSIESTA / TBtrans) on the ~220-atom
-    device (electrode k = 100, broadening η = 0.005 eV), giving the transmission $T(E)$,
-    PDOS, and transmission eigenchannels. The molecular levels are then corrected with
-    DFT+Σ: vacuum-molecule orbital shifts
-    $\Delta_i=\varepsilon_i^{\text{B3LYP}}-\varepsilon_i^{\text{vdW-DF2}}$ (built from
-    same-code differences through a common PBE reference) enter the device Hamiltonian as
-    the projector $\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^{\dagger}S$ on the Hf₂Se₉
-    block — implemented through TBtrans's built-in δH, no source patch.
-  </p>
+  <ul>
+    <li><strong>DFT (SIESTA / VASP):</strong> 사슬 및 접합 relaxation, band
+        structure, PDOS. Production functional은 <strong>vdW-DF2</strong>이다 — PBE+D2는
+        Hf₂Se₉ relaxation에서 비정상적으로 불안정하여 폐기했다
+        (<a href="results/hf2se9-stability/index.html">02. Hf₂Se₉ 안정성</a>).</li>
+    <li><strong>Transport (TranSIESTA / TBtrans):</strong> ~220-atom zero-bias NEGF,
+        electrode k = 100, broadening η = 0.005 eV. Transmission T(E), PDOS, 그리고
+        eigenchannel(Re/Im/|ψ|² cubes + z-profile).</li>
+    <li><strong>Molecular-level correction (DFT+Σ):</strong> vacuum 분자에서 얻은
+        orbital shift $\Delta_i=\varepsilon_i^{\text{B3LYP}}-\varepsilon_i^{\text{vdW-DF2}}$를
+        Hf/Se block에 대한 projector
+        $\Delta H_{\mu\nu}=\sum_i \Delta_i\,(C^i_\mu)^{*}C^i_\nu$로 device Hamiltonian에
+        적용한다 — TBtrans에 내장된 δH를 통해 구현하며 source patch는 없다.</li>
+  </ul>
 
   <h2>Status</h2>
   <p>
-    Structure is settled (vdW-DF2 relaxation; 60° staggered registry favoured by 43.3 meV).
-    Transport is converged: scattering-region length is converged, k-grid and η
-    converged, and the three-way comparison <strong>pristine 0.70 / heterojunction 0.35 /
-    disconnected 0</strong> for $T(E_F)$ proves the molecule is the sole conduction
-    bridge (a single dominant eigenchannel). The <strong>DFT+Σ molecular-level correction is
-    applied</strong> (occupied levels shift down, virtual up; isolated-molecule
-    gap opens 0.02 → 0.75 eV): on the 9-cell device the molecular resonance moves off $E_F$,
-    and $T(E_F)$ drops to 0.0032. The remaining analysis is the interface charge-transfer
-    $\Delta\rho$ — the δH correction enters at the TBtrans post-processing step, so the
-    zero-bias $T(E)$ suffices and no finite-bias chain is needed.
+    구조는 확정되었다(vdW-DF2 relaxation; 60° staggered registry가 43.3 meV 더 안정).
+    Transport은 수렴되었다: scattering-region 길이가 수렴했고, k-grid와 η가
+    수렴했으며, $T(E_F)$에 대한 3종 비교 <strong>pristine 0.70 / heterojunction 0.35 /
+    disconnected 0</strong>은 분자가 유일한 전도 다리임을 증명한다(eigenchannel
+    $\tau_0 = 0.999$). <strong>DFT+Σ 분자준위 보정은 적용 완료</strong>됐다
+    (점유 준위는 아래로·비점유는 위로; 고립 분자 gap 0.02 → 0.75 eV 개방):
+    9-cell 소자에서 분자 공명이 $E_F$에서 벗어나 $T(E_F)$가 크게 억제된다.
+    남은 분석은 계면 charge-transfer $\Delta\rho$다 — δH 보정은 TBtrans post-processing 단계에서
+    들어가므로 zero-bias $T(E)$로 충분하고 finite-bias chain은 불필요하다.
   </p>
 
-  <h2>How this site is organized</h2>
+  <h2>이 사이트의 구성</h2>
   <ul>
-    <li><a href="motivation/index.html">Motivation</a> — the experiment behind this calculation
-        (the starting point).</li>
-    <li><a href="plan/index.html">Plan</a> — figure plan and the near-term computation queue.</li>
-    <li><a href="methods/index.html">Methods</a> — DFT (vdW-DF2) + NEGF setup and the DFT+Σ correction.</li>
-    <li><a href="results/index.html">Results</a> — the current junction results plus the
-        chronological topic reports that got us here.</li>
-    <li><a href="log/index.html">Log</a> — dated meeting notes.</li>
+    <li><a href="motivation/index.html">Motivation</a> — 이 계산의 동기가 된 실험 (출발점).</li>
+    <li><a href="plan/index.html">Plan</a> — figure 계획과 단기 계산 queue.</li>
+    <li><a href="methods/index.html">Methods</a> — DFT (vdW-DF2) + NEGF 셋업과 DFT+Σ 보정.</li>
+    <li><a href="results/index.html">Results</a> — 현재 접합 결과와 여기까지 오게 한
+        시간순 topic report.</li>
+    <li><a href="log/index.html">Log</a> — 날짜별 미팅 노트.</li>
   </ul>
 </article>
 <nav class="subpages"></nav>

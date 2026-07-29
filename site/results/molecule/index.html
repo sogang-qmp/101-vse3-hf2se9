@@ -2,7 +2,7 @@
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="order" content="70">
-<title>Hf₂Se₉ molecule — 101-vse3-hf2se9</title>
+<title>Hf₂Se₉ 분자 — 101-vse3-hf2se9</title>
 <link rel="stylesheet" href="../../assets/site.css">
 <link rel="stylesheet" href="../../assets/katex/katex.min.css">
 <script defer src="../../assets/katex/katex.min.js"></script>
@@ -15,35 +15,35 @@
 <aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
 <main>
 <article>
-  <h1>07. Hf₂Se₉ molecule — frontier levels at E_F</h1>
-  <p class="page-meta"><strong>2026-06-12</strong> · The bridging unit and why its level alignment matters</p>
+  <h1>07. Hf₂Se₉ 분자 — E_F에 놓인 프런티어 준위</h1>
+  <p class="page-meta"><strong>2026-06-12</strong> · bridge 단위와 그 준위 정렬이 중요한 이유</p>
 
-  <h2>Goal</h2>
-  <p>Characterise the Hf₂Se₉ molecule that bridges the two VSe₃ chains: its gap, the spatial
-     character of the frontier orbitals, and how far DFT misplaces them.</p>
+  <h2>목표</h2>
+  <p>두 VSe₃ 사슬을 잇는 Hf₂Se₉ 분자를 특성화한다: gap, 프런티어 오비탈의 공간적
+     성격, 그리고 DFT가 그것들을 얼마나 잘못 배치하는지.</p>
 
-  <h2>Method</h2>
-  <p>SIESTA, vdW-DF2 relaxation + single point; HOMO/LUMO wavefunctions plotted. A separate
-     vacuum single point compares PBE vs the B3LYP hybrid, vacuum-level aligned.</p>
+  <h2>방법</h2>
+  <p>SIESTA, vdW-DF2 relaxation + single point; HOMO/LUMO 파동함수를 플롯. 별도의
+     진공 single point에서 진공 준위를 정렬해 PBE vs B3LYP 하이브리드를 비교.</p>
 
-  <h2>Result</h2>
+  <h2>결과</h2>
   <ul>
-    <li><strong>Tiny gap:</strong> the molecular HOMO–LUMO gap is only ≈ <strong>0.023 eV</strong>,
-        so the frontier levels sit essentially on $E_F$ (Fig. 2).</li>
-    <li><strong>Delocalised frontier orbitals:</strong> both HOMO and LUMO spread over the whole
-        Hf₂Se₉ unit (Fig. 4) — they can carry current end to end.</li>
-    <li><strong>Hybrid opens the gap:</strong> B3LYP widens it to <strong>0.752 eV</strong>
-        (vacuum-aligned; occupied levels move down, virtual up).</li>
+    <li><strong>작은 gap:</strong> 분자 HOMO–LUMO gap이 ≈ <strong>0.024 eV</strong>밖에 안 되어,
+        프런티어 준위가 사실상 $E_F$에 놓인다 (Fig. 2).</li>
+    <li><strong>비편재된 프런티어 오비탈:</strong> HOMO와 LUMO 둘 다 Hf₂Se₉ 단위 전체에
+        퍼져 있다 (Fig. 4) — 끝에서 끝까지 전류를 나를 수 있다.</li>
+    <li><strong>하이브리드가 gap을 연다:</strong> B3LYP는 gap을 <strong>0.752 eV</strong>로 넓힌다
+        (진공 정렬; 점유는 아래로, 비점유는 위로).</li>
   </ul>
   <figure>
     <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;justify-content:center">
       <span><img src="figures/hf2se9_mol.png" alt="Hf2Se9 side view" style="max-width:300px"></span>
       <span><img src="figures/hf2se9_mol_top.png" alt="Hf2Se9 top view" style="max-width:200px"></span>
     </div>
-    <figcaption><strong>Fig. 1.</strong> Hf₂Se₉ molecule (2 Hf + 9 Se): side view (left) and top
-      view along the Hf–Hf axis (right).</figcaption>
+    <figcaption><strong>Fig. 1.</strong> Hf₂Se₉ 분자 (2 Hf + 9 Se): 측면도 (왼쪽)와 Hf–Hf 축을
+      따라 본 상면도 (오른쪽).</figcaption>
   </figure>
-  <p>Interactive — the same relaxed Hf₂Se₉ (drag to rotate, scroll to zoom):</p>
+  <p>인터랙티브 — 동일한 relax된 Hf₂Se₉ (드래그로 회전, 스크롤로 확대/축소):</p>
 <div id="hf2se9view" style="position:relative;width:100%;height:320px;border:1px solid var(--border);border-radius:6px;background:#fff"></div>
 <script type="text/plain" id="hf2se9view-xyz">
 11
@@ -78,11 +78,11 @@ Se 14.3597 13.5737 15.8284
 </script>
   <figure>
     <img src="figures/levels.png" alt="Hf2Se9 molecular levels" style="max-width:300px">
-    <figcaption><strong>Fig. 2.</strong> Molecular levels near $E_F$ (vdW-DF2): a near-degenerate
-      HOMO/LUMO pair straddling zero — the small-gap origin of the resonance at $E_F$.</figcaption>
+    <figcaption><strong>Fig. 2.</strong> $E_F$ 근처의 분자 준위 (vdW-DF2): 영(0)을 사이에 둔
+      거의 축퇴된(near-degenerate) HOMO/LUMO 쌍 — $E_F$ 공명의 작은-gap 기원.</figcaption>
   </figure>
   <table>
-    <thead><tr><th>State</th><th>$E-E_F$ (eV)</th></tr></thead>
+    <thead><tr><th>상태</th><th>$E-E_F$ (eV)</th></tr></thead>
     <tbody>
       <tr><td>LUMO+2</td><td>+0.0075</td></tr>
       <tr><td>LUMO+1</td><td>+0.0040</td></tr>
@@ -92,21 +92,20 @@ Se 14.3597 13.5737 15.8284
       <tr><td>HOMO−2</td><td>−0.1883</td></tr>
     </tbody>
   </table>
-  <p>Gap = $E_\text{LUMO}-E_\text{HOMO}$ = <strong>0.023 eV</strong> (vdW-DF2). (Source: 2026-06-12 meeting.)</p>
+  <p>Gap = $E_\text{LUMO}-E_\text{HOMO}$ = <strong>0.024 eV</strong> (vdW-DF2). (출처: 2026-06-12 미팅.)</p>
 
-  <h2>Vacuum-level alignment (B3LYP correction input)</h2>
-  <p>To place the molecular levels on an absolute scale, the orbital energies are referenced to the
-     vacuum level $V_\text{vac}$ taken from the planar-averaged Hartree potential in the vacuum
-     region (Fig. 3). Aligned this way, the hybrid B3LYP opens the gap from
-     <strong>0.023 → 0.752 eV</strong> and lowers the HOMO by ~1 eV relative to the LUMO — the input
-     to the DFT+Σ <a href="../level-correction/index.html">level correction</a>.</p>
+  <h2>진공 준위 정렬 (B3LYP 보정 입력)</h2>
+  <p>분자 준위를 절대 척도에 놓기 위해, 오비탈 에너지를 진공 영역의 평면 평균(planar-averaged)
+     Hartree 퍼텐셜에서 취한 진공 준위 $V_\text{vac}$을 기준으로 삼는다 (Fig. 3). 이렇게 정렬하면
+     하이브리드 B3LYP가 gap을 <strong>0.023 → 0.752 eV</strong>로 열고 LUMO 대비 HOMO를 ~1 eV
+     낮춘다 — DFT+Σ <a href="../level-correction/index.html">준위 보정</a>의 입력이다.</p>
   <figure>
     <img src="figures/b3lyp_hartree.png" alt="planar-averaged Hartree potential, vacuum-aligned" style="max-width:460px">
-    <figcaption><strong>Fig. 3.</strong> Planar-averaged Hartree potential of the vacuum molecule;
-      the plateau sets $V_\text{vac}$ used to align the levels.</figcaption>
+    <figcaption><strong>Fig. 3.</strong> 진공 분자의 평면 평균 Hartree 퍼텐셜;
+      plateau가 준위 정렬에 쓰이는 $V_\text{vac}$을 정한다.</figcaption>
   </figure>
   <table>
-    <thead><tr><th>Method</th><th>$V_\text{vac}$ (eV)</th><th>HOMO − $V_\text{vac}$ (eV)</th><th>LUMO − $V_\text{vac}$ (eV)</th><th>gap (eV)</th></tr></thead>
+    <thead><tr><th>방법</th><th>$V_\text{vac}$ (eV)</th><th>HOMO − $V_\text{vac}$ (eV)</th><th>LUMO − $V_\text{vac}$ (eV)</th><th>gap (eV)</th></tr></thead>
     <tbody>
       <tr><td>vdW-DF2 (SIESTA)</td><td>0.020</td><td>−5.577</td><td>−5.554</td><td>0.023</td></tr>
       <tr><td>B3LYP (VASP)</td><td>0.153</td><td>−6.592</td><td>−5.840</td><td><strong>0.752</strong></td></tr>
@@ -115,16 +114,16 @@ Se 14.3597 13.5737 15.8284
   <figure>
     <img src="figures/homo.png" alt="Hf2Se9 HOMO" style="max-width:300px">
     <img src="figures/lumo.png" alt="Hf2Se9 LUMO" style="max-width:300px">
-    <figcaption><strong>Fig. 4.</strong> HOMO (left) and LUMO (right) — both delocalised over
-      the molecule (Hf olive, Se green; isosurface sign in cyan/yellow).</figcaption>
+    <figcaption><strong>Fig. 4.</strong> HOMO (왼쪽)와 LUMO (오른쪽) — 둘 다 분자 전체에
+      비편재 (Hf olive, Se green; 등가면 부호는 cyan/yellow).</figcaption>
   </figure>
 
-  <h2>Discussion</h2>
+  <h2>논의</h2>
   <p>
-    Because PBE/vdW-DF underestimates the gap, the molecular resonance lands on $E_F$ and the
-    junction transmits "too well." Correcting the level alignment (B3LYP via a DFT+Σ shift) is what
-    decides whether the headline picture is resonant or non-resonant — the computed shifts and the
-    scattering-region length convergence are on the <a href="../level-correction/index.html">level correction</a> page.
+    PBE/vdW-DF가 gap을 과소평가하기 때문에 분자 공명이 $E_F$에 놓이고 접합이 "너무 잘"
+    투과한다. 준위 정렬을 보정하는 것 (DFT+Σ shift를 통한 B3LYP)이 핵심 그림이 공명인지
+    비공명인지를 결정한다 — 계산된 shift와 scattering-region 길이 수렴은
+    <a href="../level-correction/index.html">준위 보정</a> 페이지에 있다.
   </p>
 </article>
 <nav class="subpages"></nav>
