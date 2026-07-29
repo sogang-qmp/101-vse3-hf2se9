@@ -16,4 +16,7 @@ Hf₂Se₉ molecular stacking (dimer/trimer) distance + H-termination scans.
 | `tem_chain_overlay.png` | TEM of the Hf₂Se₉ chain + ball-stick structure overlay |
 | `tem_distances.png` | TEM + schematic with measured distances: molecule–molecule ≈ **0.36 nm (3.6 Å)**, intra-molecule width ~0.72 nm |
 
-**Key result**: bare scan minimum at d = 2.5 Å (collapse); H-terminated **gap mode at d = 3.5 Å** is the global minimum for both dimer and trimer (consistent with the ~3.6 Å TEM spacing). Energies are vdW-DF2 (LMKLL), MeshCutoff 500 Ry, Γ, single-point.
+**Key result**: the unterminated scan minimum is at its lower bound, d = 2.5 Å; the
+hydrogen-terminated project-labelled **gap** geometry has its minimum at d = 3.5 Å for both
+dimer and trimer. The experimental spacing is ~3.6 Å. Energies are fixed-geometry vdW-DF2
+(LMKLL) single points with a 500 Ry real-space mesh cutoff at Γ.

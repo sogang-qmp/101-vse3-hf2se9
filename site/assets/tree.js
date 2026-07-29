@@ -79,12 +79,12 @@ window.SITE_TREE = {
           "children": []
         },
         {
-          "title": "09. Hf₂Se₉ molecular stacking: distance and H-termination",
+          "title": "09. Hf₂Se₉ molecular stacking",
           "path": "results/mol-stacking/index.html",
           "children": []
         },
         {
-          "title": "10. CNT encapsulation — binding energy",
+          "title": "10. CNT encapsulation binding",
           "path": "results/cnt-binding/index.html",
           "children": []
         }

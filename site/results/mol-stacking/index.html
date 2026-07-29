@@ -15,95 +15,226 @@
 <aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
 <main>
 <article>
-  <h1>09. Hf₂Se₉ molecular stacking: distance and H-termination</h1>
-  <p class="page-meta"><strong>2026-07-24</strong> · Source: 04-hf2se9-2mol/, 04-hf2se9-3mol/ (01-distance-scan, 02-h-term single-point stdouts; 03-relax in progress). TEM: Dr. Yangjin Lee (KIST).</p>
+  <h1>09. Hf₂Se₉ molecular stacking</h1>
+  <p class="page-meta"><strong>2026-07-29</strong> · Calculations: fixed-geometry distance scans and ongoing relaxations. Experimental TEM: Dr. Yangjin Lee (KIST).</p>
 
   <h2>Goal</h2>
   <p>
-    Fix the stable stacking separation of Hf₂Se₉ units — a <strong>dimer</strong> (2 molecules) and
-    a <strong>trimer</strong> (3 molecules) — and the H-termination of the open faces. Single-point
-    (SP) energy vs the terminal Se–Se gap <em>d</em>.
+    Determine the terminal Se–Se separation $d$ and hydrogen arrangement for an Hf₂Se₉
+    <strong>dimer</strong> (2 molecules) and <strong>trimer</strong> (3 molecules).
   </p>
 
   <h2>Experimental basis (TEM)</h2>
   <figure>
     <img src="figures/tem_chain_overlay.png" alt="TEM chain with structure overlay" style="width:100%;max-width:900px;display:block;margin:0 auto .8rem">
     <img src="figures/tem_distances.png" alt="TEM with measured distances" style="width:100%;max-width:900px;display:block;margin:0 auto">
-    <figcaption><strong>Fig. 1.</strong> TEM of the Hf₂Se₉ chain with structure overlay (Dr. Yangjin
-      Lee, KIST). Measured <strong>molecule–molecule distance ≈ 0.36 nm (3.6 Å)</strong>
-      (intra-molecule width ~0.72 nm) — the units are vdW-separated, not merged, which is the
-      separation the H-terminated gap-mode scan below reproduces.</figcaption>
+    <figcaption><strong>Fig. 1.</strong> Experimental TEM and structural overlay (Dr. Yangjin Lee,
+      KIST). The measured intermolecular spacing is <strong>≈ 0.36 nm (3.6 Å)</strong>; the
+      intramolecular width is ≈ 0.72 nm. Experimental data, not a calculated result.</figcaption>
   </figure>
 
   <h2>Method</h2>
   <ul>
-    <li>vdW-DF2 (van der Waals density functional, LMKLL), MeshCutoff 500 Ry, Γ-point, vacuum box; SP total energies at fixed geometry.</li>
-    <li>Terminal Se–Se gap scanned: <strong>d = 2.5, 3.0, 3.5, 3.6, 4.0, 4.5 Å</strong> (dimer); the trimer omits 3.6.</li>
-    <li><strong>Stage 1</strong> bare (unterminated) stack. <strong>Stage 2</strong> H-terminated: three H caps placed as a triangle at the gap-centre plane, distinguished by triangle radius — <strong>bond 0.82 Å / gap 1.97 Å</strong> (matches the Se ring) <strong>/ tilt 3.0 Å</strong>. <strong>Stage 3</strong> relax the lowest configuration.</li>
+    <li><strong>Electronic structure:</strong> vdW-DF2 (van der Waals density functional, LMKLL),
+      500 Ry real-space mesh cutoff, Γ point, and a vacuum cell.</li>
+    <li><strong>Distance scan:</strong> fixed-geometry single-point energies at
+      $d$ = 2.5, 3.0, 3.5, 3.6, 4.0, and 4.5 Å for the dimer; the trimer omits 3.6 Å.</li>
+    <li><strong>Hydrogen arrangements:</strong> 3 H atoms at the mid-gap plane with triangular
+      radii 0.82, 1.97, and 3.0 Å. The labels <code>bond</code>, <code>gap</code>, and
+      <code>tilt</code> are project labels for these three starting geometries.</li>
   </ul>
 
   <h2>Result</h2>
+  <div id="cc09" style="border:1px solid rgba(0,0,0,.2);border-radius:6px;padding:12px;background:#fff;margin:.8rem 0;overflow-x:auto"></div>
+  <script>
+  (function () {
+    const nodes = [
+      { id: "bare",  label: "1 · bare scan",      status: "done",   deps: [] },
+      { id: "hterm", label: "2 · H-term modes",    status: "done",   deps: ["bare"] },
+      { id: "relax", label: "3 · relax d=3.5 Å",   status: "active", deps: ["hterm"] },
+      { id: "decay", label: "decay (n=2,3)",       status: "todo",   deps: ["relax"] },
+    ];
+
+  renderComchart(document.getElementById("cc09"), nodes);
+
+  function renderComchart(mount, nodes) {
+    const SVG = "http://www.w3.org/2000/svg";
+    const NW = 196, NH = 46, COLGAP = 92, ROWGAP = 22, PAD = 16;
+
+    const COLORS = {   // Okabe-Ito: done=green, active=orange, todo=gray
+      done:   { fill: "rgba(0,158,115,0.12)",  stroke: "rgba(0,158,115,0.85)",  text: "#00593f" },
+      active: { fill: "rgba(230,159,0,0.14)",  stroke: "rgba(230,159,0,0.95)",  text: "#7a5400" },
+      todo:   { fill: "rgba(90,90,90,0.07)",   stroke: "rgba(90,90,90,0.45)",   text: "#444444" }
+    };
+
+    const byId = new Map(nodes.map(n => [n.id, n]));
+
+    // 위상정렬 깊이(레이어) — deps 최대깊이 + 1
+    const depth = new Map();
+    function d(id, seen) {
+      if (depth.has(id)) return depth.get(id);
+      seen = seen || new Set();
+      if (seen.has(id)) return 0;        // 사이클 방어
+      seen.add(id);
+      const deps = (byId.get(id) || {}).deps || [];
+      const val = deps.length ? Math.max(...deps.map(p => d(p, seen))) + 1 : 0;
+      depth.set(id, val);
+      return val;
+    }
+    nodes.forEach(n => d(n.id));
+
+    const layers = [];
+    nodes.forEach(n => { const k = depth.get(n.id); (layers[k] = layers[k] || []).push(n); });
+
+    const pos = new Map();
+    let maxRows = 0;
+    layers.forEach((col, ci) => {
+      maxRows = Math.max(maxRows, col.length);
+      col.forEach((n, ri) => pos.set(n.id, { x: PAD + ci * (NW + COLGAP), y: PAD + ri * (NH + ROWGAP) }));
+    });
+
+    const W = PAD * 2 + layers.length * NW + (layers.length - 1) * COLGAP;
+    const H = PAD * 2 + maxRows * NH + (maxRows - 1) * ROWGAP + 28; // +범례
+
+    mount.innerHTML = "";
+    const svg = document.createElementNS(SVG, "svg");
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    svg.setAttribute("width", "100%");
+    svg.style.maxWidth = W + "px";
+    svg.style.fontFamily = "system-ui, -apple-system, sans-serif";
+    svg.style.fontSize = "12.5px";
+
+    const defs = document.createElementNS(SVG, "defs");
+    defs.innerHTML =
+      '<marker id="cc-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">' +
+      '<path d="M0,0 L10,5 L0,10 z" fill="rgba(60,60,60,0.6)"></path></marker>';
+    svg.appendChild(defs);
+
+    const edgeEls = [];
+    const edgeLayer = document.createElementNS(SVG, "g");
+    svg.appendChild(edgeLayer);
+    nodes.forEach(n => (n.deps || []).forEach(pid => {
+      const a = pos.get(pid), b = pos.get(n.id);
+      if (!a || !b) return;
+      const x1 = a.x + NW, y1 = a.y + NH / 2, x2 = b.x, y2 = b.y + NH / 2, mx = (x1 + x2) / 2;
+      const path = document.createElementNS(SVG, "path");
+      path.setAttribute("d", `M ${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}`);
+      path.setAttribute("fill", "none");
+      path.setAttribute("stroke", "rgba(60,60,60,0.4)");
+      path.setAttribute("stroke-width", "1.25");
+      path.setAttribute("marker-end", "url(#cc-arrow)");
+      path._from = pid; path._to = n.id;
+      edgeLayer.appendChild(path); edgeEls.push(path);
+    }));
+
+    let selected = null;
+    nodes.forEach(n => {
+      const p = pos.get(n.id), c = COLORS[n.status] || COLORS.todo;
+      const g = document.createElementNS(SVG, "g");
+      g.style.cursor = "pointer";
+      const rect = document.createElementNS(SVG, "rect");
+      rect.setAttribute("x", p.x); rect.setAttribute("y", p.y);
+      rect.setAttribute("width", NW); rect.setAttribute("height", NH); rect.setAttribute("rx", "7");
+      rect.setAttribute("fill", c.fill); rect.setAttribute("stroke", c.stroke); rect.setAttribute("stroke-width", "1.25");
+      g.appendChild(rect);
+      const dot = document.createElementNS(SVG, "circle");
+      dot.setAttribute("cx", p.x + 14); dot.setAttribute("cy", p.y + NH / 2); dot.setAttribute("r", "4.5");
+      dot.setAttribute("fill", c.stroke); g.appendChild(dot);
+      const t = document.createElementNS(SVG, "text");
+      t.setAttribute("x", p.x + 28); t.setAttribute("y", p.y + NH / 2 + 4);
+      t.setAttribute("fill", c.text); t.textContent = n.label; g.appendChild(t);
+      (function fit(el, avail) {                       // keep the label inside the box
+        var fs = 12.5;
+        el.style.fontSize = fs + "px";
+        while (fs > 9 && el.getComputedTextLength && el.getComputedTextLength() > avail) {
+          fs -= 0.5; el.style.fontSize = fs + "px";
+        }
+      })(t, NW - 28 - 10);
+      function highlight(on) {
+        const active = on || selected === n.id;
+        rect.setAttribute("stroke-width", active ? "2.5" : "1.25");
+        edgeEls.forEach(e => {
+          const touch = e._from === n.id || e._to === n.id;
+          e.setAttribute("stroke", active && touch ? c.stroke : "rgba(60,60,60,0.4)");
+          e.setAttribute("stroke-width", active && touch ? "2.25" : "1.25");
+        });
+      }
+      g.addEventListener("mouseenter", () => highlight(true));
+      g.addEventListener("mouseleave", () => highlight(false));
+      g.addEventListener("click", () => { selected = selected === n.id ? null : n.id; highlight(false); });
+      svg.appendChild(g);
+    });
+
+    const legend = document.createElementNS(SVG, "g");
+    ["done", "active", "todo"].forEach((st, i) => {
+      const c = COLORS[st], lx = PAD + i * 96, ly = H - 14;
+      const sw = document.createElementNS(SVG, "rect");
+      sw.setAttribute("x", lx); sw.setAttribute("y", ly - 9);
+      sw.setAttribute("width", 14); sw.setAttribute("height", 14); sw.setAttribute("rx", "3");
+      sw.setAttribute("fill", c.fill); sw.setAttribute("stroke", c.stroke); legend.appendChild(sw);
+      const lt = document.createElementNS(SVG, "text");
+      lt.setAttribute("x", lx + 20); lt.setAttribute("y", ly + 2);
+      lt.setAttribute("fill", c.text); lt.textContent = st; legend.appendChild(lt);
+    });
+    svg.appendChild(legend);
+    mount.appendChild(svg);
+  }
+  })();
+  </script>
   <p>
-    <strong>H-terminated, the gap-mode stack at d = 3.5 Å is the energy minimum for both dimer and
-    trimer</strong> — consistent with the ~3.6 Å TEM spacing (the minimum is shallow: dimer d = 3.6 Å
-    is only +0.13 eV). The bare scan instead falls to the shortest gap (d = 2.5 Å).
+    <strong>The hydrogen-terminated <code>gap</code> geometry has its minimum at $d$ = 3.5 Å
+    for both the dimer and trimer.</strong> The nearest measured spacing is 3.6 Å; for the dimer,
+    the 3.6 Å point is 0.135 eV above the 3.5 Å minimum. In the unterminated scan, the minimum
+    occurs at the lower scan bound, $d$ = 2.5 Å.
   </p>
+
+  <table>
+    <thead><tr><th>System</th><th>Unterminated minimum</th><th>Hydrogen-terminated minimum</th><th>Relaxation</th></tr></thead>
+    <tbody>
+      <tr><td>Dimer</td><td>$d$ = 2.5 Å (scan bound)</td><td><code>gap</code>, $d$ = 3.5 Å</td><td>running</td></tr>
+      <tr><td>Trimer</td><td>$d$ = 2.5 Å (scan bound)</td><td><code>gap</code>, $d$ = 3.5 Å</td><td>running</td></tr>
+    </tbody>
+  </table>
 
   <figure>
     <iframe src="matviz-viewer_molstack.html" style="width:100%;max-width:680px;height:460px;border:1px solid rgba(0,0,0,.25);border-radius:6px;background:#fff" title="matviz structure viewer" loading="lazy"></iframe>
-    <figcaption><strong>Fig. 2.</strong> H-terminated gap-mode stack at d = 3.5 Å — switch between
-      dimer (25 atoms) and trimer (39 atoms). Current relaxation geometry (Stage 3). Blue = Hf,
+    <figcaption><strong>Fig. 2.</strong> Hydrogen-terminated <code>gap</code> structures used to
+      start the current relaxations: dimer (25 atoms) and trimer (39 atoms). Blue = Hf,
       tan = Se, white = H.</figcaption>
   </figure>
 
-  <h3>Stage 1 — bare distance scan (ΔE, meV)</h3>
-  <table>
-    <thead><tr><th>d (Å)</th><th>2.5</th><th>3.0</th><th>3.5</th><th>3.6</th><th>4.0</th><th>4.5</th></tr></thead>
-    <tbody>
-      <tr><td>Dimer</td><td><strong>0</strong></td><td>1365</td><td>2419</td><td>2580</td><td>3097</td><td>3527</td></tr>
-      <tr><td>Trimer</td><td><strong>0</strong></td><td>2216</td><td>4591</td><td>—</td><td>5939</td><td>—</td></tr>
-    </tbody>
-  </table>
   <figure>
     <div style="display:flex;gap:1rem;flex-wrap:wrap">
       <span><img src="figures/E_vs_distance_2mol.png" alt="dimer bare distance scan" style="max-width:330px"></span>
       <span><img src="figures/E_vs_distance_3mol.png" alt="trimer bare distance scan" style="max-width:330px"></span>
     </div>
-    <figcaption><strong>Fig. 3.</strong> Bare stacking energy vs Se–Se gap — dimer (left), trimer (right).</figcaption>
+    <figcaption><strong>Fig. 3.</strong> Unterminated fixed-geometry energy scans: dimer (left)
+      and trimer (right). $\Delta E$ is referenced to the minimum of each scan.</figcaption>
   </figure>
 
-  <h3>Stage 2 — H-terminated mode scan (ΔE, meV; vs global min)</h3>
-  <p>ΔE relative to the global minimum of each system (dimer −65856.850 eV; trimer −98810.933 eV).</p>
-  <table>
-    <thead><tr><th rowspan="2">d (Å)</th><th colspan="3">Dimer</th><th colspan="3">Trimer</th></tr>
-      <tr><th>bond</th><th>gap</th><th>tilt</th><th>bond</th><th>gap</th><th>tilt</th></tr></thead>
-    <tbody>
-      <tr><td>2.5</td><td>4111</td><td>13287</td><td>3825</td><td>8077</td><td>26370</td><td>7298</td></tr>
-      <tr><td>3.0</td><td>2750</td><td>1703</td><td>1844</td><td>5382</td><td>3416</td><td>3659</td></tr>
-      <tr><td>3.5</td><td>3191</td><td><strong>0</strong></td><td>2842</td><td>6313</td><td><strong>0</strong></td><td>5692</td></tr>
-      <tr><td>3.6</td><td>3342</td><td>135</td><td>3164</td><td>—</td><td>—</td><td>—</td></tr>
-      <tr><td>4.0</td><td>3670</td><td>1330</td><td>4544</td><td>7334</td><td>2694</td><td>9119</td></tr>
-      <tr><td>4.5</td><td>4124</td><td>3389</td><td>6189</td><td>8237</td><td>6862</td><td>12431</td></tr>
-    </tbody>
-  </table>
   <figure>
     <div style="display:flex;gap:1rem;flex-wrap:wrap">
       <span><img src="figures/hterm_modes_2mol.png" alt="dimer H-term modes" style="max-width:330px"></span>
       <span><img src="figures/hterm_modes_3mol.png" alt="trimer H-term modes" style="max-width:330px"></span>
     </div>
-    <figcaption><strong>Fig. 4.</strong> H-terminated energy vs Se–Se gap, three cap modes — dimer (left), trimer (right). Gap mode bottoms out at d = 3.5 Å.</figcaption>
+    <figcaption><strong>Fig. 4.</strong> Hydrogen-terminated fixed-geometry scans for the three
+      project-labelled arrangements: dimer (left) and trimer (right).</figcaption>
   </figure>
 
-  <h3>Stage 3 — relaxation (in progress)</h3>
+  <p><em>Scope.</em> These are fixed-geometry energy differences, not intermolecular binding
+    energies. The 3 H atoms remain at the mid-gap plane while $d$ changes.</p>
+
+  <h2>Relaxation <span class="status">in progress</span></h2>
   <p>
-    The gap-mode d = 3.5 Å configuration (dimer 25 atoms, 25×25×35 Å; trimer 39 atoms, 25×25×45 Å)
-    is being relaxed with vdW-DF2 (Broyden, MaxForceTol 0.01 eV/Å, cell fixed); not yet converged.
+    <strong>Both structures remain unconverged against the maximum-force tolerance of
+    0.02 eV/Å.</strong> The current calculations use conjugate-gradient relaxation with a maximum
+    displacement of 0.01 Å. Live force values are listed on <a href="../../status/index.html">Status</a>.
   </p>
 
   <h2>Next steps</h2>
   <ul>
-    <li>Finish the gap-mode relaxation; report converged Hf–Hf, Se–Se gap, residual force.</li>
-    <li>Feed the converged stack into the connected multi-molecule heterostructure (conductance decay).</li>
+    <li>Converge both structures and report the relaxed Hf–Hf and terminal Se–Se separations.</li>
+    <li>Use the relaxed structures for the 2- and 3-molecule conductance-decay calculations.</li>
   </ul>
 </article>
 <nav class="subpages"></nav>

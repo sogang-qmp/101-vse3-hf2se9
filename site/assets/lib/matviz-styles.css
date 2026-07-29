@@ -1,0 +1,1648 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --top-bar-h: 46px;
+  --mode-bar-w: 40px;
+  --side-panel-w: 248px;
+  /* (V2 overlay-only as of v0.18.0; offset-mode CSS removed.) */
+
+  /* ===== V2 design tokens (Floating UI redesign — see plans/v0.18.0_*) =====
+     Glass alpha layers, surfaces, lines, shadows, type scale. These get
+     applied on the chrome (toolbar, panel, info pill, axis card, help card,
+     measure HUD); CPK element colors and unrelated VSCode tokens live
+     elsewhere. */
+  --v2-glass-1: rgba(22, 22, 24, 0.72);
+  --v2-glass-2: rgba(24, 24, 26, 0.86);
+  --v2-glass-3: rgba(28, 28, 30, 0.94);
+  --v2-blur: 16px;
+  --v2-blur-sm: 10px;
+
+  --v2-line: rgba(255, 255, 255, 0.06);
+  --v2-line-strong: rgba(255, 255, 255, 0.10);
+  --v2-line-focus: rgba(0, 127, 212, 0.55);
+
+  --v2-surf-0: rgba(255, 255, 255, 0.03);
+  --v2-surf-1: rgba(255, 255, 255, 0.06);
+  --v2-surf-2: rgba(255, 255, 255, 0.10);
+  --v2-surf-accent: rgba(0, 127, 212, 0.20);
+
+  --v2-sh-1: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --v2-sh-2: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(0, 0, 0, 0.2);
+  --v2-sh-3: 0 16px 48px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(0, 127, 212, 0.12);
+
+  --v2-r-sm: 4px;
+  --v2-r: 6px;
+  --v2-r-lg: 8px;
+
+  --v2-t-caps: 10px;
+  --v2-t-micro: 11px;
+  --v2-t-body: 12px;
+  --v2-t-num-sm: 13px;
+  --v2-t-title: 15px;
+  --v2-t-formula: 20px;
+  --v2-t-num: 34px;
+
+  --v2-fg-1: var(--vscode-editor-foreground, #ccc);
+  --v2-fg-2: var(--vscode-descriptionForeground, #888);
+  --v2-fg-3: #666;
+}
+
+/* Light-theme override: invert the V2 glass tint + alpha colorant so the rail,
+   side panel, toolbar, info pill, axis/help cards, and measure HUD don't read
+   as dark slabs against a light editor. Glass shifts to a warm-white tint;
+   lines and surfaces flip from white-alpha to black-alpha. Shadows soften. */
+body.vscode-light,
+body.vscode-high-contrast-light {
+  --v2-glass-1: rgba(252, 252, 253, 0.78);
+  --v2-glass-2: rgba(248, 249, 250, 0.90);
+  --v2-glass-3: rgba(245, 246, 247, 0.96);
+
+  --v2-line: rgba(0, 0, 0, 0.08);
+  --v2-line-strong: rgba(0, 0, 0, 0.14);
+  --v2-line-focus: rgba(0, 127, 212, 0.55);
+
+  --v2-surf-0: rgba(0, 0, 0, 0.03);
+  --v2-surf-1: rgba(0, 0, 0, 0.06);
+  --v2-surf-2: rgba(0, 0, 0, 0.10);
+  --v2-surf-accent: rgba(0, 127, 212, 0.16);
+
+  --v2-sh-1: 0 2px 8px rgba(15, 23, 42, 0.10);
+  --v2-sh-2: 0 8px 24px rgba(15, 23, 42, 0.14), 0 0 0 1px rgba(15, 23, 42, 0.06);
+  --v2-sh-3: 0 16px 48px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(0, 127, 212, 0.14);
+
+  --v2-fg-3: #888;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--vscode-editor-background, #1e1e1e);
+}
+
+#canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Note: when the side panel is open, the 3D content is shifted rightward via
+   Camera.setViewOffset (see CrystalRenderer.setViewportShift). Canvas itself
+   stays full-size — the shift is in the projection matrix, not the layout. */
+
+/* ===== Mode rail (far left, full height — V2 floating glass) ===== */
+#mode-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 8px 4px;
+  background: var(--v2-glass-1);
+  -webkit-backdrop-filter: blur(var(--v2-blur-sm));
+  backdrop-filter: blur(var(--v2-blur-sm));
+  border-right: 1px solid var(--v2-line);
+  z-index: 13;
+}
+
+.mode-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  color: var(--v2-fg-2);
+  border: 1px solid transparent;
+  border-radius: var(--v2-r-sm);
+  cursor: pointer;
+  padding: 0;
+  font-size: 18px;
+  line-height: 1;
+  transition: background 120ms, color 120ms, border-color 120ms;
+}
+
+.mode-btn:hover {
+  background: var(--v2-surf-1);
+  color: var(--v2-fg-1);
+}
+
+.mode-btn.active {
+  background: var(--v2-surf-accent);
+  color: var(--v2-fg-1);
+  border-color: var(--v2-line-focus);
+}
+
+.mode-sep {
+  height: 1px;
+  background: var(--v2-line);
+  margin: 3px 2px;
+}
+
+/* ===== Top toolbar (V2 floating glass — two-mode responsive) =====
+   Default mode: content-sized centered pill (V2 mockup intent — toolbar
+   hugs its content and stays centered above the canvas).
+   Narrow mode (when content can't fit on a single row): switch to
+   anchored-edges + `flex-wrap: wrap` so all icons stay visible across
+   multiple rows.
+
+   The mode-switch thresholds are tuned to the natural single-row width
+   (~785px of content + padding). Above the threshold, the centered pill
+   fits cleanly; below, anchored-edges with wrap is the only layout that
+   reliably keeps every icon visible without overflowing the glass card. */
+#top-bar {
+  position: absolute;
+  top: 12px;
+  /* Centered in the canvas-clear region (rail → viewport-right edge), not
+     in the viewport — `(rail + 100vw) / 2` is the midpoint between the
+     rail's right edge and the viewport's right edge. transform: -50%
+     centers the toolbar's own midline at that point. */
+  left: calc((var(--mode-bar-w) + 100vw) / 2);
+  transform: translateX(-50%);
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0;
+  padding: 4px 6px;
+  background: var(--v2-glass-2);
+  -webkit-backdrop-filter: blur(var(--v2-blur));
+  backdrop-filter: blur(var(--v2-blur));
+  border: 1px solid var(--v2-line);
+  border-radius: var(--v2-r);
+  box-shadow: var(--v2-sh-2);
+  font-family: var(--vscode-font-family, monospace);
+  font-size: 14px;
+  color: var(--v2-fg-1);
+  z-index: 12;
+  max-width: calc(100vw - var(--mode-bar-w) - 32px);
+}
+/* NOTE: `container-type: inline-size` was tried here but combined with
+   absolute-positioned + width:auto (shrink-to-fit) it caused Chromium's
+   webview to compute the toolbar width as 0, making it invisible. All
+   responsive breakpoints below use viewport-based @media queries instead,
+   which don't interact with the toolbar's auto-width calculation. */
+/* Panel open: center between the panel's right edge (rail + 8 inset +
+   panel-w + 12 gap) and viewport-right. */
+body.panel-open #top-bar {
+  left: calc((var(--mode-bar-w) + var(--side-panel-w) + 20px + 100vw) / 2);
+  max-width: calc(100vw - var(--mode-bar-w) - var(--side-panel-w) - 40px);
+}
+
+/* Switch to anchored-edges + wrap mode + tighter buttons when the canvas
+   can't fit the natural single-row width (panel closed → viewport < 870px;
+   panel open → viewport < 1140px since the panel eats ~248+24px). */
+@media (max-width: 870px) {
+  #top-bar {
+    left: calc(var(--mode-bar-w) + 12px);
+    right: 16px;
+    transform: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 3px;
+    max-width: none;
+  }
+  .bar-btn { min-width: 26px; height: 26px; padding: 0 4px; }
+  .bar-sep { margin: 0 4px; height: 16px; }
+  .bar-label > :not(.num-wrap) { display: none; }
+  .bar-label { margin-left: 2px; gap: 0; }
+  .axis-btn { min-width: 22px; }
+}
+@media (max-width: 1140px) {
+  body.panel-open #top-bar {
+    left: calc(var(--mode-bar-w) + var(--side-panel-w) + 20px);
+    right: 16px;
+    transform: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 3px;
+    max-width: none;
+  }
+  body.panel-open .bar-btn { min-width: 26px; height: 26px; padding: 0 4px; }
+  body.panel-open .bar-sep { margin: 0 4px; height: 16px; }
+  body.panel-open .bar-label > :not(.num-wrap) { display: none; }
+  body.panel-open .bar-label { margin-left: 2px; gap: 0; }
+  body.panel-open .axis-btn { min-width: 22px; }
+}
+
+/* Second-tier shrink for very narrow viewports — buttons squeeze down one
+   more notch so multi-row wrap doesn't run away. Same threshold logic
+   shifted by the panel offset. */
+@media (max-width: 540px) {
+  .bar-btn { min-width: 24px; height: 24px; padding: 0 3px; font-size: 13px; }
+  .bar-sep { margin: 0 3px; }
+  #top-bar { padding: 3px 4px; }
+}
+@media (max-width: 810px) {
+  body.panel-open .bar-btn { min-width: 24px; height: 24px; padding: 0 3px; font-size: 13px; }
+  body.panel-open .bar-sep { margin: 0 3px; }
+  body.panel-open #top-bar { padding: 3px 4px; }
+}
+
+.bar-group {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 1px;
+  flex-shrink: 0;
+}
+
+.bar-sep {
+  width: 1px;
+  height: 18px;
+  background: var(--v2-line-strong);
+  margin: 0 6px;
+  flex-shrink: 0;
+}
+
+.bar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  height: 28px;
+  padding: 0 6px;
+  background: transparent;
+  color: var(--v2-fg-1);
+  border: 1px solid transparent;
+  border-radius: 3px;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 120ms, color 120ms, border-color 120ms;
+}
+
+.bar-btn:hover {
+  background: var(--v2-surf-1);
+  color: var(--v2-fg-1);
+}
+
+.bar-btn:active,
+.bar-btn.active {
+  background: var(--v2-surf-accent);
+  border-color: var(--v2-line-focus);
+  color: var(--v2-fg-1);
+}
+
+.axis-btn {
+  font-weight: 700;
+  font-size: 14px;
+  min-width: 26px;
+}
+
+.bar-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  color: var(--vscode-descriptionForeground, #888);
+  margin-left: 6px;
+}
+
+.bar-input {
+  width: 52px;
+  height: 28px;
+  padding: 2px 4px;
+  background: var(--vscode-input-background, #3c3c3c);
+  color: var(--vscode-input-foreground, #ccc);
+  border: 1px solid var(--vscode-input-border, #555);
+  border-radius: 3px;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Compact step-angle / step-zoom inputs in the floating toolbar. The label
+   ("Step(°):" / "Step(%):") is read aloud so the visible box only needs to
+   show 2-digit values — set the wrapper width explicitly and override the
+   inherited .bar-input 52px on the inner input. */
+.bar-label .num-wrap {
+  width: 38px;
+  height: 24px;
+}
+.bar-label .num-wrap .num-input {
+  width: auto;
+  font-size: 12px;
+  padding: 0 1px 0 4px;
+}
+.bar-label .num-wrap .num-steps { width: 12px; }
+.bar-label { font-size: 12px; gap: 3px; margin-left: 4px; }
+
+/* ===== Numeric stepper (full-height stacked ▲/▼; native spinners suppressed)
+   Wrapper acts as the bordered box; the input itself is borderless inside.
+   Used for step-angle, step-zoom, sc-a/b/c. ============================== */
+.num-wrap {
+  display: inline-flex;
+  align-items: stretch;
+  height: 28px;
+  background: var(--vscode-input-background, #3c3c3c);
+  border: 1px solid var(--vscode-input-border, #555);
+  border-radius: 3px;
+  overflow: hidden;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+.num-wrap:focus-within { border-color: var(--vscode-focusBorder, #007fd4); }
+.num-wrap .num-input {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  color: var(--vscode-input-foreground, #ccc);
+  font-family: inherit;
+  font-size: 14px;
+  text-align: center;
+  padding: 0 2px 0 6px;
+  -moz-appearance: textfield;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.num-wrap .num-input::-webkit-outer-spin-button,
+.num-wrap .num-input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  margin: 0 !important;
+  display: none !important;
+}
+.num-steps {
+  display: flex;
+  flex-direction: column;
+  width: 16px;
+  border-left: 1px solid var(--vscode-input-border, #555);
+  flex-shrink: 0;
+}
+.num-step {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  height: 50%;
+  min-height: 0;
+  color: var(--vscode-descriptionForeground, #888);
+  cursor: pointer;
+  font-family: inherit;
+}
+.num-step:hover {
+  background: var(--vscode-toolbar-hoverBackground, rgba(90, 93, 94, 0.31));
+  color: var(--vscode-editor-foreground, #ccc);
+}
+.num-step:active {
+  background: var(--vscode-toolbar-activeBackground, rgba(99, 102, 103, 0.5));
+  color: var(--vscode-editor-foreground, #ccc);
+}
+.num-step.up { border-bottom: 1px solid var(--vscode-input-border, #555); }
+.num-step svg { display: block; }
+
+/* SVG icons inside top-bar / mode-bar buttons render block-level so the
+   button's flex centering controls layout (avoids inline-baseline drift). */
+.bar-btn svg, .mode-btn svg { display: block; }
+
+/* ===== Left side panel (V2 floating glass) =====
+   Inset on all four sides — 8px from rail / top / bottom — so the panel
+   reads as a uniformly floating card with rounded corners on every edge.
+   The 8px gap to the rail also visually separates the rail's chrome from
+   the panel's chrome. */
+#side-panel {
+  position: absolute;
+  top: 8px;
+  left: calc(var(--mode-bar-w) + 8px);
+  bottom: 8px;
+  width: var(--side-panel-w);
+  background: var(--v2-glass-2);
+  -webkit-backdrop-filter: blur(var(--v2-blur));
+  backdrop-filter: blur(var(--v2-blur));
+  border: 1px solid var(--v2-line);
+  border-radius: var(--v2-r);
+  box-shadow: var(--v2-sh-2);
+  font-family: var(--vscode-font-family, monospace);
+  font-size: 14px;
+  color: var(--v2-fg-1);
+  z-index: 11;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#side-panel.collapsed {
+  display: none;
+}
+
+/* Inner scroll region — sections live here. The wrapper retains glass
+   border + shadow; only the content scrolls. */
+.panel-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 14px 16px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.10) transparent;
+}
+.panel-scroll::-webkit-scrollbar { width: 6px; }
+.panel-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.10);
+  border-radius: 3px;
+}
+
+/* Drag handle on right edge of side panel */
+#panel-resize {
+  position: absolute;
+  top: 0;
+  right: -4px;
+  width: 8px;
+  height: 100%;
+  cursor: ew-resize;
+  z-index: 12;
+}
+
+#panel-resize:hover,
+#panel-resize.dragging {
+  background: var(--v2-line-focus);
+  opacity: 0.5;
+}
+
+/* Info pill — bottom-left canonical formula readout (V2 spec).
+   Always visible; shifts horizontally to clear the side panel when open. */
+#info-pill {
+  position: absolute;
+  bottom: 16px;
+  left: calc(var(--mode-bar-w) + 12px);
+  padding: 10px 14px;
+  background: var(--v2-glass-2);
+  -webkit-backdrop-filter: blur(var(--v2-blur));
+  backdrop-filter: blur(var(--v2-blur));
+  border: 1px solid var(--v2-line);
+  border-radius: var(--v2-r-sm);
+  box-shadow: var(--v2-sh-1);
+  z-index: 11;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-family: var(--vscode-font-family, monospace);
+  color: var(--v2-fg-1);
+  pointer-events: none;
+  max-width: 70vw;
+}
+body.panel-open #info-pill {
+  /* Pill clears at rail + 8 panel inset + panel + 12 gap = +20. */
+  left: calc(var(--mode-bar-w) + var(--side-panel-w) + 20px);
+}
+#pill-formula {
+  font-size: var(--v2-t-title);
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: var(--v2-fg-1);
+  white-space: nowrap;
+}
+#pill-meta {
+  font-size: var(--v2-t-micro);
+  color: var(--v2-fg-3);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#pill-meta b {
+  color: var(--v2-fg-2);
+  font-weight: 500;
+}
+
+/* Selected-atom segment — appears inside the info pill when an atom is
+   clicked. Uses the same micro-size + tabular-nums typography as the meta
+   so the pill reads as one continuous strip; a leading separator line
+   (left border) visually divides structure-meta from atom-info. */
+#pill-selected {
+  font-size: var(--v2-t-micro);
+  color: var(--v2-fg-2);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 12px;
+  border-left: 1px solid var(--v2-line-strong);
+  max-width: 60vw;
+}
+#pill-selected b {
+  color: var(--v2-fg-1);
+  font-weight: 600;
+}
+
+.panel-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 0;
+  border-top: 1px solid var(--v2-line);
+}
+.panel-section:first-child {
+  border-top: 0;
+  padding-top: 4px;
+}
+
+.panel-label {
+  font-size: var(--v2-t-caps);
+  text-transform: uppercase;
+  color: var(--v2-fg-3);
+  letter-spacing: 1.1px;
+  font-weight: 600;
+}
+
+.panel-select {
+  width: 100%;
+  padding: 5px 6px;
+  background: var(--vscode-input-background, #3c3c3c);
+  color: var(--vscode-input-foreground, #ccc);
+  border: 1px solid var(--vscode-input-border, #555);
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Background select row (Options section) */
+.bg-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+.bg-row .bg-label {
+  flex: 0 0 auto;
+  font-size: 13px;
+  color: var(--v2-fg-2, #999);
+}
+.bg-row .panel-select {
+  flex: 1 1 auto;
+  width: auto;
+}
+.bg-row input[type="color"] {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid var(--v2-line-strong, #555);
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.panel-btn {
+  width: 100%;
+  padding: 5px 9px;
+  background: var(--vscode-button-secondaryBackground, #3c3c3c);
+  color: var(--vscode-button-secondaryForeground, #ccc);
+  border: 1px solid var(--vscode-editorWidget-border, #444);
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.panel-btn:hover {
+  background: var(--vscode-button-secondaryHoverBackground, #505050);
+}
+
+.panel-btn.active {
+  border-color: var(--vscode-focusBorder, #007fd4);
+}
+
+.toggle-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: var(--v2-t-body);
+  padding: 4px 2px;
+  justify-content: space-between;
+}
+.toggle > span:not(.switch):not(.switch-thumb) {
+  flex: 1;
+  color: var(--v2-fg-1);
+}
+
+/* Pill toggle switch (V2 spec, VSCode focus blue when on).
+   Native checkbox stays in DOM (focusable, label-clickable, change events
+   intact) but is visually hidden; the .switch span renders as the visual
+   control. Inserted by setupToggleSwitches() in main.ts at startup. */
+.toggle input[type="checkbox"] {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  width: 36px;
+  height: 20px;
+  background: rgba(120, 120, 128, 0.30);
+  border-radius: 10px;
+  transition: background 180ms ease;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+.switch.on {
+  background: var(--vscode-focusBorder, #007fd4);
+}
+.switch-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.30), 0 0 0 0.5px rgba(0, 0, 0, 0.04);
+}
+.switch.on .switch-thumb { transform: translateX(16px); }
+
+/* ===== Style chips (V2 — replaces the display-style <select>) ===== */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.chip {
+  padding: 4px 10px;
+  background: var(--v2-surf-0);
+  color: var(--v2-fg-2);
+  border: 1px solid transparent;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: var(--v2-t-micro);
+  cursor: pointer;
+  transition: all 120ms;
+}
+.chip:hover {
+  color: var(--v2-fg-1);
+  background: var(--v2-surf-1);
+}
+.chip.active {
+  color: var(--v2-fg-1);
+  background: var(--v2-surf-accent);
+  border-color: var(--v2-line-focus);
+}
+
+/* ===== V2 supercell stepper — `−  N  +` per axis, no upper bound =====
+   3 fluid cells that share the available panel width. `flex: 1 1 0`
+   distributes space equally between the three axes; the default
+   `min-width: auto` (= min-content) prevents collapsing below the size
+   needed for the [- N +] controls. The cells therefore widen when the
+   panel is resized wider and tighten when narrower. */
+.sc-row {
+  display: flex;
+  gap: 6px;
+}
+.sc {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  flex: 1 1 0;
+  min-width: 0;
+}
+.sc-l {
+  font-size: var(--v2-t-caps);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  font-weight: 600;
+  color: var(--v2-fg-3);
+}
+.sc-steppers {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  height: 26px;
+  background: var(--v2-surf-0);
+  border: 1px solid var(--v2-line);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.sc-steppers:focus-within { border-color: var(--v2-line-focus); }
+.sc-steppers button {
+  width: 22px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: var(--v2-fg-2);
+  font-family: inherit;
+  font-size: var(--v2-t-body);
+  cursor: pointer;
+  transition: background 120ms, color 120ms;
+}
+.sc-steppers button:hover {
+  background: var(--v2-surf-1);
+  color: var(--v2-fg-1);
+}
+.sc-val {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-family: inherit;
+  font-size: var(--v2-t-body);
+  font-variant-numeric: tabular-nums;
+  color: var(--v2-fg-1);
+  padding: 0;
+  -moz-appearance: textfield;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.sc-val::-webkit-outer-spin-button,
+.sc-val::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+
+.hidden { display: none !important; }
+
+/* ===== Properties panels ===== */
+.panel-label-toggle {
+  cursor: pointer;
+  user-select: none;
+}
+
+.panel-label-toggle:hover {
+  color: var(--vscode-editor-foreground, #ccc);
+}
+
+/* Vector-overlay sub-label: shows "Magnetic moment (μB)" / "Force (eV/Å)" /
+   "Atomic vector (col 5–7)" beneath the section title so the user knows what
+   the arrows represent. Empty when no kind detected. */
+.vec-kind-label {
+  font-size: var(--v2-t-micro);
+  color: var(--v2-fg-2);
+  margin: -2px 0 6px;
+  font-style: italic;
+}
+.vec-kind-label:empty { display: none; }
+
+.props-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.prop-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.prop-color {
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--vscode-editorWidget-border, #555);
+  border-radius: 3px;
+  padding: 0;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  background: none;
+}
+
+.prop-color::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.prop-color::-webkit-color-swatch {
+  border: none;
+  border-radius: 2px;
+}
+
+.prop-label {
+  flex: 1;
+  font-size: 13px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.prop-slider {
+  width: 56px;
+  height: 16px;
+  accent-color: var(--vscode-focusBorder, #007fd4);
+}
+
+/* Bare per-row visibility checkbox is replaced by a pill .switch.sm
+   injected by setupToggleSwitches() at startup and after every dynamic
+   buildAtomPropsUI / buildBondPropsUI / buildPolyCentersUI rebuild. */
+input.prop-vis[type="checkbox"] {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bond-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  min-width: 0;
+}
+
+.bond-label {
+  flex: 0 0 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Bond min/max use the unified .num-wrap stepper. Tighten the wrap so two
+   .num-wrap fit comfortably on a single bond row alongside the switch +
+   pair label. */
+.num-wrap.bond-num {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 24px;
+}
+.num-wrap.bond-num .num-input {
+  font-size: 12px;
+  padding: 0 2px;
+}
+.num-wrap.bond-num .num-steps { width: 14px; }
+
+/* ===== V2-styled range sliders + iso-level number entry =====
+   .iso-slider (shared between iso-level and axis-size) gets a custom thin
+   track on the V2 surface palette and a focus-blue circular thumb so it
+   reads as part of the same chrome vocabulary as the toolbar/panel. The
+   iso-level row pairs the slider with a compact numeric input. */
+.iso-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+.iso-slider {
+  flex: 1 1 0;
+  min-width: 0;
+  width: 100%;
+  height: 18px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.iso-slider:focus { outline: 0; }
+.iso-slider::-webkit-slider-runnable-track {
+  height: 3px;
+  background: var(--v2-surf-1);
+  border-radius: 2px;
+}
+.iso-slider::-moz-range-track {
+  height: 3px;
+  background: var(--v2-surf-1);
+  border-radius: 2px;
+}
+.iso-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -6px;
+  background: var(--vscode-focusBorder, #007fd4);
+  border: 1px solid var(--v2-line-focus);
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+.iso-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: var(--vscode-focusBorder, #007fd4);
+  border: 1px solid var(--v2-line-focus);
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+.iso-slider:focus::-webkit-slider-thumb { box-shadow: 0 0 0 2px rgba(0, 127, 212, 0.35); }
+.iso-slider:focus::-moz-range-thumb     { box-shadow: 0 0 0 2px rgba(0, 127, 212, 0.35); }
+
+/* Iso-level numeric entry. Compact, tabular-nums, V2 surface tinting.
+   Native browser spinners suppressed since the slider already provides a
+   coarse adjuster. */
+.iso-num {
+  flex: 0 0 auto;
+  width: 88px;
+  height: 22px;
+  padding: 0 4px;
+  background: var(--v2-surf-0);
+  border: 1px solid var(--v2-line);
+  border-radius: 3px;
+  color: var(--v2-fg-1);
+  font-family: inherit;
+  font-size: var(--v2-t-micro);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  outline: 0;
+  -moz-appearance: textfield;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.iso-num:focus { border-color: var(--v2-line-focus); }
+.iso-num::-webkit-outer-spin-button,
+.iso-num::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+  display: none !important;
+}
+
+.bond-skip-hint {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px 8px;
+  background: var(--vscode-inputValidation-warningBackground, rgba(200, 140, 0, 0.15));
+  border: 1px solid var(--vscode-inputValidation-warningBorder, #c88c00);
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--vscode-editor-foreground, #ccc);
+}
+
+/* ===== Help overlay ===== */
+/* ===== Help overlay (V2 — 4-column grid, glass-3 card) ===== */
+#help-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#help-overlay.hidden { display: none; }
+
+#help-card {
+  width: 720px;
+  max-width: 92%;
+  background: var(--v2-glass-3);
+  -webkit-backdrop-filter: blur(var(--v2-blur));
+  backdrop-filter: blur(var(--v2-blur));
+  border: 1px solid var(--v2-line-strong);
+  border-radius: var(--v2-r-lg);
+  padding: 18px 22px 22px;
+  color: var(--v2-fg-1);
+  font-family: var(--vscode-font-family, monospace);
+  font-size: 14px;
+  box-shadow: var(--v2-sh-3);
+}
+
+#help-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--v2-line);
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
+#help-title {
+  font-size: var(--v2-t-title);
+  font-weight: 700;
+  color: var(--v2-fg-1);
+  letter-spacing: 0.2px;
+}
+.help-sub {
+  font-size: var(--v2-t-micro);
+  color: var(--v2-fg-3);
+  margin-left: 10px;
+  font-weight: 400;
+}
+
+#help-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 16px 24px;
+}
+@media (max-width: 720px) {
+  #help-body { grid-template-columns: 1fr 1fr; }
+}
+
+.help-col { display: flex; flex-direction: column; gap: 4px; }
+
+.help-h {
+  font-size: var(--v2-t-caps);
+  text-transform: uppercase;
+  color: var(--v2-fg-3);
+  letter-spacing: 1.1px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.help-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--v2-t-body);
+  padding: 3px 0;
+}
+.help-keys {
+  display: inline-flex;
+  gap: 3px;
+  min-width: 76px;
+  flex-shrink: 0;
+  color: var(--v2-fg-2);
+  font-size: var(--v2-t-micro);
+}
+.help-row > span:last-child {
+  flex: 1;
+  color: var(--v2-fg-2);
+}
+
+#help-card kbd {
+  display: inline-block;
+  min-width: 18px;
+  padding: 1px 5px;
+  background: var(--v2-surf-0);
+  border: 1px solid var(--v2-line-strong);
+  border-radius: 3px;
+  font-family: inherit;
+  font-size: var(--v2-t-caps);
+  color: var(--v2-fg-1);
+  line-height: 14px;
+  text-align: center;
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+/* ===== Tooltip ===== */
+#tooltip {
+  position: absolute;
+  background: var(--vscode-editorWidget-background, rgba(30, 30, 30, 0.92));
+  border: 1px solid var(--vscode-editorWidget-border, #444);
+  border-radius: 5px;
+  padding: 9px 14px;
+  font-family: var(--vscode-font-family, monospace);
+  font-size: 14px;
+  color: var(--vscode-editor-foreground, #ccc);
+  pointer-events: none;
+  z-index: 20;
+  max-width: 400px;
+}
+
+/* ===== v0.17 Trajectory ===== */
+.trajectory-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.trajectory-controls .panel-btn {
+  flex: 0 0 auto;
+  min-width: 32px;
+  padding: 2px 8px;
+}
+.trajectory-controls input[type="range"] {
+  flex: 1;
+}
+.traj-frame-label {
+  flex: 0 0 auto;
+  font-family: var(--vscode-editor-font-family, monospace);
+  font-size: 11px;
+  color: var(--vscode-descriptionForeground, #aaa);
+  min-width: 56px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* ===== v0.17.2.1 Trajectory UX polish + Phases section ===== */
+.traj-frame-input {
+  flex: 0 0 50px;
+  background: var(--vscode-input-background, #3c3c3c);
+  color: var(--vscode-input-foreground, #ccc);
+  border: 1px solid var(--vscode-input-border, #555);
+  border-radius: 3px;
+  padding: 2px 4px;
+  font-family: var(--vscode-editor-font-family, monospace);
+  font-size: 11px;
+}
+.traj-frame-input::-webkit-inner-spin-button { display: none; }
+.traj-control-label {
+  flex: 0 0 auto;
+  font-size: 11px;
+  color: var(--vscode-descriptionForeground, #aaa);
+  min-width: 38px;
+}
+#traj-speed-slider { flex: 1; }
+#phases-list { display: flex; flex-direction: column; gap: 4px; margin-bottom: 6px; }
+.phase-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0;
+}
+.phase-row .phase-vis { margin: 0; }
+.phase-label {
+  flex: 1;
+  font-size: 11px;
+  color: var(--vscode-foreground, #ccc);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.phase-opacity {
+  flex: 0 0 60px;
+}
+.phase-remove {
+  flex: 0 0 22px;
+  padding: 1px 4px;
+  font-weight: bold;
+}
+.full-width { width: 100%; }
+
+/* ===== v0.17.2.3 Comparison stats panel ===== */
+.comparison-stats {
+  margin-top: 6px;
+  padding: 6px 8px;
+  background: var(--vscode-editorWidget-background, rgba(60, 60, 60, 0.4));
+  border-left: 2px solid #4dabf7;
+  border-radius: 3px;
+  font-size: 11px;
+  color: var(--vscode-foreground, #ddd);
+  font-family: var(--vscode-editor-font-family, monospace);
+  line-height: 1.55;
+}
+.comparison-stats .stat-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.comparison-stats .stat-key {
+  color: var(--vscode-descriptionForeground, #aaa);
+}
+
+/* ===== Measure HUD (V2 — top-right glass card; visible in measure mode) ===== */
+#measure-hud {
+  position: absolute;
+  top: 60px;
+  right: 16px;
+  width: 340px;
+  padding: 16px 18px 14px;
+  background: var(--v2-glass-3);
+  -webkit-backdrop-filter: blur(var(--v2-blur));
+  backdrop-filter: blur(var(--v2-blur));
+  border: 1px solid var(--v2-line-focus);
+  border-radius: var(--v2-r-lg);
+  box-shadow: var(--v2-sh-3);
+  color: var(--v2-fg-1);
+  font-family: var(--vscode-font-family, monospace);
+  z-index: 11;
+}
+
+.measure-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.measure-kinds {
+  display: inline-flex;
+  padding: 2px;
+  background: var(--v2-surf-0);
+  border: 1px solid var(--v2-line);
+  border-radius: 4px;
+}
+.measure-kind {
+  padding: 3px 10px;
+  background: transparent;
+  border: 0;
+  border-radius: 3px;
+  font-family: inherit;
+  font-size: var(--v2-t-caps);
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--v2-fg-3);
+  cursor: pointer;
+  transition: all 120ms;
+}
+.measure-kind:hover { color: var(--v2-fg-1); }
+.measure-kind.active {
+  background: var(--v2-surf-accent);
+  color: var(--v2-fg-1);
+  box-shadow: inset 0 0 0 1px var(--v2-line-focus);
+}
+.measure-kind:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.measure-x {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 3px;
+  color: var(--v2-fg-3);
+  cursor: pointer;
+  transition: all 120ms;
+}
+.measure-x:hover { background: var(--v2-surf-1); color: var(--v2-fg-1); }
+.measure-x svg { display: block; }
+
+.measure-value {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 14px;
+  line-height: 1;
+}
+.measure-num {
+  font-size: var(--v2-t-num);
+  font-weight: 700;
+  letter-spacing: -1px;
+  line-height: 0.9;
+  font-variant-numeric: tabular-nums;
+  color: var(--v2-fg-1);
+}
+.measure-unit {
+  font-size: 20px;
+  color: var(--v2-fg-2);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Atom pair card — laid out as a CSS grid that adapts to 2/3/4 atoms */
+.measure-pair {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--v2-surf-0);
+  border: 1px solid var(--v2-line);
+  border-radius: 5px;
+  margin-bottom: 12px;
+}
+.measure-pair[data-count="0"], .measure-pair[data-count="1"] {
+  display: none;
+}
+.measure-pair[data-count="2"] { grid-template-columns: 1fr auto 1fr; }
+.measure-pair[data-count="3"] { grid-template-columns: 1fr auto 1fr auto 1fr; }
+.measure-pair[data-count="4"] { grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr; }
+.measure-atom {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  align-self: center;
+}
+.measure-swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  box-shadow: inset 2px 2px 4px rgba(255, 255, 255, 0.30);
+  flex-shrink: 0;
+}
+.measure-atom-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  min-width: 0;
+}
+.measure-atom-sym { font-size: 15px; font-weight: 700; color: var(--v2-fg-1); }
+.measure-atom-idx {
+  font-size: var(--v2-t-micro);
+  color: var(--v2-fg-3);
+  margin-top: 1px;
+  font-variant-numeric: tabular-nums;
+}
+.measure-connector {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--vscode-focusBorder, #007fd4);
+  align-self: center;
+}
+.measure-connector .line {
+  width: 12px;
+  height: 1px;
+  background: var(--vscode-focusBorder, #007fd4);
+  opacity: 0.55;
+}
+.measure-connector .arrow { font-size: 12px; }
+
+.measure-delta {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px 0;
+  border-top: 1px solid var(--v2-line);
+  border-bottom: 1px solid var(--v2-line);
+  margin-bottom: 10px;
+}
+.measure-delta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.measure-delta-k {
+  font-size: var(--v2-t-caps);
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+  color: var(--v2-fg-3);
+  font-weight: 600;
+}
+.measure-delta-v {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: var(--v2-t-num-sm);
+  color: var(--v2-fg-1);
+  font-variant-numeric: tabular-nums;
+}
+.measure-delta-v > span { min-width: 40px; text-align: right; }
+.measure-delta-u {
+  color: var(--v2-fg-3);
+  min-width: 0 !important;
+  font-size: var(--v2-t-micro);
+}
+
+.measure-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.measure-hint {
+  font-size: var(--v2-t-micro);
+  color: var(--v2-fg-3);
+  line-height: 1.35;
+}
+.measure-hint b { color: var(--v2-fg-1); font-weight: 600; }
+.measure-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--v2-t-caps);
+  padding: 4px 8px;
+  background: var(--v2-surf-0);
+  border: 1px solid var(--v2-line);
+  border-radius: 3px;
+  color: var(--v2-fg-2);
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 120ms;
+}
+.measure-copy:hover {
+  color: var(--v2-fg-1);
+  background: var(--v2-surf-1);
+  border-color: var(--v2-line-strong);
+}
+.measure-copy:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ===== VESTA-classic chrome theme (v0.23.2) =====
+   Opt-in via `matviz.ui.panelTheme: "classic"` — main.ts stamps
+   `panel-classic` on <body> at boot. Token redefinition turns ALL chrome
+   (rail, toolbar, side panel, info pill, measure HUD, help card) into an
+   opaque light classic surface; the rules below re-skin the V2-specific
+   controls (glass blur, pill switches, style chips) that tokens alone
+   can't reach. Same DOM, no TS branches beyond the boot class. */
+body.panel-classic {
+  --v2-glass-1: #f4f4f4;
+  --v2-glass-2: #f0f0f0;
+  --v2-glass-3: #ececec;
+  --v2-blur: 0px;
+  --v2-blur-sm: 0px;
+
+  --v2-line: #c9c9c9;
+  --v2-line-strong: #b0b0b0;
+  --v2-line-focus: #007acc;
+
+  --v2-surf-0: #e9e9e9;
+  --v2-surf-1: #e1e1e1;
+  --v2-surf-2: #d7d7d7;
+  --v2-surf-accent: #d4e6f8;
+
+  --v2-sh-1: 0 1px 2px rgba(0, 0, 0, 0.14);
+  --v2-sh-2: 0 1px 3px rgba(0, 0, 0, 0.18);
+  --v2-sh-3: 0 2px 6px rgba(0, 0, 0, 0.22);
+
+  --v2-r-sm: 2px;
+  --v2-r: 3px;
+  --v2-r-lg: 3px;
+
+  --v2-fg-1: #1e1e1e;
+  --v2-fg-2: #444444;
+  --v2-fg-3: #666666;
+}
+
+/* Section headers: VESTA-style normal-case bold, tighter rhythm. */
+body.panel-classic .panel-label {
+  text-transform: none;
+  letter-spacing: 0.3px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #333;
+}
+body.panel-classic .panel-scroll { padding: 8px 10px 12px; }
+body.panel-classic .panel-section { padding: 8px 0; gap: 5px; }
+body.panel-classic .panel-scroll {
+  scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+}
+body.panel-classic .panel-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* Inputs/buttons that read VSCode theme vars directly would stay dark on a
+   dark editor theme — pin them light inside classic chrome. */
+body.panel-classic .panel-select,
+body.panel-classic .panel-btn {
+  background: #fdfdfd;
+  color: #1e1e1e;
+  border: 1px solid #b0b0b0;
+  border-radius: 2px;
+}
+body.panel-classic .panel-btn:hover { background: #eef4fb; }
+body.panel-classic .panel-btn.active {
+  background: #e2eefa;
+  border-color: #007acc;
+}
+body.panel-classic #side-panel input[type="text"],
+body.panel-classic #side-panel input[type="number"] {
+  background: #ffffff;
+  color: #1e1e1e;
+  border-color: #b0b0b0;
+}
+
+/* Style chips → classic radio list (stacked, leading radio dot). */
+body.panel-classic .chips {
+  flex-direction: column;
+  gap: 1px;
+}
+body.panel-classic .chip {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 6px;
+  background: transparent;
+  border-color: transparent;
+  border-radius: 2px;
+  color: var(--v2-fg-1);
+  font-size: 12px;
+}
+body.panel-classic .chip::before {
+  content: '';
+  flex: 0 0 auto;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 1px solid #888;
+  background: #fff;
+}
+body.panel-classic .chip:hover { background: #e4e4e4; }
+body.panel-classic .chip.active {
+  background: transparent;
+  border-color: transparent;
+}
+body.panel-classic .chip.active::before {
+  border-color: #007acc;
+  background: radial-gradient(circle, #007acc 0 3px, #fff 3.5px);
+}
+
+/* Pill switches → classic checkboxes (checkmark drawn on the thumb). */
+body.panel-classic .switch {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px #888;
+  transition: none;
+}
+body.panel-classic .switch.sm {
+  width: 12px;
+  height: 12px;
+}
+body.panel-classic .switch.on {
+  background: #007acc;
+  box-shadow: inset 0 0 0 1px #007acc;
+}
+body.panel-classic .switch-thumb {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  transition: none;
+}
+body.panel-classic .switch.on .switch-thumb { transform: none; }
+body.panel-classic .switch.on .switch-thumb::after {
+  content: '';
+  position: absolute;
+  left: 4.5px;
+  top: 1.5px;
+  width: 4px;
+  height: 8px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+body.panel-classic .switch.sm.on .switch-thumb::after {
+  left: 3.5px;
+  top: 1px;
+  width: 3.5px;
+  height: 7px;
+}
+
+/* ===== Isosurface Auto mode (v0.23.6) ===== */
+.iso-pct {
+  flex: 0 0 auto;
+  min-width: 44px;
+  text-align: right;
+  font-size: var(--v2-t-micro);
+  color: var(--v2-fg-2);
+  font-variant-numeric: tabular-nums;
+}
+.iso-slider:disabled,
+.iso-num:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ===== Brillouin-zone section (v0.23.3–23.5) ===== */
+.bz-info {
+  font-size: var(--v2-t-micro);
+  color: var(--v2-fg-2);
+  line-height: 1.5;
+}
+.bz-path-list {
+  font-family: var(--vscode-editor-font-family, monospace);
+  font-size: var(--v2-t-body);
+  color: var(--v2-fg-1);
+  background: var(--v2-surf-0);
+  border: 1px solid var(--v2-line);
+  border-radius: var(--v2-r-sm);
+  padding: 6px 8px;
+  min-height: 30px;
+  word-break: break-all;
+  line-height: 1.6;
+}
+.bz-btn-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+.bz-btn-row .panel-btn {
+  padding: 4px 2px;
+  font-size: var(--v2-t-micro);
+}
+.bz-export-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.bz-export-label {
+  flex: 0 0 auto;
+  font-size: var(--v2-t-micro);
+  color: var(--v2-fg-2);
+  min-width: 54px;
+}
+.bz-export-row input[type="number"] {
+  flex: 0 0 52px;
+  width: 52px;
+  padding: 3px 4px;
+  background: var(--vscode-input-background, #3c3c3c);
+  color: var(--vscode-input-foreground, #ccc);
+  border: 1px solid var(--vscode-input-border, #555);
+  border-radius: 4px;
+  font-size: var(--v2-t-body);
+}
+.bz-export-row .panel-btn {
+  flex: 1 1 auto;
+  width: auto;
+  font-size: var(--v2-t-micro);
+  padding: 4px 6px;
+}

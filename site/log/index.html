@@ -18,14 +18,21 @@
   <h1>Log</h1>
   <p class="page-meta">Work journal + meeting notes (dated, newest first)</p>
 
-  <h2>2026-07-24 — Since the 07-19 meeting: molecular stacking · CNT binding</h2>
-  <p><strong>Stacking.</strong> Bare + H-terminated distance scans done (dimer, trimer). Bare collapses
-    to d = 2.5 Å; H-terminated gap mode minimises at <strong>d = 3.5 Å</strong> (TEM 3.6 Å) →
-    <a href="../results/mol-stacking/index.html">09. Molecular stacking</a>. Gap-mode relaxation running.</p>
-  <p><strong>CNT binding.</strong> VSe₃@CNT relax done, <strong>E_bind = −1.21 eV/f.u.</strong>
-    (−4.85 eV/cell) → <a href="../results/cnt-binding/index.html">10. CNT binding</a>.
-    Hf₂Se₉@CNT relaxing.</p>
-  <p><strong>Next.</strong> Conductance decay VSe₃–(Hf₂Se₉)ₙ–VSe₃ (n = 2, 3) on the relaxed stack.</p>
+  <h2>2026-07-29 — Since the 07-19 meeting: molecular stacking · CNT binding · relax convergence</h2>
+  <p><strong>Molecular stacking.</strong> Fixed-geometry scans are complete. The hydrogen-terminated
+    project-labelled <code>gap</code> structure has its minimum at <strong>$d$ = 3.5 Å</strong>
+    for the dimer and trimer; the unterminated minimum is at the 2.5 Å scan bound. TEM gives
+    3.6 Å. → <a href="../results/mol-stacking/index.html">09. Hf₂Se₉ molecular stacking</a>.</p>
+  <p><strong>CNT encapsulation.</strong> Converged VSe₃@(9,9) CNT gives
+    <strong>$E_\mathrm{bind}$ = −4.854 eV/cell</strong> (−1.213 eV/formula unit).
+    Hf₂Se₉@CNT has no final binding energy until its force converges. →
+    <a href="../results/cnt-binding/index.html">10. CNT encapsulation binding</a>.</p>
+  <p><strong>Relaxation restart.</strong> The conjugate-gradient trial was stopped after the maximum
+    forces increased to 0.506433 (dimer), 0.215633 (trimer), and 0.361229 eV/Å (Hf₂Se₉@CNT).
+    These trajectories are not used. New Broyden relaxations were restarted from the 2026-07-29
+    backup DM/XV states with a 0.02 Å maximum displacement and a 0.02 eV/Å force tolerance.</p>
+  <p><strong>Next.</strong> Converge the three structures; then calculate 2- and 3-molecule
+    conductance decay and finalize Hf₂Se₉@CNT binding and charge-density differences.</p>
 
   <h2>2026-07-19 — Group meeting: LUMO non-resonance; conductance-decay next</h2>
   <ul>
@@ -33,8 +40,8 @@
       has no matching peak and instead decreases; in the plane-averaged $|\psi|^2$ the LUMO decays
       the most across the molecule. → resonant tunneling does not appear to occur at the LUMO.</li>
     <li><strong>HOMO:</strong> resonant tunneling is clearly visible — the molecular conduction channel.</li>
-    <li><strong>Open question:</strong> why the LUMO does not conduct — possibly its orbital character
-      is orthogonal to the VSe₃ lead states (to investigate).</li>
+    <li><strong>Open test:</strong> quantify the orbital-resolved coupling between the LUMO and
+      the VSe₃ lead states.</li>
   </ul>
   <p><strong>Next</strong></p>
   <ol>

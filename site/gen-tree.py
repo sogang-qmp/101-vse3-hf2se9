@@ -57,12 +57,10 @@ def write_files_js(page_dir: Path) -> bool:
         if files:
             groups[d] = [_file_entry(p, page_dir) for p in files]
     fjs = page_dir / "files.js"
-    if groups:
+    if groups or fjs.exists():
         fjs.write_text("window.PAGE_FILES = " + json.dumps(groups, ensure_ascii=False) + ";\n",
                        encoding="utf-8")
         return True
-    if fjs.exists():
-        fjs.unlink()  # stale: page no longer has outputs
     return False
 
 

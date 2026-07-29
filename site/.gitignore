@@ -1,2 +1,4 @@
 assets/katex
-assets/lib
+assets/lib/*
+!assets/lib/matviz-webview.js
+!assets/lib/matviz-styles.css
