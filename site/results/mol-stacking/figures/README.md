@@ -8,6 +8,7 @@ Hf₂Se₉ 분자 stacking(dimer/trimer) 거리 + H-종단 스캔.
 | `E_vs_distance_3mol.png` | Bare(종단 없음) trimer: 에너지 vs d | `04-hf2se9-3mol/01-distance-scan/`, 동일 스크립트 |
 | `hterm_modes_2mol.png` | H-종단 dimer: bond/gap/tilt mode별 에너지 vs d (marker o/s/^) | `04-hf2se9-2mol/02-h-term/{bond,gap,tilt}/`, `_scripts/plot_hterm_modes.py` |
 | `hterm_modes_3mol.png` | H-종단 trimer: 에너지 vs d, 세 mode | `04-hf2se9-3mol/02-mol-h-term/{bond,gap,tilt}/`, 동일 스크립트 |
+| ~~`dimer_broyden_relaxed.png`~~ | **2026-07-30 페이지에서 제거** — Fig. 5는 같은 좌표(`final_relaxed.xsf`)의 matviz 뷰어로 대체했다. 발표·리포트용으로 파일만 보관. | `04-hf2se9-2mol/03-h-term-relax/gap_d3.5/final_relaxed.xsf` |
 | `../matviz-viewer_molstack.html` | 인터랙티브 matviz 뷰어(dimer/trimer 전환), 현재 relaxation 기하 | `03-h-term-relax/gap_d3.5/siesta_current.xsf`(양 트리), project-site `structure_to_matviz_viewer.py` |
 
 **실험 TEM (Dr. Yangjin Lee, KIST)** — 우리 데이터 아님, motivation용:

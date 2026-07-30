@@ -22,14 +22,14 @@
   <p>
     <strong>세 CG 궤적 모두에서 최대 힘이 상승해 CG 시험을 중단했다.</strong>
     2026-07-29 backup DM/XV 상태에서 Broyden으로 재시작했으며 MaxDispl는 0.02 Å,
-    최대 힘 수렴 기준은 0.02 eV/Å이다. 아직 수렴한 계산은 없다.
+    최대 힘 수렴 기준은 0.02 eV/Å이다. dimer는 수렴했고 trimer·Hf₂Se₉@CNT는 계속 이완 중이다.
   </p>
   <table>
-    <thead><tr><th>계</th><th>상태</th><th>CG 종료 시 최대 힘 (eV/Å)</th><th>완료 기준</th></tr></thead>
+    <thead><tr><th>계</th><th>상태</th><th>최신 최대 힘 (eV/Å)</th><th>완료 기준</th></tr></thead>
     <tbody>
-      <tr><td>Hf₂Se₉ dimer</td><td>Broyden 재시작</td><td><strong>0.506433</strong></td><td>≤ 0.02</td></tr>
-      <tr><td>Hf₂Se₉ trimer</td><td>Broyden 재시작</td><td><strong>0.215633</strong></td><td>≤ 0.02</td></tr>
-      <tr><td>Hf₂Se₉@(9,9) CNT</td><td>Broyden 재시작</td><td><strong>0.361229</strong></td><td>≤ 0.02</td></tr>
+      <tr><td>Hf₂Se₉ dimer</td><td>Broyden 수렴</td><td><strong>0.018779</strong></td><td>≤ 0.02</td></tr>
+      <tr><td>Hf₂Se₉ trimer</td><td>Broyden 실행 중</td><td><strong>0.140293</strong></td><td>≤ 0.02</td></tr>
+      <tr><td>Hf₂Se₉@(9,9) CNT</td><td>Broyden 실행 중</td><td><strong>0.301947</strong></td><td>≤ 0.02</td></tr>
     </tbody>
   </table>
 
@@ -41,8 +41,8 @@
     <li><strong>분자 준위 보정:</strong> 고립분자 gap은 0.75 eV, 보정된 9-cell
       $T(E_F)$는 0.0032이다.</li>
     <li><strong>접합 전하이동:</strong> Mulliken 분석에서 VSe₃ → Hf₂Se₉ 방향으로 0.25 $e$.</li>
-    <li><strong>분자 stacking:</strong> 수소 종단 <code>gap</code> 구조는 dimer·trimer 모두
-      고정 기하 $d$ = 3.5 Å에서 최소; TEM 간격은 3.6 Å.</li>
+    <li><strong>분자 stacking:</strong> H-terminated <code>gap</code> 구조는 dimer·trimer 모두
+      rigid scan에서 $d$ = 3.5 Å 최소; TEM 간격은 3.6 Å.</li>
     <li><strong>CNT encapsulation:</strong> 수렴한 VSe₃@(9,9) CNT의
       $E_\mathrm{bind}$ = −4.854 eV/cell (−1.213 eV/f.u.).</li>
   </ul>

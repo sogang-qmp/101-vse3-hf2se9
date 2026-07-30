@@ -1,0 +1,68 @@
+#
+SystemLabel              siesta
+
+%include                 struct.fdf
+
+XC.functional            VDW
+XC.authors               LMKLL
+
+MeshCutoff               500.0 Ry
+OccupationFunction       MP
+OccupationMPOrder        1
+ElectronicTemperature    300 K
+
+%block kgrid_Monkhorst_Pack
+      1      0     0        0.0
+      0      1     0        0.0
+      0      0     4        0.0
+%endblock kgrid_Monkhorst_Pack
+
+SolutionMethod           diagon
+Diag.ParallelOverK       T
+Diag.Algorithm           ELPA
+
+DM.UseSaveDM             F
+MD.UseSaveXV             F
+
+MD.Steps                 0
+MD.TypeOfRun             CG
+MD.MaxForceTol           0.01 eV/Ang
+MD.VariableCell          F
+MD.MaxDispl              0.05 Ang
+
+%block Geometry.Constraints
+stress 1 2 4 5 6
+%endblock Geometry.Constraints
+
+MaxSCFIterations         1500
+SCF.DM.Converge          T
+SCF.DM.Tolerance         1.0d-8
+SCF.MustConverge         T
+SCF.Mix                  Hamiltonian
+SCF.Mix.First            F
+SCF.Mixer.Method         Pulay
+SCF.Mixer.Variant        original
+SCF.Mixer.Weight         0.1
+SCF.Mixer.History        12
+
+Write.DM                 T
+Write.H                  T
+
+WriteMullikenPop         1
+WriteEigenvalues         T
+WriteCoorInitial         T
+WriteCoorStep            T
+WriteForces              T
+XML.Write                T
+
+SaveHS                   T
+SaveRho                  F
+SaveDeltaRho             F
+SaveRhoXC                F
+SaveElectrostaticPotential F
+SaveNeutralAtomPotential   F
+SaveTotalPotential         F
+SaveIonicCharge            F
+SaveBaderCharge            F
+SaveTotalCharge            T
+

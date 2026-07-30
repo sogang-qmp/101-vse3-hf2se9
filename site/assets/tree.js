@@ -54,7 +54,7 @@ window.SITE_TREE = {
           "children": []
         },
         {
-          "title": "04. VSe₃ 계면의 H 종단: 분리 거리 최소점 복원",
+          "title": "04. VSe₃ 계면의 H-termination: separation 최소점 복원",
           "path": "results/h-termination/index.html",
           "children": []
         },
@@ -84,8 +84,13 @@ window.SITE_TREE = {
           "children": []
         },
         {
-          "title": "10. CNT encapsulation 결합에너지",
+          "title": "10. CNT encapsulation — 결합에너지와 charge transfer",
           "path": "results/cnt-binding/index.html",
+          "children": []
+        },
+        {
+          "title": "11. 2분자 접합 — 계면 회전 스캔",
+          "path": "results/hetero-2mol-rotation/index.html",
           "children": []
         }
       ]
