@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="order" content="130">
+<title>13. 2분자 접합 transport — 101-vse3-hf2se9</title>
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/katex/katex.min.css">
+<script defer src="../../assets/katex/katex.min.js"></script>
+<script defer src="../../assets/katex/contrib/auto-render.min.js"></script>
+<script defer src="../../assets/tree.js"></script>
+<script defer src="../../assets/site.js"></script>
+<script defer src="../../assets/search-index.js"></script>
+<script defer src="../../assets/search.js"></script>
+</head><body>
+<aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
+<main>
+<article>
+  <h1>13. 2분자 접합 — zero-bias transport</h1>
+  <p class="page-meta"><strong>2026-08-05</strong> · Source: 04-hf2se9-2mol/07-transport/N25_9uc/0bias ·
+    TranSIESTA SCF와 TBtrans 완료, 무보정(<code>TBT.dH</code> 없음).</p>
+
+  <h2>Goal</h2>
+  <p>브릿지가 Hf₂Se₉ 1분자에서 2분자로 늘어날 때 conductance가 얼마나 바뀌는지 잰다. 1분자 접합의
+     보정 전 값은 $T(E_F)$ = 0.355였다(<a href="../level-correction/index.html">08. 준위 보정</a>).
+     2분자 stack은 VSe₃ 전극과 60° 계면 배향을 그대로 두고 터널링 경로만 분자 하나만큼 늘린다
+     (<a href="../hetero-2mol-rotation/index.html">11. 회전 스캔</a>). 이 페이지는 무보정 결과를
+     다룬다. 이 브릿지의 DFT+Σ shift는
+     <a href="../dimer-level-correction/index.html">12. 2분자 브릿지 분자준위</a>에 있다.</p>
+
+  <h2>Method</h2>
+  <ul>
+    <li><strong>device:</strong> 234 atom. VSe₃ 25 unit cell/side, H-terminated 계면, 그 사이에
+      relaxed 2분자 stack. scattering region atom 13–222, 전극 1–12과 223–234.</li>
+    <li><strong>전자구조:</strong> TranSIESTA, vdW-DF2(LMKLL), MeshCutoff 500 Ry, k-grid (1,1,4),
+      $\Gamma$-only 전극. DM+H+dQ 기준으로 수렴, $E_\mathrm{KS}$ = −673752.4512 eV.</li>
+    <li><strong>transport:</strong> TBtrans, −10 ~ +10 eV를 0.01 eV 간격 2000점, $\eta$ = 0.005 eV.
+      transmission과 DOS는 <code>trans.TBT.nc</code>에서 sisl로 읽었다.</li>
+    <li><strong>projection:</strong> 분자 영역은 atom 104–134(H 캡, Hf₂Se₉ 2분자, bridging H 3개)이고
+      나머지는 VSe₃ wire로 셌다.</li>
+    <li><strong>HPC:</strong> Stampede3.</li>
+  </ul>
+
+  <h2>분자 준위 위치</h2>
+  <p>무보정 vdW-DF2에서는 분자 준위(HOMO/LUMO)가 $E_F$ 근처(+0.005 eV)에 붙어 있다.
+     $T(E_F)$ = 0.184이다.</p>
+  <figure>
+    <img src="figures/te_pdos_2mol.png" alt="같은 에너지 축의 transmission과 PDOS" style="max-width:460px">
+    <figcaption><strong>Fig. 1.</strong> transmission(좌축 log)과 분자 영역 PDOS(우축 선형).
+      transmission 피크가 분자 상태와 나란히 서고, 가장 큰 PDOS 피크가 $E_F$에 놓인다.
+      DFT+&Sigma; 보정이 없애려는 상황이 이것이다.</figcaption>
+  </figure>
+
+  <h2>1분자 vs 2분자 비교</h2>
+  <p>분자를 하나 더 끼우면 window 평균 transmission($|E-E_F|\le0.5$ eV)이 1/5로 준다.</p>
+  <table>
+    <thead><tr><th>항목</th><th>1분자 (220 atom)</th><th>2분자 (234 atom)</th><th>비</th></tr></thead>
+    <tbody>
+      <tr><td>$T(E_F)$</td><td>0.355</td><td>0.184</td><td>0.52</td></tr>
+      <tr><td>평균 $T$, $|E-E_F|\le0.5$ eV</td><td>0.100</td><td><strong>0.020</strong></td><td><strong>0.20</strong></td></tr>
+      <tr><td>$E_F$ 분자 DOS (states/eV)</td><td>20.2</td><td>125.6</td><td>6.2</td></tr>
+    </tbody>
+  </table>
+  <figure>
+    <img src="figures/te_1mol_vs_2mol_zoom.png" alt="$E_F$ 근처 1분자와 2분자 접합의 transmission" style="max-width:460px">
+    <figcaption><strong>Fig. 2.</strong> &plusmn;0.5 eV 구간의 1분자 대 2분자 transmission.
+      1분자의 고원이 공명 셋으로 갈라지고 그 사이 골이 10<sup>&minus;3</sup> 아래로 내려간다.</figcaption>
+  </figure>
+  <figure>
+    <img src="figures/pdos_mol_1vs2.png" alt="1분자와 2분자 접합의 PDOS" style="max-width:460px">
+    <figcaption><strong>Fig. 3.</strong> 두 브릿지의 분자 영역 PDOS. 긴 브릿지가 $E_F$에서 6배 많은
+      무게를 갖는데도 덜 흘린다.</figcaption>
+  </figure>
+
+</article>
+<nav class="subpages"></nav>
+</main>
+</body></html>

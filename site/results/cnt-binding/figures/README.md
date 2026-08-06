@@ -4,8 +4,11 @@
 |---|---|
 | `drho_axis_view.png` | Δρ 등표면 축면(축 방향) 뷰. 껍질별 실측 부호: R = 1.3–4.5 Å 쌓임 · 4.5–6.0 Å(CNT 벽) 빠짐 |
 | `drho_side_view.png` | 같은 등표면 옆면(축에 수직) 뷰 |
+| `drho_hf2se9_axis_view.png` | Hf₂Se₉@CNT Δρ 등표면 축면 뷰 |
+| `drho_hf2se9_side_view.png` | 같은 Hf₂Se₉@CNT 등표면 측면 뷰 |
 
 - 원본 렌더: `VSe3-Hf2Se9/03-calc/phase-c/02_charge_transfer/vse3_at_cnt/chargetrans/{drho_atoms,side}.png` (VESTA, 6115 × 2485) — 축 범례 블록을 제외하고 구조 영역만 크롭
+- Hf₂Se₉ 측면 원본: `VSe3-Hf2Se9/03-calc/phase-c/02_charge_transfer/hf2se9_at_cnt/side.png` (VESTA, 9784 × 3912) — 좌표축·여백만 제거한 5300 × 2480 크롭(구조·Δρ 등표면 픽셀 미변경)
 - 데이터: 같은 트리의 `vse3_at_cnt/drho_atoms.cube`(408.6 MB) · `drho_z.npz` · `DRHO_SUMMARY.txt`
 - 핵심 결과: **CNT → wire, cylinder +0.260 · Mulliken +0.248 e/f.u.**(두 방법 5% 이내 일치). 비교 기준 MX₃@(8,8) 0.25 e/f.u. (Adv. Mater. 35, 2307942 (2023))
 - **Δρ(z)·Δq(R) 플롯은 페이지에 넣지 않는다** — 중간 산출물이므로 수치만 본문 method 문단에 서술한다. 플롯 파일은 계산 디렉토리 `02_charge_transfer/figures/`에 있다.

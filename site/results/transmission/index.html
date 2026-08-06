@@ -288,7 +288,7 @@ Se 14.1980 11.5210 166.4775
     <thead><tr><th>시스템</th><th>$T(E_F)$</th><th>해석</th></tr></thead>
     <tbody>
       <tr><td>Pristine VSe₃</td><td>0.704</td><td>기준 (연속 사슬)</td></tr>
-      <tr><td>헤테로접합</td><td>0.348</td><td>분자를 통해 전도</td></tr>
+      <tr><td>heterojunction</td><td>0.348</td><td>분자를 통해 전도</td></tr>
       <tr><td>Disconnected</td><td>0.000</td><td>분자 제거 → 전도 없음</td></tr>
     </tbody>
   </table>
@@ -305,7 +305,7 @@ Se 14.1980 11.5210 166.4775
      $E_F$에 고정된 frontier manifold(MO82–86)보다 훨씬 위이지 LUMO가 아니다.</p>
   <figure>
     <img src="figures/te-dos-hetero.png" alt="Heterojunction T(E) and DOS">
-    <figcaption><strong>Fig. 3.</strong> 헤테로접합 $T(E)$ (검정)와 total DOS (회색),
+    <figcaption><strong>Fig. 3.</strong> heterojunction $T(E)$ (검정)와 total DOS (회색),
       분자 Hf₂Se₉ PDOS (빨강). $E_F$ 근처의 분자 공명이 transmission을 담당한다.</figcaption>
   </figure>
 
@@ -350,9 +350,9 @@ Se 14.1980 11.5210 166.4775
   </figure>
 
   <h2>논의</h2>
-  <p>PBE/vdW-DF 분자 공명이 $E_F$에 놓이므로 전도가 공명(resonant)이다. 보정된 gap 하에서도
-     공명으로 남는지가 <a href="../../methods/index.html">B3LYP 준위 보정</a>을 이끄는
-     미해결 질문이다 (Results: level correction 참조).</p>
+  <p>무보정(vdW-DF2) 분자 공명이 $E_F$에 놓이므로 전도가 공명(resonant)이다. B3LYP DFT+Σ 보정이
+     이 질문에 답한다: 공명이 $E_F$에서 벗어나고 $T(E_F)$가 0.0032로 떨어진다 —
+     <a href="../level-correction/index.html">08. 분자 준위 보정</a> 참조.</p>
 </article>
 <nav class="subpages"></nav>
 </main>

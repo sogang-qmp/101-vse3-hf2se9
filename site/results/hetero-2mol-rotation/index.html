@@ -20,18 +20,25 @@
 
   <h2>Goal</h2>
   <p>수렴한 2분자 stack을 VSe₃ 전극 사이에 넣어 <strong>VSe₃–(Hf₂Se₉)₂–VSe₃</strong> 접합을 만들고,
-     분자쌍의 계면 배향을 rigid single-point 회전 스캔으로 결정한다. 1분자 접합에서 60° 엇갈림이
-     최안정이었으므로(<a href="../junction/index.html">05</a>), 분자가 2개로 늘어난 계에서도 같은 각도가
-     유지되는지 확인해야 conductance decay 계산의 출발 구조가 정해진다.</p>
+     분자쌍의 계면 배향을 rigid single-point 회전 스캔으로 정한다. 1분자 접합에서는 60° 엇갈림이
+     0°보다 43.3 meV 낮았다(<a href="../junction/index.html">05. 접합</a>). 여기서 가장 낮은 각도를
+     conductance decay 계산의 출발 구조로 쓴다. 다음 계산에서는 분자 수가 늘어 터널링 길이가 길어질 때
+     $T(E_F)$가 줄어드는지를 본다.</p>
 
   <h2>Method</h2>
-  <p>베이스는 1분자 접합 relaxed 구조(92 atom, c = 69.8908 Å)이고, 그 분자 1개(atom 43–53)를
-     수렴한 2분자 stack(25 atom, Max force <strong>0.0188 eV/Å</strong>)으로 교체했다. stack의 relaxed 내부
-     기하와 분자–분자 간격을 보존하고, 계면 간격(H캡↔분자)을 베이스와 같게 두기 위해 우측 VSe₃·H캡을
-     늘어난 길이만큼 +z로 밀었다. 회전은 <strong>분자쌍과 브리지 H만</strong> chain 축(셀 xy 중심) 기준이며
-     VSe₃ 전극은 고정이다. vdW-DF2(LMKLL), MeshCutoff 500 Ry, kgrid (1,1,4), <code>MD.Steps 0</code>,
-     <code>MD.TypeOfRun Broyden</code>, <code>SCF.DM.Tolerance 1.0d-8</code>. 먼저 single-point로 ΔE(θ)를
-     빠르게 확보하고, 최저 각도만 cell 고정 relax로 넘긴다 — optimizer는 두 단계에서 Broyden으로 통일.</p>
+  <ul>
+    <li><strong>베이스:</strong> 1분자 접합 relaxed 구조(92 atom, c = 69.8908 Å).</li>
+    <li><strong>교체:</strong> 분자 1개(atom 43–53)를 수렴한 2분자 stack(25 atom, max force
+      <strong>0.0188 eV/Å</strong>)으로 바꿨다. stack의 relaxed 내부 기하와 분자–분자 간격은 그대로 뒀다.</li>
+    <li><strong>정렬:</strong> 우측 VSe₃와 H cap을 늘어난 길이만큼 +z로 밀어 계면 간격(H cap↔분자)을
+      베이스와 같게 맞췄다.</li>
+    <li><strong>회전 자유도:</strong> 분자쌍과 bridging H만 chain 축(셀 xy 중심) 기준으로 돌리고
+      VSe₃ 전극은 고정했다.</li>
+    <li><strong>계산:</strong> vdW-DF2(LMKLL), MeshCutoff 500 Ry, kgrid (1,1,4), <code>MD.Steps 0</code>,
+      <code>MD.TypeOfRun Broyden</code>, <code>SCF.DM.Tolerance 1.0d-8</code>.</li>
+    <li><strong>순서:</strong> single-point로 ΔE(θ)를 먼저 얻고 최저 각도만 cell 고정 relax로 넘긴다.
+      optimizer는 두 단계 모두 Broyden이다.</li>
+  </ul>
 
   <table>
     <thead><tr><th>항목</th><th>값</th></tr></thead>
@@ -43,14 +50,15 @@
       <tr><td>계산 각도</td><td>0 / 15 / 30 / 45 / 60° (독립 5개)</td></tr>
     </tbody>
   </table>
-  <p style="font-size:.92em">VSe₃ 계면의 3 Se는 <strong>C₃(120° 주기) + 반사</strong> 대칭을 가지므로 0–180°의
-     독립 각도는 위 5개이고 나머지 8각도는 대칭으로 결정된다. 5각도가 조성·셀이 동일해 total energy를
+  <p style="font-size:.92em">VSe₃ 계면의 3 Se는 <strong>C₃(120° 주기) + 반사</strong> 대칭을 가지므로 0–180°에서
+     위 5각도가 서로 다른 대칭 대표이고, 나머지 8각도는 대칭으로 정해진다. 5각도가 조성·셀이 동일해 total energy를
      직접 비교할 수 있다. 생성·검증 기록: <code>04-hetero-rotation/INPUT_PROVENANCE.md</code>.</p>
 
   <h2>Result</h2>
-  <p><strong>60° 엇갈림이 최안정이다.</strong> 45°와의 간격 92 meV는 상온 열에너지(<em>kT</em> ≈ 26 meV)의
-     3.5배로, 1분자 접합에서 얻은 60° 배향이 분자 2개로 늘어난 계에서도 유지된다. 5각도 모두 정상
-     종료했고 SCF 101–131 iteration에서 tolerance 1.0d-8에 수렴했다.</p>
+  <p><strong>계산한 5각도 중 60°의 total energy가 가장 낮다.</strong> 차순위 45°보다 92 meV 낮아,
+     이완의 출발 배향으로 충분히 분리돼 있다. 다만 rigid 0 K 스캔만으로 유한 온도에서의 재배향을
+     예측할 수는 없다. 1분자 접합의 60° 배향을 2분자 접합에도 적용한다. 5각도 모두 정상 종료했고
+     SCF 101–131 iteration에서 density matrix tolerance 1.0d-8에 수렴했다.</p>
 
   <table>
     <thead><tr><th>θ</th><th>E<sub>tot</sub> (eV)</th><th>ΔE (meV)</th></tr></thead>
@@ -62,7 +70,7 @@
       <tr><td><strong>60°</strong></td><td><strong>−291124.137543</strong></td><td><strong>0</strong></td></tr>
     </tbody>
   </table>
-  <p style="font-size:.92em">기준 = 60°. 5각도가 조성·셀(106 atom, c = 80.3505 Å)이 동일해 total energy를
+  <p style="font-size:.92em">$\Delta E = E(\theta) - E(60°)$. 5각도가 조성·셀(106 atom, c = 80.3505 Å)이 동일해 total energy를
      직접 비교했다. 데이터: <code>04-hetero-rotation/rot_*/siesta.stdout</code>.</p>
 
   <figure>

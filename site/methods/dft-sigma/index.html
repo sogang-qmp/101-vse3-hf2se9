@@ -57,7 +57,7 @@
   <p>따라서 준위 offset $|\varepsilon_0-E_F|$가 $T(E_F)$를 지배한다. gap이 $E_F$에 밀착되면
      conductance가 부풀려진다. DFT+Σ는 각 분자 준위를
      $\Delta_i=\varepsilon_i^{\text{B3LYP}}-\varepsilon_i^{\text{vdW-DF2}}$만큼 이동시켜 offset을
-     회복한다 — quasiparticle self-energy $\Sigma$를 per-orbital 상수(scissor)로 근사한 것이다.
+     회복한다 — quasiparticle self-energy $\Sigma$를 per-orbital 상수(scissor)로 근사한다.
      $\Delta_i$가 energy-independent이므로, static self-energy는 Hamiltonian 보정과 같아진다:</p>
   <p style="text-align:center">$\displaystyle G(E)=\big[(E+i\eta)S-(H+\Delta H)-\Sigma_L-\Sigma_R\big]^{-1},
      \qquad \Delta\Sigma(E)=\Delta H=\text{const.}$</p>
@@ -163,7 +163,7 @@ STEP 5           보정 전/후 T(E)·분자 PDOS 비교 + 전하보존 게이�
      (sisl #129에서 검증), 그래서 $S$가 양쪽에 있어야 한다.</p>
   <p><strong>Projector: 고립분자 MO, MPSH와 교차 확인.</strong> 통상적인 견고한 경로는 <em>in-device</em>
      분자 block을 diagonalize(MPSH — Molecular Projected self-consistent Hamiltonian)해 $C$를 자동
-     정규화하는 것이다. 그러나 여기서는 H-terminated Hf₂Se₉가 각 VSe₃ 전극과 약한 반데르발스 거리로만
+     정규화한다. 그러나 여기서는 H-terminated Hf₂Se₉가 각 VSe₃ 전극과 약한 반데르발스 거리로만
      결합한 독립 단위체라, 그 고립(진공) 오비탈이 이미 깨끗한 분자 기저다. 그래서 projector를
      <strong>고립(진공) 분자</strong> MO 계수($\Delta_i$에 쓴 것과 같은 분자/구조)에서 만들고, device
      basis에 등록한 뒤 $C^\dagger S_\text{dev} C = I$로 rescale한다; in-device MPSH 구성은 교차 확인용으로

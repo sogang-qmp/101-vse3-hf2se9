@@ -14,18 +14,18 @@
 <aside id="nav" data-brand="101 · VSe₃/Hf₂Se₉"></aside>
 <main>
 <article>
-  <h1>1D Hf₂Se₉–VSe₃ 헤테로접합의 제일원리 전도도
+  <h1>1D Hf₂Se₉–VSe₃ heterojunction의 conductance — first-principles 계산
       <span class="status">진행 중</span></h1>
   <p class="page-meta">참여자: Seongbin Park · Young Woo Choi (지도교수)</p>
 
   <p>
     <strong>Hf₂Se₉</strong> 분자 하나가 금속성 <strong>VSe₃</strong> 사슬 두 개를 잇는
     다리를 이루어, 탄소 나노튜브 안에서 자라난 1D 분자 접합을 형성한다. 본 프로젝트는
-    이 접합의 conductance를 제일원리로 계산하고, 하나의 물리적 질문을 던진다:
+    이 접합의 conductance를 first-principles로 계산하고, 하나의 물리적 질문을 던진다:
     <em>전류가 분자를 통해 흐르는가, 그리고 어느 orbital을 통해 흐르는가?</em>
     Transport 증거는 그렇다고 답한다 — 분자를 제거하면 conductance가 완전히 사라진다 —
     그리고 현재의 최전선은 분자 준위 위치를 보정하여(PBE는 gap을 과소평가한다) resonance가
-    물리적으로 있어야 할 곳에 놓이도록 하는 것이다.
+    물리적으로 있어야 할 곳에 놓는다.
   </p>
 
   <figure>
@@ -32167,8 +32167,8 @@ three/build/three.module.js:
     VSe₃는 1D 사슬을 이룬다; trichalcogenide 중에서 그 배위(coordination)에 대한 실험
     보고가 없었는데, 여기서 <strong>trigonal prismatic (TP)</strong>으로 규명되었고
     <strong>금속성</strong>이다 — 자연스러운 1D 전극이다. 이런 사슬 두 개 사이에 Hf₂Se₉
-    분자를 encapsulation하면 metal–molecule–metal 접합이 만들어진다. PBE에서 분자의 HOMO–LUMO
-    gap이 매우 작기 때문에(0.024 eV), frontier resonance가 거의 Fermi level 위에 놓여
+    분자를 encapsulation하면 metal–molecule–metal 접합이 만들어진다. vdW-DF2에서 분자의 HOMO–LUMO
+    gap이 매우 작기 때문에(0.023 eV), frontier resonance가 거의 Fermi level 위에 놓여
     transmission이 "너무 좋게" 보인다. 따라서 대표 그림이 <em>resonant</em> tunneling인지
     <em>non-resonant</em> tunneling인지는 분자 준위 정렬(level alignment)을 제대로 잡는가에
     달려 있다.
@@ -32198,7 +32198,7 @@ three/build/three.module.js:
     disconnected 0</strong>은 분자가 유일한 전도 다리임을 증명한다(eigenchannel
     $\tau_0 = 0.999$). <strong>DFT+Σ 분자준위 보정은 적용 완료</strong>됐다
     (점유 준위는 아래로·비점유는 위로; 고립 분자 gap 0.02 → 0.75 eV 개방):
-    9-cell 소자에서 분자 공명이 $E_F$에서 벗어나 $T(E_F)$가 크게 억제된다.
+    9-cell 소자에서 분자 공명이 $E_F$에서 벗어나 $T(E_F)$가 0.0032로 떨어진다.
     남은 분석은 계면 charge-transfer $\Delta\rho$다 — δH 보정은 TBtrans post-processing 단계에서
     들어가므로 zero-bias $T(E)$로 충분하고 finite-bias chain은 불필요하다.
   </p>

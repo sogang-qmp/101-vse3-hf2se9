@@ -18,197 +18,275 @@
   <h1>Log</h1>
   <p class="page-meta">작업 일지 + 미팅 노트 (날짜순, 최신 위)</p>
 
-  <h2>2026-07-30 — 07-19 미팅 이후: 분자 stacking · CNT binding · 2분자 접합 회전 스캔</h2>
-  <h3>1 · 분자 stacking</h3>
+  <h2>2026-08-05 — 2분자 브릿지: DFT+&Sigma; 준위와 접합 transport</h2>
   <ul>
-    <li><strong>Rigid separation scan.</strong> 조사한 H-termination 기하 중 프로젝트 명칭
-      <code>gap</code>, $d$ = 3.5 Å가 dimer·trimer에서 가장 낮은 에너지이다. unterminated scan은
-      $d$ = 2.5 Å 하한까지 계속 내려가며, TEM 간격은 3.6 Å이다.</li>
-    <li><strong>Broyden relaxation.</strong> dimer는 0.018779 eV/Å에서 수렴했다. trimer는 진행 중이며
-      최근 보고된 constrained maximum force는 0.150960 eV/Å(목표 0.02 eV/Å)이다.</li>
+    <li><strong>1 &middot; dimer 준위 shift 조립.</strong> vacuum 정렬 single-point 4건이 2분자 브릿지의
+      $\Delta_i^{v2}$를 준다. frontier gap이 0.022에서 <strong>0.394 eV</strong>로 열리고 고립분자
+      B3LYP 값과 3 meV 안에서 맞는다.
+      &rarr; <a href="../results/dimer-level-correction/index.html">12. 2분자 브릿지 분자준위</a></li>
+    <li><strong>2 &middot; 홀수 전자가 gap 정의를 막는다.</strong> dimer의 valence 전자가
+      <strong>151개</strong>라 spin-restricted도 spin-polarized도 깨끗한 HOMO–LUMO gap을 주지 않는다.
+      대신 &Delta;SCF IP/EA 경로를 세팅했다.
+      &rarr; <a href="../results/dimer-level-correction/index.html">12. 2분자 브릿지 분자준위</a></li>
+    <li><strong>3 &middot; 접합 transport 측정.</strong> 무보정 $T(E_F)$ = <strong>0.184</strong>이고
+      &plusmn;0.5 eV 평균으로 1분자 접합보다 <strong>4.9배</strong> 낮다. 분자 공명은 +0.005 eV에 놓인다.
+      &rarr; <a href="../results/dimer-transport/index.html">13. 2분자 접합 transport</a></li>
   </ul>
 
-  <h3>2 · CNT binding</h3>
+  <h2>2026-07-30 — 그룹미팅: H termination 근거 → CNT diameter → band alignment</h2>
+  <p><strong>논의사항</strong></p>
   <ul>
-    <li><strong>VSe₃@(9,9) CNT.</strong> $E_\mathrm{bind}$ = −4.854 eV/cell
-      (−1.213 eV/VSe₃ formula unit)이다.</li>
-    <li><strong>Hf₂Se₉@CNT.</strong> CNT 탄소는 고정하고 11원자 guest를 Broyden relaxation한다.
-      최근 보고된 constrained maximum force는 0.048516 eV/Å이며, 힘 수렴 전 최종 결합에너지는 보고하지 않는다.</li>
+    <li><strong>H termination:</strong> Se 인터페이스마다 수소가 하나씩 공유되는 형태다. rigid
+      single-point 회전 스캔의 최안정 각도 60°가 relaxation 결과와 일치하는 것이 이 그림의 근거이며,
+      수소가 없으면 각도가 정해지지 않는다.
+      → <a href="../results/mol-stacking/index.html">09. 분자 stacking</a> ·
+        <a href="../results/hetero-2mol-rotation/index.html">11. 회전 스캔</a></li>
+    <li><strong>CNT diameter:</strong> 직경에 따라 도핑량과 부호가 바뀌므로 지금 쓰는 (9,9)를 고른
+      근거가 필요하다. binding energy가 최대인 것은 (8,8)이다.
+      → <a href="../results/cnt-binding/index.html">10. CNT encapsulation</a></li>
+    <li><strong>Charge transfer 방향:</strong> VSe₃ 체인은 CNT에서 전자를 받아 LUMO를 채우며, 그 양은
+      +0.26 e/f.u.다. 두 guest 모두 encapsulation이 덜 유리하다.
+      → <a href="../results/cnt-binding/index.html">10. CNT encapsulation</a></li>
+    <li><strong>Band alignment:</strong> 분자가 고립돼 있으면 LUMO가 채워지겠지만 양쪽이 metallic
+      VSe₃ lead이므로 전자가 분자에 머물지 않고 lead로 빠져나가, 기존 neutral alignment를 그대로 쓸 수
+      있다. 수치가 아니라 에너지 순서에 기반한 conceptual 논거다.
+      → <a href="../results/level-correction/index.html">08. 분자 준위 보정</a></li>
   </ul>
-
-  <h3>3 · 재시작 프로토콜</h3>
-  <p><strong>방법.</strong> CG 시험은 최대 힘이 dimer 0.506433, trimer 0.215633,
-    Hf₂Se₉@CNT 0.361229 eV/Å로 상승해 중단했다. 2026-07-29 backup DM/XV에서 Broyden으로
-    재시작했고, <code>MD.MaxDispl</code> 0.02 Å, <code>MD.MaxForceTol</code> 0.02 eV/Å을 쓴다.</p>
-  <h3>4 · 2분자 접합 회전 스캔</h3>
+  <p><strong>피드백</strong></p>
   <ul>
-    <li><strong>구조 조립.</strong> 수렴한 dimer(max force 0.018779 eV/Å)를 1분자 접합의 relaxed
-      구조에 끼워 VSe₃–(Hf₂Se₉)₂–VSe₃ 접합을 만들었다 — 106 atom, cell 25 × 25 × 80.35052 Å.
-      계면 간격은 좌 2.172 · 우 2.174 Å로 베이스와 같다.</li>
-    <li><strong>rigid single point 5각도.</strong> VSe₃ 계면 3 Se의 C₃(120° 주기) + 반사 대칭 때문에
-      0–180°의 독립 각도는 0/15/30/45/60°다. 5개 모두 정상 종료했고 <strong>60°가 최안정</strong> —
-      45°보다 92 meV 낮다(상온 <em>kT</em> ≈ 26 meV의 3.5배). 1분자 접합의 60° 배향이 유지된다.</li>
+    <li><strong>리포트 작성:</strong> 진행 리포트의 내용은 직접 쓰고 텍스트 생성만 위임한다.</li>
+    <li><strong>논의 사안의 위치:</strong> 미팅에서 다룰 사안을 리포트에만 적어두지 않는다.</li>
   </ul>
-
-  <p><strong>게시.</strong> → <a href="../results/mol-stacking/index.html">09. Hf₂Se₉ 분자 stacking</a>
-    · <a href="../results/cnt-binding/index.html">10. CNT encapsulation</a>
-    · <a href="../results/hetero-2mol-rotation/index.html">11. 2분자 접합 회전 스캔</a>.</p>
-  <p><strong>다음.</strong> 60° 접합만 cell 고정 relax해 conductance decay(n = 2)의 transport
-    구조로 쓰고,
-    trimer·Hf₂Se₉@CNT가 수렴한 뒤에만 각각의 transport·결합에너지를 보고한다.</p>
-
-  <h2>2026-07-19 — 그룹미팅: LUMO 무공명 · conductance decay 착수</h2>
+  <p><strong>미해결</strong></p>
   <ul>
-    <li><strong>LUMO:</strong> LUMO(+0.355 eV)에 분자 PDOS 피크는 있으나 $T(E)$엔 대응 피크 없이 오히려
-      감소; plane-averaged $|\psi|^2$에서 LUMO가 분자 통과 후 감쇠가 가장 크다. → LUMO에서는 resonant
-      tunneling이 일어나지 않는 것으로 보인다.</li>
-    <li><strong>HOMO:</strong> resonant tunneling이 뚜렷이 보인다 — 분자 전도 채널.</li>
-    <li><strong>남은 검증:</strong> LUMO와 VSe₃ 전극 상태 사이의 오비탈별 결합을 정량화한다.</li>
+    <li><strong>Transport:</strong> 재수렴 후 decay constant β와 LUMO transmission을 정리해야 한다.
+      이 둘이 닫히면 논문 정리 단계다.</li>
+    <li><strong>Diameter 의존성:</strong> 직경 스캔이 없어 도핑량이 직경에 어떻게 달라지는지 확인되지
+      않았다. → <a href="../results/cnt-binding/index.html">10. CNT encapsulation</a></li>
   </ul>
-  <p><strong>다음</strong></p>
+  <p><strong>워크플로우</strong></p>
   <ol>
-    <li>Hf₂Se₉ 분자 <strong>2·3개</strong> 직렬 conductance decay, 동일 DFT+Σ 보정.</li>
-    <li>VSe₃·Hf₂Se₉ <strong>CNT 내부</strong> binding energy + charge transfer.</li>
-    <li>LUMO–전극 오비탈 orthogonality 규명.</li>
+    <li><strong>Hf₂Se₉ 3 unit:</strong> relaxation 수렴 (진행)</li>
+    <li><strong>Transport:</strong> 재수렴 후 β·LUMO transmission 정리 (예정)</li>
+    <li><strong>CNT diameter:</strong> 직경 스캔으로 선정 근거 확보 (예정)</li>
+    <li><strong>Double chain:</strong> 방향성 논의 (예정)</li>
   </ol>
 
-  <h2>2026-07-18 — DFT+Σ v2 확정 · 방법론 점검 · eigenchannel 정정</h2>
+  <h2>2026-07-30 — 분자 stacking → CNT encapsulation → 2분자 접합 회전 스캔</h2>
   <ul>
-    <li><strong>07-03 미팅 후속:</strong> I–V 비대칭은 window artifact → 대칭 window로 재적분, $I(-V)=-I(V)$(정류 없음). "gap 0.75 vs 0.2 eV" 불일치 해소: 0.75 eV는 고립분자 B3LYP gap(scissor 입력값), device frontier 간격은 분자–금속 hybridization으로 더 작음 — 서로 다른 양이라 분리 표기.</li>
-    <li><strong>v2 보정:</strong> v1의 직접 B3LYP−vdW-DF2 뺄셈은 ~0.7 eV 코드 간 offset을 실어 비점유 준위 부호를 뒤집었음; v2는 공통 PBE 기준으로 각 코드 안에서만 빼서 → 점유↓/비점유↑, 고립 gap 0.75 eV, 보정 $T(E_F)$ 0.355 → 0.0032.</li>
-    <li><strong>방법론 점검(Darancet NL 2012 정독):</strong> 표준 "DFT+Σ" = Σ¹(gas-phase gap) + Σ²(image charge); 우리는 Σ¹-only → 정확히는 gas-phase gap 보정이며 결과는 상한/정성으로 인용. gas-phase 항은 ΔSCF 총에너지 IP/EA여야 함. 1D chain image charge는 정량 불가 — 원통 추정이 0.6–3.2 eV(모델 의존 5배).</li>
-    <li><strong>Eigenchannel 정정:</strong> v2 eigenchannel 에너지를 분자 frontier로 다시 선택(HOMO −0.325 / LUMO +0.355 eV; 이전 deep/2nd peak 오선택).</li>
+    <li><strong>1 · 분자 stacking 간격 확정.</strong> H termination을 넣은 rigid separation scan에서
+      <code>gap</code> 배열의 <em>d</em> = 3.5 Å가 dimer와 trimer 모두 최저이고, TEM 간격과 맞는다.
+      → <a href="../results/mol-stacking/index.html">09. 분자 stacking</a></li>
+    <li><strong>2 · dimer relaxation 수렴.</strong> H termination이 들어간 2분자 stack이 목표 힘 안에서
+      수렴해, 접합 조립의 출발 구조가 확정됐다.
+      → <a href="../results/mol-stacking/index.html">09. 분자 stacking</a></li>
+    <li><strong>3 · CNT encapsulation 정량.</strong> VSe₃ 사슬은 −1.21 eV/f.u., Hf₂Se₉ 분자는
+      −4.73 eV/molecule로 붙는다. 두 guest 모두 CNT에서 전자를 받는다.
+      → <a href="../results/cnt-binding/index.html">10. CNT encapsulation</a></li>
+    <li><strong>4 · 2분자 접합 회전 스캔.</strong> 수렴한 dimer를 1분자 접합에 끼워 만든 106 atom 접합에서
+      독립 각도 다섯 개를 rigid single point로 계산해 60°가 최안정임을 확인했다. 1분자 접합의 배향이
+      그대로 유지된다. → <a href="../results/hetero-2mol-rotation/index.html">11. 회전 스캔</a></li>
   </ul>
-  <p class="page-meta">→ <a href="../results/level-correction/index.html">Results: level correction</a> (eigenchannel Section C, Fig. C5–C6)</p>
+  <p><strong>다음.</strong> 60° 접합만 cell 고정 relaxation해 conductance decay의 transport 구조로 쓴다.</p>
 
-  <h2>2026-07-03 — 그룹미팅: δH 보정 리뷰</h2>
-  <p><strong>결정</strong></p>
+  <h2>2026-07-19 — 그룹미팅: LUMO 무공명 → conductance decay 착수</h2>
+  <p><strong>논의사항</strong></p>
+  <ul>
+    <li><strong>LUMO:</strong> 분자 PDOS에는 피크가 있으나 $T(E)$에는 대응 피크가 없고 오히려 감소하며,
+      plane-averaged $|\psi|^2$에서 분자를 통과한 뒤 감쇠가 가장 크다. LUMO에서는 resonant tunneling이
+      일어나지 않는 것으로 보인다. → <a href="../results/level-correction/index.html">08. 분자 준위 보정</a></li>
+    <li><strong>HOMO:</strong> resonant tunneling이 뚜렷해 분자의 전도 채널로 확인된다.
+      → <a href="../results/transmission/index.html">06. 투과</a></li>
+  </ul>
+  <p><strong>미해결</strong></p>
+  <ul>
+    <li><strong>LUMO–lead 결합:</strong> LUMO와 VSe₃ 전극 상태 사이의 오비탈별 결합이 정량화되지 않았다.
+      → <a href="../results/level-correction/index.html">08. 분자 준위 보정</a></li>
+  </ul>
+  <p><strong>워크플로우</strong></p>
   <ol>
-    <li><strong>포말리즘 확인.</strong> δH는 molecule block에만 적용($\Delta H = S\,C\,\mathrm{diag}(\Delta)\,C^\dagger S$), SCF가 아니라 TBtrans 후처리 단계에서 transmission에 반영 → finite bias 재계산 불필요, zero-bias $T(E)$로 충분.</li>
-    <li><strong>결과 접수.</strong> 보정 후 zero-bias transmission ~7× 감소, molecular PDOS에 보정이 깔끔히 반영 — 수치를 하나씩 검증한다는 전제에서 우리가 원하는 그림.</li>
+    <li><strong>Conductance decay:</strong> 분자 2·3개 직렬, 동일 level 보정 (진행)</li>
+    <li><strong>CNT encapsulation:</strong> binding energy와 charge transfer (완료)</li>
+    <li><strong>LUMO orthogonality:</strong> 전극 오비탈과의 결합 규명 (예정)</li>
   </ol>
-  <p><strong>액션 아이템</strong></p>
+
+  <h2>2026-07-18 — I–V 대칭 정정 → level 보정 v2 → eigenchannel 재선택</h2>
+  <ul>
+    <li><strong>1 · I–V 비대칭 해소.</strong> 비대칭은 bias window를 잘못 잡은 데서 온 것으로, 대칭
+      window로 재적분하면 $I(-V) = -I(V)$가 되어 정류가 없다.
+      → <a href="../results/level-correction/index.html">08. Level 보정</a></li>
+    <li><strong>2 · Gap 불일치 분리.</strong> 고립분자 gap과 device frontier 간격은 서로 다른 양이다.
+      후자는 분자–금속 hybridization으로 더 좁아지므로 따로 표기한다.
+      → <a href="../results/level-correction/index.html">08. Level 보정</a></li>
+    <li><strong>3 · Level 보정 v2 확정.</strong> 코드 간 offset이 비점유 준위의 shift 부호를 뒤집던 문제를
+      공통 기준 구성으로 제거했고, 보정 후 $T(E_F)$는 0.0032다.
+      → <a href="../methods/dft-sigma/index.html">Methods: level 보정</a></li>
+    <li><strong>4 · 방법론 범위 명시.</strong> 표준 절차는 gas-phase gap 항과 image-charge 항으로 이뤄지는데
+      우리는 앞 항만 쓰므로 결과를 상한이자 정성으로 인용한다. 1D 사슬의 image charge는 모델 의존이 커
+      정량화하지 않는다. → <a href="../methods/dft-sigma/index.html">Methods: level 보정</a></li>
+    <li><strong>5 · Eigenchannel 재선택.</strong> 등가면 에너지를 분자 frontier로 다시 골랐다.
+      → <a href="../results/level-correction/index.html">08. Level 보정</a></li>
+  </ul>
+
+  <h2>2026-07-03 — 그룹미팅: level 보정 형식 검토</h2>
+  <p><strong>논의사항</strong></p>
+  <ul>
+    <li><strong>보정 형식:</strong> 보정 항은 molecule block에만 적용되고 SCF가 아니라 transmission
+      후처리 단계에 들어간다. 따라서 finite-bias 재계산 없이 zero-bias $T(E)$로 충분하다.
+      → <a href="../methods/dft-sigma/index.html">Methods: level 보정</a></li>
+    <li><strong>보정 결과:</strong> 보정 후 zero-bias transmission이 줄고 분자 PDOS에도 반영됐다.
+      수치를 하나씩 검증한다는 전제에서 의도한 그림이다.
+      → <a href="../results/level-correction/index.html">08. 분자 준위 보정</a></li>
+  </ul>
+  <p><strong>미해결</strong></p>
+  <ul>
+    <li><strong>On-resonance transmission:</strong> 공명에서 값이 낮은 이유를 약결합과 $E_F$ pinning으로
+      귀속했으나, 정량값은 상한으로만 쓴다. → <a href="../results/level-correction/index.html">08. 분자 준위 보정</a></li>
+  </ul>
+  <p><strong>워크플로우</strong></p>
   <ol>
-    <li>보정 후 HOMO–LUMO gap 0.75 eV vs 그림상 ~0.2 eV 간격 불일치 추적 → <strong>완료</strong>(07-06/15): 0.75 eV는 고립분자 B3LYP gap(scissor 입력값), device frontier 간격은 분자–금속 hybridization으로 더 작음 — 서로 다른 양으로 분리 표기.</li>
-    <li>transmission 이상(on-resonance에서 낮음) 체크 → <strong>진행</strong>: 방법론 점검에서 약결합 + $E_F$ pinning으로 귀속, 정량값은 상한·그림은 정성으로.</li>
-    <li>I–V bias window 대칭성 + 그림/캡션 일치 → <strong>완료</strong>(07-06): 대칭 window로 재적분, $I(-V)=-I(V)$(정류 없음).</li>
-    <li>발표자료에서 이해 못 한 문장 제거, 각 수치 출처 명시 → <strong>진행</strong>(07-07/15): Darancet verbatim 인용 DFT+Σ 문서화 + 방법론 전면 점검.</li>
+    <li><strong>Gap 불일치:</strong> 고립분자 gap과 device frontier 간격을 분리해 표기 (완료)</li>
+    <li><strong>I–V window:</strong> 대칭 window로 재적분하고 그림·캡션을 맞춤 (완료)</li>
+    <li><strong>수치 출처:</strong> 발표 자료의 각 수치에 출처를 붙이고 방법론을 문서화 (완료)</li>
   </ol>
-  <p class="page-meta">전체 노트: <code>meetings/next/afmeet/</code></p>
 
-  <h2>2026-07-02 — 06-19 미팅 이후: 9-cell 수렴 → DFT+Σ 적용 → 3-way + 보정 I–V</h2>
-
-  <h3>1 · Scattering-region 길이 수렴</h3>
+  <h2>2026-07-02 — scattering region 수렴 → level 보정 적용 → 3-way transmission</h2>
   <ul>
-    <li>전극당 VSe₃ 9 unit cells: $T(E_F)$ = 0.348 ≈ 0.354 (3 cells), 단일 채널
-        $\tau_0$ = 0.989 — 기하 구조·분자 PDOS·transmission 모두 7–9 cell에서 안정.</li>
+    <li><strong>1 · Scattering region 길이 수렴.</strong> 전극당 VSe₃ 9 unit cell에서 $T(E_F)$ = 0.348로
+      3 cell 값과 같고, 기하·분자 PDOS·transmission이 모두 안정된다.
+      → <a href="../results/transmission/index.html">06. Transmission</a></li>
+    <li><strong>2 · Level 보정 구성.</strong> 공통 기준으로 각 코드 안에서만 차를 취해 점유는 내려가고
+      비점유는 올라가며, 고립분자 gap이 0.75 eV로 열린다. 직접 차를 쓰던 v1은 코드 간 offset 때문에
+      비점유 shift의 부호가 뒤집혔다. → <a href="../methods/dft-sigma/index.html">Methods: level 보정</a></li>
+    <li><strong>3 · Projector 선택.</strong> 분자가 전극에 약하게만 접촉하는 독립 단위체이므로 고립분자
+      MO를 projector로 쓰고, MPSH는 교차 확인용으로 둔다.
+      → <a href="../methods/dft-sigma/index.html">Methods: level 보정</a></li>
+    <li><strong>4 · 3-way transmission.</strong> pristine·hetero·disconnected를 비교해 disconnected에서
+      $T(E_F)$ = 0이 되므로 분자가 유일한 전도 다리임이 확인된다.
+      → <a href="../results/transmission/index.html">06. Transmission</a></li>
+    <li><strong>5 · 보정 I–V.</strong> 대칭 window에서 적분한 곡선은 홀함수이고 보정이 저바이어스 전류를
+      누른다. → <a href="../results/level-correction/index.html">08. Level 보정</a></li>
+  </ul>
+  <p><strong>다음.</strong> charge-transfer $\Delta\rho$로 넘어간다.</p>
+
+  <h2>2026-06-19 — 수렴성 점검 마감 → level 보정 유도</h2>
+  <p><strong>논의사항</strong></p>
+  <ul>
+    <li><strong>분자 gap:</strong> vacuum 정렬 기준으로 B3LYP gap이 0.75 eV이고 vdW-DF2 값은 거의 닫혀
+      있다. 이 차이가 level 보정의 입력이 된다.
+      → <a href="../methods/dft-sigma/index.html">Methods: level 보정</a></li>
+    <li><strong>보정 구현:</strong> 준위 보정을 칠판에서 유도했고, source patch 없이 transmission 후처리
+      기능으로 구현한다. → <a href="../methods/dft-sigma/index.html">Methods: level 보정</a></li>
+  </ul>
+  <p><strong>워크플로우</strong></p>
+  <ol>
+    <li><strong>Scattering region:</strong> 전극당 VSe₃ 9 unit cell로 재-relaxation (완료)</li>
+    <li><strong>보정 workflow:</strong> 구현 절차 문서화 (완료)</li>
+  </ol>
+
+  <h2>2026-06-12 — 그룹미팅: 구조 → gap → H termination → rotation → transport</h2>
+  <p><strong>논의사항</strong></p>
+  <ul>
+    <li><strong>사슬 배위:</strong> VSe₃는 TP 배위가 TAP보다 0.163 eV/f.u. 안정하고 금속성이다.
+      → <a href="../results/vse3-tp-tap/index.html">01. TP vs TAP</a></li>
+    <li><strong>H termination:</strong> 세 배치 중 <code>gap</code>이 최안정이고 최소 <em>d</em>가 3.5 Å
+      부근이다. → <a href="../results/h-termination/index.html">04. H termination</a></li>
+    <li><strong>Rotation:</strong> 회전 에너지 최소가 60°와 180°에 있고 60° staggered가 최안정이다.
+      → <a href="../results/junction/index.html">05. 접합</a></li>
+    <li><strong>Transmission:</strong> pristine의 길이 의존은 broadening artifact이고, heterojunction에서
+      $T(E_F)$가 0.35로 떨어지며 eigenchannel이 분자를 통과한다.
+      → <a href="../results/transmission/index.html">06. Transmission</a></li>
+  </ul>
+  <p><strong>워크플로우</strong></p>
+  <ol>
+    <li><strong>수렴성 점검:</strong> scattering region 길이, device k-grid, broadening, disconnected
+      비교 (완료)</li>
+    <li><strong>Level 보정:</strong> 분자 orbital 보정 도입 (완료)</li>
+    <li><strong>Charge transfer · I–V:</strong> 보정 뒤 진행 (완료)</li>
+  </ol>
+
+  <h2>2026-06-02 — pristine transmission의 길이 의존이 artifact로 판명</h2>
+  <ul>
+    <li><strong>1 · Broadening artifact 규명.</strong> pristine $T(E)$의 길이 의존은 물리가 아니라
+      contour broadening 때문이며, 값을 낮추면 길이 무관성이 복원된다. production transport의 broadening을
+      그 결과로 확정했다. → <a href="../results/transmission/index.html">06. Transmission</a></li>
   </ul>
 
-  <h3>2 · DFT+Σ 분자준위 보정</h3>
+  <h2>2026-05-29 — 그룹미팅: heterojunction transport 방향 설정</h2>
+  <p><strong>논의사항</strong></p>
   <ul>
-    <li><strong>입력 (v2):</strong> $\Delta_i$를 공통 PBE 기준으로 각 코드 안에서만 빼서 구성 —
-        $[\varepsilon^\text{B3LYP}-\varepsilon^\text{PBE}]_\text{VASP}+[\varepsilon^\text{PBE}-\varepsilon^\text{vdW-DF2}]_\text{SIESTA}$
-        — 점유는 내려가고 비점유는 올라가며 고립분자 gap이 0.75 eV로 열린다.</li>
-    <li><strong>v1이 틀린 이유:</strong> B3LYP−vdW-DF2 직접 뺄셈에는 vacuum 정렬로 안 지워지는
-        ~0.7 eV 교차코드 offset(SIESTA vs VASP pseudopotential/basis)이 섞여 virtual shift 부호가
-        뒤집혔다; 공통 PBE·same-code 구성(v2)이 이를 제거한다.</li>
-    <li><strong>Projector:</strong> 고립분자 MO (MPSH를 교차 확인용으로); 분자는 전극에 약한
-        반데르발스 접촉만 하는 독립 단위체다.
-        $\Delta H = S\,C\,\mathrm{diag}(\Delta_i)\,C^\dagger S$, level-1 <code>TBT.dH</code>.</li>
-    <li><strong>적용 (9-cell):</strong> 보정된 $T(E)$는 분자 공명을 $E_F$에서 밀어내
-        Fermi 준위 transmission을 억제하며, 3-cell N25_k100 cross-check에도 그대로 전이된다.</li>
-    <li><strong>Gap 확인:</strong> 고립분자 HOMO–LUMO gap이 0.02 → 0.75 eV로 열림
-        (B3LYP 목표값), DFT+Σ 문헌과 방향 일치.</li>
+    <li><strong>계면 확정 순서:</strong> pristine VSe₃ transport를 먼저 점검하고 계면 구조를 확정한 뒤
+      transport로 넘어간다. → <a href="../results/transmission/index.html">06. Transmission</a></li>
+  </ul>
+  <p><strong>워크플로우</strong></p>
+  <ol>
+    <li><strong>분자 PDOS:</strong> Hf–Se와 V–Se 기여로 분리 (완료)</li>
+  </ol>
+
+  <h2>2026-05-13 — 그룹미팅: relaxation과 transport 연결</h2>
+  <p><strong>논의사항</strong></p>
+  <ul>
+    <li><strong>H termination 후보:</strong> single point 기준으로 <code>gap</code> 배열의
+      <em>d</em> = 3.5 Å가 최안정이며, 최종 판단은 relaxation 결과로 미룬다.
+      → <a href="../results/h-termination/index.html">04. H termination</a></li>
+    <li><strong>판단 원칙:</strong> 수치보다 물리적 타당성을 먼저 본다.</li>
+  </ul>
+  <p><strong>워크플로우</strong></p>
+  <ol>
+    <li><strong>Transport 셀 길이:</strong> 분자를 넣은 계와 넣지 않은 계의 potential 교란 범위로 결정
+      (완료)</li>
+  </ol>
+
+  <h2>2026-04-16 — 그룹미팅: H termination이 계면을 고정</h2>
+  <p><strong>논의사항</strong></p>
+  <ul>
+    <li><strong>Separation 최소점 복원:</strong> 계면 H 배향 세 모드를 비교해 <code>gap</code>이 최안정이고
+      분리 곡선의 최소가 <em>d</em> = 3.5–4.0 Å에 생긴다. H termination이 없으면 그 최소가 사라진다.
+      → <a href="../results/h-termination/index.html">04. H termination</a></li>
+    <li><strong>실험팀 전달:</strong> relaxation된 VSe₃ TAP 구조를 STEM simulation 입력으로 넘겼다.
+      → <a href="../results/vse3-tp-tap/index.html">01. TP vs TAP</a></li>
+  </ul>
+  <p><strong>워크플로우</strong></p>
+  <ol>
+    <li><strong>Relaxation 초기 구조:</strong> <code>gap</code>, <em>d</em> = 3.5 Å로 착수 (완료)</li>
+  </ol>
+
+  <h2>2026-04-07 — 그룹미팅: 구조와 안정성 정리</h2>
+  <p><strong>논의사항</strong></p>
+  <ul>
+    <li><strong>사슬 배위:</strong> VSe₃는 TP 배위가 일관되게 안정하다.
+      → <a href="../results/vse3-tp-tap/index.html">01. TP vs TAP</a></li>
+    <li><strong>Functional 선택:</strong> Hf₂Se₉는 vdW-DF2에서 깨끗하게 relaxation되고 Hf–Hf 거리가 TEM
+      값보다 길다. → <a href="../results/hf2se9-stability/index.html">02. Hf₂Se₉ 안정성</a></li>
+    <li><strong>Hetero separation:</strong> 분리 에너지 곡선이 단조라 H termination 없이는 최소점이 없다.
+      → <a href="../results/hetero-separation/index.html">03. 헤테로 분리</a></li>
+  </ul>
+  <p><strong>워크플로우</strong></p>
+  <ol>
+    <li><strong>계면 H termination:</strong> 최우선 착수 (완료)</li>
+    <li><strong>CNT encapsulation:</strong> 보류 (완료 — 2026-07 재개)</li>
+  </ol>
+
+  <h2>2026-03-23 — 실험 공동연구팀과 구조 정보 교환</h2>
+  <ul>
+    <li><strong>1 · 구조 정보 교환.</strong> STEM 팀과 구조 정보를 주고받아 모델 구축과 이후 STEM
+      simulation 전달의 입력으로 삼았다.
+      → <a href="../results/vse3-tp-tap/index.html">01. TP vs TAP</a></li>
   </ul>
 
-  <h3>3 · 3-way transmission + 보정 I–V</h3>
+  <h2>2026-03-19 — TP·TAP 사슬 초기 구조 구축</h2>
   <ul>
-    <li><strong>Disconnected 완료:</strong> $T(E_F)$ = 0.000 → pristine 0.70 / hetero 0.348 /
-        disconnected 0 — 분자가 유일한 전도 다리.</li>
-    <li><strong>보정 Landauer I–V</strong> (zero-bias $T(E)$, 대칭 window):
-        보정이 저바이어스 전류를 누른다; 곡선은 홀함수 $I(-V)=-I(V)$ (정류 없음 — 이전 비대칭 window figure는 2026-07-05 정정).</li>
+    <li><strong>1 · 초기 구조 구축.</strong> 공유결합 반지름과 NbSe₃ 스케일링으로 문헌 파라미터를 잡아
+      TP·TAP 사슬을 만들고 relaxation 대기 상태로 두었다.
+      → <a href="../results/vse3-tp-tap/index.html">01. TP vs TAP</a></li>
   </ul>
-
-  <p><strong>게시.</strong> Level correction Section C (보정 $T(E)$·PDOS 전후+zoom·eigenchannel
-     등가면·I–V); transmission (3-way overlay).</p>
-  <p><strong>다음.</strong> charge-transfer $\Delta\rho$. (finite-bias chain 불필요 — δH는
-     TBtrans post-processing 보정이라 zero-bias $T(E)$로 충분.)</p>
-  <p class="page-meta">→ <a href="../results/level-correction/index.html">Results: level correction</a> ·
-     <a href="../results/transmission/index.html">Results: transmission</a> ·
-     <a href="../methods/dft-sigma/index.html">Methods: DFT+Σ implementation</a></p>
-
-  <h2>2026-06-19 — 수렴성 점검 완료; ΔH 보정 유도</h2>
-  <p><strong>결과.</strong> 수렴성 점검 완료; B3LYP 분자 gap 0.752 eV (vacuum-aligned),
-     vdW-DF2 0.024 eV 대비.</p>
-  <p><strong>결정.</strong> ΔH 준위 보정을 칠판에서 유도했다; TBtrans δH mechanism으로
-     구현하고(source patch 없음) workflow를 문서화한다. 전극당 VSe₃ unit cell 9개에서의
-     재-relaxation을 배정.</p>
-  <p class="page-meta">→ <a href="../methods/dft-sigma/index.html">Methods: DFT+Σ implementation</a> ·
-     <a href="../results/level-correction/index.html">Results: level correction</a></p>
-
-  <h2>2026-06-12 — 그룹 미팅: 구조, gap, passivation, rotation, transport</h2>
-  <p><strong>발표.</strong> VSe₃ TP가 TAP보다 0.163 eV/formula 안정(금속성); Hf₂Se₉ gap 0.024 eV;
-     H-passivation 3개 배치, 최소 $d$ ≈ 3.5 Å (top이 가장 안정); rotation 최소는 60°/180°에서(60°
-     staggered, +43.3 meV); pristine $T(E)$의 길이 의존성은 η broadening artifact(η = 0.001 eV에서
-     ballistic); heterojunction $T(E_F)$ ≈ 1.6 → 0.35, eigenchannel이 분자를 통과한다.</p>
-  <p><strong>결정.</strong> 1주간의 수렴성 점검(scattering-region 길이, device k-grid와 η,
-     benchmark, disconnected 3종 비교) → 이후 B3LYP 분자 orbital 보정(DFT+Σ), charge transfer,
-     I–V.</p>
-  <p class="page-meta">→ <a href="../results/junction/index.html">Results: 접합</a> ·
-     <a href="../results/transmission/index.html">Results: transmission</a> ·
-     <a href="../results/h-termination/index.html">Results: H-termination</a></p>
-
-  <h2>2026-06-02 — η-broadening artifact 해결</h2>
-  <p><strong>결과.</strong> pristine $T(E)$의 길이 의존은 물리가 아니라 η-broadening artifact —
-     contour broadening을 η 0.05 → 0.001 eV로 낮추면 길이 무관성이 복원된다. production transport는
-     <strong>η = 0.005 eV</strong>로 확정.</p>
-  <p class="page-meta">→ <a href="../results/transmission/index.html">Results: transmission</a></p>
-
-  <h2>2026-05-29 — Heterojunction transport 논의</h2>
-  <p><strong>결정.</strong> Pristine-VSe₃ transport 점검; 계면 구조를 먼저 확정; 분자 PDOS를
-     Hf–Se / V–Se 기여로 분리. (미팅은 단일 파일 HTML replay가 있음.)</p>
-
-  <h2>2026-05-13 — 그룹 미팅: relaxation → transport 연결</h2>
-  <p><strong>결과.</strong> single-point 기준 <code>gap</code>, d = 3.5 Å가 최안정 H-termination — 최종 판단은
-     relaxation 결과로.</p>
-  <p><strong>결정.</strong> relaxation 수렴 시 곧바로 transport로. transport 셀 길이는 VSe₃+분자 vs
-     VSe₃-only 두 SCF의 $\Delta V(z)$ perturbation range로 결정. 판단 원칙: 수치보다 물리적 타당성 먼저.</p>
-
-  <h2>2026-04-16 — 그룹 미팅: H-termination이 계면을 고정</h2>
-  <p><strong>결과.</strong> VSe₃ 계면 H orientation 3개 모드 scan (vdW-DF2, 44 atoms, Se–H = 1.46 Å):
-     <code>gap</code>이 최안정, 분리 최소점 d = 3.5–4.0 Å (<code>bond</code> +1.11 eV,
-     <code>tilt</code> +3.72 eV) — H-termination이 사라졌던 separation-energy 최소를 복원.</p>
-  <p><strong>전달.</strong> relax된 VSe₃ TAP 구조를 실험팀에 STEM simulation용으로 전달:
-     c = 5.535 Å, V–Se = 2.508 Å, V–V = 2.768 Å.</p>
-  <p><strong>결정.</strong> <code>gap</code>, d = 3.5 Å를 relaxation 초기 구조로; transport 셀 길이는
-     $\Delta V(z)$ perturbation range로.</p>
-  <p class="page-meta">→ <a href="../results/h-termination/index.html">Results: H-termination</a></p>
-
-  <h2>2026-04-07 — 그룹 미팅: 구조·안정성 정리</h2>
-  <p><strong>발표.</strong> VSe₃ TP가 TAP보다 일관되게 안정; Hf₂Se₉ functional scan — PBE+D2는 SCF
-     미수렴, vdW-DF2는 깨끗하게 relax (Hf–Hf 3.967 Å vs TEM 3.6 Å); hetero separation-energy 곡선은
-     단조 (H-termination 없이는 최소점 없음).</p>
-  <p><strong>결정.</strong> 계면 H-termination이 최우선; CNT-encapsulation 연구 보류; PBE+D2 SCF 디버깅 중단.</p>
-  <p class="page-meta">→ <a href="../results/vse3-tp-tap/index.html">01. TP vs TAP</a> ·
-     <a href="../results/hf2se9-stability/index.html">02. Hf₂Se₉ 안정성</a> ·
-     <a href="../results/hetero-separation/index.html">03. 헤테로 분리</a></p>
-
-  <h2>2026-03-23 — 실험팀 교신</h2>
-  <p><strong>교환.</strong> 실험 공동연구팀(STEM)과 구조 정보 교환 — 모델 구축과 이후
-     STEM-simulation 전달의 입력.</p>
-
-  <h2>2026-03-19 — 초기 구조 구축</h2>
-  <p><strong>결과.</strong> 문헌 파라미터로 TP/TAP 사슬 초기 구조 구성
-     (<code>build_vse3.py</code>; 예: TP d(V–Se) = 2.45 Å, d(V–V) = 3.09 Å — 공유결합 반지름 +
-     NbSe₃ 스케일링) — relaxation 대기.</p>
 
   <h2>2026-03-16 — 프로젝트 kickoff</h2>
-  <p><strong>배경.</strong> MX₃ 사슬은 TP 또는 TAP 배위 — Te 계열은 TAP, NbSe₃는 TP로 보고됐고
-     VSe₃는 실험 보고가 없다가 CNT 내부 합성(공동연구)으로 실현. 프로젝트 목표: VSe₃/Hf₂Se₉ 1D
-     heterojunction의 제일원리 transport (<a href="../motivation/index.html">Motivation</a>).</p>
-
-  <p class="page-meta">전체 미팅 노트 + figure는 repository의 <code>meetings/&lt;YYYY-MM-DD&gt;/</code>에
-    있으며; 최근 것들은 단일 파일 HTML meeting replay도 있다.</p>
+  <ul>
+    <li><strong>1 · 목표 설정.</strong> MX₃ 사슬은 TP 또는 TAP 배위를 갖는데 VSe₃는 실험 보고가 없다가
+      CNT 내부 합성으로 실현됐다. VSe₃/Hf₂Se₉ 1D heterojunction의 first-principles transport를 목표로 잡았다.
+      → <a href="../motivation/index.html">Motivation</a></li>
+  </ul>
 </article>
 <nav class="subpages"></nav>
 </main>

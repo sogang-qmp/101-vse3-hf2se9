@@ -24,7 +24,9 @@
      correction</a>, Section C), 보정 $T(E)$의 <strong>Landauer I–V</strong>는 대칭 bias window로
      계산 완료. 남은 계산: 계면 charge transfer $\Delta\rho$. (finite-bias chain은 <em>불필요</em> —
      δH는 TBtrans post-processing 단계에서 적용되므로 zero-bias $T(E)$로 충분.)
-     방법 상세: <a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a>.</p>
+     방법 상세: <a href="../methods/dft-sigma/index.html">Methods: DFT+Σ</a>.
+     07-19 미팅 이후 큐에 conductance-decay 계열 VSe₃–(Hf₂Se₉)ₙ–VSe₃ (n = 2, 3)와
+     CNT encapsulation 갈래(<a href="../results/cnt-binding/index.html">results 10</a>)가 더해졌다.</p>
 
   <h2>DFT+Σ workflow — 상태</h2>
   <table>
@@ -65,9 +67,14 @@
     <thead><tr><th>Priority</th><th>Task</th><th>상태</th></tr></thead>
     <tbody>
       <tr><td>P1</td><td>보정 Landauer I–V (zero-bias $T(E)$) + bias-window figure</td><td><strong>완료</strong> → <a href="../results/level-correction/index.html">level correction</a> Section C</td></tr>
-      <tr><td>P1</td><td>무보정 9-cell HOMO/LUMO eigenchannel 재확인(−0.065 / +0.003 eV)</td><td><strong>검증 완료</strong>; isosurface PNG 렌더 중</td></tr>
+      <tr><td>P1</td><td>무보정 9-cell HOMO/LUMO eigenchannel 재확인(−0.065 / +0.003 eV)</td><td><strong>검증 완료</strong></td></tr>
       <tr><td>—</td><td>진짜 finite-bias I–V — 보정 $\Delta H$(<code>TBT.dH</code>)로 TranSIESTA bias chain 0 → ±0.5 V</td><td><strong>불필요</strong> — δH는 TBtrans post-processing 보정이라 zero-bias $T(E)$로 충분 (2026-07-05)</td></tr>
       <tr><td>P2</td><td>계면 charge transfer $\Delta\rho$ — $\Delta\rho = \rho_\text{접합} - \rho_\text{전극} - \rho_\text{분자}$ (같은 셀/grid, 조각 재-relax 금지). Step 0: 기존 device 출력의 분자 11원자 Mulliken ΔQ(부호 = 이동 방향, 신규 계산 0); 이후 짧은 조각 SCF 2개(<code>SaveRho</code>) → planar-averaged $\Delta\rho(z)$ + 누적 $Q(z)$ + 축적/고갈 isosurface</td><td><strong>예정</strong> (다음 계산)</td></tr>
+      <tr><td>P1</td><td>conductance decay VSe₃–(Hf₂Se₉)ₙ–VSe₃, n = 2, 3 (07-19 미팅) — relax된 stack을
+          이어 붙여 n별 transport</td><td><strong>계획</strong> — stacking relaxation 대기</td></tr>
+      <tr><td>P2</td><td>CNT encapsulation (phase-c): binding energy + Δρ(X@CNT)</td>
+          <td><strong>진행</strong> — VSe₃ binding 완료
+          (<a href="../results/cnt-binding/index.html">results 10</a>); Hf₂Se₉@CNT relax 중</td></tr>
       <tr><td>P2</td><td>Hf₂Se₉–VSe₃ 접합용 교육자료 figure(요청 시)</td><td>대기</td></tr>
       <tr><td>—</td><td>STEP 2–4 (δH build + 보정 $T(E)$); LUMO 라벨 표현; 9-UC transport; mid-energy eigenchannel; 3종 disconnected 표시</td><td><strong>완료</strong> (2026-07-01 – 07-02)</td></tr>
     </tbody>

@@ -132,8 +132,8 @@
     <li><strong>MD.VariableCell = T.</strong> c-축 relaxation을 허용하면 평평한 PES가 작은 힘에도
       vdW gap을 붕괴시키거나 팽창시킬 수 있다.</li>
     <li><strong>시작 구조 의존성.</strong> 2-unit-cell 시작은 팽창하고, 1-unit-cell
-      bulk 추출 시작은 수축한다 — 같은 시스템에 대해 반대 방향.</li>
-    <li><strong>헤테로 구조의 "가짜 수렴(false convergence)."</strong> lead당 VSe₃ 단위 셀 3개인 헤테로접합에서
+      bulk 추출 시작은 수축한다 — 같은 시스템에서 반대 방향.</li>
+    <li><strong>헤테로 구조의 "가짜 수렴(false convergence)."</strong> lead당 VSe₃ 단위 셀 3개인 heterojunction에서
       1-step 수렴은 VSe₃ cage 효과 (kinetic trapping)이지 진짜 최소점이 아니다. 반면 DFT-D3를
       쓴 VASP MD는 Hf–Hf = 3.82 Å를 유지했다.</li>
   </ol>
@@ -183,12 +183,12 @@
     기하 구조를 가두는 것뿐인지다. 첫 계산은 JACS 2021 NbTe₃/VTe₃/TiTe₃@CNT 프로토콜
     (10.1021/jacs.0c10175)을 따라 "CNT 원자 고정, Hf₂Se₉만 relax"로 계획되어 있다.
     CNT chirality에 대한 지름 스캔 (내경 ≈ 12 Å 필요; (9,9)와 (16,0)을 시작 후보로)이
-    relaxation과 MD에 앞선다. 상태: 구조 뼈대만 준비됨; (9,9)+Hf₂Se₉ 조립체를 생성했다.
+    relaxation과 MD에 앞선다. 이 계획은 phase-c로 실행되었다 — <a href="../cnt-binding/index.html">10. CNT encapsulation</a> 참조.
   </p>
   <figure>
     <img src="figures/hf2se9-cnt99-side.png" alt="Hf2Se9 in CNT(9,9) side view" style="max-width:380px">
-    <figcaption><strong>Fig. 3.</strong> (9,9) CNT 안의 Hf₂Se₉, 측면도 (조립된 구조;
-      계산은 아직 수행 안 됨).</figcaption>
+    <figcaption><strong>Fig. 3.</strong> (9,9) CNT 안의 Hf₂Se₉, 측면도 (조립된 초기 구조;
+      production phase-c 계산은 8-unit CNT 셀을 쓴다 — <a href="../cnt-binding/index.html">10. CNT encapsulation</a> 참조).</figcaption>
   </figure>
 
   <h2>논의 / 다음 단계</h2>

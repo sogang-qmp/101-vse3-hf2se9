@@ -41,13 +41,19 @@
       <tr><td>2026-06-12</td><td><a href="transmission/index.html">06. 투과(transmission)</a></td>
           <td>$T(E_F)$ = 0.70 / 0.35 / 0 (pristine / hetero / disconnected); 채널 $\tau_0\approx1$.</td></tr>
       <tr><td>2026-06-12</td><td><a href="molecule/index.html">07. Hf₂Se₉ 분자</a></td>
-          <td>Gap ≈ 0.024 eV (PBE) → 0.752 eV (B3LYP); HOMO/LUMO 비편재(delocalised) — 준위 보정의 근거.</td></tr>
+          <td>Gap ≈ 0.023 eV (vdW-DF2) → 0.752 eV (B3LYP); HOMO/LUMO 비편재(delocalised) — 준위 보정의 근거.</td></tr>
       <tr><td>2026-06-26 ·&nbsp;현재</td><td><a href="level-correction/index.html">08. 준위 보정 (DFT+Σ)</a></td>
-          <td>9-cell 소자에 DFT+Σ 적용: 고립분자 gap 0.75 eV 개방, 분자 공명이 $E_F$에서 벗어나 $T(E_F)$ 억제; 대칭 window Landauer I–V 게시.</td></tr>
+          <td>9-cell 소자에 DFT+Σ 적용: 고립분자 gap 0.75 eV 개방, 분자 공명이 $E_F$에서 벗어나 $T(E_F)$가 0.0032로 감소; 대칭 window Landauer I–V 게시.</td></tr>
       <tr><td>2026-07-29</td><td><a href="mol-stacking/index.html">09. Hf₂Se₉ 분자 stacking</a></td>
           <td>H-terminated <code>gap</code> 구조는 dimer·trimer 모두 <strong>d = 3.5 Å</strong>에서 최소; unterminated scan의 최소는 스캔 하한 2.5 Å.</td></tr>
       <tr><td>2026-07-29</td><td><a href="cnt-binding/index.html">10. CNT encapsulation</a></td>
           <td>수렴한 VSe₃@(9,9) CNT: <strong>E<sub>bind</sub> = −4.854 eV/cell</strong>(−1.213 eV/f.u.); Hf₂Se₉@CNT는 미수렴.</td></tr>
+      <tr><td>2026-07-30</td><td><a href="hetero-2mol-rotation/index.html">11. 2분자 접합 회전 스캔</a></td>
+          <td>계산한 다섯 각도 중 60°가 최저, 45°보다 92 meV 낮다(106 atom, c = 80.3505 Å).</td></tr>
+      <tr><td>2026-08-05</td><td><a href="dimer-level-correction/index.html">12. 2분자 브릿지 분자준위</a></td>
+          <td>B3LYP가 dimer frontier를 0.025 → <strong>0.396 eV</strong>로 벌린다(Δ<sub>HOMO</sub> −0.570, Δ<sub>LUMO</sub> −0.199 eV, same-code VASP). Δ<sub>i</sub>의 vdW-DF2 항은 진행 중.</td></tr>
+      <tr><td>2026-08-05 ·&nbsp;now</td><td><a href="dimer-transport/index.html">13. 2분자 접합 transport</a></td>
+          <td>무보정 $T(E_F)$ = <strong>0.184</strong>. ±0.5 eV 평균으로 1분자 접합보다 <strong>4.9배</strong> 줄고, 분자 공명이 +0.005 eV에 놓인다.</td></tr>
     </tbody>
   </table>
 
@@ -76,7 +82,7 @@
     <thead><tr><th>#</th><th>주제</th><th>발견</th></tr></thead>
     <tbody>
       <tr><td>06</td><td>perturbation-range</td><td>거시 평균(macroscopic-averaged) ΔV 측정 계획.</td></tr>
-      <tr><td>07</td><td>transport-workflow</td><td>1D 헤테로접합 transport / I–V 워크플로우.</td></tr>
+      <tr><td>07</td><td>transport-workflow</td><td>1D heterojunction transport / I–V 워크플로우.</td></tr>
       <tr><td>08</td><td>reference-2nd</td><td>두 번째 레퍼런스 라운드.</td></tr>
       <tr><td>09</td><td>perturbation-range2</td><td>Perturbation 범위 재측정 (v3 기준).</td></tr>
     </tbody>

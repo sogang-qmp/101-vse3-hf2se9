@@ -16,20 +16,21 @@
 <main>
 <article>
   <h1>Status <span class="status">working</span></h1>
-  <p class="page-meta"><strong>2026-07-29</strong> · 현재 상태 먼저, 이후 날짜별 진행 기록</p>
+  <p class="page-meta"><strong>2026-07-31</strong> · 현재 상태 먼저, 이후 날짜별 진행 기록</p>
 
   <h2>현재 계산</h2>
   <p>
     <strong>세 CG 궤적 모두에서 최대 힘이 상승해 CG 시험을 중단했다.</strong>
     2026-07-29 backup DM/XV 상태에서 Broyden으로 재시작했으며 MaxDispl는 0.02 Å,
-    최대 힘 수렴 기준은 0.02 eV/Å이다. dimer는 수렴했고 trimer·Hf₂Se₉@CNT는 계속 이완 중이다.
+    최대 힘 수렴 기준은 0.02 eV/Å이다. dimer와 Hf₂Se₉@CNT는 수렴했고, trimer의 현재 scheduler
+    상태는 다시 확인해야 한다.
   </p>
   <table>
     <thead><tr><th>계</th><th>상태</th><th>최신 최대 힘 (eV/Å)</th><th>완료 기준</th></tr></thead>
     <tbody>
       <tr><td>Hf₂Se₉ dimer</td><td>Broyden 수렴</td><td><strong>0.018779</strong></td><td>≤ 0.02</td></tr>
       <tr><td>Hf₂Se₉ trimer</td><td>Broyden 실행 중</td><td><strong>0.140293</strong></td><td>≤ 0.02</td></tr>
-      <tr><td>Hf₂Se₉@(9,9) CNT</td><td>Broyden 실행 중</td><td><strong>0.301947</strong></td><td>≤ 0.02</td></tr>
+      <tr><td>Hf₂Se₉@(9,9) CNT</td><td>Broyden 수렴</td><td><strong>0.019937</strong></td><td>≤ 0.02</td></tr>
     </tbody>
   </table>
 
@@ -43,17 +44,16 @@
     <li><strong>접합 전하이동:</strong> Mulliken 분석에서 VSe₃ → Hf₂Se₉ 방향으로 0.25 $e$.</li>
     <li><strong>분자 stacking:</strong> H-terminated <code>gap</code> 구조는 dimer·trimer 모두
       rigid scan에서 $d$ = 3.5 Å 최소; TEM 간격은 3.6 Å.</li>
-    <li><strong>CNT encapsulation:</strong> 수렴한 VSe₃@(9,9) CNT의
-      $E_\mathrm{bind}$ = −4.854 eV/cell (−1.213 eV/f.u.).</li>
+    <li><strong>CNT encapsulation:</strong> VSe₃@(9,9) CNT의 $E_\mathrm{bind}$는
+      −4.854 eV/cell(−1.213 eV/f.u.), Hf₂Se₉@(9,9) CNT는 −4.729 eV/molecule이다.</li>
   </ul>
 
   <h2>다음 완료 조건</h2>
   <ol>
-    <li>dimer·trimer를 수렴시킨 뒤
+    <li>trimer 상태를 확인하고 필요하면 수렴시킨 뒤
       VSe₃–(Hf₂Se₉)ₙ–VSe₃($n$ = 2, 3)의 conductance decay를 계산한다.</li>
-    <li>Hf₂Se₉@CNT를 수렴시켜 결합에너지를 확정하고
-      $\Delta\rho=\rho(\mathrm{X@CNT})-\rho(\mathrm{X})-\rho(\mathrm{CNT})$를 계산한다.</li>
-    <li>준비된 VSe₃@CNT 전하밀도 단일점 계산을 실행한다.</li>
+    <li>완료한 CNT 전하이동 데이터
+      $\Delta\rho=\rho(\mathrm{X@CNT})-\rho(\mathrm{X})-\rho(\mathrm{CNT})$를 정리해 비교한다.</li>
   </ol>
 
   <hr>
@@ -130,7 +130,7 @@
       (3 cells), transmission eigenchannel 단일($\tau_0 = 0.989$); 계면 geometry와
       분자 PDOS는 길이 무관. <a href="../results/level-correction/index.html">level correction</a> 참조.</li>
     <li>B3LYP→vdW-DF2 orbital shift 계산($\Delta_\text{HOMO} = -1.01$, $\Delta_\text{LUMO} = -0.29$ eV;
-      gap 0.02 → 0.75 eV) — DFT+Σ 적용이 다음 단계.</li>
+      gap 0.02 → 0.75 eV) — DFT+Σ 적용이 다음 단계. <em>(이 Δ는 v1 교차코드 값이며, 07-08 v2에서 −0.35 / +0.40 eV로 대체됐다.)</em></li>
   </ul>
 
   <h3>2026-07-01 – 07-02 · 보정 적용; 3종 비교 + 보정 I–V 완결</h3>

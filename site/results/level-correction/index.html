@@ -26,7 +26,7 @@
      $\Delta_i$를 계산한다.</p>
 
   <h2>A. Scattering-region 길이 수렴</h2>
-  <p>60° 헤테로접합을 relax하고, scattering region을 <strong>전극당 VSe₃ 3에서 9 unit cells</strong>로
+  <p>60° heterojunction을 relax하고, scattering region을 <strong>전극당 VSe₃ 3에서 9 unit cells</strong>로
      확장하며 transport를 재계산했다 (cell-fixed relaxation,
      vdW-DF2; transport는 전극 k-point grid 100, η = 0.005 eV). 기하 구조, 분자 PDOS,
      transmission이 모두 수렴한다.</p>
@@ -171,7 +171,7 @@ V 12.4971 12.5029 68.3316
      위치가 움직이지 않아 분자 준위가 길이에 무관함을 확인한다.</p>
   <figure>
     <img src="figures/sr_pdos_compare.png" alt="molecular PDOS across 3/5/7/9 unit cells" style="max-width:460px">
-    <figcaption><strong>Fig. 2.</strong> 전극당 3 / 5 / 7 / 9 unit cells에 대해 겹쳐 그린 분자 PDOS —
+    <figcaption><strong>Fig. 2.</strong> 전극당 3 / 5 / 7 / 9 unit cells를 겹쳐 그린 분자 PDOS —
       peak 위치 불변.</figcaption>
   </figure>
 
@@ -303,7 +303,8 @@ V 12.4971 12.5029 68.3316
      SIESTA-PBE single point 하나 추가):</p>
   <p style="text-align:center">$\displaystyle \Delta_i^{v2}=[\varepsilon^{\text{B3LYP}}-\varepsilon^{\text{PBE}}]_{\text{VASP}}+[\varepsilon^{\text{PBE}}-\varepsilon^{\text{vdW-DF2}}]_{\text{SIESTA}}$</p>
   <p>부호가 물리적으로 맞아진다 — 점유 준위는 아래로, 비점유는 위로 — 고립분자 HOMO–LUMO 갭이
-     0.75 eV로 열린다.</p>
+     0.75 eV로 열린다. 9-cell 소자에 적용하면 v2 보정이 $T(E_F)$를 0.348(무보정)에서
+     <strong>0.0032</strong>로 낮춘다.</p>
   <figure>
     <img src="figures/v2_poster_levels.png" alt="준위도 vdW-DF2 → DFT+Σ v2" style="max-width:360px">
     <figcaption><strong>Fig. C3.</strong> 분자 준위(vacuum 정렬): vdW-DF2 → DFT+Σ(v2). 점유는 아래로·비점유는 위로, HOMO–LUMO 갭 0.75 eV 개방.</figcaption>
